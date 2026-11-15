@@ -111,7 +111,7 @@ Tokoh baru cukup ditambah di `CHARACTERS` pada `src/sprites.js` (pilih bentuk + 
 
 Kalau ingin minta Claude membuat cerita baru, contoh prompt:
 
-> Buat cerita baru di `src/story.js` berjudul **"..."**, sekitar **5 adegan**, durasi ±1–2 menit.
+> Buat cerita baru di `stories/nama-cerita.js` berjudul **"..."**, sekitar **5 adegan**, durasi ±1–2 menit.
 > Tokoh: **Andi** (anak laki-laki, baju biru), **Nenek** (rambut putih), **kucing oranye**.
 > Alur:
 > 1. Pagi hari di depan rumah, Andi bangun dan pamit ke Nenek.
