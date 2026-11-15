@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pixel Movie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; height: 100%; background: #0b0b12; color: #f4f4f4; font-family: "Press Start 2P", monospace; }
+    body { display: flex; flex-direction: column; }
+    #stage { flex: 1; min-height: 0; }
+    #bar { display: flex; gap: 10px; align-items: center; justify-content: center; padding: 10px; font-size: 11px; flex-wrap: wrap; }
+    button { font: inherit; font-size: 11px; background: #29366f; color: #fff; border: 3px solid #f4f4f4; padding: 8px 12px; cursor: pointer; }
+    button:hover { background: #3b5dc9; }
+    button.rec { background: #b13e53; }
+    #status { min-width: 160px; text-align: center; color: #ffcd75; }
+    body.recording #bar button { display: none; }
+  </style>
+</head>
+<body>
+  <div id="stage"></div>
+  <div id="bar">
+    <button id="btn-restart">↺ Ulang</button>
+    <button id="btn-pause">❚❚ Jeda</button>
+    <button id="btn-rec" class="rec">● Rekam Video</button>
+    <span id="status">Memuat...</span>
+  </div>
+
+  <script src="lib/phaser.min.js"></script>
+  <script src="src/sprites.js"></script>
+  <script src="src/story.js"></script>
+  <script src="src/engine.js"></script>
+  <script>
+    const status = document.getElementById('status');
+    const pauseBtn = document.getElementById('btn-pause');
+    let recorder = null;
+
+    // Tunggu font pixel (maks 2 detik), lalu mulai film
+    Promise.race([
+      document.fonts.load('16px "Press Start 2P"'),
+      new Promise(r => setTimeout(r, 2000)),
+    ]).then(() => {
+      const game = startMovie();
+      game.events.on('movie-scene', (i, n) => status.textContent = `Adegan ${i}/${n}`);
+      game.events.on('movie-end', () => {
+        status.textContent = 'Selesai ✓';
+        if (recorder) recorder.stop();
+      });
+    });
+
+    function restart() {
+      const sc = game.scene.getScene('movie');
+      game.scene.resume('movie');
+      pauseBtn.textContent = '❚❚ Jeda';
+      sc.scene.restart();
+    }
+
+    document.getElementById('btn-restart').onclick = restart;
+
+    pauseBtn.onclick = () => {
+      if (game.scene.isPaused('movie')) { game.scene.resume('movie'); pauseBtn.textContent = '❚❚ Jeda'; }
+      else { game.scene.pause('movie'); pauseBtn.textContent = '▶ Lanjut'; }
+    };
+
+    // Rekam canvas jadi file .webm dari awal sampai TAMAT
+    document.getElementById('btn-rec').onclick = () => {
+      const stream = game.canvas.captureStream(30);
+      const type = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm']
+        .find(t => MediaRecorder.isTypeSupported(t));
+      recorder = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 8_000_000 });
+      const chunks = [];
+      recorder.ondataavailable = e => e.data.size && chunks.push(e.data);
+      recorder.onstop = () => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(chunks, { type: 'video/webm' }));
+        a.download = (STORY.title || 'animasi').replace(/\s+/g, '-') + '.webm';
+        a.click();
+        recorder = null;
+        document.body.classList.remove('recording');
+        status.textContent = 'Video tersimpan ✓';
+      };
+      document.body.classList.add('recording');
+      recorder.start();
+      restart();
+    };
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'r' || e.key === 'R') restart();
+      if (e.key === ' ') { e.preventDefault(); pauseBtn.click(); }
+    });
+  </script>
+</body>
+</html>
