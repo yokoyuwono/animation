@@ -360,7 +360,7 @@ class Movie extends Phaser.Scene {
   // ---------- label penunjuk (ikut zoom dunia) ----------
   async label(st) {
     const z = this.cameras.main.zoom;
-    const size = st.size || 12;
+    const size = st.size || 14;
     const t = this.wobj(this.add.text(st.x * S, st.y * S, st.label, {
       fontFamily: FONT, fontSize: `${size}px`, color: st.color || '#ffffff',
       backgroundColor: st.bg || '#b13e53', padding: { x: 7, y: 6 }, resolution: Math.max(1, z),
@@ -467,7 +467,7 @@ class Movie extends Phaser.Scene {
 
   async say(st, run) {
     const a = this.actor(st.say);
-    const style = { fontFamily: FONT, fontSize: '14px', color: '#1a1c2c', lineSpacing: 8, wordWrap: { width: 380 } };
+    const style = { fontFamily: FONT, fontSize: '16px', color: '#1a1c2c', lineSpacing: 10, wordWrap: { width: 420 } };
     const txt = this.uobj(this.add.text(0, 0, '', style).setDepth(102));
     const wrapped = txt.getWrappedText(st.text).join('\n');
     txt.setWordWrapWidth(null).setText(wrapped);
@@ -494,7 +494,7 @@ class Movie extends Phaser.Scene {
   }
 
   async caption(st, run) {
-    const style = { fontFamily: FONT, fontSize: '14px', color: '#ffffff', lineSpacing: 8, wordWrap: { width: W * S - 80 }, align: 'center' };
+    const style = { fontFamily: FONT, fontSize: '18px', color: '#ffffff', lineSpacing: 10, wordWrap: { width: W * S - 80 }, align: 'center' };
     const txt = this.uobj(this.add.text(W * S / 2, 0, '', style).setOrigin(0.5, 0).setDepth(111));
     const wrapped = txt.getWrappedText(st.caption).join('\n');
     txt.setWordWrapWidth(null).setText(wrapped);

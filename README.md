@@ -14,11 +14,12 @@ python3 -m http.server 8000
 
 Pilih cerita lewat URL:
 - `http://localhost:8000` → `stories/motor-listrik.js` (default)
-- `http://localhost:8000/?story=layang-layang` → `stories/layang-layang.js`
+- `http://localhost:8000/#layang-layang` → `stories/layang-layang.js` (atau pakai menu pilihan cerita)
 
 Kontrol:
 - **↺ Ulang** / tombol `R` — putar dari awal
 - **❚❚ Jeda** / `Spasi` — jeda / lanjut
+- **⛶ Penuh** / `F`: layar penuh (di HP juga mencoba mengunci posisi landscape; ketuk video untuk keluar)
 - **● Rekam Video** — memutar dari awal dan otomatis mengunduh file `.webm` saat TAMAT
   (bisa diubah ke MP4 dengan `ffmpeg -i film.webm film.mp4`)
 
