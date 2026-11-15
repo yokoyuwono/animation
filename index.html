@@ -29,8 +29,13 @@
 
   <script src="lib/phaser.min.js"></script>
   <script src="src/sprites.js"></script>
-  <script src="src/story.js"></script>
+  <script src="src/sprites-city.js"></script>
   <script src="src/engine.js"></script>
+  <script>
+    // Pilih cerita lewat URL: index.html?story=layang-layang
+    const storyName = new URLSearchParams(location.search).get('story') || 'motor-listrik';
+    document.write(`<script src="stories/${encodeURIComponent(storyName)}.js"><\/script>`);
+  </script>
   <script>
     const status = document.getElementById('status');
     const pauseBtn = document.getElementById('btn-pause');

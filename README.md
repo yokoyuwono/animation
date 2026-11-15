@@ -12,6 +12,10 @@ python3 -m http.server 8000
 # lalu buka http://localhost:8000
 ```
 
+Pilih cerita lewat URL:
+- `http://localhost:8000` → `stories/motor-listrik.js` (default)
+- `http://localhost:8000/?story=layang-layang` → `stories/layang-layang.js`
+
 Kontrol:
 - **↺ Ulang** / tombol `R` — putar dari awal
 - **❚❚ Jeda** / `Spasi` — jeda / lanjut
@@ -22,8 +26,9 @@ Kontrol:
 
 | File | Isi |
 |---|---|
-| `src/story.js` | **Naskah film** — adegan, tokoh, dan aksi. Ini yang paling sering diubah. |
+| `stories/*.js` | **Naskah film**: adegan, tokoh, dan aksi. Ini yang paling sering diubah. |
 | `src/sprites.js` | Gambar pixel art (karakter, pohon, rumah, ikon emosi) dalam bentuk teks |
+| `src/sprites-city.js` | Motor bensin/listrik, gedung, PLTU, menara listrik, baterai, tambang, panel surya, turbin, bumi |
 | `src/engine.js` | Mesin pemutar (tidak perlu diubah) |
 | `lib/phaser.min.js` | Phaser 3.90 |
 
@@ -49,6 +54,20 @@ Layar = **192 × 108 piksel dunia**. Kiri = `x: 0`, kanan = `x: 192`. Tanah di `
 }
 ```
 
+Opsi adegan lainnya:
+
+| Opsi | Arti |
+|---|---|
+| `width: 400` | Adegan lebih lebar dari layar, lalu kamera bisa digeser |
+| `camera: { x, y, zoom }` | Posisi kamera awal |
+| `transition: 'zoom'` | Transisi masuk: zoom ke dalam, lalu adegan baru mulai dari dekat dan zoom keluar. `'cut'` = potong cepat |
+| `road: true` | Tanah diganti jalan aspal (lajur di y 100 dan 107) |
+| `traffic: { kind: 'gas', count: 10, speed: 40 }` | Lalu lintas motor (`gas` berasap, `ev` listrik) |
+| `haze: 0.4` | Kabut polusi awal (0–1) |
+| `wires: [[x,y], ...]` | Kabel listrik melengkung antar titik |
+| `captionTop: true` | Narasi tampil di atas, supaya jalan tidak tertutup |
+| `sky: 'space'` | Luar angkasa tanpa tanah |
+
 Antar adegan otomatis ada transisi fade hitam.
 
 ### Daftar aksi
@@ -68,12 +87,23 @@ Antar adegan otomatis ada transisi fade hitam.
 | Tunggu | `{ wait: 1000 }` |
 | Layar bergetar | `{ shake: 400 }` |
 | Burung lewat | `{ birds: 3 }` |
+| **Kamera zoom/geser** | `{ camera: { x: 88, y: 94, zoom: 4 }, dur: 2000 }`, atau `{ camera: 'reset' }` |
+| Label penunjuk | `{ label: 'CO2', x: 74, y: 86, bg: '#566c86' }`, ikut membesar/mengecil bersama zoom |
+| Hapus label | `{ clearLabels: true }` |
+| Kabut polusi | `{ haze: 0, dur: 4000 }` |
+| Ubah semua motor | `{ convert: 'ev' }` (kilat putih, asap berhenti) |
+| Lalu lintas berhenti/jalan | `{ traffic: 'stop' }` / `{ traffic: 'go' }` |
+| Sorot kedip | `{ glow: 'motor' }`, untuk prop/aktor yang punya `id` |
 | **Bersamaan** | `{ together: [ {...}, {...} ] }` — semua aksi di dalamnya berjalan serentak |
 
 ### Sprite yang tersedia
 
 - Tokoh: `boy`, `girl`, `grandpa`, `kid`, `cat`
 - Benda: `tree`, `house`, `bush`, `fence`, `flower`, `flower2`, `kite`, `cloud`
+- Kota & energi: `building1`–`building4`, `lamp`, `trafficlight`, `charger`, `plant` (PLTU), `pylon`, `solar`, `turbine` (baling-baling berputar), `battery`, `excavator`, `rocks`, `stump`, `earth`, `earth_smog`
+- Motor sebagai prop: `motor_gas_0..2`, `motor_ev_0..2`. Tambahkan `smoke: { dx, dy }` agar mengeluarkan asap
+
+Prop bisa diberi `id` agar bisa dipakai oleh `glow`, `hide`, `show`, atau `move`.
 
 Tokoh baru cukup ditambah di `CHARACTERS` pada `src/sprites.js` (pilih bentuk + warna rambut/baju/celana).
 
