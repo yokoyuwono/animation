@@ -3,6 +3,12 @@
 Video explainer pixel art (Phaser 3) berbahasa Indonesia, dengan voice over ElevenLabs,
 long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indonesia.
 
+## Gaya menjawab (WAJIB)
+- Jawab singkat dan langsung ke inti: maksimal ±5–8 baris atau beberapa poin pendek.
+- Jangan menjelaskan detail teknis, proses, atau alasan kecuali diminta.
+- Laporan hasil kerja: cukup apa yang jadi + link/file + 1 pertanyaan lanjutan bila perlu.
+- Tabel/daftar panjang hanya jika pemilik meminta rincian.
+
 ## Struktur
 - `index.html` — pemutar (pilih cerita / format 16:9–9:16 / bab lewat `#cerita--h|v--bab-id`).
 - `src/engine.js` — mesin (kamera A/B + UI, split screen, cues, VO, dll). Dokumentasi aksi ada di `README.md`.
