@@ -31,6 +31,8 @@
       button, select { padding: 6px 8px; font-size: 8px; border-width: 2px; }
       #status { min-width: 90px; font-size: 8px; }
     }
+    body.fmt-v #hint { display: none; }
+    body.fmt-v #stage { flex: 1; height: auto; }
     /* Mode layar penuh: hanya video */
     body.full #bar, body.full #hint { display: none; }
     body.full #stage { height: 100%; flex: 1; }
@@ -44,6 +46,11 @@
       <option value="motor-listrik">Motor Listrik</option>
       <option value="layang-layang">Layang-Layang</option>
     </select>
+    <select id="fmt" aria-label="Format">
+      <option value="h">16:9</option>
+      <option value="v">9:16</option>
+    </select>
+    <select id="chap" aria-label="Bab"></select>
     <button id="btn-restart">↺ Ulang</button>
     <button id="btn-pause">❚❚ Jeda</button>
     <button id="btn-full">⛶ Penuh</button>
@@ -56,10 +63,15 @@
   <script src="src/sprites-city.js"></script>
   <script src="src/engine.js"></script>
   <script>
-    // Pilih cerita lewat URL: index.html#layang-layang (atau ?story=layang-layang)
+    // Pilihan lewat URL hash: #cerita--format--bab
+    //   contoh: #motor-listrik--v--bab-2  (9:16, hanya bab 2)
     const STORIES = ['motor-listrik', 'layang-layang'];
-    const wanted = location.hash.slice(1) || new URLSearchParams(location.search).get('story');
+    const [hStory, hFmt, hChap] = location.hash.slice(1).split('--');
+    const wanted = hStory || new URLSearchParams(location.search).get('story');
     const storyName = STORIES.includes(wanted) ? wanted : STORIES[0];
+    const fmtName = hFmt === 'v' ? 'v' : 'h';
+    const chapName = hChap || '';
+    if (fmtName === 'v') document.body.classList.add('fmt-v');
     document.write(`<script src="stories/${storyName}.js"><\/script>`);
   </script>
   <script>
@@ -69,8 +81,22 @@
     const recBtn = document.getElementById('btn-rec');
     let recorder = null;
 
+    const fmtSel = document.getElementById('fmt');
+    const chapSel = document.getElementById('chap');
     pick.value = storyName;
-    pick.onchange = () => { location.hash = pick.value; location.reload(); };
+    fmtSel.value = fmtName;
+    if (STORY.chapters) {
+      chapSel.innerHTML = '<option value="">Semua (long form)</option>' +
+        STORY.chapters.map((c, i) => `<option value="${c.id}">Bab ${i + 1}: ${c.title}</option>`).join('');
+      chapSel.value = STORY.chapters.some(c => c.id === chapName) ? chapName : '';
+    } else chapSel.style.display = 'none';
+    function go() {
+      const parts = [pick.value, fmtSel.value];
+      if (chapSel.value && pick.value === storyName) parts.push(chapSel.value);
+      location.hash = parts.join('--');
+      location.reload();
+    }
+    pick.onchange = fmtSel.onchange = chapSel.onchange = go;
     window.addEventListener('hashchange', () => location.reload());
 
     // Tunggu font pixel (maks 2 detik), lalu mulai film
@@ -78,7 +104,7 @@
       document.fonts.load('16px "Press Start 2P"'),
       new Promise(r => setTimeout(r, 2000)),
     ]).then(() => {
-      const game = startMovie();
+      const game = startMovie({ format: fmtName, chapter: chapSel.value || null });
       game.events.on('movie-scene', (i, n) => status.textContent = `Adegan ${i}/${n}`);
       game.events.on('movie-end', () => {
         status.textContent = 'Selesai ✓';
@@ -141,7 +167,7 @@
         const ext = recType.startsWith('video/mp4') ? 'mp4' : 'webm';
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob(chunks, { type: recType.split(';')[0] }));
-        a.download = (STORY.title || 'animasi').replace(/\s+/g, '-') + '.' + ext;
+        a.download = [(STORY.title || 'animasi').replace(/\s+/g, '-'), chapSel.value, fmtName === 'v' ? '9x16' : '16x9'].filter(Boolean).join('_') + '.' + ext;
         a.click();
         recorder = null;
         document.body.classList.remove('recording');

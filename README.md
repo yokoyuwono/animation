@@ -12,9 +12,14 @@ python3 -m http.server 8000
 # lalu buka http://localhost:8000
 ```
 
-Pilih cerita lewat URL:
-- `http://localhost:8000` → `stories/motor-listrik.js` (default)
-- `http://localhost:8000/#layang-layang` → `stories/layang-layang.js` (atau pakai menu pilihan cerita)
+Pilih cerita, format, dan bab dari menu di bawah video, atau lewat URL `#cerita--format--bab`:
+- `http://localhost:8000` → Motor Listrik, 16:9, semua bab (long form)
+- `http://localhost:8000/#motor-listrik--v--bab-2` → 9:16, hanya Bab 2 (short)
+- `http://localhost:8000/#layang-layang` → cerita layang-layang
+
+**Long form → short:** setiap bab berdiri sendiri (hook → perbandingan → punchline).
+Pilih format 9:16 + satu bab, lalu tekan **Rekam** untuk mengekspor satu short.
+Gambar dirender ulang untuk 9:16 (bukan di-crop): layar terbelah kiri|kanan otomatis menjadi atas/bawah.
 
 Kontrol:
 - **↺ Ulang** / tombol `R` — putar dari awal
@@ -55,6 +60,17 @@ Layar = **192 × 108 piksel dunia**. Kiri = `x: 0`, kanan = `x: 192`. Tanah di `
 }
 ```
 
+Naskah berbentuk bab:
+
+```js
+const STORY = {
+  intro: [ /* adegan, hanya diputar di long form */ ],
+  chapters: [
+    { id: 'bab-1', title: 'Judul pendek', scenes: [ /* adegan */ ] },
+  ],
+};
+```
+
 Opsi adegan lainnya:
 
 | Opsi | Arti |
@@ -68,6 +84,10 @@ Opsi adegan lainnya:
 | `wires: [[x,y], ...]` | Kabel listrik melengkung antar titik |
 | `captionTop: true` | Narasi tampil di atas, supaya jalan tidak tertutup |
 | `sky: 'space'` | Luar angkasa tanpa tanah |
+| `split: true` | Layar terbelah: sisi kiri x 0..192 (kamera A), sisi kanan x 192..384 (kamera B) |
+| `focus: 'left'` | Adegan terbelah dimulai dengan satu sisi penuh (`'left'`, `'right'`, `'both'`) |
+| `tags: ['BENSIN', 'LISTRIK']` | Label tiap sisi (warna lewat `tagColors`) |
+| `cameraB: { x, y, zoom }` | Posisi awal kamera sisi kanan |
 
 Antar adegan otomatis ada transisi fade hitam.
 
@@ -88,7 +108,14 @@ Antar adegan otomatis ada transisi fade hitam.
 | Tunggu | `{ wait: 1000 }` |
 | Layar bergetar | `{ shake: 400 }` |
 | Burung lewat | `{ birds: 3 }` |
-| **Kamera zoom/geser** | `{ camera: { x: 88, y: 94, zoom: 4 }, dur: 2000 }`, atau `{ camera: 'reset' }` |
+| **Hook** (pembuka bab) | `{ hook: 'Apa yang keluar dari knalpotmu?' }`: teks besar di atas |
+| Narasi | `{ caption: '...' }`: tampil langsung, lamanya mengikuti tempo voice over (±16 huruf/detik). `punch: true` = kalimat penutup kuning |
+| **Fokus sisi** | `{ focus: 'left' }` / `'right'` / `'both'`: satu sisi melebar penuh atau kembali terbelah |
+| **Kartu keterangan** | `{ card: 'Gas buang', items: ['CO2: ...', 'CO: ...'], x, y, place: 'left' }`: satu topik satu kartu, dengan garis penunjuk |
+| Badge perbandingan | `{ badge: 'Asap: nol', side: 'right' }` |
+| Hapus kartu/badge/label | `{ clear: true }` |
+| Transparansi prop | `{ alpha: 'id', to: 0.8, dur: 2000 }` |
+| **Kamera zoom/geser** | `{ camera: { x: 88, y: 94, zoom: 4 }, dur: 2000 }`, tambah `side: 'right'` untuk kamera B, atau `{ camera: 'reset' }`. Kamera selalu "bernapas" pelan supaya layar tidak pernah diam |
 | Label penunjuk | `{ label: 'CO2', x: 74, y: 86, bg: '#566c86' }`, ikut membesar/mengecil bersama zoom |
 | Hapus label | `{ clearLabels: true }` |
 | Kabut polusi | `{ haze: 0, dur: 4000 }` |

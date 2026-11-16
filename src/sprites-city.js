@@ -9,6 +9,8 @@ Object.assign(PALETTE, {
   d: '#333c57', // aspal / gelap
   n: '#29366f', // biru tua
   m: '#73eff7', // cyan
+  u: '#7d8a4a', // air keruh
+  k: '#4f5a2a', // air keruh gelap
 });
 
 // ---------- Motor (menghadap kanan) ----------
@@ -269,3 +271,46 @@ function buildCityTextures(scene) {
   MOTOR_GAS.forEach((c, i) => pxTexture(scene, `motor_gas_${i}`, MOTOR, { ...PALETTE, ...c, E: c.E || undefined }));
   MOTOR_EV.forEach((c, i) => pxTexture(scene, `motor_ev_${i}`, MOTOR, { ...PALETTE, ...c, E: undefined }));
 }
+
+// ---------- Tambahan: sungai & simbol daur ulang ----------
+function makeRiver(w, water, ripple) {
+  const rows = [];
+  for (let y = 0; y < 5; y++) {
+    let r = '';
+    for (let x = 0; x < w; x++) {
+      const edge = (y === 0 && (x < 2 || x > w - 3)) || (y === 4 && (x < 1 || x > w - 2));
+      r += edge ? '.' : ((x + y * 3) % 7 === 0 ? ripple : water);
+    }
+    rows.push(r);
+  }
+  return rows;
+}
+
+function makeRecycle(d) {
+  const grid = Array.from({ length: d }, () => Array(d).fill('.'));
+  const c = (d - 1) / 2, r = d / 2 - 1.5;
+  for (let y = 0; y < d; y++) for (let x = 0; x < d; x++) {
+    const dist = Math.hypot(x - c, y - c);
+    const ang = (Math.atan2(y - c, x - c) * 180 / Math.PI + 360) % 360;
+    const gap = [30, 150, 270].some(g => Math.abs(((ang - g + 540) % 360) - 180) < 14);
+    if (dist > r - 1.6 && dist < r + 0.6 && !gap) grid[y][x] = 'G';
+  }
+  // kepala panah di setiap celah
+  [30, 150, 270].forEach(g => {
+    const a = (g + 14) * Math.PI / 180;
+    const hx = c + Math.cos(a) * r, hy = c + Math.sin(a) * r;
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+      if (Math.abs(dx) + Math.abs(dy) <= 2) {
+        const x = Math.round(hx + dx), y = Math.round(hy + dy);
+        if (grid[y] && grid[y][x] !== undefined) grid[y][x] = 'g';
+      }
+    }
+  });
+  return grid.map(r => r.join(''));
+}
+
+Object.assign(CITY_PROPS, {
+  river_clean: makeRiver(40, 'c', 'W'),
+  river_dirty: makeRiver(40, 'u', 'k'),
+  recycle: makeRecycle(17),
+});
