@@ -42,6 +42,7 @@ function cityRow(x0, n, off) {
 
 const STORY = {
   title: 'Perang Dunia dan Indonesia',
+  audioDir: 'audio/perang-dunia',
 
   // ======================== INTRO ========================
   intro: [
@@ -345,20 +346,22 @@ const STORY = {
           ],
           steps: [
             { together: [
-              { hook: 'Perang di negara lain, harga mie di sini ikut naik. Kok bisa?' },
+              { hook: 'Perang di negara lain, harga mie di sini ikut naik. Kok bisa?', vo: 'b4-01' },
               { move: 'tanker', to: 70, dur: 5000 },
               { camera: { x: 80, y: 72, zoom: 1.6 }, dur: 5000 },
             ] },
             { together: [
               { camera: { x: 70, y: 84, zoom: 2.4 }, dur: 2200 },
               { glow: 'tanker', times: 2 },
-              { caption: 'Indonesia masih mengimpor minyak dan BBM dalam jumlah besar.' },
+              { caption: 'Indonesia masih mengimpor minyak dan BBM dalam jumlah besar.', vo: 'b4-02', speak: 'Indonesia masih mengimpor minyak dan be be em dalam jumlah besar.' },
             ] },
-            { camera: { x: 80, y: 70, zoom: 1.5 }, dur: 900 },
-            { chart: 'Harga minyak Indonesia (US$/barel)', bars: [['Asumsi APBN 2026', 70, '#41a6f6'], ['ICP April 2026', 117, '#e43b44']], max: 130, place: 'right', y: 0.1 },
-            { caption: 'April 2026, harganya jauh di atas asumsi APBN.' },
-            { caption: 'BBM nonsubsidi naik dua kali: April dan Juni.' },
-            { caption: 'Pertalite dan Solar ditahan. Selisihnya ditanggung subsidi APBN.' },
+            { together: [
+              { camera: { x: 80, y: 70, zoom: 1.5 }, dur: 900 },
+              { chart: 'Harga minyak Indonesia (US$/barel)', bars: [['Asumsi APBN 2026', 70, '#41a6f6'], ['ICP April 2026', 117, '#e43b44']], max: 130, place: 'right', y: 0.1, dur: 0 },
+              { caption: 'April 2026: US$117 per barel, jauh di atas asumsi APBN US$70.', vo: 'b4-03', speak: 'April dua ribu dua puluh enam, harga minyak kita tembus seratus tujuh belas dolar per barel. Jauh di atas asumsi a pe be en, tujuh puluh dolar.' },
+            ] },
+            { caption: 'Harga BBM nonsubsidi naik dua kali: April dan Juni.', vo: 'b4-04', speak: 'Harga be be em nonsubsidi pun naik dua kali, April dan Juni.' },
+            { caption: 'Pertalite dan Solar ditahan. Selisihnya ditanggung subsidi APBN.', vo: 'b4-05', speak: 'Pertalite dan Solar ditahan. Selisihnya ditanggung subsidi a pe be en.' },
             { clear: true },
           ],
         },
@@ -376,15 +379,15 @@ const STORY = {
           steps: [
             { together: [
               { camera: { x: 63, y: 62, zoom: 2.6 }, dur: 1400 },
-              { caption: 'Gandum untuk mie dan roti? Hampir semuanya impor.' },
+              { caption: 'Gandum untuk mie dan roti? Hampir semuanya impor.', vo: 'b4-06' },
             ] },
             { together: [
               { camera: { x: 128, y: 62, zoom: 2.6 }, dur: 1400 },
-              { caption: 'Kedelai untuk tahu dan tempe pun sebagian besar impor.' },
+              { caption: 'Kedelai untuk tahu dan tempe pun sebagian besar impor.', vo: 'b4-07' },
             ] },
-            { camera: { x: 96, y: 66, zoom: 1.2 }, dur: 1000 },
-            { card: 'Ikut naik saat perang', items: ['BBM', 'Gandum: mie, roti', 'Kedelai: tahu, tempe', 'Pupuk'], x: 96, y: 60 },
-            { caption: 'Ini pola yang berulang: 2022 karena Rusia-Ukraina, 2026 karena krisis Hormuz.' },
+            { camera: { x: 96, y: 66, zoom: 1.2 }, dur: 600 },
+            { card: 'Ikut naik saat perang', items: ['BBM', 'Gandum: mie, roti', 'Kedelai: tahu, tempe', 'Pupuk'], x: 96, y: 60, stagger: 120, dur: 150 },
+            { caption: 'Ini pola yang berulang: 2022 karena Rusia-Ukraina, 2026 karena krisis Hormuz.', vo: 'b4-08', speak: 'Dan ini pola yang berulang. Dua ribu dua puluh dua, karena perang Rusia Ukraina. Dua ribu dua puluh enam, karena krisis Hormuz.' },
             { clear: true },
           ],
         },
@@ -403,11 +406,15 @@ const STORY = {
           ],
           actors: [{ id: 'ibu1', sprite: 'girl', x: 86 }, { id: 'ibu2', sprite: 'girl', x: R(86) }],
           steps: [
-            { caption: 'Uang belanjanya sama...' },
-            { together: [{ badge: 'Keranjang penuh', side: 'left' }, { badge: 'Keranjang setengah', side: 'right' }] },
-            { together: [{ emote: 'ibu1', icon: 'note' }, { emote: 'ibu2', icon: 'sweat' }] },
-            { caption: 'Inflasi ikut naik, didorong harga BBM dan pangan.' },
-            { caption: 'Perang tidak perlu sampai ke sini untuk terasa di dapur kita.', punch: true },
+            { together: [
+              { caption: 'Uang belanjanya sama, tapi isi keranjangnya berkurang.', vo: 'b4-09' },
+              { badge: 'Keranjang penuh', side: 'left' }, { badge: 'Keranjang setengah', side: 'right' },
+            ] },
+            { together: [
+              { emote: 'ibu1', icon: 'note' }, { emote: 'ibu2', icon: 'sweat', dur: 2200 },
+              { caption: 'Inflasi ikut naik, didorong harga BBM dan pangan.', vo: 'b4-10', speak: 'Inflasi pun ikut naik, didorong harga be be em dan pangan.' },
+            ] },
+            { caption: 'Perang tidak perlu sampai ke sini untuk terasa di dapur kita.', punch: true, vo: 'b4-11' },
           ],
         },
       ],

@@ -147,3 +147,19 @@ Kalau ingin minta Claude membuat cerita baru, contoh prompt:
 > 3. ...
 > 5. Malam hari, semua pulang. Tutup dengan TAMAT.
 > Kalau butuh sprite baru (misalnya sepeda, sungai, pohon kelapa), buatkan juga di `sprites.js`.
+
+## Voice over (ElevenLabs)
+
+1. Di naskah, beri setiap narasi/hook sebuah id suara dan (bila perlu) teks ucapan:
+   ```js
+   { caption: 'April 2026: US$117 per barel...', vo: 'b4-03',
+     speak: 'April dua ribu dua puluh enam, harga minyak kita tembus seratus tujuh belas dolar...' }
+   ```
+   `caption` = teks di layar, `speak` = cara membacanya (angka & singkatan ditulis seperti diucapkan).
+2. Suara dibuat per kalimat lewat ElevenLabs (suara: Fikri), file mentah disimpan di `audio/<cerita>/raw/<id>.mp3`.
+3. `tools/process-vo.sh audio/<cerita> 1.2` memotong hening, mempercepat 1,2× (nada tetap), menyamakan volume,
+   dan menulis `manifest.json` berisi durasi tiap kalimat.
+4. Mesin membaca `STORY.audioDir`: lama setiap langkah mengikuti durasi suaranya, dan suara ikut terekam saat **Rekam**.
+   Cerita bersuara menampilkan tombol **▶ Putar dengan suara** dulu (browser melarang suara otomatis).
+
+Hasil render ada di `renders/`.

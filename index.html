@@ -31,6 +31,8 @@
       button, select { padding: 6px 8px; font-size: 8px; border-width: 2px; }
       #status { min-width: 90px; font-size: 8px; }
     }
+    #start { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(11,11,18,0.85); z-index: 10; }
+    #start button { font-size: 14px; padding: 16px 22px; background: #b13e53; }
     body.fmt-v #hint { display: none; }
     body.fmt-v #stage { flex: 1; height: auto; }
     /* Mode layar penuh: hanya video */
@@ -40,6 +42,7 @@
 </head>
 <body>
   <div id="stage"></div>
+  <div id="start"><button id="btn-start">▶ Putar dengan suara</button></div>
   <div id="hint">📱 Putar HP ke posisi miring (landscape) atau tekan ⛶ untuk layar penuh</div>
   <div id="bar">
     <select id="pick" aria-label="Pilih cerita">
@@ -102,10 +105,17 @@
     window.addEventListener('hashchange', () => location.reload());
 
     // Tunggu font pixel (maks 2 detik), lalu mulai film
-    Promise.race([
+    // Cerita bersuara: tunggu ketukan dulu (browser melarang suara otomatis)
+    const needTap = !!STORY.audioDir;
+    const tapped = needTap ? new Promise(res => {
+      const ov = document.getElementById('start');
+      ov.style.display = 'flex';
+      document.getElementById('btn-start').onclick = () => { ov.style.display = 'none'; res(); };
+    }) : Promise.resolve();
+    Promise.all([tapped, Promise.race([
       document.fonts.load('16px "Press Start 2P"'),
       new Promise(r => setTimeout(r, 2000)),
-    ]).then(() => {
+    ])]).then(() => {
       const game = startMovie({ format: fmtName, chapter: chapSel.value || null });
       game.events.on('movie-scene', (i, n) => status.textContent = `Adegan ${i}/${n}`);
       game.events.on('movie-end', () => {
@@ -124,8 +134,8 @@
     document.getElementById('btn-restart').onclick = restart;
 
     pauseBtn.onclick = () => {
-      if (game.scene.isPaused('movie')) { game.scene.resume('movie'); pauseBtn.textContent = '❚❚ Jeda'; }
-      else { game.scene.pause('movie'); pauseBtn.textContent = '▶ Lanjut'; }
+      if (game.scene.isPaused('movie')) { game.scene.resume('movie'); game.sound.resumeAll(); pauseBtn.textContent = '❚❚ Jeda'; }
+      else { game.scene.pause('movie'); game.sound.pauseAll(); pauseBtn.textContent = '▶ Lanjut'; }
     };
 
     // Layar penuh + kunci landscape (jika HP mengizinkan).
@@ -156,12 +166,19 @@
 
     // Rekam video: butuh MediaRecorder dan izin unduh (tidak tersedia di dalam halaman claude.ai)
     const embedded = window.self !== window.top;
-    const recType = window.MediaRecorder && ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']
+    const recType = window.MediaRecorder && ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4']
       .find(t => MediaRecorder.isTypeSupported(t));
     if (embedded || !recType || !HTMLCanvasElement.prototype.captureStream) recBtn.style.display = 'none';
 
     recBtn.onclick = () => {
       const stream = game.canvas.captureStream(30);
+      // ikut rekam suara (voice over) dari Web Audio
+      const ctx = game.sound.context;
+      if (ctx && game.sound.masterVolumeNode) {
+        const dest = ctx.createMediaStreamDestination();
+        game.sound.masterVolumeNode.connect(dest);
+        dest.stream.getAudioTracks().forEach(t => stream.addTrack(t));
+      }
       recorder = new MediaRecorder(stream, { mimeType: recType, videoBitsPerSecond: 8_000_000 });
       const chunks = [];
       recorder.ondataavailable = e => e.data.size && chunks.push(e.data);

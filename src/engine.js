@@ -72,7 +72,34 @@ class Movie extends Phaser.Scene {
     this.divider = this.uobj(this.add.rectangle(0, 0, 1, 1, 0xf4f4f4).setOrigin(0.5).setDepth(105), true);
     this.curtain = this.uobj(this.add.rectangle(0, 0, this.GW, this.GH, 0x000000, 1).setOrigin(0).setDepth(1000), true);
 
-    this.playStory(this.run);
+    this.sound.stopAll();
+    this.loadVoiceOver().then(() => this.playStory(this.run));
+  }
+
+  // ---------- voice over ----------
+  // STORY.audioDir berisi <id>.mp3 + manifest.json (durasi). Langkah dengan `vo: '<id>'`
+  // memutar audionya, dan lamanya langkah mengikuti durasi suara.
+  loadVoiceOver() {
+    this.voDur = this.voDur || {};
+    const dir = STORY.audioDir;
+    const keys = [];
+    const walk = st => { if (st.together) st.together.forEach(walk); else if (st.vo) keys.push(st.vo); };
+    this.sequence().forEach(sc => (sc.steps || []).forEach(walk));
+    if (!dir || !keys.length) return Promise.resolve();
+    return fetch(`${dir}/manifest.json`).then(r => r.json()).catch(() => ({})).then(man => {
+      Object.assign(this.voDur, man);
+      const need = keys.filter(k => man[k] !== undefined && !this.cache.audio.exists(`vo-${k}`));
+      if (!need.length) return;
+      need.forEach(k => this.load.audio(`vo-${k}`, `${dir}/${k}.mp3`));
+      return new Promise(res => { this.load.once('complete', res); this.load.start(); });
+    });
+  }
+
+  // putar suara; kembalikan durasinya (ms) atau 0 kalau tidak ada
+  playVO(st) {
+    if (!st.vo || this.voDur[st.vo] === undefined) return 0;
+    if (this.cache.audio.exists(`vo-${st.vo}`)) this.sound.play(`vo-${st.vo}`);
+    return this.voDur[st.vo] * 1000;
   }
 
   // ---------- registrasi objek ke kamera ----------
@@ -836,8 +863,9 @@ class Movie extends Phaser.Scene {
       fontFamily: FONT, fontSize: `${L.hookSize}px`, color: '#ffcd75', align: 'center',
       stroke: '#1a1c2c', strokeThickness: 10, lineSpacing: 14, wordWrap: { width: this.GW - 60 },
     }).setOrigin(0.5).setDepth(160).setScale(0.6).setAlpha(0));
+    const vo = this.playVO(st);
     await this.tween({ targets: t, scale: 1, alpha: 1, duration: 260, ease: 'Back.out' });
-    await this.wait(st.dur ?? Math.max(1800, st.hook.length * 60));
+    await this.wait(vo ? Math.max(0, vo - 260) + 350 : (st.dur ?? Math.max(1800, st.hook.length * 60)));
     await this.tween({ targets: t, alpha: 0, y: t.y - 20, duration: 200 });
     t.destroy();
   }
@@ -857,10 +885,12 @@ class Movie extends Phaser.Scene {
     const parts = [box, txt];
     parts.forEach(p => p.setAlpha(0));
     box.setScale(0.92);
+    const vo = this.playVO(st);
+    const hold = vo ? Math.max(0, vo - 140) + 250 : this.holdTime(st.caption, st);
     await this.tween({ targets: parts, alpha: 1, scale: 1, duration: 140, ease: 'Quad.out' });
     // kalimat penutup: kamera maju pelan untuk penekanan
-    if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.12, duration: this.holdTime(st.caption, st) + 300, ease: 'Sine.easeInOut' }));
-    await this.wait(this.holdTime(st.caption, st));
+    if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.12, duration: hold + 300, ease: 'Sine.easeInOut' }));
+    await this.wait(hold);
     await this.tween({ targets: parts, alpha: 0, duration: 140 });
     parts.forEach(p => p.destroy());
   }
