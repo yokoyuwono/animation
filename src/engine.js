@@ -26,6 +26,7 @@ const SKIES = {
   night:  { bands: ['#0b0f2a', '#11163a', '#161d48', '#1d2552', '#29366f'], hillFar: '#1d2552', hillNear: '#141a3d', grass: '#1f4d4f', dirt: '#3a2614', body: 'moon', bodyY: 16, stars: true },
   dawn:   { bands: ['#29366f', '#3b5dc9', '#7a8fd9', '#d9a3c4', '#f8d3a0'], hillFar: '#5a7fa8', hillNear: '#2f6b5c', grass: '#38b764', dirt: '#8b5a2b', body: 'sun', bodyY: 66, clouds: true },
   space:  { bands: ['#05060f', '#070917', '#0a0d20', '#0d1129'], stars: true, noGround: true, camBg: '#05060f' },
+  indoor: { bands: ['#2b2f45'], noGround: true, camBg: '#2b2f45', tiles: true },
   ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
   deep:   { bands: ['#14365e', '#102d50', '#0c2442', '#091c35'], grass: '#c2a36b', dirt: '#9c7f4e', noHills: true, bubbles: true, camBg: '#091c35' },
 };
@@ -39,6 +40,7 @@ class Movie extends Phaser.Scene {
     buildTextures(this);
     buildCityTextures(this);
     if (typeof buildWarTextures === 'function') buildWarTextures(this);
+    if (typeof buildMoneyTextures === 'function') buildMoneyTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;
@@ -165,7 +167,7 @@ class Movie extends Phaser.Scene {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
       this.fade(false, i === 0 ? 250 : (quick ? 120 : 600));
-      if (sc._chapter) this.chapterCard(sc._chapter);
+      if (sc._chapter && STORY.chapters.length > 1) this.chapterCard(sc._chapter);
       await this.wait(i === 0 || quick ? 100 : 300);
       for (const step of sc.steps || []) {
         if (!this.alive(run)) return;
@@ -182,13 +184,19 @@ class Movie extends Phaser.Scene {
     if ('together' in st) return Promise.all(st.together.map(s => this.runStep(s, run)));
     if ('wait' in st) return this.wait(st.wait);
     if ('hook' in st) return this.hook(st);
-    if ('caption' in st) return this.caption(st);
+    if ('caption' in st) return this.caption(st, run);
     if ('say' in st) return this.say(st, run);
     if ('title' in st) return this.title(st);
     if ('camera' in st) return this.moveCamera(st);
     if ('focus' in st) return this.focus(st.focus, st.dur ?? 800);
     if ('card' in st) return this.card(st);
     if ('route' in st) return this.showRoute(st);
+    if ('clock' in st) return this.clock(st);
+    if ('tag' in st) return this.setTag(st);
+    if ('sticker' in st) return this.sticker(st);
+    if ('mono' in st) { this.ctl.forEach(c => { if (!c.cam.postFX) return; c.cam.postFX.clear(); if (st.mono) c.cam.postFX.addColorMatrix().grayscale(); }); return this.wait(st.dur ?? 50); }
+    if ('pop' in st) return this.popProp(st);
+    if ('kw' in st) { this.showKw(st.kw); return this.wait(st.dur ?? 0); }
     if ('block' in st) return this.blockRoute(st);
     if ('ping' in st) return this.ping(st);
     if ('chart' in st) return this.chart(st);
@@ -277,6 +285,10 @@ class Movie extends Phaser.Scene {
     const skyH = sky.noGround ? H : GROUND;
     const bandH = Math.ceil(skyH / sky.bands.length);
     sky.bands.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * bandH, SW, bandH); });
+    if (sky.tiles) {
+      ctx.fillStyle = '#33384f';
+      for (let y = 0; y < H; y += 8) for (let x = (y / 8) % 2 ? 0 : 8; x < SW; x += 16) ctx.fillRect(x, y, 8, 8);
+    }
     if (sky.waves) {
       for (let i = 0; i < SW * 1.2; i++) {
         const x = (i * 37) % SW, y = (i * 53) % H;
@@ -372,6 +384,10 @@ class Movie extends Phaser.Scene {
       ? [0, 1].map(i => this.wobj(this.add.rectangle(i * W * S, 0, W * S, H * S, 0x8a7f6a, 1).setOrigin(0).setDepth(40).setAlpha(hz[i] ?? hz[0])))
       : [this.wobj(this.add.rectangle(0, 0, SW * S, H * S, 0x8a7f6a, 1).setOrigin(0).setDepth(40).setAlpha(hz[0]))];
 
+    this.clockText = null; this.kwObj = null;
+    if (sc.clock) this.clock({ clock: sc.clock, instant: true });
+    if (sc.note) this.uobj(this.add.text(12, this.V ? 118 : this.GH - 22, sc.note, { fontFamily: FONT, fontSize: '9px', color: '#c2c3c7' }).setDepth(150).setAlpha(0.85));
+
     // label sisi (BENSIN / LISTRIK)
     if (this.split && sc.tags) {
       const colors = sc.tagColors || ['#b13e53', '#38b764'];
@@ -398,6 +414,8 @@ class Movie extends Phaser.Scene {
     if (p.float) this.tweens.add({ targets: img, y: img.y - 3 * S, yoyo: true, repeat: -1, duration: 1600, ease: 'Sine.inOut' });
     if (p.spin) this.tweens.add({ targets: img, angle: 360, duration: p.spin, repeat: -1 });
     if (p.anim) img.play(p.anim);
+    img.baseScale = sc;
+    if (p.hidden) img.setVisible(false);
     if (p.bob) this.tweens.add({ targets: img, angle: { from: -1.5, to: 1.5 }, y: img.y + S, yoyo: true, repeat: -1, duration: 1300 + (i % 3) * 200, ease: 'Sine.inOut' });
     if (p.blink) this.tweens.add({ targets: img, alpha: 0.35, yoyo: true, repeat: -1, duration: p.blink });
     if (p.smoke) this.smokers.push({ obj: img, dx: p.smoke.dx || 0, dy: p.smoke.dy || 0, big: !!p.smoke.big, dark: !!p.smoke.dark, every: p.smoke.every || 220, t: 0, on: p.smoke.on !== false });
@@ -499,6 +517,9 @@ class Movie extends Phaser.Scene {
       cd.line.lineStyle(4, 0xffcd75, 1).lineBetween(ex, ey, p.x, p.y);
     });
 
+    // label di atas kepala (saldo / nama)
+    Object.values(this.actors).forEach(a => { if (a.tagText && a.tagText.active) a.tagText.setPosition(a.spr.x, a.spr.y - a.spr.displayHeight - 2 * S).setVisible(a.spr.visible); });
+
     // jalur kapal
     for (const rt of Object.values(this.routes)) {
       rt.g.clear();
@@ -549,6 +570,7 @@ class Movie extends Phaser.Scene {
     spr.setFlipX(a.face === 'left');
     if (a.hidden) spr.setVisible(false);
     this.actors[a.id] = { spr, sprite: a.sprite, name: a.name || a.id };
+    if (a.tag) this.makeTag(this.actors[a.id], a.tag, a.tagColor);
     return this.actors[a.id];
   }
 
@@ -565,6 +587,104 @@ class Movie extends Phaser.Scene {
       this.tweens.add({ targets: b, x: (this.sceneW + 30) * S, duration: 9000 + i * 600, delay: i * 300 });
       this.tweens.add({ targets: b, y: b.y - 4 * S, yoyo: true, repeat: -1, duration: 700, ease: 'Sine.inOut' });
     }
+  }
+
+  // ---------- gaya "simulasi" ----------
+  // jam simulasi di pojok kiri atas; { clock: 'BULAN', from: 1, to: 6, dur } menghitung maju
+  async clock(st) {
+    if (!this.clockText || !this.clockText.active) {
+      this.clockText = this.uobj(this.add.text(14, this.V ? 52 : 14, '', {
+        fontFamily: FONT, fontSize: `${this.V ? 16 : 15}px`, color: '#ffffff', backgroundColor: '#1a1c2c', padding: { x: 10, y: 8 },
+      }).setDepth(165));
+    }
+    const set = t => this.clockText.setText(`>> ${t}`);
+    if (st.from === undefined) {
+      set(st.clock);
+      if (!st.instant) { this.clockText.setScale(1.25); await this.tween({ targets: this.clockText, scale: 1, duration: 200 }); }
+      return;
+    }
+    const n = st.to - st.from, step = (st.dur ?? 1500) / Math.max(1, n);
+    for (let i = st.from; i <= st.to; i++) {
+      set(`${st.clock} ${i}`);
+      this.clockText.setColor(i === st.to ? '#ffffff' : '#ffcd75');
+      if (i < st.to) await this.wait(step);
+    }
+    this.clockText.setScale(1.25);
+    await this.tween({ targets: this.clockText, scale: 1, duration: 200 });
+  }
+
+  // label saldo/nama di atas kepala tokoh (ikut zoom dunia)
+  makeTag(a, text, color) {
+    a.tagText = this.wobj(this.add.text(a.spr.x, a.spr.y, text, {
+      fontFamily: FONT, fontSize: '7px', color: '#ffffff', backgroundColor: color || '#1a1c2c', padding: { x: 3, y: 2 }, resolution: 4,
+    }).setOrigin(0.5, 1).setDepth(60).setScale(S / 2.5));
+  }
+  async setTag(st) {
+    const a = this.actor(st.tag);
+    if (!a.tagText) this.makeTag(a, st.text, st.color);
+    a.tagText.setText(st.text);
+    if (st.color) a.tagText.setBackgroundColor(st.color);
+    const base = S / 2.5;
+    a.tagText.setScale(base * 1.5);
+    await this.tween({ targets: a.tagText, scale: base, duration: 250, ease: 'Back.out' });
+    await this.wait(st.dur ?? 0);
+  }
+
+  // stiker reaksi: { sticker: 'cool', at: [0.75, 0.3] } (posisi relatif layar)
+  async sticker(st) {
+    const [fx, fy] = st.at || [0.78, 0.32];
+    const img = this.uobj(this.add.image(this.GW * fx, this.GH * fy, `stk_${st.sticker}`).setDepth(175).setScale(0)
+      .setAngle(Phaser.Math.Between(-12, 12)));
+    const sc = (st.size || 1) * (this.V ? 7 : 6);
+    this.tweens.add({ targets: img, scale: sc, duration: 260, ease: 'Back.out' });
+    this.tweens.add({ targets: img, angle: img.angle + 6, yoyo: true, repeat: -1, duration: 260, delay: 260 });
+    this.time.delayedCall(st.life ?? 1700, () => {
+      if (img.active) this.tweens.add({ targets: img, scale: 0, duration: 180, onComplete: () => img.destroy() });
+    });
+    await this.wait(st.dur ?? 150);
+  }
+
+  async popProp(st) {
+    const a = this.actor(st.pop);
+    const target = a.spr.baseScale || S;
+    a.spr.setVisible(true).setAlpha(1).setScale(0);
+    const sp = this.wobj(this.add.image(a.spr.x, a.spr.y - a.spr.height * target / 2, 'spark').setScale(0).setDepth(30));
+    this.tweens.add({ targets: sp, scale: S * 1.4, alpha: { from: 1, to: 0 }, duration: 380, onComplete: () => sp.destroy() });
+    await this.tween({ targets: a.spr, scale: target, duration: 240, ease: 'Back.out' });
+    await this.wait(st.dur ?? 0);
+  }
+
+  // teks kata kunci besar (gaya referensi). *kata* = sorotan kuning
+  showKw(text) {
+    if (this.kwObj && this.kwObj.active) this.kwObj.destroy();
+    if (!text) { this.kwObj = null; return; }
+    const size = this.V ? 36 : 32;
+    const parts = text.split('*');
+    const box = this.uobj(this.add.container(this.GW / 2, this.V ? this.GH * 0.66 : this.GH * 0.84).setDepth(160));
+    let x = 0;
+    const texts = parts.map((p, i) => [p, i % 2 === 1]).filter(([p]) => p !== '').map(([p, hi]) => {
+      const t = this.add.text(x, 0, p, { fontFamily: FONT, fontSize: `${size}px`, color: hi ? '#ffcd75' : '#ffffff', stroke: '#1a1c2c', strokeThickness: 10 }).setOrigin(0, 0.5);
+      x += t.width;
+      return t;
+    });
+    texts.forEach(t => { t.x -= x / 2; box.add(t); });
+    const fit = Math.min(1, (this.GW - 40) / x);
+    box.setScale(fit * 0.6);
+    this.tweens.add({ targets: box, scale: fit, duration: 170, ease: 'Back.out' });
+    this.kwObj = box;
+  }
+
+  // jalankan "cue" di kata tertentu dalam kalimat narasi
+  scheduleCues(st, totalMs, run) {
+    const spoken = (st.speak || st.caption || st.hook || '').toLowerCase();
+    (st.cues || []).forEach(cue => {
+      const { at, at_, ...rest } = cue;
+      if (at_) rest.at = at_;   // posisi stiker (at dipakai untuk waktu)
+      let f = 0;
+      if (typeof at === 'number') f = at;
+      else if (at) { const i = spoken.indexOf(at.toLowerCase()); f = i < 0 ? 0 : i / Math.max(1, spoken.length); }
+      this.time.delayedCall(f * totalMs, () => { if (this.alive(run)) this.runStep(rest, run); });
+    });
   }
 
   // kartu bab (hanya di long form)
@@ -870,7 +990,16 @@ class Movie extends Phaser.Scene {
     t.destroy();
   }
 
-  async caption(st) {
+  async caption(st, run) {
+    if (STORY.captionStyle === 'keyword' || st.style === 'keyword') {
+      const vo = this.playVO(st);
+      const hold = vo ? vo + 220 : this.holdTime(st.caption, st);
+      this.scheduleCues(st, vo || hold, run ?? this.run);
+      if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.1, duration: hold + 300, ease: 'Sine.easeInOut' }));
+      await this.wait(hold);
+      if (!st.keepKw) this.showKw(null);
+      return;
+    }
     const L = this.layout();
     const size = st.punch ? L.capSize + 4 : L.capSize;
     const txt = this.uobj(this.add.text(this.GW / 2, 0, st.caption, {
