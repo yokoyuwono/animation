@@ -40,6 +40,7 @@ const RAKA = { id: 'raka', sprite: 'raka', x: RAKA_X, y: 80, face: 'left' };
 const STORY = {
   title: 'Paylater vs Menabung',
   audioDir: 'audio/paylater',
+  sfx: true,   // musik latar + efek suara otomatis (audio/paylater/sfx/)
   captionStyle: 'keyword',
 
   chapters: [

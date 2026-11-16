@@ -49,6 +49,14 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 9. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
    dengan file yang berubah (index.html, src/, stories/, audio/).
 
+## Musik & efek suara
+- `STORY.sfx = true` → memuat `audio/<cerita>/sfx/music.mp3` (loop, otomatis mengecil saat narasi) dan
+  efek: pop, tick, notif, kaching, stamp, coin, buzz, scratch, success.
+- Efek otomatis: pop (prop muncul), tick (jam fast-forward), stamp+buzz/success (stempel), kaching (struk),
+  coin (celengan), notif (label berisi "!"), scratch (hitam-putih). Manual: `{ sfx: 'notif' }`.
+- Dibuat lewat ElevenLabs: musik `node_type: music, eleven_music_v2_5` (±900 kredit/120 detik),
+  efek `node_type: sfx, eleven_text_to_sound_v2` (±17 kredit). Paylater memakai musik chiptune ceria.
+
 ## Catatan teknis
 - Browser memblokir suara otomatis → pemutar menampilkan tombol "▶ Putar dengan suara" untuk cerita ber-`audioDir`.
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.

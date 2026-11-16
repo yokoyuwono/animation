@@ -32,6 +32,8 @@ const SKIES = {
 };
 
 const MOVIE_OPTS = { format: 'h', chapter: null };
+const SFX_NAMES = ['pop', 'tick', 'notif', 'kaching', 'stamp', 'coin', 'buzz', 'scratch', 'success'];
+const MUSIC_VOL = 0.22, SFX_VOL = 0.55;
 
 class Movie extends Phaser.Scene {
   constructor() { super('movie'); }
@@ -91,8 +93,10 @@ class Movie extends Phaser.Scene {
     return fetch(`${dir}/manifest.json`).then(r => r.json()).catch(() => ({})).then(man => {
       Object.assign(this.voDur, man);
       const need = keys.filter(k => man[k] !== undefined && !this.cache.audio.exists(`vo-${k}`));
-      if (!need.length) return;
       need.forEach(k => this.load.audio(`vo-${k}`, `${dir}/${k}.mp3`));
+      // musik & efek suara (opsional): STORY.sfx = true -> audio/<cerita>/sfx/*.mp3
+      if (STORY.sfx) SFX_NAMES.concat('music').forEach(n => { if (!this.cache.audio.exists(`sfx-${n}`)) this.load.audio(`sfx-${n}`, `${dir}/sfx/${n}.mp3`); });
+      if (!this.load.list.size) return;
       return new Promise(res => { this.load.once('complete', res); this.load.start(); });
     });
   }
@@ -101,7 +105,17 @@ class Movie extends Phaser.Scene {
   playVO(st) {
     if (!st.vo || this.voDur[st.vo] === undefined) return 0;
     if (this.cache.audio.exists(`vo-${st.vo}`)) this.sound.play(`vo-${st.vo}`);
-    return this.voDur[st.vo] * 1000;
+    const ms = this.voDur[st.vo] * 1000;
+    if (this.music) {   // musik mengecil saat narasi
+      this.tweens.killTweensOf(this.music);
+      this.tweens.add({ targets: this.music, volume: MUSIC_VOL * 0.45, duration: 150 });
+      this.time.delayedCall(ms, () => this.music && this.tweens.add({ targets: this.music, volume: MUSIC_VOL, duration: 500 }));
+    }
+    return ms;
+  }
+
+  sfx(name, vol = 1) {
+    if (STORY.sfx && this.cache.audio.exists(`sfx-${name}`)) this.sound.play(`sfx-${name}`, { volume: SFX_VOL * vol });
   }
 
   // ---------- registrasi objek ke kamera ----------
@@ -153,6 +167,12 @@ class Movie extends Phaser.Scene {
 
   async playStory(run) {
     const scenes = this.sequence();
+    this.music = null;
+    if (STORY.sfx && this.cache.audio.exists('sfx-music')) {
+      this.music = this.sound.add('sfx-music', { loop: true, volume: 0 });
+      this.music.play();
+      this.tweens.add({ targets: this.music, volume: MUSIC_VOL, duration: 1200 });
+    }
     for (let i = 0; i < scenes.length; i++) {
       if (!this.alive(run)) return;
       const sc = scenes[i];
@@ -175,7 +195,9 @@ class Movie extends Phaser.Scene {
       }
     }
     if (!this.alive(run)) return;
+    if (this.music) this.tweens.add({ targets: this.music, volume: 0, duration: 700 });
     await this.fade(true, 700);
+    if (this.music) this.music.stop();
     this.game.events.emit('movie-end');
   }
 
@@ -197,6 +219,10 @@ class Movie extends Phaser.Scene {
     if ('smoke' in st) { const sm = this.smokers.find(x => x.obj === this.actor(st.smoke).spr); if (sm) sm.on = st.on !== false; return this.wait(0); }
     if ('tag' in st) return this.setTag(st);
     if ('sticker' in st) return this.sticker(st);
+    if ('sfx' in st) { this.sfx(st.sfx, st.vol ?? 1); return this.wait(st.dur ?? 0); }
+    if ('mono' in st && st.mono) this.sfx('scratch', 0.8);
+    if ('swap' in st && /^jar_/.test(st.to || '')) this.sfx('coin', 0.7);
+    if ('label' in st && /!/.test(st.label)) this.sfx('notif', 0.7);
     if ('mono' in st) { this.ctl.forEach(c => { if (!c.cam.postFX) return; c.cam.postFX.clear(); if (st.mono) c.cam.postFX.addColorMatrix().grayscale(); }); return this.wait(st.dur ?? 50); }
     if ('pop' in st) return this.popProp(st);
     if ('kw' in st) { this.showKw(st.kw); return this.wait(st.dur ?? 0); }
@@ -607,6 +633,7 @@ class Movie extends Phaser.Scene {
       return;
     }
     const n = st.to - st.from, step = (st.dur ?? 1500) / Math.max(1, n);
+    this.sfx('tick', 0.6);
     for (let i = st.from; i <= st.to; i++) {
       set(`${st.clock} ${i}`);
       this.clockText.setColor(i === st.to ? '#ffffff' : '#ffcd75');
@@ -626,6 +653,8 @@ class Movie extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(190).setAngle(st.angle ?? -10).setScale(2.6).setAlpha(0));
     const border = this.uobj(this.add.rectangle(t.x, t.y, t.width + 10, t.height + 10).setStrokeStyle(8, Phaser.Display.Color.HexStringToColor(col).color).setDepth(191).setAngle(t.angle).setScale(2.6).setAlpha(0));
     await this.tween({ targets: [t, border], scale: 1, alpha: 1, duration: 140, ease: 'Quad.easeIn' });
+    this.sfx('stamp');
+    this.time.delayedCall(180, () => this.sfx(st.color && st.color !== '#e43b44' ? 'success' : 'buzz', 0.7));
     this.ctl.forEach(c => c.cam.shake(220, 0.012));
     this.time.delayedCall(st.life ?? 1600, () => {
       if (t.active) this.tweens.add({ targets: [t, border], alpha: 0, duration: 200, onComplete: () => { t.destroy(); border.destroy(); } });
@@ -672,6 +701,7 @@ class Movie extends Phaser.Scene {
     box.y = -20; box.alpha = 0;
     await this.tween({ targets: box, y: 0, alpha: 1, duration: 250, ease: 'Quad.out' });
     for (const r of rows) { r.forEach(o => o.setAlpha(1)); await this.wait(st.stagger ?? 380); }
+    this.sfx('kaching');
     await this.wait(st.dur ?? 300);
   }
 
@@ -708,6 +738,7 @@ class Movie extends Phaser.Scene {
 
   async popProp(st) {
     const a = this.actor(st.pop);
+    this.sfx('pop', 0.55);
     const target = a.spr.baseScale || S;
     a.spr.setVisible(true).setAlpha(1).setScale(0);
     const sp = this.wobj(this.add.image(a.spr.x, a.spr.y - a.spr.height * target / 2, 'spark').setScale(0).setDepth(30));
