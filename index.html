@@ -44,6 +44,7 @@
   <div id="bar">
     <select id="pick" aria-label="Pilih cerita">
       <option value="motor-listrik">Motor Listrik</option>
+      <option value="perang-dunia">Perang Dunia &amp; Indonesia</option>
       <option value="layang-layang">Layang-Layang</option>
     </select>
     <select id="fmt" aria-label="Format">
@@ -61,11 +62,12 @@
   <script src="lib/phaser.min.js"></script>
   <script src="src/sprites.js"></script>
   <script src="src/sprites-city.js"></script>
+  <script src="src/sprites-war.js"></script>
   <script src="src/engine.js"></script>
   <script>
     // Pilihan lewat URL hash: #cerita--format--bab
     //   contoh: #motor-listrik--v--bab-2  (9:16, hanya bab 2)
-    const STORIES = ['motor-listrik', 'layang-layang'];
+    const STORIES = ['motor-listrik', 'perang-dunia', 'layang-layang'];
     const [hStory, hFmt, hChap] = location.hash.slice(1).split('--');
     const wanted = hStory || new URLSearchParams(location.search).get('story');
     const storyName = STORIES.includes(wanted) ? wanted : STORIES[0];

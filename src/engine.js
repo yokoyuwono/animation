@@ -25,7 +25,9 @@ const SKIES = {
   sunset: { bands: ['#3b2a5c', '#5d3270', '#9a3f6e', '#d9576b', '#f39a5c', '#f8c86a'], hillFar: '#7a3b6e', hillNear: '#3b2a5c', grass: '#257179', dirt: '#5d3a1a', body: 'sun', bodyY: 58, clouds: true },
   night:  { bands: ['#0b0f2a', '#11163a', '#161d48', '#1d2552', '#29366f'], hillFar: '#1d2552', hillNear: '#141a3d', grass: '#1f4d4f', dirt: '#3a2614', body: 'moon', bodyY: 16, stars: true },
   dawn:   { bands: ['#29366f', '#3b5dc9', '#7a8fd9', '#d9a3c4', '#f8d3a0'], hillFar: '#5a7fa8', hillNear: '#2f6b5c', grass: '#38b764', dirt: '#8b5a2b', body: 'sun', bodyY: 66, clouds: true },
-  space:  { bands: ['#05060f', '#070917', '#0a0d20', '#0d1129'], stars: true, noGround: true },
+  space:  { bands: ['#05060f', '#070917', '#0a0d20', '#0d1129'], stars: true, noGround: true, camBg: '#05060f' },
+  ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
+  deep:   { bands: ['#14365e', '#102d50', '#0c2442', '#091c35'], grass: '#c2a36b', dirt: '#9c7f4e', noHills: true, bubbles: true, camBg: '#091c35' },
 };
 
 const MOVIE_OPTS = { format: 'h', chapter: null };
@@ -36,6 +38,7 @@ class Movie extends Phaser.Scene {
   create() {
     buildTextures(this);
     buildCityTextures(this);
+    if (typeof buildWarTextures === 'function') buildWarTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;
@@ -48,6 +51,8 @@ class Movie extends Phaser.Scene {
     this.cards = [];
     this.badges = [[], []];
     this.tags = [];
+    this.routes = {};
+    this.extras = [];
     this.sceneW = W;
     this.split = false;
 
@@ -111,7 +116,10 @@ class Movie extends Phaser.Scene {
     if (!STORY.chapters) return STORY.scenes;
     const ch = MOVIE_OPTS.chapter && STORY.chapters.find(c => c.id === MOVIE_OPTS.chapter);
     if (ch) return ch.scenes;
-    return [...(STORY.intro || []), ...STORY.chapters.flatMap(c => c.scenes), ...(STORY.outro || [])];
+    // long form: adegan pertama tiap bab diberi kartu bab
+    const n = STORY.chapters.length;
+    const body = STORY.chapters.flatMap((c, i) => c.scenes.map((sc, k) => (k ? sc : { ...sc, _chapter: `BAB ${i + 1}/${n} · ${c.title}` })));
+    return [...(STORY.intro || []), ...body, ...(STORY.outro || [])];
   }
 
   async playStory(run) {
@@ -130,6 +138,7 @@ class Movie extends Phaser.Scene {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
       this.fade(false, i === 0 ? 250 : (quick ? 120 : 600));
+      if (sc._chapter) this.chapterCard(sc._chapter);
       await this.wait(i === 0 || quick ? 100 : 300);
       for (const step of sc.steps || []) {
         if (!this.alive(run)) return;
@@ -152,6 +161,14 @@ class Movie extends Phaser.Scene {
     if ('camera' in st) return this.moveCamera(st);
     if ('focus' in st) return this.focus(st.focus, st.dur ?? 800);
     if ('card' in st) return this.card(st);
+    if ('route' in st) return this.showRoute(st);
+    if ('block' in st) return this.blockRoute(st);
+    if ('ping' in st) return this.ping(st);
+    if ('chart' in st) return this.chart(st);
+    if ('restoreColor' in st) return this.restoreColor();
+    if ('blackout' in st) return this.blackout(st);
+    if ('raise' in st) { const a = this.actor(st.raise); return this.tween({ targets: a.spr, y: st.to * S, duration: st.dur ?? 2500, ease: 'Sine.easeInOut' }); }
+    if ('swap' in st) { this.actor(st.swap).spr.setTexture(st.to); return this.wait(st.dur ?? 100); }
     if ('badge' in st) return this.badge(st);
     if ('clear' in st || 'clearLabels' in st) return this.clearAll();
     if ('label' in st) return this.label(st);
@@ -185,7 +202,11 @@ class Movie extends Phaser.Scene {
     this.cards = [];
     this.badges = [[], []];
     this.tags = [];
+    this.routes = {};
+    this.extras = [];
+    this.props = [];
     this.trafficOn = true;
+    this.ctl.forEach(c => c.cam.postFX && c.cam.postFX.clear());
     ['bg', 'fg'].forEach(k => this.textures.exists(k) && this.textures.remove(k));
   }
 
@@ -205,6 +226,8 @@ class Movie extends Phaser.Scene {
     const SW = this.sceneW = sc.width || (this.split ? 2 * W : W);
     this.captionTop = !!sc.captionTop;
     this.mode = this.split ? (sc.focus || 'both') : 'left';
+    this.fitWidth = sc.fit === 'width';
+    this.ctl.forEach(c => c.cam.setBackgroundColor(sky.camBg || '#000000'));
 
     // kamera & wilayah
     const regions = this.split ? [[0, W], [W, 2 * W]] : [[0, SW], [0, SW]];
@@ -216,7 +239,9 @@ class Movie extends Phaser.Scene {
       c.x = init.x ?? (c.region[0] + c.region[1]) / 2;
       c.y = init.y ?? H / 2;
       c.z = init.zoom ?? 1;
-      c.cam.setBounds(c.region[0] * S, 0, (c.region[1] - c.region[0]) * S, H * S);
+      // peta/bumi (fit width): tanpa batas agar gambar tetap di tengah layar tinggi
+      if (this.fitWidth) c.cam.removeBounds();
+      else c.cam.setBounds(c.region[0] * S, 0, (c.region[1] - c.region[0]) * S, H * S);
     });
 
     // langit
@@ -225,8 +250,21 @@ class Movie extends Phaser.Scene {
     const skyH = sky.noGround ? H : GROUND;
     const bandH = Math.ceil(skyH / sky.bands.length);
     sky.bands.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * bandH, SW, bandH); });
+    if (sky.waves) {
+      for (let i = 0; i < SW * 1.2; i++) {
+        const x = (i * 37) % SW, y = (i * 53) % H;
+        ctx.fillStyle = i % 3 ? '#3b7fd0' : '#4a8fe0';
+        ctx.fillRect(x, y, 3, 1);
+      }
+    }
     tex.refresh();
     this.wobj(this.add.image(0, 0, 'bg').setOrigin(0).setScale(S).setDepth(0));
+    if (sky.bubbles) {
+      for (let i = 0; i < 18; i++) {
+        const b = this.wobj(this.add.rectangle(Phaser.Math.Between(0, SW) * S, H * S, S, S, 0x9fd4ff, 0.7).setDepth(1));
+        this.tweens.add({ targets: b, y: 0, x: b.x + 6 * S, duration: Phaser.Math.Between(5000, 9000), repeat: -1, delay: Phaser.Math.Between(0, 6000) });
+      }
+    }
 
     if (sky.stars) {
       const n = Math.round(40 * SW / W * (sky.noGround ? 1.6 : 1));
@@ -255,8 +293,10 @@ class Movie extends Phaser.Scene {
           f.fillRect(x, GROUND - h, 1, h);
         }
       };
-      hills(sky.hillFar, 24, 6, 0.033, 0.08, 1);
-      hills(sky.hillNear, 11, 4, 0.06, 0.15, 4);
+      if (!sky.noHills && !sc.noHills) {
+        hills(sky.hillFar, 24, 6, 0.033, 0.08, 1);
+        hills(sky.hillNear, 11, 4, 0.06, 0.15, 4);
+      }
       f.fillStyle = sky.grass; f.fillRect(0, GROUND, SW, 3);
       f.fillStyle = sky.dirt; f.fillRect(0, GROUND + 3, SW, H - GROUND - 3);
       f.fillStyle = 'rgba(0,0,0,0.25)';
@@ -269,6 +309,13 @@ class Movie extends Phaser.Scene {
         f.fillStyle = '#333c57'; f.fillRect(0, GROUND + 4, SW, H - GROUND - 4);
         f.fillStyle = '#f4f4f4';
         for (let x = 0; x < SW; x += 12) f.fillRect(x, GROUND + 11, 6, 1);
+      }
+      if (sc.water) {
+        const wy = typeof sc.water === 'number' ? sc.water : GROUND - 6;
+        f.fillStyle = '#2f6fbf'; f.fillRect(0, wy, SW, H - wy);
+        f.fillStyle = '#4a8fe0';
+        for (let i = 0; i < SW * 0.6; i++) f.fillRect((i * 29) % SW, wy + 2 + (i * 7) % (H - wy - 2), 3, 1);
+        f.fillStyle = '#c4eef5'; f.fillRect(0, wy, SW, 1);
       }
       ftex.refresh();
       this.wobj(this.add.image(0, 0, 'fg').setOrigin(0).setScale(S).setDepth(2));
@@ -283,8 +330,10 @@ class Movie extends Phaser.Scene {
     }
 
     (sc.props || []).forEach((p, i) => this.spawnProp(p, i));
-    if (sc.wires) [].concat(sc.wires[0] && Array.isArray(sc.wires[0][0]) ? sc.wires : [sc.wires]).forEach(w => this.drawWires(w));
+    if (sc.wires) [].concat(sc.wires[0] && Array.isArray(sc.wires[0][0]) ? sc.wires : [sc.wires]).forEach(w => this.drawWires(w, sc.wireColor));
     (sc.actors || []).forEach(a => this.spawnActor(a));
+    (sc.routes || []).forEach(r => this.spawnRoute(r));
+    if (sc.sepia) this.ctl.forEach(c => { if (c.cam.postFX) c.cam.postFX.addColorMatrix().sepia(); });
     if (sc.birds) this.spawnBirds(sc.birds);
     [].concat(sc.traffic || []).forEach(t => this.spawnTraffic(t));
 
@@ -315,20 +364,24 @@ class Movie extends Phaser.Scene {
       if (p.id) this.actors[p.id] = { spr: pole, sprite: 'turbine', name: p.id, prop: true };
       return pole;
     }
-    const img = this.wobj(this.add.image(x, y, p.sprite).setOrigin(0.5, p.center ? 0.5 : 1).setScale(sc).setDepth((p.depth ?? 5) + i * 0.01));
+    const img = this.wobj((p.anim ? this.add.sprite(x, y, `${p.anim}_0`) : this.add.image(x, y, p.sprite)).setOrigin(0.5, p.center ? 0.5 : 1).setScale(sc).setDepth((p.depth ?? 5) + i * 0.01));
     if (p.flip) img.setFlipX(true);
     if (p.alpha !== undefined) img.setAlpha(p.alpha);
     if (p.sway) this.tweens.add({ targets: img, angle: 4, yoyo: true, repeat: -1, duration: 900, ease: 'Sine.inOut' });
     if (p.float) this.tweens.add({ targets: img, y: img.y - 3 * S, yoyo: true, repeat: -1, duration: 1600, ease: 'Sine.inOut' });
     if (p.spin) this.tweens.add({ targets: img, angle: 360, duration: p.spin, repeat: -1 });
+    if (p.anim) img.play(p.anim);
+    if (p.bob) this.tweens.add({ targets: img, angle: { from: -1.5, to: 1.5 }, y: img.y + S, yoyo: true, repeat: -1, duration: 1300 + (i % 3) * 200, ease: 'Sine.inOut' });
+    if (p.blink) this.tweens.add({ targets: img, alpha: 0.35, yoyo: true, repeat: -1, duration: p.blink });
     if (p.smoke) this.smokers.push({ obj: img, dx: p.smoke.dx || 0, dy: p.smoke.dy || 0, big: !!p.smoke.big, dark: !!p.smoke.dark, every: p.smoke.every || 220, t: 0, on: p.smoke.on !== false });
     if (p.id) this.actors[p.id] = { spr: img, sprite: p.sprite, name: p.id, prop: true };
+    (this.props = this.props || []).push(img);
     return img;
   }
 
-  drawWires(ws) {
+  drawWires(ws, color) {
     const g = this.wobj(this.add.graphics().setDepth(4.5));
-    g.lineStyle(S * 0.6, 0x1a1c2c, 0.9);
+    g.lineStyle(S * (color ? 1 : 0.6), color ? Phaser.Display.Color.HexStringToColor(color).color : 0x1a1c2c, 0.95);
     for (let i = 0; i < ws.length - 1; i++) {
       const [x1, y1] = ws[i], [x2, y2] = ws[i + 1];
       new Phaser.Curves.QuadraticBezier(
@@ -377,7 +430,8 @@ class Movie extends Phaser.Scene {
       cam.setVisible(true);
       cam.setViewport(Math.round(vp.x), Math.round(vp.y), Math.round(vp.w), Math.round(vp.h));
       const rw = c.region[1] - c.region[0];
-      const base = Math.max(vp.h / (H * S), vp.w / (rw * S));
+      // 'fit width' (peta/bumi): seluruh lebar terlihat, sisa atas-bawah diisi warna latar
+      const base = this.fitWidth ? vp.w / (rw * S) : Math.max(vp.h / (H * S), vp.w / (rw * S));
       const breathe = 1 + 0.018 * Math.sin(time / 2200 + c.phase);       // kamera selalu "bernapas"
       const z = this.V ? 1 + (c.z - 1) * 0.55 : c.z;   // 9:16 sudah lebih dekat, zoom naskah diperhalus
       cam.setZoom(base * z * breathe);
@@ -417,6 +471,23 @@ class Movie extends Phaser.Scene {
       const ey = Phaser.Math.Clamp(p.y, cd.box.y + 10, cd.box.y + cd.box.height - 10);
       cd.line.lineStyle(4, 0xffcd75, 1).lineBetween(ex, ey, p.x, p.y);
     });
+
+    // jalur kapal
+    for (const rt of Object.values(this.routes)) {
+      rt.g.clear();
+      if (rt.reveal <= 0) { rt.ships.forEach(sp => sp.setVisible(false)); continue; }
+      const n = rt.pts.length - 1, upto = Math.floor(rt.reveal * n);
+      const off = rt.blocked ? 0 : Math.floor(time / 110);
+      rt.g.lineStyle(S * 0.7, rt.blocked ? 0xe43b44 : rt.color, 0.95);
+      for (let i = 0; i < upto; i++) {
+        if (((i + n * 4 - off) % 4) < 2) rt.g.lineBetween(rt.pts[i].x, rt.pts[i].y, rt.pts[i + 1].x, rt.pts[i + 1].y);
+      }
+      rt.ships.forEach(sp => {
+        if (!rt.blocked) sp.u = (sp.u + rt.speed * S * (delta / 1000) / rt.len) % 1;
+        const pt = rt.path.getPoint(sp.u), t = rt.path.getTangent(sp.u);
+        sp.setPosition(pt.x, pt.y).setFlipX(t.x < 0).setVisible(sp.u <= rt.reveal);
+      });
+    }
 
     // motor & asap
     const dt = delta / 1000;
@@ -469,6 +540,131 @@ class Movie extends Phaser.Scene {
     }
   }
 
+  // kartu bab (hanya di long form)
+  async chapterCard(text) {
+    const t = this.uobj(this.add.text(this.GW / 2, this.V ? 18 : 12, text.toUpperCase(), {
+      fontFamily: FONT, fontSize: `${this.V ? 13 : 12}px`, color: '#1a1c2c', backgroundColor: '#ffcd75', padding: { x: 12, y: 8 },
+    }).setOrigin(0.5, 0).setDepth(170).setAlpha(0));
+    await this.tween({ targets: t, alpha: 1, y: t.y + 6, duration: 250 });
+    await this.wait(2600);
+    await this.tween({ targets: t, alpha: 0, duration: 300 });
+    t.destroy();
+  }
+
+  // ---------- jalur kapal di peta ----------
+  spawnRoute(r) {
+    const v = r.points.map(([x, y]) => new Phaser.Math.Vector2(x * S, y * S));
+    const path = new Phaser.Curves.Path(v[0].x, v[0].y);
+    if (r.smooth === false) v.slice(1).forEach(p => path.lineTo(p.x, p.y)); else path.splineTo(v.slice(1));
+    const rt = {
+      id: r.id, path, len: path.getLength(), pts: path.getSpacedPoints(120),
+      g: this.wobj(this.add.graphics().setDepth(r.depth ?? 7)),
+      reveal: r.hidden ? 0 : 1, blocked: false, ships: [],
+      color: Phaser.Display.Color.HexStringToColor(r.color || '#ffffff').color,
+      speed: r.speed || 10, nShips: r.ships ?? 3, ship: r.ship || 'ship_s', shipScale: r.shipScale || 1,
+    };
+    for (let i = 0; i < rt.nShips; i++) {
+      const sp = this.wobj(this.add.image(0, 0, rt.ship).setScale(S * rt.shipScale).setDepth((r.depth ?? 7) + 1));
+      sp.u = i / rt.nShips; rt.ships.push(sp);
+    }
+    this.routes[r.id] = rt;
+  }
+
+  async showRoute(st) {
+    const rt = this.routes[st.route];
+    await this.tween({ targets: rt, reveal: 1, duration: st.dur ?? 1200, ease: 'Sine.easeInOut' });
+  }
+
+  async blockRoute(st) {
+    const rt = this.routes[st.block];
+    rt.blocked = true;
+    rt.ships.forEach(sp => sp.setTexture('ship_red'));
+    const at = st.at ? { x: st.at[0] * S, y: st.at[1] * S } : rt.path.getPoint(0.5);
+    const x = this.wobj(this.add.image(at.x, at.y, 'x_mark').setScale(0).setDepth(20));
+    await this.tween({ targets: x, scale: S * (st.scale || 1), duration: 300, ease: 'Back.out' });
+    this.ctl.forEach(c => c.cam.shake(200, 0.004));
+    await this.wait(st.dur ?? 300);
+  }
+
+  // ---------- titik penanda berdenyut ----------
+  async ping(st) {
+    const [px, py] = st.ping;
+    const col = Phaser.Display.Color.HexStringToColor(st.color || '#e43b44').color;
+    const r = (st.size || 4) * S;
+    const dot = this.wobj(this.add.circle(px * S, py * S, r * 0.35, col).setDepth(19));
+    const rings = [0, 1].map(k => {
+      const ring = this.wobj(this.add.circle(px * S, py * S, r).setStrokeStyle(S * 0.6, col).setDepth(19).setScale(0.2));
+      this.tweens.add({ targets: ring, scale: 2.4, alpha: { from: 1, to: 0 }, duration: 1300, repeat: -1, delay: k * 650 });
+      return ring;
+    });
+    const parts = [dot, ...rings];
+    if (st.keep !== false) this.extras.push(...parts);
+    else this.time.delayedCall(st.life || 2500, () => parts.forEach(p => p.destroy()));
+    await this.wait(st.dur ?? 250);
+  }
+
+  // ---------- grafik batang (UI) ----------
+  async chart(st) {
+    const L = this.layout();
+    const c = this.ctl[this.sideIdx(st.side)], vp = c.vp;
+    const w = Math.min(vp.w - 48, this.V ? 470 : 400);
+    const pad = 16, barH = 24, rowGap = 12;
+    const title = this.uobj(this.add.text(0, 0, st.chart, { fontFamily: FONT, fontSize: `${L.cardItem}px`, color: '#ffcd75', wordWrap: { width: w - pad * 2 }, lineSpacing: 6 }).setDepth(131));
+    const rowsH = st.bars.length * (14 + 6 + barH + rowGap);
+    const h = pad * 2 + title.height + 10 + rowsH;
+    const bx = this.V ? vp.x + (vp.w - w) / 2 : (st.place === 'left' ? vp.x + 24 : vp.x + vp.w - w - 24);
+    const by = this.V ? Math.max(vp.y + 100, vp.y + vp.h * (st.y ?? 0.12)) : vp.y + (st.y ?? 0.16) * vp.h;
+    const box = this.uobj(this.add.rectangle(bx, by, w, h, INK, 0.92).setOrigin(0).setDepth(130).setStrokeStyle(4, 0xffcd75));
+    title.setPosition(bx + pad, by + pad);
+    const parts = [box, title];
+    let y = by + pad + title.height + 10;
+    const max = st.max || Math.max(...st.bars.map(b => b[1])) * 1.1;
+    const full = w - pad * 2 - 90;
+    const anims = [];
+    st.bars.forEach(([label, value, color]) => {
+      const lt = this.uobj(this.add.text(bx + pad, y, label, { fontFamily: FONT, fontSize: '13px', color: '#ffffff' }).setDepth(131));
+      y += 20;
+      const bar = this.uobj(this.add.rectangle(bx + pad, y, 1, barH, Phaser.Display.Color.HexStringToColor(color || '#41a6f6').color).setOrigin(0).setDepth(131));
+      const vt = this.uobj(this.add.text(bx + pad + 8, y + barH / 2, '0', { fontFamily: FONT, fontSize: '14px', color: '#ffffff' }).setOrigin(0, 0.5).setDepth(132));
+      parts.push(lt, bar, vt);
+      const target = Math.max(4, (value / max) * full);
+      const o = { v: 0 };
+      anims.push(this.tween({
+        targets: o, v: 1, duration: 900, ease: 'Cubic.easeOut',
+        onUpdate: () => { bar.width = target * o.v; vt.setX(bx + pad + target * o.v + 8).setText(`${st.prefix || ''}${Math.round(value * o.v)}${st.suffix || ''}`); },
+      }));
+      y += barH + rowGap;
+    });
+    this.extras.push(...parts);
+    box.setScale(1, 0);
+    await this.tween({ targets: box, scaleY: 1, duration: 160 });
+    await Promise.all(anims);
+    await this.wait(st.dur ?? 300);
+  }
+
+  async restoreColor() {
+    const flash = this.uobj(this.add.rectangle(0, 0, this.GW, this.GH, 0xffffff, 1).setOrigin(0).setDepth(900).setAlpha(0));
+    await this.tween({ targets: flash, alpha: 0.9, duration: 180 });
+    this.ctl.forEach(c => c.cam.postFX && c.cam.postFX.clear());
+    await this.tween({ targets: flash, alpha: 0, duration: 450 });
+    flash.destroy();
+  }
+
+  async blackout(st) {
+    const i = this.sideIdx(st.blackout);
+    const [x0, x1] = this.split ? (i ? [W, 2 * W] : [0, W]) : [0, this.sceneW];
+    const list = this.props.filter(p => p.active && p.x >= x0 * S && p.x < x1 * S && this.textures.exists(`${p.texture.key}_off`));
+    for (let k = 0; k < 3; k++) {
+      list.forEach(p => p.setTexture(`${p.texture.key.replace(/_off$/, '')}_off`));
+      await this.wait(90);
+      list.forEach(p => p.setTexture(p.texture.key.replace(/_off$/, '')));
+      await this.wait(120);
+    }
+    list.forEach(p => p.setTexture(`${p.texture.key}_off`));
+    const dark = this.wobj(this.add.rectangle(x0 * S, 0, (x1 - x0) * S, H * S, 0x05060f, 1).setOrigin(0).setDepth(45).setAlpha(0));
+    await this.tween({ targets: dark, alpha: st.alpha ?? 0.4, duration: 300 });
+  }
+
   // ---------- kamera ----------
   async moveCamera(st) {
     const c = this.ctl[this.sideIdx(st.side)];
@@ -495,7 +691,7 @@ class Movie extends Phaser.Scene {
     const accent = st.color || '#ffcd75';
     const title = this.uobj(this.add.text(0, 0, st.card, { fontFamily: FONT, fontSize: `${L.cardTitle}px`, color: accent }).setDepth(131));
     const items = (st.items || []).map(t => this.uobj(this.add.text(0, 0, t, {
-      fontFamily: FONT, fontSize: `${L.cardItem}px`, color: '#ffffff', lineSpacing: 8, wordWrap: { width: this.GW * (this.V ? 0.8 : 0.42) },
+      fontFamily: FONT, fontSize: `${L.cardItem}px`, color: '#ffffff', lineSpacing: 8, wordWrap: { width: this.GW * (this.V ? 0.8 : 0.58) },
     }).setDepth(131).setAlpha(0)));
     const pad = 16, gap = 10;
     const w = Math.max(title.width, ...items.map(t => t.width)) + pad * 2;
@@ -545,8 +741,8 @@ class Movie extends Phaser.Scene {
   }
 
   async clearAll() {
-    const parts = [...this.labels, ...this.cards.flatMap(c => c.parts), ...this.badges.flat()];
-    this.labels = []; this.cards = []; this.badges = [[], []];
+    const parts = [...this.labels, ...this.cards.flatMap(c => c.parts), ...this.badges.flat(), ...this.extras];
+    this.labels = []; this.cards = []; this.badges = [[], []]; this.extras = [];
     if (!parts.length) return;
     await this.tween({ targets: parts, alpha: 0, duration: 180 });
     parts.forEach(p => p.destroy());
@@ -662,6 +858,8 @@ class Movie extends Phaser.Scene {
     parts.forEach(p => p.setAlpha(0));
     box.setScale(0.92);
     await this.tween({ targets: parts, alpha: 1, scale: 1, duration: 140, ease: 'Quad.out' });
+    // kalimat penutup: kamera maju pelan untuk penekanan
+    if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.12, duration: this.holdTime(st.caption, st) + 300, ease: 'Sine.easeInOut' }));
     await this.wait(this.holdTime(st.caption, st));
     await this.tween({ targets: parts, alpha: 0, duration: 140 });
     parts.forEach(p => p.destroy());
