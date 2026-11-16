@@ -95,7 +95,7 @@ class Movie extends Phaser.Scene {
       const need = keys.filter(k => man[k] !== undefined && !this.cache.audio.exists(`vo-${k}`));
       need.forEach(k => this.load.audio(`vo-${k}`, `${dir}/${k}.mp3`));
       // musik & efek suara (opsional): STORY.sfx = true -> audio/<cerita>/sfx/*.mp3
-      if (STORY.sfx) SFX_NAMES.concat('music').forEach(n => { if (!this.cache.audio.exists(`sfx-${n}`)) this.load.audio(`sfx-${n}`, `${dir}/sfx/${n}.mp3`); });
+      if (STORY.sfx) SFX_NAMES.concat('music').forEach(n => { if (!this.cache.audio.exists(`sfx-${n}`)) this.load.audio(`sfx-${n}`, `${STORY.sfxDir || 'audio/_shared/sfx'}/${n}.mp3`); });
       if (!this.load.list.size) return;
       return new Promise(res => { this.load.once('complete', res); this.load.start(); });
     });
@@ -180,19 +180,21 @@ class Movie extends Phaser.Scene {
       const quick = sc.transition === 'cut';
       if (i > 0) {
         if (sc.transition === 'zoom') this.ctl.forEach(c => this.tweens.add({ targets: c, z: c.z * 2.5, duration: 600, ease: 'Quad.easeIn' }));
-        await this.fade(true, quick ? 120 : 600);
+        await this.fade(true, quick ? 250 : 600);
       }
       this.buildScene(sc);
       if (sc.transition === 'zoom') {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
-      this.fade(false, i === 0 ? 250 : (quick ? 120 : 600));
+      this.fade(false, i === 0 ? 250 : (quick ? 250 : 600));
       if (sc._chapter && STORY.chapters.length > 1) this.chapterCard(sc._chapter);
       await this.wait(i === 0 || quick ? 100 : 300);
       for (const step of sc.steps || []) {
         if (!this.alive(run)) return;
         await this.runStep(step, run);
       }
+      // jeda "napas" sebelum pindah adegan, supaya kata terakhir tidak terpotong
+      await this.wait(sc.endPause ?? STORY.endPause ?? 900);
     }
     if (!this.alive(run)) return;
     if (this.music) this.tweens.add({ targets: this.music, volume: 0, duration: 700 });
@@ -1088,7 +1090,7 @@ class Movie extends Phaser.Scene {
   async caption(st, run) {
     if (STORY.captionStyle === 'keyword' || st.style === 'keyword') {
       const vo = this.playVO(st);
-      const hold = vo ? vo + 220 : this.holdTime(st.caption, st);
+      const hold = vo ? vo + 320 : this.holdTime(st.caption, st);
       this.scheduleCues(st, vo || hold, run ?? this.run);
       if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.1, duration: hold + 300, ease: 'Sine.easeInOut' }));
       await this.wait(hold);

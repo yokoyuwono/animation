@@ -37,12 +37,14 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 ## Alur membuat video baru
 1. Riset fakta terbaru (web search) → tulis narasi & skema per bab → minta persetujuan pemilik.
 2. Tulis `stories/<nama>.js` (salin pola `paylater.js`), daftarkan di `index.html` (STORIES + `<option>`).
-3. `node tools/vo-lines.js stories/<nama>.js` → daftar kalimat VO (id + teks ucapan + jumlah karakter).
+3. Uji naskah dulu TANPA suara (durasi perkiraan). Setelah final: `node tools/vo-lines.js stories/<nama>.js --changed`
+   → hanya kalimat baru/berubah yang perlu dibuat (hemat kredit).
 4. Buat suara via connector ElevenLabs (`creative_create_flow`, lalu `creative_generate_speech` per kalimat,
    maksimal ±17 sekaligus karena batas konkurensi; cek dengan `creative_get_flow_run_status`).
    Unduh `content_url` ke `audio/<nama>/raw/<id>.mp3` (host `elevenlabsusercontent.com` diizinkan
    di environment cloud "animation").
-5. `tools/process-vo.sh audio/<nama> 1.2` → audio jadi + `manifest.json`.
+5. `tools/process-vo.sh audio/<nama> 1.2` → audio jadi + `manifest.json`; lalu `node tools/vo-lines.js stories/<nama>.js --save`.
+   Opsional: draf pakai `eleven_flash_v2_5` (±½ biaya) untuk uji tempo; final tetap `eleven_v4`. Jika draf kurang bagus, abaikan.
 6. Cek: `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
 7. Render: `tools/render.sh <nama> long` dan `tools/render.sh <nama> shorts`.
 8. Thumbnail: sesuaikan `tools/thumbnail2.html`, lalu `node tools/thumbnail.js tools/thumbnail2.html a renders/thumbnail_<nama>.png`.
@@ -50,7 +52,8 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
    dengan file yang berubah (index.html, src/, stories/, audio/).
 
 ## Musik & efek suara
-- `STORY.sfx = true` → memuat `audio/<cerita>/sfx/music.mp3` (loop, otomatis mengecil saat narasi) dan
+- `STORY.sfx = true` → memuat pustaka bersama `audio/_shared/sfx/` (pakai ulang di semua video; ganti lewat `STORY.sfxDir`):
+  `music.mp3` (loop, otomatis mengecil saat narasi) dan
   efek: pop, tick, notif, kaching, stamp, coin, buzz, scratch, success.
 - Efek otomatis: pop (prop muncul), tick (jam fast-forward), stamp+buzz/success (stempel), kaching (struk),
   coin (celengan), notif (label berisi "!"), scratch (hitam-putih). Manual: `{ sfx: 'notif' }`.
@@ -58,6 +61,7 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   efek `node_type: sfx, eleven_text_to_sound_v2` (±17 kredit). Paylater memakai musik chiptune ceria.
 
 ## Catatan teknis
+- Tiap akhir adegan ada jeda 900 ms (`STORY.endPause` / adegan `endPause`) agar kata terakhir tidak terpotong.
 - Browser memblokir suara otomatis → pemutar menampilkan tombol "▶ Putar dengan suara" untuk cerita ber-`audioDir`.
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail).
