@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thumbnail · Paylater vs Nabung</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+  <!--
+    Thumbnail dari aset pixel video.
+    tools/thumbnail.html#h  -> YouTube 1280x720
+    tools/thumbnail.html#v  -> cover short 1080x1920
+  -->
+  <div id="stage"></div>
+  <script src="../lib/phaser.min.js"></script>
+  <script src="../src/sprites.js"></script>
+  <script src="../src/sprites-city.js"></script>
+  <script src="../src/sprites-war.js"></script>
+  <script src="../src/sprites-money.js"></script>
+  <script>
+    const V = location.hash === '#v';
+    const GW = V ? 1080 : 1280, GH = V ? 1920 : 720;
+    const FONT = '"Press Start 2P", monospace';
+
+    class Thumb extends Phaser.Scene {
+      constructor() { super('thumb'); }
+      img(key, x, y, scale, opts = {}) {
+        const i = this.add.image(x, y, key).setScale(scale).setOrigin(opts.ox ?? 0.5, opts.oy ?? 1);
+        if (opts.angle) i.setAngle(opts.angle);
+        if (opts.flip) i.setFlipX(true);
+        return i;
+      }
+      text(str, x, y, size, color, opts = {}) {
+        return this.add.text(x, y, str, {
+          fontFamily: FONT, fontSize: `${size}px`, color, stroke: opts.stroke || '#1a1c2c',
+          strokeThickness: opts.st ?? Math.round(size / 4), backgroundColor: opts.bg, padding: opts.bg ? { x: 18, y: 14 } : undefined,
+          align: 'center',
+        }).setOrigin(opts.ox ?? 0.5, 0.5).setAngle(opts.angle || 0);
+      }
+      // latar: lantai pixel bermotif dengan warna sisi
+      side(x, y, w, h, c1, c2) {
+        const g = this.add.graphics();
+        g.fillStyle(c1).fillRect(x, y, w, h);
+        g.fillStyle(c2);
+        const t = 40;
+        for (let yy = y; yy < y + h; yy += t) for (let xx = x + ((yy / t) % 2) * t; xx < x + w; xx += t * 2) g.fillRect(xx, yy, t, t);
+      }
+      create() {
+        buildTextures(this); buildCityTextures(this); buildWarTextures(this); buildMoneyTextures(this);
+        if (V) this.vertical(); else this.horizontal();
+      }
+
+      horizontal() {
+        // kiri: Dimas (merah, kacau) · kanan: Raka (hijau, tenang)
+        this.side(0, 0, 640, 720, 0x5a1a2a, 0x4a1424);
+        this.side(640, 0, 640, 720, 0x1e6a46, 0x195c3c);
+        this.add.rectangle(640, 360, 12, 720, 0xf4f4f4);
+
+        // sisi Dimas
+        [['app_a', 80, 400], ['app_b', 180, 380], ['app_c', 90, 500], ['app_d', 185, 480]].forEach(([k, x, y], i) => this.img(k, x, y, 7, { angle: (i - 1.5) * 12 }));
+        this.img('bills', 120, 712, 12);
+        this.img('phone_broken', 515, 640, 9, { angle: 12 });
+        this.img('dimas_0', 340, 712, 17);
+        this.img('stk_shock', 488, 370, 8, { oy: 0.5, angle: 10 });
+        this.text('UTANG', 330, 168, 64, '#ffffff', { st: 14 });
+        this.text('Rp7,6 JT', 330, 244, 50, '#ffcd75', { st: 12 });
+        this.text('DITOLAK', 150, 610, 30, '#e43b44', { stroke: '#f4f4f4', st: 6, bg: '#f4f4f4', angle: -14 });
+
+        // sisi Raka
+        this.img('house', 965, 640, 14);
+        this.img('jar_4', 1200, 712, 12);
+        this.img('raka_0', 1010, 712, 17, { flip: true });
+        this.img('stk_party', 1175, 370, 9, { oy: 0.5, angle: -10 });
+        this.text('PUNYA', 960, 168, 64, '#ffffff', { st: 14 });
+        this.text('RUMAH', 960, 244, 64, '#a7f070', { st: 14 });
+
+        // judul + VS
+        this.text('GAJI SAMA · 5 TAHUN', 640, 24, 18, '#f4f4f4', { bg: '#1a1c2c', st: 0 });
+        this.text('PAYLATER', 320, 84, 50, '#ff77a8', { st: 12 });
+        this.text('NABUNG', 960, 84, 50, '#a7f070', { st: 12 });
+        this.add.circle(640, 400, 70, 0x1a1c2c).setStrokeStyle(10, 0xffcd75);
+        this.text('VS', 643, 404, 48, '#ffcd75', { st: 0 });
+      }
+
+      vertical() {
+        // atas: Dimas · bawah: Raka
+        this.side(0, 0, 1080, 960, 0x5a1a2a, 0x4a1424);
+        this.side(0, 960, 1080, 960, 0x1e6a46, 0x195c3c);
+        this.add.rectangle(540, 960, 1080, 14, 0xf4f4f4);
+
+        this.text('GAJI SAMA', 540, 120, 60, '#ffffff', { st: 14 });
+        this.text('NASIB BEDA', 540, 215, 60, '#ffcd75', { st: 14 });
+
+        ['app_a', 'app_b', 'app_c', 'app_d'].forEach((k, i) => this.img(k, 150 + i * 250, 360 + (i % 2) * 50, 9, { angle: (i - 1.5) * 10 }));
+        this.text('PAYLATER', 250, 470, 42, '#ff77a8', { st: 10 });
+        this.img('bills', 180, 800, 14);
+        this.img('phone_broken', 880, 780, 11, { angle: 14 });
+        this.img('dimas_0', 540, 800, 20);
+        this.img('stk_shock', 800, 520, 10, { oy: 0.5, angle: 10 });
+        this.text('UTANG Rp7,6 JT', 430, 870, 38, '#ffffff', { bg: '#b13e53', st: 0 });
+
+        this.text('NABUNG', 250, 1060, 44, '#a7f070', { st: 10 });
+        this.text('PUNYA RUMAH', 540, 1170, 40, '#ffffff', { bg: '#257179', st: 0 });
+        this.img('stk_party', 880, 1340, 11, { oy: 0.5, angle: -10 });
+        this.img('house', 640, 1760, 18);
+        this.img('jar_4', 950, 1890, 13);
+        this.img('raka_0', 290, 1890, 22);
+
+        this.add.circle(930, 960, 85, 0x1a1c2c).setStrokeStyle(12, 0xffcd75);
+        this.text('VS', 934, 965, 56, '#ffcd75', { st: 0 });
+      }
+    }
+
+    document.fonts.load('40px "Press Start 2P"').then(() => {
+      window.game = new Phaser.Game({
+        type: Phaser.CANVAS, parent: 'stage', width: GW, height: GH, pixelArt: true,
+        backgroundColor: '#000000', scene: [Thumb], render: { preserveDrawingBuffer: true },
+      });
+      setTimeout(() => { window.READY = true; }, 600);
+    });
+  </script>
+</body>
+</html>
