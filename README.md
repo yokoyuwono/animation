@@ -163,3 +163,21 @@ Kalau ingin minta Claude membuat cerita baru, contoh prompt:
    Cerita bersuara menampilkan tombol **▶ Putar dengan suara** dulu (browser melarang suara otomatis).
 
 Hasil render ada di `renders/`.
+
+## Gaya "simulasi" (contoh: `stories/paylater.js`)
+
+Satu dunia tampak atas yang terus berubah, jam simulasi, dan teks kata kunci yang muncul pada kata yang diucapkan.
+
+| Fitur | Contoh |
+|---|---|
+| Narasi kata kunci | `STORY.captionStyle = 'keyword'` → kalimat tidak ditampilkan; hanya kata kunci dari `cues` |
+| Cue pada kata | `{ caption: '...', vo: 'p-05', cues: [{ at: 'dimas', kw: '*DIMAS*' }, { at: 'raka', camera: {...} }] }` — `at` = kata dalam teks ucapan (atau angka 0–1), sisanya = langkah apa pun |
+| Kata kunci | `kw: 'GAJI *5 JUTA*'` (`*...*` = sorotan kuning) |
+| Jam simulasi | `{ clock: 'BULAN', from: 2, to: 6, dur: 1500 }` atau `{ clock: 'TAHUN 5' }`; awal adegan: `clock: 'BULAN 1'` |
+| Label di atas kepala | aktor `tag: 'UTANG Rp0'`, lalu `{ tag: 'dimas', text: 'UTANG Rp4,8 JT', color: '#b13e53' }` |
+| Stiker reaksi | `{ sticker: 'cool', at: [0.3, 0.3] }` — `smirk, cool, sus, dizzy, sweat, party, shock, money` (di dalam cue pakai `at_` untuk posisi) |
+| Muncul "pop" | prop `hidden: true`, lalu `{ pop: 'id' }` |
+| Stempel | `{ stamp: 'DITOLAK' }`, `{ stamp: 'DISETUJUI', color: '#38b764' }` |
+| Struk tagihan | `{ receipt: 'STRUK TAGIHAN', lines: [['HP', 'Rp4.000.000'], ...], total: ['TOTAL', 'Rp7.600.000'], note: '...' }` |
+| Hitam-putih | `{ mono: true }` / `{ mono: false }` |
+| Asap prop on/off | `{ smoke: 'motorD' }` / `{ smoke: 'motorD', on: false }` |

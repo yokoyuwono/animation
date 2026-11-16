@@ -192,6 +192,9 @@ class Movie extends Phaser.Scene {
     if ('card' in st) return this.card(st);
     if ('route' in st) return this.showRoute(st);
     if ('clock' in st) return this.clock(st);
+    if ('stamp' in st) return this.stamp(st);
+    if ('receipt' in st) return this.receipt(st);
+    if ('smoke' in st) { const sm = this.smokers.find(x => x.obj === this.actor(st.smoke).spr); if (sm) sm.on = st.on !== false; return this.wait(0); }
     if ('tag' in st) return this.setTag(st);
     if ('sticker' in st) return this.sticker(st);
     if ('mono' in st) { this.ctl.forEach(c => { if (!c.cam.postFX) return; c.cam.postFX.clear(); if (st.mono) c.cam.postFX.addColorMatrix().grayscale(); }); return this.wait(st.dur ?? 50); }
@@ -613,6 +616,65 @@ class Movie extends Phaser.Scene {
     await this.tween({ targets: this.clockText, scale: 1, duration: 200 });
   }
 
+  // stempel besar: { stamp: 'DITOLAK', color: '#e43b44' }
+  async stamp(st) {
+    const col = st.color || '#e43b44';
+    const [fx, fy] = st.at || [0.5, 0.42];
+    const t = this.uobj(this.add.text(this.GW * fx, this.GH * fy, st.stamp, {
+      fontFamily: FONT, fontSize: `${this.V ? 44 : 52}px`, color: col, stroke: '#f4f4f4', strokeThickness: 8,
+      backgroundColor: '#f4f4f4', padding: { x: 18, y: 14 },
+    }).setOrigin(0.5).setDepth(190).setAngle(st.angle ?? -10).setScale(2.6).setAlpha(0));
+    const border = this.uobj(this.add.rectangle(t.x, t.y, t.width + 10, t.height + 10).setStrokeStyle(8, Phaser.Display.Color.HexStringToColor(col).color).setDepth(191).setAngle(t.angle).setScale(2.6).setAlpha(0));
+    await this.tween({ targets: [t, border], scale: 1, alpha: 1, duration: 140, ease: 'Quad.easeIn' });
+    this.ctl.forEach(c => c.cam.shake(220, 0.012));
+    this.time.delayedCall(st.life ?? 1600, () => {
+      if (t.active) this.tweens.add({ targets: [t, border], alpha: 0, duration: 200, onComplete: () => { t.destroy(); border.destroy(); } });
+    });
+    await this.wait(st.dur ?? 200);
+  }
+
+  // struk tagihan ala kasir: { receipt: 'STRUK TAGIHAN DIMAS', lines: [['HP', 'Rp4.000.000'], ...], total: [...], note }
+  async receipt(st) {
+    const w = this.V ? 500 : 560, pad = 20;
+    const style = (size, color = '#1a1c2c') => ({ fontFamily: FONT, fontSize: `${size}px`, color });
+    const x0 = this.GW / 2 - w / 2, y0 = this.V ? 150 : 30;
+    const dim = this.uobj(this.add.rectangle(0, 0, this.GW, this.GH, 0x05060f, 0.6).setOrigin(0).setDepth(184).setAlpha(0));
+    this.tweens.add({ targets: dim, alpha: 1, duration: 250 });
+    this.extras.push(dim);
+    const box = this.uobj(this.add.container(0, 0).setDepth(185));
+    const paper = this.add.rectangle(x0, y0, w, 10, 0xf4f4f4).setOrigin(0);
+    box.add(paper);
+    let y = y0 + pad;
+    const addRow = (left, right, size = 17, color) => {
+      const l = this.add.text(x0 + pad, y, left, style(size, color));
+      const r = right ? this.add.text(x0 + w - pad, y, right, style(size, color)).setOrigin(1, 0) : null;
+      box.add(l); if (r) box.add(r);
+      y += l.height + 10;
+      return [l, r].filter(Boolean);
+    };
+    const dash = () => { const d = this.add.text(x0 + pad, y, '- '.repeat(Math.floor((w - pad * 2) / 22)), style(12, '#94b0c2')); box.add(d); y += d.height + 8; return [d]; };
+    const rows = [];
+    rows.push(addRow(st.receipt, null, 20));
+    rows.push(dash());
+    st.lines.forEach(([a, b]) => rows.push(addRow(a, b)));
+    rows.push(dash());
+    if (st.total) rows.push(addRow(st.total[0], st.total[1], 20, '#e43b44'));
+    if (st.note) rows.push(addRow(st.note, null, 13, '#b13e53'));
+    paper.height = y - y0 + pad / 2;
+    paper.setSize(w, y - y0 + pad / 2);
+    // gerigi bawah
+    const g = this.add.graphics();
+    g.fillStyle(0xf4f4f4);
+    for (let x = x0; x < x0 + w; x += 16) g.fillTriangle(x, y0 + paper.height, x + 16, y0 + paper.height, x + 8, y0 + paper.height + 10);
+    box.add(g);
+    rows.flat().forEach(o => o.setAlpha(0));
+    this.extras.push(box);
+    box.y = -20; box.alpha = 0;
+    await this.tween({ targets: box, y: 0, alpha: 1, duration: 250, ease: 'Quad.out' });
+    for (const r of rows) { r.forEach(o => o.setAlpha(1)); await this.wait(st.stagger ?? 380); }
+    await this.wait(st.dur ?? 300);
+  }
+
   // label saldo/nama di atas kepala tokoh (ikut zoom dunia)
   makeTag(a, text, color) {
     a.tagText = this.wobj(this.add.text(a.spr.x, a.spr.y, text, {
@@ -768,6 +830,8 @@ class Movie extends Phaser.Scene {
     const max = st.max || Math.max(...st.bars.map(b => b[1])) * 1.1;
     const full = w - pad * 2 - 90;
     const anims = [];
+    // angka desimal tetap tampil (0,1 / 7,1), bilangan bulat tanpa koma
+    const fmt = v => st.bars.some(b => !Number.isInteger(b[1])) && Math.abs(v) < 100 ? v.toFixed(1).replace('.', ',') : String(Math.round(v));
     st.bars.forEach(([label, value, color]) => {
       const lt = this.uobj(this.add.text(bx + pad, y, label, { fontFamily: FONT, fontSize: '13px', color: '#ffffff' }).setDepth(131));
       y += 20;
@@ -778,7 +842,7 @@ class Movie extends Phaser.Scene {
       const o = { v: 0 };
       anims.push(this.tween({
         targets: o, v: 1, duration: 900, ease: 'Cubic.easeOut',
-        onUpdate: () => { bar.width = target * o.v; vt.setX(bx + pad + target * o.v + 8).setText(`${st.prefix || ''}${Math.round(value * o.v)}${st.suffix || ''}`); },
+        onUpdate: () => { bar.width = target * o.v; vt.setX(bx + pad + target * o.v + 8).setText(`${st.prefix || ''}${fmt(value * o.v)}${st.suffix || ''}`); },
       }));
       y += barH + rowGap;
     });

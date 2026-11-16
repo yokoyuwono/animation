@@ -149,6 +149,93 @@ function makeSticker(kind) {
 }
 ['smirk', 'cool', 'sus', 'dizzy', 'sweat', 'party', 'shock', 'money'].forEach(k => { MONEY_PROPS[`stk_${k}`] = makeSticker(k); });
 
+
+
+// ============================================================
+//  Tambahan untuk Babak 3–5 & Bagian 2
+// ============================================================
+Object.assign(MONEY_PROPS, {
+  calendar: [
+    'KKKKKKKKKKKK',
+    'KxxxxxxxxxxK',
+    'KKKKKKKKKKKK',
+    'KWWKWWKWWKWK',
+    'KWWKWWKWWKWK',
+    'KKKKKKKKKKKK',
+    'KWWKWWKWWKWK',
+    'KWWKWWKWWKWK',
+    'KKKKKKKKKKKK',
+    'KWWKWWKWWKWK',
+    'KKKKKKKKKKKK',
+  ],
+  hole: [
+    '..KKKKKKKK..',
+    '.KdddddddddK',
+    'KdddKKKKdddK',
+    'KddKKKKKKddK',
+    '.KdddddddddK',
+    '..KKKKKKKK..',
+  ],
+  dirt: ['...tt...', '..tTTt..', '.tTtTTt.', 'tTTTtTTt'],
+  app_d: ['KKKKKKKKK', 'KrrrrrrrK', 'KrWWWWrrK', 'KrWrrrWrK', 'KrWWWWrrK', 'KrWrrrrrK', 'KrWrrrrrK', 'KrrrrrrrK', 'KKKKKKKKK'],
+  sprout_0: ['.....', '..G..', '.GGG.', '..T..', 'KKKKK', 'KOOOK', '.KKK.'],
+  sprout_1: ['.G.G.', 'GGGGG', '.GGG.', '..T..', '..T..', 'KKKKK', 'KOOOK', '.KKK.'],
+  sprout_2: ['..Y..', '.GYG.', 'GGGGG', 'GgGgG', '.GTG.', '..T..', '..T..', 'KKKKK', 'KOOOK', '.KKK.'],
+  cabinet: [
+    'KKKKKKKKKKKK',
+    'KaaaaaaaaaaK',
+    'KaKKKKKKKKaK',
+    'KaKeeKKeeKaK',
+    'KaKKKKKKKKaK',
+    'KaaaaaaaaaaK',
+    'KaKKKKKKKKaK',
+    'KaKxxKKeeKaK',
+    'KaKKKKKKKKaK',
+    'KaaaaaaaaaaK',
+    'KaKKKKKKKKaK',
+    'KaKeeKKeeKaK',
+    'KaKKKKKKKKaK',
+    'KaaaaaaaaaaK',
+    'KKKKKKKKKKKK',
+  ],
+  form: [
+    'KKKKKKKKKK',
+    'KWWWWWWWWK',
+    'KWKKKKKKWK',
+    'KWWWWWWWWK',
+    'KWKKKKWWWK',
+    'KWWWWWWWWK',
+    'KWKKKKKKWK',
+    'KWWWWWWWWK',
+    'KWWWWWKKWK',
+    'KWWWWWKKWK',
+    'KKKKKKKKKK',
+  ],
+  coins_pile: [
+    '.....KKKK.....',
+    '....KYYYYK....',
+    '...KYOYYOYK...',
+    '..KYYYYOYYYK..',
+    '.KYOYYYYYYOYK.',
+    'KYYYYOYYYOYYYK',
+    'KYOYYYYYYYYOYK',
+    'KKKKKKKKKKKKKK',
+  ],
+  knife: [
+    'KK............',
+    'KaKK..........',
+    'KaaaKKKKKKKKK.',
+    'KaaaaaaaaaaaaK',
+    'KKKKKKKKTTTTTK',
+    '........KKKKK.',
+  ],
+  carrot: ['....GG', '...GG.', '.KOOK.', 'KOOOK.', 'KOOK..', 'KOK...', 'KK....'],
+});
+// motor parkir: motor tanpa pengendara
+MONEY_PROPS.motor_park = MOTOR.map((r, y) => y < 7 ? '.'.repeat(r.length) : r.replace(/B/g, 'M'));
+
 function buildMoneyTextures(scene) {
-  for (const [name, rows] of Object.entries(MONEY_PROPS)) pxTexture(scene, name, rows, PALETTE);
+  for (const [name, rows] of Object.entries(MONEY_PROPS)) pxTexture(scene, name, rows, name === 'motor_park' ? { ...PALETTE, M: '#3b5dc9', E: '#566c86', L: '#3b5dc9' } : PALETTE);
+  // tanggal-tanggal telat (silang merah) di kalender
+  if (!scene.textures.exists('calendar_x')) pxTexture(scene, 'calendar_x', MONEY_PROPS.calendar.map((r, y) => (y === 3 || y === 6 || y === 9) ? r.replace(/WW/g, 'xx') : r), PALETTE);
 }
