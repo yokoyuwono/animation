@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thumbnail v2 · Paylater vs Nabung</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+  <!--
+    Thumbnail "formula 4 kotak": label sejajar di atas, wajah besar ekspresif,
+    barisan benda, hasil di bawah.
+      #a -> TIM PAYLATER / TIM NABUNG · KAYA 1 BULAN / KAYA 5 TAHUN + "PLOT TWIST?!"
+      #b -> TIM PAYLATER / TIM NABUNG · GAYA DULU / KAYA DULUAN
+  -->
+  <div id="stage"></div>
+  <script src="../lib/phaser.min.js"></script>
+  <script src="../src/sprites.js"></script>
+  <script src="../src/sprites-city.js"></script>
+  <script src="../src/sprites-war.js"></script>
+  <script src="../src/sprites-money.js"></script>
+  <script src="../src/sprites-faces.js"></script>
+  <script>
+    const VAR = location.hash.slice(1) || 'a';
+    const FONT = '"Pixelify Sans", monospace';
+    const NUMFONT = '"Press Start 2P", monospace';   // angka lebih jelas (5 tidak mirip S)
+    const PINK = '#ff77a8', LIME = '#a7f070', GOLD = '#ffcd75';
+
+    class Thumb extends Phaser.Scene {
+      constructor() { super('thumb'); }
+      img(key, x, y, s, o = {}) {
+        return this.add.image(x, y, key).setScale(s).setOrigin(o.ox ?? 0.5, o.oy ?? 1).setAngle(o.angle || 0).setFlipX(!!o.flip);
+      }
+      // latar bermotif diagonal
+      side(x0, w, c1, c2) {
+        const g = this.add.graphics();
+        g.fillStyle(c1).fillRect(x0, 0, w, 720);
+        g.fillStyle(c2);
+        for (let k = -720; k < w; k += 56) g.fillTriangle(x0 + k, 720, x0 + k + 28, 720, x0 + k + 28 + 720, 0), g.fillTriangle(x0 + k + 28, 720, x0 + k + 720 + 28, 0, x0 + k + 720, 0);
+        const m = this.add.graphics(); m.fillStyle(0x000000, 0.25); m.fillRect(x0, 600, w, 120);
+      }
+      // label berkotak: parts = [['TIM', '#fff'], ['PAYLATER', PINK]]
+      label(parts, cx, cy, size, bg = 0x1a1c2c) {
+        const texts = parts.map(([t, c, num]) => this.add.text(0, 0, t, { fontFamily: num ? NUMFONT : FONT, fontSize: `${num ? Math.round(size * 0.82) : size}px`, color: c, stroke: '#1a1c2c', strokeThickness: Math.round(size / 6) }).setOrigin(0, 0.5));
+        const gap = size * 0.28;
+        const w = texts.reduce((s, t) => s + t.width, 0) + gap * (texts.length - 1);
+        const h = texts[0].height;
+        const g = this.add.graphics();
+        g.fillStyle(bg, 0.92).fillRoundedRect(cx - w / 2 - 22, cy - h / 2 - 8, w + 44, h + 16, 14);
+        g.lineStyle(5, 0xf4f4f4, 0.9).strokeRoundedRect(cx - w / 2 - 22, cy - h / 2 - 8, w + 44, h + 16, 14);
+        let x = cx - w / 2;
+        texts.forEach(t => { t.setPosition(x, cy).setDepth(2); x += t.width + gap; });
+        g.setDepth(1);
+      }
+      vsBadge(x, y) {
+        const d = this.add.rectangle(x, y, 118, 118, 0xef7d57).setAngle(45).setStrokeStyle(10, 0x1a1c2c);
+        const d2 = this.add.rectangle(x, y, 92, 92).setAngle(45).setStrokeStyle(4, 0xffffff);
+        this.add.text(x + 2, y + 2, 'VS', { fontFamily: FONT, fontSize: '56px', color: '#ffffff', stroke: '#1a1c2c', strokeThickness: 10 }).setOrigin(0.5);
+      }
+      tag(text, x, y, angle, size = 40) {
+        this.add.text(x, y, text, { fontFamily: FONT, fontSize: `${size}px`, color: '#1a1c2c', backgroundColor: GOLD, padding: { x: 16, y: 8 } })
+          .setOrigin(0.5).setAngle(angle).setStroke('#1a1c2c', 0);
+        const t = this.children.list[this.children.list.length - 1];
+        const b = this.add.rectangle(x, y, t.width + 8, t.height + 8).setAngle(angle).setStrokeStyle(6, 0x1a1c2c);
+      }
+
+      create() {
+        buildTextures(this); buildCityTextures(this); buildWarTextures(this); buildMoneyTextures(this); buildFaceTextures(this);
+        this.side(0, 640, 0x3b1f5c, 0x452468);      // ungu: Dimas
+        this.side(640, 640, 0x0f5c5a, 0x136866);    // teal: Raka
+        this.add.rectangle(640, 360, 12, 720, 0xf4f4f4);
+
+        if (VAR === 'a') {
+          // Dimas sombong (kelihatan kaya) vs Raka biasa
+          this.img('ticket', 120, 300, 7, { angle: -18 });
+          this.img('shoes', 520, 330, 7, { angle: 14 });
+          this.img('face_dimas_smug', 320, 640, 8.6);
+          this.img('phone', 470, 560, 8, { angle: 12 });
+          [['shoes', 80], ['food', 165], ['ticket', 480], ['app_a', 575]].forEach(([k, x], i) => this.img(k, x, 615, 6, { angle: (i % 2 ? 8 : -8) }));
+          this.img('jar_2', 830, 560, 9);
+          this.img('face_raka_calm', 990, 640, 8.6);
+          [['coin', 720], ['coin', 785], ['jar_4', 1175], ['coin', 1240]].forEach(([k, x]) => this.img(k, x, 615, k === 'coin' ? 9 : 7));
+          this.label([['TIM', '#ffffff'], ['PAYLATER', PINK]], 320, 62, 58);
+          this.label([['TIM', '#ffffff'], ['NABUNG', LIME]], 960, 62, 58);
+          this.label([['KAYA', '#ffffff'], ['1', PINK, true], ['BULAN', PINK]], 320, 668, 50);
+          this.label([['KAYA', '#ffffff'], ['5', LIME, true], ['TAHUN', LIME]], 960, 668, 50);
+          this.vsBadge(640, 330);
+          this.tag('PLOT TWIST?!', 640, 560, -8, 40);
+        } else {
+          // Dimas menangis dihujani tagihan vs Raka bahagia punya rumah
+          [[90, 250, -20], [210, 190, 15], [520, 230, -10], [560, 420, 22], [70, 470, 10]].forEach(([x, y, a]) => this.img('bill', x, y, 8, { angle: a }));
+          this.img('face_dimas_cry', 320, 640, 8.6);
+          [['bills', 95, 8], ['app_d', 490, 6], ['app_b', 580, 6], ['phone_broken', 185, 6]].forEach(([k, x, s], i) => this.img(k, x, 615, s, { angle: i % 2 ? 10 : -10 }));
+          this.img('house', 1130, 560, 9);
+          this.img('face_raka_happy', 960, 640, 8.6);
+          [['coin', 720, 9], ['jar_4', 790, 7], ['coin', 1180, 9], ['coin', 1240, 9]].forEach(([k, x, s]) => this.img(k, x, 615, s));
+          this.img('stk_party', 790, 300, 7, { oy: 0.5, angle: -12 });
+          this.label([['TIM', '#ffffff'], ['PAYLATER', PINK]], 320, 62, 58);
+          this.label([['TIM', '#ffffff'], ['NABUNG', LIME]], 960, 62, 58);
+          this.label([['GAYA', '#ffffff'], ['DULU', PINK]], 320, 668, 54);
+          this.label([['KAYA', '#ffffff'], ['DULUAN', LIME]], 960, 668, 54);
+          this.vsBadge(640, 330);
+          this.tag('LIMA TAHUN KEMUDIAN', 640, 170, 0, 30);
+        }
+      }
+    }
+
+    Promise.all([document.fonts.load('700 40px "Pixelify Sans"'), document.fonts.load('40px "Press Start 2P"')]).then(() => {
+      window.game = new Phaser.Game({ type: Phaser.CANVAS, parent: 'stage', width: 1280, height: 720, pixelArt: true, backgroundColor: '#000', scene: [Thumb], render: { preserveDrawingBuffer: true } });
+      setTimeout(() => { window.READY = true; }, 600);
+    });
+  </script>
+</body>
+</html>
