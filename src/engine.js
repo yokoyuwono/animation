@@ -43,6 +43,7 @@ class Movie extends Phaser.Scene {
     buildCityTextures(this);
     if (typeof buildWarTextures === 'function') buildWarTextures(this);
     if (typeof buildMoneyTextures === 'function') buildMoneyTextures(this);
+    if (typeof buildPolitikTextures === 'function') buildPolitikTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;
@@ -451,6 +452,7 @@ class Movie extends Phaser.Scene {
     if (p.blink) this.tweens.add({ targets: img, alpha: 0.35, yoyo: true, repeat: -1, duration: p.blink });
     if (p.smoke) this.smokers.push({ obj: img, dx: p.smoke.dx || 0, dy: p.smoke.dy || 0, big: !!p.smoke.big, dark: !!p.smoke.dark, every: p.smoke.every || 220, t: 0, on: p.smoke.on !== false });
     if (p.id) this.actors[p.id] = { spr: img, sprite: p.sprite, name: p.id, prop: true };
+    if (p.id && p.tag) this.makeTag(this.actors[p.id], p.tag, p.tagColor);
     (this.props = this.props || []).push(img);
     return img;
   }
@@ -994,7 +996,7 @@ class Movie extends Phaser.Scene {
 
   // label kecil yang menempel di dunia (ikut zoom)
   async label(st) {
-    const z = this.ctl[0].cam.zoom;
+    const z = this.ctl[this.split && st.x >= W ? 1 : 0].cam.zoom;
     const t = this.wobj(this.add.text(st.x * S, st.y * S, st.label, {
       fontFamily: FONT, fontSize: `${st.size || 14}px`, color: st.color || '#ffffff',
       backgroundColor: st.bg || '#b13e53', padding: { x: 7, y: 6 }, resolution: Math.max(1, z),
