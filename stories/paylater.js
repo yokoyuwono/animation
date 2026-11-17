@@ -37,6 +37,34 @@ function kosWorld(extra = []) {
 const DIMAS = { id: 'dimas', sprite: 'dimas', x: DIMAS_X, y: 80 };
 const RAKA = { id: 'raka', sprite: 'raka', x: RAKA_X, y: 80, face: 'left' };
 
+// ---------- PETA KOTA (tampak atas) — pusat cerita: kos Dimas & Raka, mal, bank, bengkel, perumahan ----------
+const KOTA_KOS = {
+  river: [[192, 20], [178, 44], [186, 70], [176, 108]],
+  roads: [[0, 58, 192, 58], [96, 0, 96, 108], [0, 92, 192, 92], [40, 58, 40, 108], [150, 0, 150, 58]],
+};
+const TEMPAT = { kos: [70, 44], mal: [36, 22], bank: [124, 22], bengkel: [60, 78], rumah: [140, 78] };
+function kotaKos() {
+  return [
+    { sprite: 'kos_top', x: 70, y: 52 }, { sprite: 'mall_top', x: 40, y: 30 }, { sprite: 'bank_top', x: 124, y: 30 },
+    { sprite: 'bengkel_top', x: 66, y: 86 },
+    ...[[118, 76], [134, 76], [150, 76], [118, 88], [134, 88], [150, 88]].map(([x, y], i) => ({ sprite: `rumah_top_${i % 4}`, x, y })),
+    { sprite: 'spanduk', x: 166, y: 84, scale: 0.35 },
+    ...[10, 24, 52, 66, 80, 110, 124, 138, 162].map((x, i) => ({ sprite: `rumah_top_${(i + 1) % 4}`, x, y: 107 })),
+    ...[[8, 44], [20, 50], [168, 20], [168, 46], [108, 46], [8, 76], [28, 84], [84, 72], [104, 70]].map(([x, y]) => ({ sprite: 'pohon_top', x, y })),
+  ];
+}
+const kotaTokoh = () => [
+  { id: 'dimasM', sprite: 'dimas', x: 58, y: 60, scale: 0.8, tag: 'DIMAS', tagColor: '#b13e53' },
+  { id: 'rakaM', sprite: 'raka', x: 84, y: 60, scale: 0.8, tag: 'RAKA', tagColor: '#257179' },
+];
+const camAt = (t, z) => ({ x: TEMPAT[t][0], y: TEMPAT[t][1], zoom: z });
+const hub = (steps, cam = camAt('kos', 2.2), n = 16) => ({
+  transition: 'clouds', sky: 'map', map: KOTA_KOS, camera: cam,
+  props: kotaKos(), actors: kotaTokoh(), walkers: { n }, steps,
+});
+const SKOR = [['Gaya hidup', 'D'], ['Ketenangan', 'R'], ['Dana darurat', 'R'], ['Rumah', 'R']];
+const skor = n => ({ at: 0.3, score: SKOR.slice(0, n), sides: ['R', 'D'], dur: 1300 });
+
 const STORY = {
   title: 'Paylater vs Menabung',
   audioDir: 'audio/paylater',
@@ -196,7 +224,7 @@ const STORY = {
             { together: [
               { mono: true },
               { caption: 'Padahal ini baru bulan keenam. Tahun kelima? Jauh lebih parah.', vo: 'p-18', punch: true,
-                cues: [
+                cues: [skor(1), 
                   { at: 'tahun kelima', clock: 'TAHUN 5 ...' },
                   { at: 'tahun kelima', kw: 'TAHUN *KELIMA?*' },
                   { at: 'jauh', kw: 'JAUH LEBIH *PARAH*' }, { at: 'jauh', sticker: 'shock', at_: [0.5, 0.34] },
@@ -213,8 +241,14 @@ const STORY = {
     {
       id: 'bab-2',
       title: 'Gali lubang tutup lubang',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Dari kamar kos yang sama, jalan hidup mereka mulai berpisah.', vo: 'p-52',
+            cues: [{ at: 'kamar kos', kw: 'KAMAR KOS *YANG SAMA*' }, { at: 'jalan hidup', camera: { x: 84, y: 40, zoom: 1.4 }, dur: 1200 },
+              { at: 'jalan hidup', move: 'dimasM', to: 40, speed: 22 }, { at: 'jalan hidup', move: 'rakaM', to: 124, speed: 22 }, { at: 'berpisah', kw: 'MULAI *BERPISAH*' }] },
+        ]),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 60, zoom: 1 },
         clock: 'BULAN 6',
@@ -266,7 +300,7 @@ const STORY = {
             ] },
           { clear: true },
           { caption: 'Raka? Mulai investasi kecil-kecilan dari tabungannya.', vo: 'p-24',
-            cues: [
+            cues: [skor(2), 
               { at: 0, camera: { x: 150, y: 66, zoom: 2.4 }, dur: 800 },
               { at: 'investasi', kw: 'INVESTASI *KECIL*' }, { at: 'investasi', pop: 'tunas' },
               { at: 'kecil-kecilan', swap: 'tunas', to: 'sprout_1' },
@@ -282,8 +316,14 @@ const STORY = {
     {
       id: 'bab-3',
       title: 'Saat musibah datang',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Tapi hidup di kota ini tidak selalu mulus.', vo: 'p-53',
+            cues: [{ at: 0, camera: camAt('bengkel', 2.2), dur: 1400 }, { at: 'tidak selalu', kw: 'TIDAK SELALU *MULUS*' }, { at: 'mulus', shake: 250 },
+              { at: 'mulus', emote: 'dimasM', icon: 'sweat', dur: 1100 }, { at: 'mulus', emote: 'rakaM', icon: 'sweat', dur: 1100 }] },
+        ], camAt('kos', 1.6)),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 62, zoom: 1 },
         clock: 'TAHUN 1',
@@ -327,7 +367,7 @@ const STORY = {
             ] },
           { clear: true },
           { caption: 'Akhirnya pinjam ke keluarga. Yang ini bunganya bukan uang, tapi rasa malu.', vo: 'p-29',
-            cues: [
+            cues: [skor(3), 
               { at: 0, camera: { x: DIMAS_X, y: 66, zoom: 2.2 }, dur: 700 },
               { at: 'keluarga', show: 'ayah' }, { at: 'keluarga', kw: 'PINJAM KE *KELUARGA*' },
               { at: 'bunganya', emote: 'dimas', icon: 'sweat', dur: 1800 },
@@ -343,8 +383,14 @@ const STORY = {
     {
       id: 'bab-4',
       title: 'KPR ditolak gara-gara paylater',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kini mereka sama-sama melirik perumahan di ujung kota.', vo: 'p-54',
+            cues: [{ at: 'melirik', camera: camAt('rumah', 2), dur: 1400 }, { at: 'melirik', move: 'dimasM', to: 112, speed: 26 }, { at: 'melirik', move: 'rakaM', to: 124, speed: 26 },
+              { at: 'perumahan', kw: 'MELIRIK *PERUMAHAN*' }] },
+        ], camAt('kos', 1.8)),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 60, zoom: 1 },
         clock: 'TAHUN 3',
@@ -399,7 +445,7 @@ const STORY = {
           { wait: 1200 },
           { clear: true },
           { caption: 'Paylater-nya tidak jahat. Yang mahal itu: memakai uang yang belum kita punya, untuk hal yang belum kita butuhkan.', vo: 'p-36', punch: true,
-            cues: [
+            cues: [skor(4), 
               { at: 'tidak jahat', kw: 'PAYLATER *TIDAK JAHAT*' },
               { at: 'memakai', kw: 'UANG YANG *BELUM KITA PUNYA*' },
               { at: 'untuk hal', kw: 'UNTUK YANG *BELUM KITA BUTUHKAN*', keepKw: true },
@@ -414,8 +460,13 @@ const STORY = {
     {
       id: 'bab-5',
       title: 'Kenapa bisa begini',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Dimas bukan orang bodoh. Dan dia bukan satu-satunya.', vo: 'p-55',
+            cues: [{ at: 0, kw: 'DIMAS *BUKAN BODOH*' }, { at: 'dan dia', camera: { x: 96, y: 54, zoom: 1 }, dur: 1600 }, { at: 'satu-satunya', kw: 'BUKAN *SATU-SATUNYA*' }] },
+        ], { x: 64, y: 52, zoom: 3 }, 30),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 60, zoom: 1 },
         props: [
@@ -492,8 +543,13 @@ const STORY = {
     {
       id: 'bab-6',
       title: '4 aturan aman paylater',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Lalu, apa yang bisa Dimas lakukan sejak awal?', vo: 'p-56',
+            cues: [{ at: 0, camera: { x: 64, y: 52, zoom: 2.6 }, dur: 1200 }, { at: 'dimas', emote: 'dimasM', icon: 'question', dur: 1300 }, { at: 'sejak awal', kw: 'SEJAK *AWAL?*' }] },
+        ], camAt('kos', 1.6)),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 60, zoom: 1 },
         clock: 'TAHUN 5',
@@ -519,6 +575,7 @@ const STORY = {
               { at: 'bedanya', kw: 'BEDANYA DI *CARA MEMEGANG*', keepKw: true },
             ] },
           { clear: true },
+          { score: SKOR, sides: ['R', 'D'], head: 'SKOR AKHIR', dur: 1200 },
           { caption: 'Kamu lebih mirip Dimas, atau Raka? Jujur di kolom komentar.', vo: 'p-51',
             cues: [
               { at: 'dimas', glow: 'dimas', times: 3 }, { at: 'raka', glow: 'raka', times: 3 },

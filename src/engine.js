@@ -680,13 +680,14 @@ class Movie extends Phaser.Scene {
     const parts = [];
     parts.push(this.uobj(this.add.rectangle(x, y, w, h, INK, 0.94).setOrigin(0).setDepth(175).setStrokeStyle(5, 0xffcd75)));
     parts.push(this.uobj(this.add.text(x + 24, y + 26, st.head || 'PAPAN SKOR', { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffcd75' }).setOrigin(0, 0.5).setDepth(176)));
-    const winA = rows.filter(r => r[1] === 'A').length, winB = rows.length - winA;
-    parts.push(this.uobj(this.add.text(x + w - 18, y + 26, `A ${winA} : ${winB} B`, { fontFamily: FONT, fontSize: `${fs - 4}px`, color: '#ffffff' }).setOrigin(1, 0.5).setDepth(176)));
+    const sd = st.sides || ['A', 'B'];
+    const winA = rows.filter(r => r[1] === sd[0]).length, winB = rows.length - winA;
+    parts.push(this.uobj(this.add.text(x + w - 18, y + 26, `${sd[0]} ${winA} : ${winB} ${sd[1]}`, { fontFamily: FONT, fontSize: `${fs - 4}px`, color: '#ffffff' }).setOrigin(1, 0.5).setDepth(176)));
     const last = [];
     rows.forEach(([name, win], i) => {
       const ry = y + 64 + i * rowH + rowH / 2;
       const t = this.uobj(this.add.text(x + 24, ry, name.toUpperCase(), { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffffff' }).setOrigin(0, 0.5).setDepth(176));
-      const b = this.uobj(this.add.text(x + w - 30, ry, win, { fontFamily: FONT, fontSize: `${fs + 4}px`, color: '#1a1c2c', backgroundColor: win === 'A' ? '#a7f070' : '#ff77a8', padding: { x: 8, y: 5 } }).setOrigin(1, 0.5).setDepth(177));
+      const b = this.uobj(this.add.text(x + w - 30, ry, win, { fontFamily: FONT, fontSize: `${fs + 4}px`, color: '#1a1c2c', backgroundColor: win === sd[0] ? '#a7f070' : '#ff77a8', padding: { x: 8, y: 5 } }).setOrigin(1, 0.5).setDepth(177));
       parts.push(t, b);
       if (i === rows.length - 1) last.push(t, b);
     });

@@ -110,6 +110,23 @@ function buildMapTextures(scene) {
     px(11, rh + 3, '#5d3a1a', 6, 18 - rh - 4);
     if (st === 'off') { for (let i = 0; i < 6; i++) { px(11 + i, rh + 3 + i, '#e43b44'); px(16 - i, rh + 3 + i, '#e43b44'); } }
   }));
+  gedung('kos_top', 30, 22, '#3b5dc9', '#f4e4c1', (px, rh) => {
+    for (let r = 0; r < 2; r++) for (let x = 3; x < 28; x += 6) px(x, rh + 2 + r * 5, r ? '#ffcd75' : '#41a6f6', 3, 3);
+    px(13, 22 - 5, '#5d3a1a', 4, 4); px(10, rh, '#1a1c2c', 10, 1);
+  });
+  gedung('mall_top', 44, 22, '#7a3b8f', '#c2c3c7', (px, rh) => {
+    for (let x = 2; x < 42; x += 4) px(x, rh + 2, '#41a6f6', 3, 5);
+    px(16, rh + 9, '#1a1c2c', 12, 22 - rh - 10); px(18, rh + 10, '#5fcde4', 8, 22 - rh - 11);
+    px(8, 1, '#ffcd75', 28, 2);
+  });
+  gedung('bank_top', 30, 22, '#257179', '#f4f4f4', (px, rh) => {
+    for (let x = 3; x < 28; x += 5) px(x, rh + 2, '#c2c3c7', 2, 22 - rh - 4);
+    px(12, 3, '#ffcd75', 6, 3);
+  });
+  gedung('bengkel_top', 26, 16, '#ef7d57', '#a8a8a8', (px, rh) => {
+    px(4, rh + 2, '#333c57', 18, 16 - rh - 3); for (let y = rh + 3; y < 15; y += 2) px(4, y, '#565c6e', 18, 1);
+  });
+
   mapCanvas(scene, 'kandang_top', 30, 16, (ctx, px) => {
     px(1, 15, 'rgba(0,0,0,0.25)', 29, 1);
     px(0, 4, '#8b5a2b', 30, 1); px(0, 14, '#8b5a2b', 30, 1); for (let x = 0; x < 30; x += 3) px(x, 4, '#5d3a1a', 1, 11);   // pagar
