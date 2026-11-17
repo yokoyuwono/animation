@@ -111,6 +111,8 @@ const FACES = {
   darto_happy: makePortrait({ hair: '#8b5a2b', shirt: '#7d8a4a', style: 'neat', face: 'happy' }),
   darto_cry:   makePortrait({ hair: '#8b5a2b', shirt: '#7d8a4a', style: 'neat', face: 'cry' }),
   raka_happy:  makePortrait({ hair: '#5d3a1a', shirt: '#38b764', style: 'neat', face: 'happy' }),
+  karto_happy: makePortrait({ hair: '#c2c3c7', shirt: '#38b764', style: 'neat', face: 'happy' }),
+  karto_cry:   makePortrait({ hair: '#c2c3c7', shirt: '#38b764', style: 'neat', face: 'cry' }),
 };
 
 function buildFaceTextures(scene) {
