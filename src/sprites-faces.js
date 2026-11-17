@@ -44,6 +44,21 @@ function makePortrait(o) {
     let top = 0; while (top < 20 && !inHead(x, top)) top++;
     px(x, top - 1, 'K'); px(x + 1, top - 2, 'K'); px(x + 1, top - 1, 'H'); px(x + 2, top - 1, 'K');
   }
+  // jilbab: menutup rambut, telinga & dagu, menjuntai ke bahu
+  if (o.style === 'hijab') {
+    const inFace = (x, y) => ((x + 0.5 - cx) / 11.5) ** 2 + ((y + 0.5 - (cy + 3)) / 15) ** 2 <= 1 && y > 12;
+    const inOuter = (x, y) => ((x + 0.5 - cx) / (rx + 3)) ** 2 + ((y + 0.5 - cy) / (ry + 4)) ** 2 <= 1;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const drape = y >= 34 && y <= 46 && Math.abs(x + 0.5 - cx) <= 17 + (y - 34) * 0.4;
+      if ((inOuter(x, y) || drape) && !inFace(x, y)) px(x, y, 'H');
+    }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      if (g[y][x] !== 'H') continue;
+      const out = (xx, yy) => !g[yy] || g[yy][xx] === undefined || g[yy][xx] === '.';
+      if (out(x - 1, y) || out(x + 1, y) || out(x, y - 1)) px(x, y, 'K');
+    }
+    for (let y = 14; y < 42; y++) for (let x = 0; x < W; x++) if (g[y][x] === 'S' && !inFace(x, y)) px(x, y, 'H');
+  }
   // pipi merona
   rect(9, 30, 12, 31, 'P'); rect(31, 30, 34, 31, 'P');
 
@@ -88,6 +103,9 @@ const FACES = {
   dimas_cry:   makePortrait({ hair: '#1a1c2c', shirt: '#ef7d57', style: 'spiky', face: 'cry' }),
   dimas_shock: makePortrait({ hair: '#1a1c2c', shirt: '#ef7d57', style: 'spiky', face: 'shock' }),
   raka_calm:   makePortrait({ hair: '#5d3a1a', shirt: '#38b764', style: 'neat', face: 'calm' }),
+  siti_happy:  makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'happy' }),
+  siti_shock:  makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'shock' }),
+  siti_cry:    makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'cry' }),
   raka_happy:  makePortrait({ hair: '#5d3a1a', shirt: '#38b764', style: 'neat', face: 'happy' }),
 };
 
