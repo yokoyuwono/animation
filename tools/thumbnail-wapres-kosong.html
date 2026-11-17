@@ -93,12 +93,12 @@
           this.img('face_siti_cry', 960, 640, 8.6);
           [['duit', 760, 7], ['bills', 1170, 7], ['duit', 1240, 7]].forEach(([k, x, s], i) => this.img(k, x, 600 - i * 30, s, { angle: i % 2 ? 18 : -14 }));
           this.img('stk_shock', 1150, 270, 6, { oy: 0.5, angle: 10 });
-          this.label([['SKENARIO', '#ffffff'], ['A', LIME, true]], 320, 62, 56);
-          this.label([['SKENARIO', '#ffffff'], ['B', PINK, true]], 960, 62, 56);
+          this.label([['ANDAIKAN', GOLD], ['KURSI', '#ffffff'], ['WAPRES', '#ffffff'], ['KOSONG', PINK]], 640, 66, 68, 0x1a1c2c);
+          this.label([['SKENARIO', '#ffffff'], ['A', LIME, true]], 300, 172, 40);
+          this.label([['SKENARIO', '#ffffff'], ['B', PINK, true]], 980, 172, 40);
           this.label([['DOMPET', '#ffffff'], ['TENANG', LIME]], 320, 668, 50);
           this.label([['DOMPET', '#ffffff'], ['JEBOL', PINK]], 960, 668, 50);
           this.vsBadge(640, 520);
-          this.tag('ANDAIKAN KURSI WAPRES KOSONG', 640, 160, 0, 30);
         }
       }
     }
