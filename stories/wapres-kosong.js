@@ -60,6 +60,43 @@ const kampungActors = [
   { id: 'rinaB', sprite: 'rina', x: R(134), y: 100, tag: 'RINA', tagColor: '#41a6f6' },
 ];
 
+// ---------- PETA KOTA (tampak atas) — pusat cerita: istana, gedung MPR, bank, warung Bu Siti ----------
+const KOTA = {
+  river: [[178, 0], [170, 40], [180, 70], [172, 108]],
+  roads: [[0, 62, 192, 62], [60, 0, 60, 108], [132, 0, 132, 108], [0, 94, 192, 94]],
+  dirt: [[8, 30, 46, 26, '#c9c3a8'], [72, 28, 50, 28, '#c9c3a8']],
+};
+const TEMPAT = { istana: [30, 42], mpr: [96, 40], bank: [154, 40], warung: [30, 80], pabrik: [96, 78], ojek: [156, 82] };
+function kota(dx) {
+  return [
+    { sprite: 'istana', x: 30 + dx, y: 54, scale: 0.5 },
+    { sprite: 'pole', x: 30 + dx, y: 30, scale: 0.6 }, { anim: 'flag_id', x: 30.5 + dx, y: 29, scale: 0.6, depth: 4.2 },
+    { sprite: 'parlemen', x: 96 + dx, y: 54, scale: 0.45 },
+    { sprite: 'building2', x: 150 + dx, y: 56, scale: 0.55 }, { sprite: 'building4', x: 162 + dx, y: 56, scale: 0.5 },
+    { sprite: 'warung', x: 28 + dx, y: 90, scale: 0.55 },
+    { sprite: 'pabrik', x: 96 + dx, y: 90, scale: 0.42, smoke: { dx: 6, dy: -12, every: 420 } },
+    { sprite: 'motor_gas_0', x: 148 + dx, y: 90, scale: 0.6 }, { sprite: 'motor_gas_1', x: 158 + dx, y: 90, scale: 0.6, flip: true },
+    ...[10, 24, 38, 74, 88, 102, 116, 146, 160].map((x, i) => ({ sprite: `rumah_top_${i % 4}`, x: x + dx, y: 107 })),
+    ...[[10, 12], [24, 14], [86, 12], [110, 14], [146, 12]].map(([x, y], i) => ({ sprite: `rumah_top_${(i + 2) % 4}`, x: x + dx, y })),
+    ...[[50, 30], [70, 26], [122, 30], [50, 82], [70, 84], [122, 84], [186, 50], [186, 90]].map(([x, y]) => ({ sprite: 'pohon_top', x: x + dx, y })),
+  ];
+}
+const kotaTokoh = (dx, k) => [
+  { id: 'siti' + k, sprite: 'siti', x: 44 + dx, y: 92, scale: 0.75, tag: 'BU SITI', tagColor: '#257179' },
+  { id: 'rina' + k, sprite: 'rina', x: 112 + dx, y: 92, scale: 0.75, tag: 'RINA', tagColor: '#41a6f6' },
+  { id: 'andi' + k, sprite: 'warga', x: 168 + dx, y: 92, scale: 0.75, tag: 'ANDI', tagColor: '#ef7d57' },
+];
+const camAt = (t, z) => ({ x: TEMPAT[t][0], y: TEMPAT[t][1], zoom: z });
+const dua = (at, cam, dur = 1200) => [{ at, camera: cam, dur }, { at, camera: { ...cam, x: R(cam.x) }, side: 'right', dur }];
+function hub(steps, { split = true, cam = { x: 96, y: 56, zoom: 1.2 } } = {}) {
+  const base = { transition: 'clouds', sky: 'map', map: KOTA, steps };
+  return split ? { ...base, split: true, focus: 'both', tags: ['SKENARIO A', 'SKENARIO B'], tagColors: [GREEN, RED],
+    camera: cam, cameraB: { ...cam, x: R(cam.x) }, props: [...kota(0), ...kota(192)], actors: [...kotaTokoh(0, 'A'), ...kotaTokoh(192, 'B')], walkers: { n: [12, 12] } }
+    : { ...base, camera: cam, props: kota(0), actors: kotaTokoh(0, 'A'), walkers: { n: 18 } };
+}
+const SKOR = [['Politik', 'A'], ['Rupiah', 'A'], ['Dompet', 'A']];
+const skor = n => ({ at: 0.25, score: SKOR.slice(0, n), dur: 1300 });
+
 const STORY = {
   title: 'Andaikan Kursi Wapres Kosong',
   audioDir: 'audio/wapres-kosong',
@@ -75,17 +112,14 @@ const STORY = {
       title: 'Satu surat, satu kursi kosong',
       scenes: [
         {
-          sky: 'day',
-          camera: { x: 96, y: 70, zoom: 1.6 },
-          props: [
-            { sprite: 'tree', x: 20 }, { sprite: 'tree', x: 172 }, { sprite: 'bush', x: 44 }, { sprite: 'bush', x: 150 },
-            { sprite: 'istana', x: 96, y: 92, scale: VERT ? 1.1 : 1.4, depth: 4 },
-            { sprite: 'pole', x: 96, y: 50 }, { anim: 'flag_id', x: 97, y: 48, depth: 6 },
-            { id: 'surat', sprite: 'surat', x: 96, y: 70, scale: 2, depth: 12, hidden: true },
-          ],
+          sky: 'map', map: KOTA,
+          camera: camAt('mpr', 2.4),
+          props: [...kota(0), { id: 'surat', sprite: 'surat', x: 96, y: 34, scale: 1.2, depth: 30, hidden: true }],
+          actors: kotaTokoh(0, 'A'),
+          walkers: { n: 18 },
           steps: [
             { together: [
-              { camera: { x: 96, y: 62, zoom: 1 }, dur: 2600, ease: 'Cubic.easeOut' },
+              { camera: camAt('mpr', 1.6), dur: 2600, ease: 'Cubic.easeOut' },
               { caption: '12 November 2026. Satu surat sampai di MPR.', vo: 'w-01',
                 speak: 'Dua belas November, dua ribu dua puluh enam. Satu surat sampai di em pe er.',
                 cues: [{ at: 'dua belas', kw: '*12 NOV* 2026' }, { at: 'satu surat', pop: 'surat' }, { at: 'em pe er', kw: 'SURAT KE *MPR*' }] },
@@ -93,7 +127,7 @@ const STORY = {
           ],
         },
         {
-          transition: 'cut',
+          transition: 'clouds',
           sky: 'indoor', fit: 'width',
           camera: { x: 96, y: 66, zoom: 1.2 },
           clock: 'HARI 1',
@@ -138,8 +172,13 @@ const STORY = {
     {
       id: 'bab-2',
       title: 'Aturan 60 hari',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Sebelum ke warung, kita mampir ke gedung MPR dulu.', vo: 'w-56', speak: 'Sebelum ke warung, kita mampir ke gedung em pe er dulu.',
+            cues: [{ at: 0, kw: 'SEBELUM KE *WARUNG*...' }, { at: 'mampir', camera: camAt('mpr', 2), dur: 1400 }, { at: 'gedung', kw: 'KE GEDUNG *MPR*' }] },
+        ], { split: false, cam: camAt('warung', 2) }),
+        {
+        transition: 'clouds',
         sky: 'day',
         camera: { x: 96, y: 60, zoom: 1 },
         clock: 'HARI 1',
@@ -193,8 +232,13 @@ const STORY = {
     {
       id: 'bab-3',
       title: '1998 vs 2001',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Aturan itu lahir dari pengalaman pahit.', vo: 'w-57',
+            cues: [{ at: 0, camera: camAt('istana', 2.2), dur: 1600 }, { at: 'pengalaman', kw: 'PENGALAMAN *PAHIT*' }, { at: 'pahit', tint: 0.35, color: '#8b5a2b', dur: 500 }] },
+        ], { split: false, cam: camAt('mpr', 1.8) }),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width', split: true, focus: 'left',
         tags: ['1998', '2001'], tagColors: [RED, GREEN],
         camera: { x: 96, y: 66, zoom: 1.3 }, cameraB: { x: R(96), y: 66, zoom: 1.3 },
@@ -254,8 +298,13 @@ const STORY = {
     {
       id: 'bab-4',
       title: 'Dampak politik',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kembali ke hari ini. Di gedung dewan, tawar-menawar dimulai.', vo: 'w-58',
+            cues: [{ at: 0, kw: 'KEMBALI KE *HARI INI*' }, ...dua('gedung dewan', camAt('mpr', 2)), { at: 'tawar', crowd: 'goto', side: 'right', x: 96, y: 66, spread: 14, frac: 0.6, rush: 1.6 }, { at: 'tawar', kw: '*TAWAR-MENAWAR* DIMULAI' }] },
+        ]),
+        {
+        transition: 'clouds',
         sky: 'day', split: true,
         tags: ['SKENARIO A', 'SKENARIO B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 64, zoom: 1 }, cameraB: { x: R(96), y: 64, zoom: 1 },
@@ -319,7 +368,7 @@ const STORY = {
           ] },
           { caption: 'Skor politik hari ke-60: A tenang, B panas.', vo: 'w-28',
             speak: 'Skor politik hari ke enam puluh: A tenang, Be panas.',
-            cues: [
+            cues: [skor(1), 
               { at: 0, chart: 'SUHU POLITIK (ilustrasi)', bars: [['Skenario A', 25, GREEN], ['Skenario B', 90, '#e43b44']], max: 100, place: 'right', y: 0.1, dur: 0 },
               { at: 'tenang', kw: 'A *TENANG*' }, { at: 'panas', kw: 'B *PANAS*' },
             ] },
@@ -334,8 +383,13 @@ const STORY = {
     {
       id: 'bab-5',
       title: 'Investor benci ketidakpastian',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kegaduhan di gedung dewan sampai juga ke bank dan bursa.', vo: 'w-59',
+            cues: [{ at: 'kegaduhan', kw: '*KEGADUHAN*...' }, ...dua('bank', camAt('bank', 2)), { at: 'bank', kw: 'SAMPAI KE *BANK & BURSA*' }] },
+        ], { cam: camAt('mpr', 2) }),
+        {
+        transition: 'clouds',
         sky: 'day', split: true,
         tags: ['SKENARIO A', 'SKENARIO B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 62, zoom: 1 }, cameraB: { x: R(96), y: 62, zoom: 1 },
@@ -381,7 +435,7 @@ const STORY = {
           { clear: true },
           { together: [{ focus: 'both' }, { clock: 'BULAN 3' }] },
           { caption: 'Dolar makin langka, rupiah makin lemah.', vo: 'w-34',
-            cues: [
+            cues: [skor(2), 
               { at: 0, chart: 'RUPIAH PER US$ (ilustrasi)', bars: [['Skenario A', 18.0, GREEN], ['Skenario B', 19.6, '#e43b44']], max: 20, prefix: 'Rp', suffix: ' rb', place: 'right', y: 0.1, dur: 0 },
               { at: 'langka', kw: 'DOLAR *LANGKA*' }, { at: 'lemah', kw: 'RUPIAH *MELEMAH*' }, { at: 'lemah', sticker: 'sweat', at_: SB },
             ] },
@@ -396,8 +450,13 @@ const STORY = {
     {
       id: 'bab-6',
       title: 'Dampaknya ke dompet kita',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Dari bursa, efeknya merambat sampai ke warung Bu Siti.', vo: 'w-60',
+            cues: [...dua('merambat', camAt('warung', 2), 1600), { at: 'merambat', kw: 'EFEKNYA *MERAMBAT*' }, { at: 'warung', kw: 'SAMPAI KE *WARUNG*' }, { at: 'siti', emote: 'sitiB', icon: 'question', dur: 1100 }] },
+        ], { cam: camAt('bank', 2) }),
+        {
+        transition: 'clouds',
         sky: 'day', split: true,
         tags: ['SKENARIO A', 'SKENARIO B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 66, zoom: 1 }, cameraB: { x: R(96), y: 66, zoom: 1 },
@@ -463,7 +522,7 @@ const STORY = {
           { wait: 900 },
           { clear: true },
           { caption: 'Tujuh puluh ribu sebulan. Buat banyak keluarga, itu jatah makan dua hari.', vo: 'w-46', punch: true,
-            cues: [{ at: 'tujuh puluh', kw: '*Rp70 RIBU* SEBULAN' }, { at: 'jatah makan', kw: '= JATAH MAKAN *2 HARI*' }, { at: 'jatah makan', sticker: 'sweat', at_: SB }] },
+            cues: [skor(3), { at: 'tujuh puluh', kw: '*Rp70 RIBU* SEBULAN' }, { at: 'jatah makan', kw: '= JATAH MAKAN *2 HARI*' }, { at: 'jatah makan', sticker: 'sweat', at_: SB }] },
         ],
       }],
     },
@@ -474,8 +533,13 @@ const STORY = {
     {
       id: 'bab-7',
       title: 'Kalau dua kursi kosong',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Bu Siti lalu bertanya: bagaimana kalau dua kursi kosong?', vo: 'w-61',
+            cues: [{ at: 0, emote: 'sitiA', icon: 'question', dur: 1300 }, { at: 'bagaimana', camera: camAt('istana', 2.2), dur: 1300 }, { at: 'dua kursi', kw: '*DUA KURSI* KOSONG?' }] },
+        ], { split: false, cam: camAt('warung', 2.2) }),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 64, zoom: 1.1 },
         props: ruangKursi({ w: 'kursi_abu' }),
@@ -529,8 +593,13 @@ const STORY = {
     {
       id: 'bab-8',
       title: 'Bukan kursinya, tapi kepastiannya',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kembali ke warung Bu Siti.', vo: 'w-62',
+            cues: [{ at: 0, camera: camAt('warung', 2.2), dur: 1200 }, { at: 'warung', kw: 'KEMBALI KE *WARUNG*' }, { at: 'siti', glow: 'sitiA', times: 2 }] },
+        ], { split: false, cam: { x: 96, y: 54, zoom: 1 } }),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 64, zoom: 1.1 },
         props: ruangKursi(),
@@ -544,6 +613,7 @@ const STORY = {
               { at: 'dompet', kw: 'DOMPET *TENANG*', keepKw: true },
             ] },
           { clear: true },
+          { score: SKOR, head: 'SKOR AKHIR', dur: 1200 },
           { caption: 'Menurutmu, kita bakal ke skenario A atau B? Tulis di kolom komentar.', vo: 'w-55',
             speak: 'Menurutmu, kita bakal ke skenario A, atau Be? Tulis di kolom komentar.',
             cues: [
