@@ -14,7 +14,14 @@
 12 November 2026, satu kursi di istana kosong. Apa yang terjadi kalau kursi itu cepat terisi… atau tarik-ulur berbulan-bulan? Kita simulasikan dari aturan UUD, sejarah 1998 vs 2001, sampai harga tempe di warung Bu Siti.
 
 ⏱️ Bab
-{{BAB}}
+0:00 Satu surat, satu kursi kosong
+0:29 Aturan 60 hari
+1:00 1998 vs 2001
+1:32 Dampak politik
+2:11 Investor benci ketidakpastian
+2:40 Dampaknya ke dompet kita
+3:42 Kalau dua kursi kosong
+4:08 Bukan kursinya, tapi kepastiannya
 
 📌 Fakta kunci:
 • UUD 1945 Pasal 8 ayat 2: wapres kosong → presiden usul 2 nama, MPR bersidang paling lambat 60 hari
