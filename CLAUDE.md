@@ -27,7 +27,7 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   (`captionStyle: 'keyword'` + `cues`), stiker reaksi pixel buatan sendiri, struk tagihan/papan skor,
   tanpa ruang hening. Tiap bab berdiri sendiri (hook → perbandingan → punchline) agar bisa jadi short.
 - **Tempo:** kalimat pendek (≤ ±60 huruf), ada perubahan visual tiap 2–4 detik (cek dengan `tools/pace.js`).
-- **Thumbnail (formula trending, `tools/thumbnail2.html`):** 2 label sejajar di atas ("TIM X / TIM Y",
+- **Thumbnail (formula trending, `tools/thumbnail-<topik>.html`):** 2 label sejajar di atas ("TIM X / TIM Y",
   satu kata berwarna), wajah besar ekspresif (`src/sprites-faces.js`), barisan benda, label hasil di bawah
   (sebaiknya ada twist), penanda VS. Identitas sendiri: latar ungu/teal, VS belah ketupat oranye,
   font Pixelify Sans, angka pakai Press Start 2P (angka 5 di Pixelify mirip S).
@@ -46,8 +46,9 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 5. `tools/process-vo.sh audio/<nama> 1.2` → audio jadi + `manifest.json`; lalu `node tools/vo-lines.js stories/<nama>.js --save`.
    Opsional: draf pakai `eleven_flash_v2_5` (±½ biaya) untuk uji tempo; final tetap `eleven_v4`. Jika draf kurang bagus, abaikan.
 6. Cek: `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
-7. Render: `tools/render.sh <nama> long` dan `tools/render.sh <nama> shorts`.
-8. Thumbnail: sesuaikan `tools/thumbnail2.html`, lalu `node tools/thumbnail.js tools/thumbnail2.html a renders/thumbnail_<nama>.png`.
+7. Render semua untuk satu topik: `tools/produce.sh <nama>` (long 16:9+9:16, semua short, thumbnail jika ada
+   `tools/thumbnail-<nama>.html`). Per bagian: `tools/render.sh <nama> long|shorts|<bab-id>`.
+8. Thumbnail: sesuaikan `tools/thumbnail-<topik>.html`, lalu `node tools/thumbnail.js tools/thumbnail-<topik>.html a renders/thumbnail_<nama>.png`.
 9. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
    dengan file yang berubah (index.html, src/, stories/, audio/).
 
