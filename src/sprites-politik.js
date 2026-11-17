@@ -184,6 +184,61 @@ const POLITIK_PROPS = {
     'KKKKKKKKKKK',
   ],
 };
+// ---------- MBG: piring, ayam, kandang, dapur ----------
+const PIRING = [
+  '...KKKKKKKK...',
+  '..KwwwwwwwwK..',
+  '.KwWWWYYGGGwK.',
+  'KwWWWYOYGgGTwK',
+  '.KwWWWYYTTTwK.',
+  '..KwwwwwwwwK..',
+  '...KKKKKKKK...',
+];
+function makeKandang(w = 44, h = 22) {
+  const g = Array.from({ length: h }, () => Array(w).fill('.'));
+  for (let y = 0; y < 5; y++) for (let x = 0; x < w; x++) if (Math.abs(x - w / 2) <= w / 2 - (4 - y) * 2) g[y][x] = y === 0 ? 'K' : (y % 2 ? 'r' : 'x');
+  for (let y = 5; y < h; y++) for (let x = 0; x < w; x++) {
+    if (x === 0 || x === w - 1 || y === h - 1) g[y][x] = 'K';
+    else if (x % 11 === 1 || y === 5) g[y][x] = 'T';
+    else if ((x + y) % 4 === 0 || (x - y + 40) % 4 === 0) g[y][x] = 'a';
+  }
+  return g.map(r => r.join(''));
+}
+function makeDapur(open, w = 36, h = 28) {
+  const g = Array.from({ length: h }, () => Array(w).fill('.'));
+  for (let y = 0; y < 8; y++) for (let x = 26; x < 30; x++) g[y][x] = (x === 26 || x === 29) ? 'K' : (open ? 'e' : 'a');   // cerobong
+  for (let y = 6; y < 13; y++) { const hw = 4 + (y - 6) * 2.4; for (let x = 0; x < w; x++) if (Math.abs(x + 0.5 - w / 2) <= hw) g[y][x] = (y === 6 || Math.abs(x + 0.5 - w / 2) > hw - 1) ? 'K' : (open ? 'g' : 'e'); }
+  for (let y = 13; y < h; y++) for (let x = 1; x < w - 1; x++) {
+    let c = open ? 'W' : 'w';
+    if (x === 1 || x === w - 2 || y === h - 1) c = 'K';
+    else if (y >= 15 && y <= 18 && x >= 6 && x <= 29) c = (y === 15 || y === 18 || x === 6 || x === 29) ? 'K' : (open ? 'Y' : 'a');  // papan nama
+    else if (y >= 20 && y <= h - 2 && x >= 14 && x <= 21) c = (x === 14 || x === 21 || y === 20) ? 'K' : (open ? 'T' : (y % 2 ? 'e' : 'a'));  // pintu
+    else if (y >= 20 && y <= 24 && ((x >= 4 && x <= 9) || (x >= 26 && x <= 31))) c = (x === 4 || x === 9 || x === 26 || x === 31 || y === 20 || y === 24) ? 'K' : (open ? 'c' : 'e');
+    g[y][x] = c;
+  }
+  if (open) for (const [x, y] of [[9, 16], [12, 17], [15, 16], [18, 17], [21, 16], [24, 17], [27, 16]]) g[y][x] = 'x';     // tulisan
+  return g.map(r => r.join(''));
+}
+Object.assign(POLITIK_PROPS, {
+  piring_isi: PIRING,
+  piring_kosong: recolor(PIRING, { Y: 'W', O: 'W', G: 'W', g: 'W', T: 'W' }),
+  ayam: [
+    '..xx.....',
+    '.KWWK....',
+    'YKWKW....',
+    '.KWWWWWK.',
+    '.KWWWWWWK',
+    '..KWWWWK.',
+    '...KY.KY.',
+  ],
+  kandang: makeKandang(),
+  dapur: makeDapur(true),
+  dapur_tutup: makeDapur(false),
+});
+Object.assign(CHARACTERS, {
+  darto: { body: BOY_BODY, legs: BOY_LEGS, colors: { H: '#8b5a2b', R: '#7d8a4a', B: '#5d3a1a' } },  // caping cokelat
+});
+
 for (let i = 1; i <= 6; i++) POLITIK_PROPS[`berkas_${i}`] = makeBerkas(i * 2);
 ['x', 'b', 'Y', 'G', 'v', 'O'].forEach((c, i) => { POLITIK_PROPS[`bidak_${i}`] = BIDAK.map(r => r.replace(/C/g, c)); });
 
