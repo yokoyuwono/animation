@@ -14,7 +14,14 @@
 Bayangkan besok pagi MBG berhenti. 58 juta piring kosong, harga ayam turun… tapi peternak justru menangis. Kita simulasikan dua desa: Desa A dapurnya tetap jalan, Desa B dapurnya berhenti. Dari bekal anak, honor juru masak, harga ayam & telur, sampai kasus keracunan.
 
 ⏱️ Bab
-{{BAB}}
+0:00 58 juta piring kosong
+0:29 Seberapa besar MBG?
+0:54 Sari dan bekal Rp300 ribu
+1:24 Bu Tini kehilangan honor
+1:54 Pembeli raksasa bernama MBG
+2:49 Kasus keracunan
+3:25 Hemat Rp600 miliar sehari?
+3:58 Bukan saklar lampu
 
 📌 Fakta kunci:
 • ±58 juta penerima, ±26 ribu dapur, ±1 juta pekerja, ±80 ribu pemasok (83% UMKM), pagu 2026 Rp218,77 T (BGN)
