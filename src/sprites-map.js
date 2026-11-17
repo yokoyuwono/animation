@@ -28,15 +28,32 @@ function buildMapTextures(scene) {
   // ---------- gunung api dari atas ----------
   ['on', 'off'].forEach(state => mapCanvas(scene, `gunung_top_${state}`, 76, 50, (ctx, px) => {
     const on = state === 'on', rnd = mapRand(on ? 7 : 8);
-    pxEllipse(px, 38, 30, 37, 19, '#1f5c45');               // kaki gunung (hutan)
-    for (let i = 0; i < 90; i++) { const a = rnd() * 6.28, r = 0.55 + rnd() * 0.42; px(Math.round(38 + Math.cos(a) * 36 * r), Math.round(30 + Math.sin(a) * 18 * r), rnd() < 0.5 ? '#2f7a55' : '#165040', 2, 2); }
-    pxEllipse(px, 38, 26, 26, 13, on ? '#7d5a3c' : '#6b6b5a');   // lereng
-    pxEllipse(px, 36, 25, 23, 11, on ? '#8b6a46' : '#7a7a68');
-    for (let i = 0; i < 14; i++) { const a = -2.6 + i * 0.4; px(Math.round(38 + Math.cos(a) * 18), Math.round(24 + Math.sin(a) * 9), on ? '#5d4030' : '#55554a', 1, 4); }  // alur lereng
-    pxEllipse(px, 38, 20, 14, 7, on ? '#5d4037' : '#5a5a50');      // puncak
-    pxEllipse(px, 38, 18, 8, 4, '#2b1d16');                          // bibir kawah
-    if (on) { pxEllipse(px, 38, 18, 6, 3, '#e43b44'); pxEllipse(px, 38, 18, 3, 1, '#ffcd75'); px(30, 21, '#e43b44', 2, 5); px(31, 26, '#ef7d57', 1, 4); }
-    else { pxEllipse(px, 38, 18, 6, 3, '#4a5160'); px(36, 17, '#38b764', 2, 1); px(40, 19, '#38b764', 1, 1); }
+    const lit = on ? '#9a7550' : '#8a8a78', mid = on ? '#7d5a3c' : '#6f6f60', dark = on ? '#5d4030' : '#55554a';
+    pxEllipse(px, 38, 44, 37, 5, '#1f5c45');                                   // kaki gunung (bayangan hutan)
+    for (let y = 5; y <= 44; y++) {                                             // kerucut ¾ (segitiga)
+      const half = Math.round(5 + (y - 5) * 0.84), l = 38 - half;
+      px(l, y, lit, half, 1); px(38, y, mid, half + 1, 1);
+      px(38 + Math.round(half * 0.55), y, dark, Math.max(1, Math.round(half * 0.45)), 1);
+    }
+    for (let k = -3; k <= 3; k++) {                                             // alur lereng
+      if (!k) continue;
+      for (let y = 8; y < 40; y++) if ((y + k * 3) % 2) px(Math.round(38 + k * 1.6 + k * (y - 8) * 0.24), y, dark);
+    }
+    for (let x = 2; x < 74; x++) {                                              // hutan di kaki gunung (tepi bergerigi)
+      const top = 33 + Math.round(Math.abs(x - 38) * 0.14) + Math.round(rnd() * 3);
+      for (let y = top; y <= 46; y++) {
+        const half = Math.round(5 + (y - 5) * 0.84);
+        if (Math.abs(x - 38) <= half + (y > 41 ? 3 : 0)) px(x, y, (x + y) % 5 ? (x < 38 ? '#2f8a55' : '#1f6b45') : '#165040');
+      }
+    }
+    pxEllipse(px, 38, 6, 7, 2, '#2b1d16');                                      // bibir kawah
+    if (on) {
+      pxEllipse(px, 38, 6, 5, 1, '#e43b44'); px(37, 6, '#ffcd75', 3, 1);
+      for (let y = 8; y < 24; y++) px(35 - Math.round((y - 8) * 0.25), y, y % 3 ? '#e43b44' : '#ef7d57', 2, 1);   // aliran lava
+    } else {
+      pxEllipse(px, 38, 6, 5, 1, '#4a5160');
+      for (let i = 0; i < 26; i++) px(20 + Math.floor(rnd() * 36), 14 + Math.floor(rnd() * 20), '#4f9a5a', 2, 1);   // lereng mulai menghijau
+    }
   }));
 
   // ---------- petak sawah dari atas ----------
