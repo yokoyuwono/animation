@@ -3,6 +3,29 @@
 Tekan link → file langsung terunduh. (Perlu login GitHub jika repo privat.)
 Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giuo4e/renders
 
+## mbg-berhenti
+
+**Video panjang**
+- [mbg-berhenti_long_16x9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/mbg-berhenti_long_16x9.mp4)
+- [mbg-berhenti_long_9x16.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/mbg-berhenti_long_9x16.mp4)
+
+**Short**
+- [mbg-berhenti_short_bab-1.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-1.mp4)
+- [mbg-berhenti_short_bab-2.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-2.mp4)
+- [mbg-berhenti_short_bab-3.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-3.mp4)
+- [mbg-berhenti_short_bab-4.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-4.mp4)
+- [mbg-berhenti_short_bab-5.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-5.mp4)
+- [mbg-berhenti_short_bab-6.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-6.mp4)
+- [mbg-berhenti_short_bab-7.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-7.mp4)
+- [mbg-berhenti_short_bab-8.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/mbg-berhenti_short_bab-8.mp4)
+
+**Thumbnail**
+- [thumbnail_mbg-berhenti_9x16.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_mbg-berhenti_9x16.png)
+- [thumbnail_mbg-berhenti_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_mbg-berhenti_varian-a.png)
+
+**Caption & hashtag**
+- [mbg-berhenti_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/mbg-berhenti_caption.md)
+
 ## paylater
 
 **Video panjang**
