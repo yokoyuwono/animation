@@ -26,6 +26,12 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   jam simulasi (BULAN/TAHUN), tokoh bernama, hook kilas maju ±10 detik, teks **kata kunci** sinkron kata
   (`captionStyle: 'keyword'` + `cues`), stiker reaksi pixel buatan sendiri, struk tagihan/papan skor,
   tanpa ruang hening. Tiap bab berdiri sendiri (hook → perbandingan → punchline) agar bisa jadi short.
+- **Gaya peta (dari video referensi "kota tanpa hukum"):** peta desa/kota tampak atas (`sky: 'map', map: {...}`,
+  `walkers` warga jalan sendiri, `crowd` goto/leave/roam) ⇄ zoom/awan (`transition: 'clouds'`) ke adegan dekat tampak samping
+  dengan tokoh besar, `work` (mencangkul), `swapAll` (kondisi berubah bertahap), `dialog` (kotak dialog berfoto).
+  Sprite peta di `src/sprites-map.js`. Contoh: `stories/tanpa-gunung-api.js`. "Gerak hidup" (napas, menoleh, melangkah) otomatis.
+- **Alur antar-bab (WAJIB):** satu tempat pusat (peta yang sama) jadi titik awal tiap bab; tiap bab dibuka kalimat
+  jembatan pendek yang menyambung lewat tokoh utama; papan skor A vs B berjalan (`score`) di akhir bab.
 - **Tempo:** kalimat pendek (≤ ±60 huruf), ada perubahan visual tiap 2–4 detik (cek dengan `tools/pace.js`).
 - **Thumbnail (formula trending, `tools/thumbnail-<topik>.html`):** 2 label sejajar di atas ("TIM X / TIM Y",
   satu kata berwarna), wajah besar ekspresif (`src/sprites-faces.js`), barisan benda, label hasil di bawah
