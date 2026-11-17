@@ -49,7 +49,7 @@ class Movie extends Phaser.Scene {
     this.GW = this.scale.width;
     this.GH = this.scale.height;
     this.world = [];
-    this.actors = {};
+    this.actors = {}; this.critters = [];
     this.bikes = [];
     this.smokers = [];
     this.labels = [];
@@ -247,7 +247,7 @@ class Movie extends Phaser.Scene {
     if ('move' in st) return this.move(st);
     if ('jump' in st) return this.jump(st);
     if ('emote' in st) return this.emote(st);
-    if ('face' in st) { this.actor(st.face).spr.setFlipX(st.dir === 'left'); return this.wait(150); }
+    if ('face' in st) { const a = this.actor(st.face); this.calm(a); a.spr.setFlipX(st.dir === 'left'); return this.wait(150); }
     if ('show' in st) { const a = this.actor(st.show); a.spr.setVisible(true).setAlpha(0); return this.tween({ targets: a.spr, alpha: 1, duration: st.dur || 400 }); }
     if ('hide' in st) { const a = this.actor(st.hide); await this.tween({ targets: a.spr, alpha: 0, duration: st.dur || 400 }); a.spr.setVisible(false).setAlpha(1); return; }
     if ('enter' in st) return this.enter(st);
@@ -262,7 +262,7 @@ class Movie extends Phaser.Scene {
     this.tweens.killAll();
     this.world.forEach(o => o.destroy());
     this.world = [];
-    this.actors = {};
+    this.actors = {}; this.critters = [];
     this.bikes = [];
     this.smokers = [];
     this.labels = [];
@@ -287,6 +287,9 @@ class Movie extends Phaser.Scene {
   }
 
   buildScene(sc) {
+    this.life = STORY.alive !== false && sc.alive !== false;   // gerak "hidup" otomatis
+    this.lifeBirds = this.life && !!SKIES[sc.sky || 'day'].clouds && !sc.noClouds && !sc.indoor;
+    this.nextBird = this.time.now + Phaser.Math.Between(2500, 6000);
     this.clearWorld();
     const sky = SKIES[sc.sky || 'day'];
     this.split = !!sc.split;
@@ -443,6 +446,8 @@ class Movie extends Phaser.Scene {
     if (p.flip) img.setFlipX(true);
     if (p.alpha !== undefined) img.setAlpha(p.alpha);
     if (p.sway) this.tweens.add({ targets: img, angle: 4, yoyo: true, repeat: -1, duration: 900, ease: 'Sine.inOut' });
+    else if (this.life && p.still !== true && !p.bob && !p.spin && /^(tree|palm|bush|padi|sprout|kopi|flag|spanduk|grass|bamboo)/.test(p.sprite || ''))
+      this.tweens.add({ targets: img, angle: { from: -1.6, to: 1.6 }, yoyo: true, repeat: -1, duration: Phaser.Math.Between(1700, 2600), delay: Phaser.Math.Between(0, 1500), ease: 'Sine.inOut' });
     if (p.float) this.tweens.add({ targets: img, y: img.y - 3 * S, yoyo: true, repeat: -1, duration: 1600, ease: 'Sine.inOut' });
     if (p.spin) this.tweens.add({ targets: img, angle: 360, duration: p.spin, repeat: -1 });
     if (p.anim) img.play(p.anim);
@@ -452,6 +457,11 @@ class Movie extends Phaser.Scene {
     if (p.blink) this.tweens.add({ targets: img, alpha: 0.35, yoyo: true, repeat: -1, duration: p.blink });
     if (p.smoke) this.smokers.push({ obj: img, dx: p.smoke.dx || 0, dy: p.smoke.dy || 0, big: !!p.smoke.big, dark: !!p.smoke.dark, every: p.smoke.every || 220, t: 0, on: p.smoke.on !== false });
     if (p.id) this.actors[p.id] = { spr: img, sprite: p.sprite, name: p.id, prop: true };
+    if (this.life && /^(ayam|cat|chicken|kucing|bird)/.test(p.sprite || '')) {
+      const c = p.id ? this.actors[p.id] : { spr: img, sprite: p.sprite, prop: true };
+      c.critter = true; c.homeX = img.x; c.nextFidget = this.time.now + Phaser.Math.Between(800, 3000);
+      (this.critters = this.critters || []).push(c);
+    }
     if (p.id && p.tag) this.makeTag(this.actors[p.id], p.tag, p.tagColor);
     (this.props = this.props || []).push(img);
     return img;
@@ -499,8 +509,108 @@ class Movie extends Phaser.Scene {
     });
   }
 
+  // ---------- gerak "hidup" (napas, menoleh, melangkah kecil, burung lewat) ----------
+  calm(a) {
+    if (!a || a.prop) return;
+    a.look++;
+    if (a.fid) { a.fid.forEach(t => t.remove()); a.fid = null; }
+    if (a.ftw) {
+      if (a.ftw.some(t => t.isPlaying())) { a.spr.y = a.restY; a.spr.angle = 0; }
+      a.ftw.forEach(t => t.stop()); a.ftw = null;
+    }
+    if (a.spr.anims && a.spr.anims.isPlaying && a.spr.texture.key.startsWith(a.sprite + '_')) { a.spr.stop(); a.spr.setTexture(`${a.sprite}_0`); }
+  }
+
+  ftween(a, cfg) {
+    a.ftw = (a.ftw || []).filter(t => t.isPlaying());
+    const t = this.tweens.add(cfg); a.ftw.push(t); return t;
+  }
+
+  canFidget(a) {
+    const s = a.spr;
+    return s.active && s.visible && s.alpha > 0.95 && !a.busy && !this.tweens.isTweening(s);
+  }
+
+  fidget(a, now) {
+    const s = a.spr, S1 = S;
+    a.nextFidget = now + Phaser.Math.Between(1800, 4200);
+    if (!this.canFidget(a)) return;
+    a.restY = s.y;
+    if (a.critter) {   // ayam/kucing: mematuk atau melompat kecil, kadang pindah sedikit
+      const r = Math.random();
+      if (r < 0.45) this.ftween(a, { targets: s, angle: s.flipX ? -18 : 18, duration: 120, yoyo: true, repeat: 1 });
+      else if (r < 0.7) this.ftween(a, { targets: s, y: s.y - 2 * S1, duration: 130, yoyo: true });
+      else { const away = s.x - a.homeX; const dx = Math.abs(away) > 2 * S1 ? -away : Phaser.Math.Between(-5, 5) * S1; s.setFlipX(dx < 0); this.ftween(a, { targets: s, x: s.x + dx, duration: 400 }); }
+      return;
+    }
+    const idle = s.texture.key === `${a.sprite}_0`;
+    const r = Math.random();
+    if (r < 0.32 && idle) {          // melangkah kecil lalu kembali menghadap semula
+      const away = s.x - a.homeX;
+      const dx = Math.abs(away) > 2 * S1 ? -away : (Math.random() < 0.5 ? -1 : 1) * Phaser.Math.Between(3, 6) * S1;
+      const face = s.flipX, tok = ++a.look;
+      s.setFlipX(dx < 0); s.play(`${a.sprite}_walk`);
+      this.ftween(a, { targets: s, x: s.x + dx, duration: Math.abs(dx / S1) * 90, onComplete: () => {
+        if (a.look !== tok) return;
+        s.stop(); s.setTexture(`${a.sprite}_0`);
+        this.time.delayedCall(500, () => { if (a.look === tok) s.setFlipX(face); });
+      } });
+    } else if (r < 0.58) {           // menoleh sebentar
+      const face = s.flipX, tok = ++a.look;
+      s.setFlipX(!face);
+      this.time.delayedCall(Phaser.Math.Between(900, 1600), () => { if (a.look === tok && s.active) s.setFlipX(face); });
+    } else if (r < 0.82) {           // mengangguk / melompat kecil
+      this.ftween(a, { targets: s, y: s.y - 1.5 * S1, duration: 140, yoyo: true, repeat: Math.random() < 0.4 ? 1 : 0, ease: 'Quad.out' });
+    } else {                         // condong (seperti berbicara/berpikir)
+      this.ftween(a, { targets: s, angle: s.flipX ? -5 : 5, duration: 260, yoyo: true, hold: 500, ease: 'Sine.inOut' });
+    }
+  }
+
+  // tokoh yang namanya disebut narator melompat kecil
+  reactToName(st, ms) {
+    if (!this.life) return;
+    const spoken = (st.speak || st.caption || '').toLowerCase();
+    Object.values(this.actors).forEach(a => {
+      if (a.prop || !a.call || !this.canFidget(a)) return;
+      const i = spoken.indexOf(a.call);
+      if (i < 0) return;
+      const t = this.time.delayedCall(Math.min(ms * i / Math.max(1, spoken.length), ms - 400), () => {
+        if (!this.canFidget(a)) return;
+        a.restY = a.spr.y;
+        this.ftween(a, { targets: a.spr, y: a.spr.y - 3 * S, duration: 150, yoyo: true, repeat: 1, ease: 'Quad.out' });
+        a.nextFidget = this.time.now + 2500;
+      });
+      (a.fid = a.fid || []).push(t);
+    });
+  }
+
+  lifeTick(time) {
+    if (!this.life) return;
+    Object.values(this.actors).forEach(a => {
+      if (a.prop) return;
+      const s = a.spr;
+      if (s.active && s.visible && !a.busy && !this.tweens.isTweening(s)) {
+        s.scaleY = Math.abs(s.scaleX) * (1 + 0.035 * Math.sin(time / 520 + a.phase));   // bernapas
+        if (time >= a.nextFidget) this.fidget(a, time);
+      }
+    });
+    (this.critters || []).forEach(c => { if (c.spr.active && time >= c.nextFidget) this.fidget(c, time); });
+    if (this.lifeBirds && time >= this.nextBird) {
+      this.nextBird = time + Phaser.Math.Between(7000, 12000);
+      const n = Phaser.Math.Between(1, 3), y0 = Phaser.Math.Between(10, 34), rtl = Math.random() < 0.5;
+      for (let i = 0; i < n; i++) {
+        const sx = rtl ? (this.sceneW + 20 + i * 14) * S : (-20 - i * 14) * S;
+        const b = this.wobj(this.add.sprite(sx, (y0 + i * 5) * S, 'bird_0').setScale(S * 0.8).setDepth(3).setFlipX(rtl));
+        b.play('bird_fly');
+        this.tweens.add({ targets: b, x: rtl ? -30 * S : (this.sceneW + 30) * S, duration: 9000 + i * 500, delay: i * 250, onComplete: () => b.destroy() });
+        this.tweens.add({ targets: b, y: b.y - 4 * S, yoyo: true, repeat: -1, duration: 700, ease: 'Sine.inOut' });
+      }
+    }
+  }
+
   // ---------- loop per frame ----------
   update(time, delta) {
+    this.lifeTick(time);
     // kamera
     this.ctl.forEach(c => {
       const cam = c.cam, vp = c.vp;
@@ -551,7 +661,7 @@ class Movie extends Phaser.Scene {
     });
 
     // label di atas kepala (saldo / nama)
-    Object.values(this.actors).forEach(a => { if (a.tagText && a.tagText.active) a.tagText.setPosition(a.spr.x, a.spr.y - a.spr.displayHeight - 2 * S).setVisible(a.spr.visible); });
+    Object.values(this.actors).forEach(a => { if (a.tagText && a.tagText.active) a.tagText.setPosition(a.spr.x, a.spr.y - a.spr.height * Math.abs(a.spr.scaleX) - 2 * S).setVisible(a.spr.visible); });
 
     // jalur kapal
     for (const rt of Object.values(this.routes)) {
@@ -602,7 +712,8 @@ class Movie extends Phaser.Scene {
     const spr = this.wobj(this.add.sprite(a.x * S, (a.y ?? GROUND) * S, `${a.sprite}_0`).setOrigin(0.5, 1).setScale(S).setDepth(10));
     spr.setFlipX(a.face === 'left');
     if (a.hidden) spr.setVisible(false);
-    this.actors[a.id] = { spr, sprite: a.sprite, name: a.name || a.id };
+    this.actors[a.id] = { spr, sprite: a.sprite, name: a.name || a.id, homeX: spr.x, phase: Math.random() * 6.28,
+      nextFidget: this.time.now + Phaser.Math.Between(1200, 3500), look: 0, call: a.call || (a.tag ? a.tag.toLowerCase().split(' ').pop() : null) };
     if (a.tag) this.makeTag(this.actors[a.id], a.tag, a.tagColor);
     return this.actors[a.id];
   }
@@ -1033,12 +1144,15 @@ class Movie extends Phaser.Scene {
     const a = this.actor(st.move);
     const tx = st.to * S;
     if (Math.abs(tx - a.spr.x) < 1) return;
+    this.calm(a);
+    a.busy = true;
     a.spr.setVisible(true);
     a.spr.setFlipX(tx < a.spr.x);
     const dur = st.dur ?? (Math.abs(tx - a.spr.x) / S / (st.speed || 30)) * 1000;
     if (!a.prop) a.spr.play(`${a.sprite}_walk`);
     await this.tween({ targets: a.spr, x: tx, duration: dur });
     if (!a.prop) { a.spr.stop(); a.spr.setTexture(`${a.sprite}_0`); }
+    a.busy = false; a.homeX = a.spr.x; a.nextFidget = this.time.now + 1500;
   }
 
   async enter(st) {
@@ -1056,6 +1170,7 @@ class Movie extends Phaser.Scene {
 
   async jump(st) {
     const a = this.actor(st.jump);
+    this.calm(a);
     for (let i = 0; i < (st.times || 1); i++) {
       await this.tween({ targets: a.spr, y: a.spr.y - (st.height || 10) * S, duration: 180, yoyo: true, ease: 'Quad.out' });
     }
@@ -1094,6 +1209,7 @@ class Movie extends Phaser.Scene {
       const vo = this.playVO(st);
       const hold = vo ? vo + 320 : this.holdTime(st.caption, st);
       this.scheduleCues(st, vo || hold, run ?? this.run);
+      this.reactToName(st, vo || hold);
       if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.1, duration: hold + 300, ease: 'Sine.easeInOut' }));
       await this.wait(hold);
       if (!st.keepKw) this.showKw(null);
