@@ -329,7 +329,7 @@ const STORY = {
           transition: 'clouds',
           sky: 'day', split: true, focus: 'both',
           tags: ['INDONESIA A', 'INDONESIA B'], tagColors: [GREEN, RED],
-          camera: { x: VERT ? 98 : 86, y: 86, zoom: 2.4 }, cameraB: { x: R(VERT ? 98 : 86), y: 86, zoom: 2.4 },
+          camera: { x: VERT ? 92 : 86, y: 86, zoom: VERT ? 1.6 : 2.4 }, cameraB: { x: R(VERT ? 92 : 86), y: 86, zoom: VERT ? 1.6 : 2.4 },
           clock: 'TAHUN 1',
           note: 'Simulasi · disederhanakan',
           props: [...sawahDekat(0, 'A'), ...sawahDekat(192, 'B', false, [
