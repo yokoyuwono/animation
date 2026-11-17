@@ -250,6 +250,7 @@ class Movie extends Phaser.Scene {
     if ('glow' in st) return this.glow(st);
     if ('move' in st) return this.move(st);
     if ('work' in st) return this.work(st);
+    if ('score' in st) return this.scoreboard(st);
     if ('dialog' in st) return this.dialog(st, run);
     if ('crowd' in st) return this.crowd(st);
     if ('swapAll' in st) return this.swapAll(st);
@@ -668,6 +669,39 @@ class Movie extends Phaser.Scene {
       }
       if (w.ground === 'dry') this.puff(gx, gy - S, { dir: -dir, depth: a.spr.depth + 0.2 });
     });
+  }
+
+  // ---------- papan skor A vs B yang bertambah tiap bab ----------
+  // { score: [['Bencana', 'B'], ['Beras', 'A']], head, dur }  -> baris terakhir = skor baru
+  async scoreboard(st) {
+    const GW = this.GW, V = this.V, rows = st.score;
+    const fs = V ? 20 : 18, rowH = fs + 18, w = V ? GW - 120 : 460;
+    const h = 64 + rows.length * rowH + 14, x = (GW - w) / 2, y = V ? this.GH * 0.2 : 70;
+    const parts = [];
+    parts.push(this.uobj(this.add.rectangle(x, y, w, h, INK, 0.94).setOrigin(0).setDepth(175).setStrokeStyle(5, 0xffcd75)));
+    parts.push(this.uobj(this.add.text(x + 24, y + 26, st.head || 'PAPAN SKOR', { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffcd75' }).setOrigin(0, 0.5).setDepth(176)));
+    const winA = rows.filter(r => r[1] === 'A').length, winB = rows.length - winA;
+    parts.push(this.uobj(this.add.text(x + w - 18, y + 26, `A ${winA} : ${winB} B`, { fontFamily: FONT, fontSize: `${fs - 4}px`, color: '#ffffff' }).setOrigin(1, 0.5).setDepth(176)));
+    const last = [];
+    rows.forEach(([name, win], i) => {
+      const ry = y + 64 + i * rowH + rowH / 2;
+      const t = this.uobj(this.add.text(x + 24, ry, name.toUpperCase(), { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffffff' }).setOrigin(0, 0.5).setDepth(176));
+      const b = this.uobj(this.add.text(x + w - 30, ry, win, { fontFamily: FONT, fontSize: `${fs + 4}px`, color: '#1a1c2c', backgroundColor: win === 'A' ? '#a7f070' : '#ff77a8', padding: { x: 8, y: 5 } }).setOrigin(1, 0.5).setDepth(177));
+      parts.push(t, b);
+      if (i === rows.length - 1) last.push(t, b);
+    });
+    this.extras.push(...parts);
+    parts.forEach(o => o.setAlpha(0));
+    await this.tween({ targets: parts.filter(o => !last.includes(o)), alpha: 1, duration: 200 });
+    await this.wait(250);
+    this.sfx('success', 0.7);
+    last.forEach(o => o.setAlpha(1));
+    last[1].setScale(2.2);
+    await this.tween({ targets: last[1], scale: 1, duration: 260, ease: 'Back.out' });
+    await this.wait(st.dur ?? 1600);
+    if (st.keep) return;
+    await this.tween({ targets: parts, alpha: 0, duration: 200 });
+    parts.forEach(o => o.destroy());
   }
 
   // ---------- kotak dialog berfoto (tokoh "berbicara", teks saja) ----------

@@ -62,7 +62,13 @@ const SP = {
  "g-54": "Jadi, gunung berapi itu apa?",
  "g-55": "Tetangga yang galak, tapi dermawan.",
  "g-56": "Kadang mengambil. Tapi jauh lebih sering memberi.",
- "g-57": "Kamu pilih tinggal di Indonesia A, atau Be? Tulis di kolom komentar."
+ "g-57": "Kamu pilih tinggal di Indonesia A, atau Be? Tulis di kolom komentar.",
+ "g-58": "Kalau tetangga galak ini tidur selamanya, apa yang berubah?",
+ "g-59": "Tapi coba kita kembali ke sawah Mbah Karto.",
+ "g-60": "Bukan cuma piring. Lampu di rumah Mbah Karto juga dari gunung.",
+ "g-61": "Gunung juga memberi rezeki untuk cucu Mbah Karto.",
+ "g-62": "Tapi semua itu baru permukaannya. Mari lihat ke bawah tanah.",
+ "g-63": "Untungnya, di dunia nyata, gunung itu masih ada."
 };
 
 const VERT = typeof location !== 'undefined' && location.hash.split('--')[1] === 'v';
@@ -256,6 +262,7 @@ const STORY = {
         actors: [{ id: 'wB', sprite: 'warga', x: R(70), y: 84, scale: 0.7 }],
         walkers: { n: [16, 12] },
         steps: [
+          C('g-58', 'Kalau tetangga galak ini tidur selamanya, apa yang berubah?', { cues: [{ at: 'tidur', kw: 'TIDUR *SELAMANYA?*' }, { at: 'berubah', focus: 'both' }] }),
           C('g-15', 'Mulai dari kabar baiknya.', { cues: [{ at: 0, kw: 'KABAR *BAIKNYA*' }] }),
           C('g-16', 'Di Indonesia B, tidak ada lagi sirene evakuasi.', { cues: [
             { at: 0, focus: 'left' },
@@ -289,6 +296,7 @@ const STORY = {
             { at: 'bencana', chart: 'RISIKO BENCANA GUNUNG API', bars: [['Indonesia A', 90, '#e43b44'], ['Indonesia B', 2, GREEN]], max: 100, suffix: '', place: 'right', y: 0.1, dur: 0 },
             { at: 'menang telak', kw: 'B *MENANG TELAK*' },
           ] }),
+          { together: [{ clear: true }, { score: [['Bencana', 'B']], dur: 1500 }] },
           { clear: true },
         ],
       }],
@@ -309,6 +317,8 @@ const STORY = {
           walkers: { n: [10, 10] },
           steps: [
             { together: [{ work: 'kartoA' }, { work: 'kartoB' }] },
+            { together: [{ camera: { x: 84, y: 50, zoom: 1.5 }, dur: 10 }] },
+            C('g-59', 'Tapi coba kita kembali ke sawah Mbah Karto.', { cues: [{ at: 'kembali', kw: 'KEMBALI KE *SAWAH*' }, { at: 'sawah', emote: 'kartoA', icon: 'note', dur: 1000 }] }),
             C('g-23', 'Tapi ada yang pelan-pelan hilang: kesuburan tanah.', { cues: [{ at: 'pelan-pelan', kw: 'PELAN-PELAN *HILANG*' }, { at: 'kesuburan', kw: '*KESUBURAN* TANAH' }] }),
             C('g-24', 'Abu gunung itu seperti pupuk alami yang turun dari langit.', { cues: [
               { at: 0, focus: 'left' }, { at: 'abu', tint: 0.22, color: '#c2c3c7', side: 'left', dur: 600 },
@@ -367,6 +377,7 @@ const STORY = {
             { clear: true },
             { together: [{ focus: 'both' }, { wait: 100 }] },
             C('g-31', 'Gunung yang galak itu ternyata ikut mengisi piring kita.', { punch: true, cues: [{ at: 'galak', kw: 'GUNUNG YANG *GALAK*...' }, { at: 'mengisi', kw: '...IKUT *MENGISI PIRING* KITA', keepKw: true }] }),
+            { together: [{ clear: true }, { score: [['Bencana', 'B'], ['Beras', 'A']], dur: 1500 }] },
           ],
         },
       ],
@@ -376,6 +387,22 @@ const STORY = {
       id: 'bab-5',
       title: 'Listrik dari perut bumi',
       scenes: [{
+        transition: 'clouds',
+        sky: 'map', map: DESA,
+        camera: { x: VERT ? 70 : 84, y: 44, zoom: 1.7 },
+        props: desa(0, 'A', { extra: [{ id: 'pltpM', sprite: 'pltp', x: 108, y: 66, scale: 0.6, depth: 4.4, hidden: true, smoke: { dx: -6, dy: -18, every: 320 } }] }),
+        actors: [KARTO_MAP(0)],
+        walkers: { n: 14 },
+        steps: [
+          { work: 'karto' },
+          C('g-60', 'Bukan cuma piring. Lampu di rumah Mbah Karto juga dari gunung.', { cues: [
+            { at: 'piring', kw: 'BUKAN CUMA *PIRING*' },
+            { at: 'lampu', camera: { x: VERT ? 72 : 80, y: 30, zoom: 2.2 }, dur: 600 }, { at: 'lampu', label: 'RUMAH MBAH KARTO', x: 66, y: 6, bg: KARTO, size: 12, dur: 0 },
+            { at: 'dari gunung', pop: 'pltpM' }, { at: 'dari gunung', kw: 'LISTRIK *DARI GUNUNG*' }, { at: 'gunung', label: 'PANAS BUMI', x: 108, y: 48, bg: '#ef7d57', size: 12, dur: 0 },
+          ] }),
+          { clear: true },
+        ],
+      }, {
         transition: 'clouds',
         sky: 'day', split: true, focus: 'both',
         tags: ['INDONESIA A', 'INDONESIA B'], tagColors: [GREEN, RED],
@@ -410,6 +437,7 @@ const STORY = {
           { clear: true },
           { together: [{ focus: 'both' }, { wait: 100 }] },
           C('g-39', 'Kehilangan gunung api berarti kehilangan listrik bersih.', { punch: true, cues: [{ at: 'kehilangan listrik', kw: 'KEHILANGAN *LISTRIK BERSIH*', keepKw: true }] }),
+          { together: [{ clear: true }, { score: [['Bencana', 'B'], ['Beras', 'A'], ['Listrik', 'A']], dur: 1500 }] },
         ],
       }],
     },
@@ -428,6 +456,7 @@ const STORY = {
           actors: [{ id: 'larasA', sprite: 'laras', x: 69, y: 86, scale: 0.75, tag: 'LARAS', tagColor: GREEN }, { id: 'larasB', sprite: 'laras', x: R(69), y: 86, scale: 0.75, tag: 'LARAS', tagColor: GREEN }],
           walkers: { n: [18, 18], sprites: ['warga', 'warga2', 'girl', 'boy', 'kid'] },
           steps: [
+            C('g-61', 'Gunung juga memberi rezeki untuk cucu Mbah Karto.', { cues: [{ at: 'rezeki', kw: 'GUNUNG = *REZEKI*' }, { at: 'cucu', emote: 'larasA', icon: 'heart', dur: 1000 }] }),
             C('g-40', 'Kenalin Laras, cucu Mbah Karto. Ia pemandu wisata.', { cues: [
               { at: 'laras', kw: '*LARAS*, PEMANDU WISATA' }, { at: 'laras', glow: 'larasA', times: 2 },
               { at: 'pemandu', crowd: 'goto', side: 'left', x: 69, y: 84, spread: 12, frac: 0.5 },
@@ -476,6 +505,7 @@ const STORY = {
             ] }),
             { together: [{ focus: 'both' }, { wait: 100 }] },
             C('g-46', 'Ternyata gunung api juga lapangan kerja.', { punch: true, cues: [{ at: 'lapangan kerja', kw: 'GUNUNG API = *LAPANGAN KERJA*', keepKw: true }] }),
+            { together: [{ clear: true }, { score: [['Bencana', 'B'], ['Beras', 'A'], ['Listrik', 'A'], ['Wisata', 'A']], dur: 1500 }] },
           ],
         },
       ],
@@ -486,7 +516,21 @@ const STORY = {
       id: 'bab-7',
       title: 'Indonesia mungkin tidak ada',
       scenes: [{
-        transition: 'cut',
+        transition: 'clouds',
+        sky: 'map', map: DESA,
+        camera: { x: VERT ? 140 : 110, y: 50, zoom: 1.2 },
+        props: desa(0, 'A'),
+        actors: [KARTO_MAP(0)],
+        walkers: { n: 14 },
+        steps: [
+          { work: 'karto' },
+          C('g-62', 'Tapi semua itu baru permukaannya. Mari lihat ke bawah tanah.', { cues: [
+            { at: 'permukaannya', kw: 'BARU *PERMUKAANNYA*' },
+            { at: 'mari lihat', camera: { x: 152, y: 30, zoom: 4 }, dur: 1800, ease: 'Quad.easeIn' }, { at: 'bawah tanah', kw: 'KE *BAWAH TANAH*' },
+          ] }),
+        ],
+      }, {
+        transition: 'zoom',
         sky: 'deep', fit: 'width',
         camera: { x: 100, y: 74, zoom: VERT ? 1.7 : 1.3 },
         note: 'Penjelasan geologi disederhanakan',
@@ -530,6 +574,7 @@ const STORY = {
           actors: [{ id: 'karto', sprite: 'grandpa', x: 98, y: 102, tag: 'MBAH KARTO', tagColor: KARTO }, { id: 'laras', sprite: 'laras', x: 76, y: 102, tag: 'LARAS', tagColor: GREEN }],
           steps: [
             { work: 'karto' },
+            C('g-63', 'Untungnya, di dunia nyata, gunung itu masih ada.', { cues: [{ at: 'untungnya', kw: '*UNTUNGNYA*...' }, { at: 'masih ada', kw: 'GUNUNGNYA *MASIH ADA*' }, { at: 'masih ada', emote: 'karto', icon: 'heart', dur: 1000 }] }),
             C('g-54', 'Jadi, gunung berapi itu apa?', { cues: [{ at: 0, kw: 'GUNUNG API *ITU APA?*' }] }),
             C('g-55', 'Tetangga yang galak, tapi dermawan.', { punch: true, cues: [
               { at: 'galak', kw: '*GALAK*...' }, { at: 'dermawan', kw: 'TAPI *DERMAWAN*', keepKw: true },
@@ -548,7 +593,7 @@ const STORY = {
             { work: 'karto' },
             { together: [
               { camera: { x: VERT ? 100 : 96, y: 54, zoom: 1 }, dur: 3500, ease: 'Sine.easeInOut' },
-              { card: 'Papan skor', items: ['Bencana : B', 'Beras   : A', 'Listrik : A', 'Wisata  : A'], x: 96, y: 30, stagger: 500, dur: 0 },
+              { score: [['Bencana', 'B'], ['Beras', 'A'], ['Listrik', 'A'], ['Wisata', 'A']], head: 'SKOR AKHIR', dur: 2400 },
               C('g-56', 'Kadang mengambil. Tapi jauh lebih sering memberi.', { cues: [{ at: 'mengambil', kw: 'KADANG *MENGAMBIL*' }, { at: 'memberi', kw: 'LEBIH SERING *MEMBERI*' }] }),
             ] },
             { clear: true },

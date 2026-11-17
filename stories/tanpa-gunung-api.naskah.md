@@ -1,4 +1,4 @@
-# Naskah — Andaikan Indonesia Tanpa Gunung Berapi (draf 1)
+# Naskah — Andaikan Indonesia Tanpa Gunung Berapi (draf 2: + kalimat jembatan antar-bab, papan skor berjalan)
 
 > Teks = yang diucapkan narator (Fikri). **[Layar]** = kata kunci/visual singkat. *(ilustrasi)* = contoh/simulasi, bukan data.
 > Perkiraan durasi: ±4½ menit (57 kalimat). Sudah termasuk dampak ke warga kota (nasi bungkus & tagihan listrik).
@@ -22,6 +22,7 @@
 14. Jadi gunung api bukan sekadar pemandangan. Ia tetangga kita. *(punchline)*
 
 ## Bab 3 — Hidup tanpa letusan
+58. *(jembatan)* Kalau tetangga galak ini tidur selamanya, apa yang berubah?
 15. Mulai dari kabar baiknya.
 16. Di Indonesia B, tidak ada lagi sirene evakuasi. **[TANPA *EVAKUASI*]**
 17. Tidak ada hujan abu. Bandara tidak perlu tutup.
@@ -32,6 +33,7 @@
 22. Untuk urusan bencana, Indonesia B menang telak. *(punchline)* **[Skor bencana: B menang]**
 
 ## Bab 4 — Sawah, beras, nasi bungkus
+59. *(jembatan)* Tapi coba kita kembali ke sawah Mbah Karto.
 23. Tapi ada yang pelan-pelan hilang: kesuburan tanah.
 24. Abu gunung itu seperti pupuk alami yang turun dari langit. **[ABU = *PUPUK ALAMI*]**
 25. Itu salah satu alasan Jawa jadi lumbung padi.
@@ -43,6 +45,7 @@
 31. Gunung yang galak itu ternyata ikut mengisi piring kita. *(punchline)*
 
 ## Bab 5 — Listrik dari perut bumi
+60. *(jembatan)* Bukan cuma piring. Lampu di rumah Mbah Karto juga dari gunung.
 32. Sekarang listrik. Kenalin Pak Ojan, teknisi pembangkit panas bumi.
 33. Panas dari perut bumi bisa memutar turbin listrik.
 34. Potensi panas bumi kita sekitar 24 gigawatt. **[*±24 GW* POTENSI]**
@@ -53,6 +56,7 @@
 39. Kehilangan gunung api berarti kehilangan listrik bersih. *(punchline)*
 
 ## Bab 6 — Wisata & kopi
+61. *(jembatan)* Gunung juga memberi rezeki untuk cucu Mbah Karto.
 40. Kenalin Laras, cucu Mbah Karto. Ia pemandu wisata.
 41. Matahari terbit di Bromo. Api biru Kawah Ijen. Danau Toba. **[BROMO · IJEN · TOBA]**
 42. Danau Toba sendiri adalah sisa letusan raksasa puluhan ribu tahun lalu.
@@ -62,6 +66,7 @@
 46. Ternyata gunung api juga lapangan kerja. *(punchline)*
 
 ## Bab 7 — Twist: Indonesia mungkin tidak ada
+62. *(jembatan)* Tapi semua itu baru permukaannya. Mari lihat ke bawah tanah.
 47. Sekarang, twist terbesarnya.
 48. Gunung api muncul karena lempeng bumi saling bertabrakan. **[LEMPENG *BERTABRAKAN*]**
 49. Lempeng samudra menyusup ke bawah, meleleh, lalu naik jadi magma. **[Animasi lempeng *(disederhanakan)*]**
@@ -71,6 +76,7 @@
 53. Tanpa gunung api, mungkin tidak ada Indonesia seperti yang kita kenal. *(punchline)*
 
 ## Bab 8 — Punchline
+63. *(jembatan)* Untungnya, di dunia nyata, gunung itu masih ada.
 54. Jadi, gunung berapi itu apa?
 55. Tetangga yang galak, tapi dermawan. **[GALAK, TAPI *DERMAWAN*]**
 56. Kadang mengambil. Tapi jauh lebih sering memberi.
