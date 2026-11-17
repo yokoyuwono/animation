@@ -313,6 +313,92 @@ Object.assign(CHARACTERS, {
   tini: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#f4f4f4', R: '#f4f4f4', B: '#566c86' } },   // juru masak: jilbab & celemek putih
 });
 
+// ---------- Gunung api & alam (seri Andaikan: tanpa gunung berapi) ----------
+function makeGunung(aktif, w = 52, h = 32) {
+  const g = Array.from({ length: h }, () => Array(w).fill('.'));
+  const cx = (w - 1) / 2;
+  for (let y = 0; y < h; y++) {
+    const hw = 5 + y * ((w / 2 - 5) / (h - 1));
+    for (let x = 0; x < w; x++) {
+      const d = Math.abs(x - cx);
+      if (d > hw) continue;
+      let c = y < h * 0.55 ? ((x + y) % 5 === 0 ? 'T' : 't') : ((x * 3 + y) % 7 === 0 ? 'g' : 'G');
+      if (!aktif) c = y < h * 0.4 ? ((x + y) % 5 === 0 ? 'a' : 'e') : ((x * 3 + y) % 7 === 0 ? 'g' : 'G');
+      if (y < 3 && d < 4) c = aktif ? (y === 0 ? 'Y' : (d < 2 ? 'O' : 'x')) : 'd';
+      if (d > hw - 1 || y === 0) c = (y < 3 && d < 4) ? c : 'K';
+      g[y][x] = c;
+    }
+  }
+  if (aktif) for (let y = 3; y < 10; y++) { const x = Math.round(cx + Math.sin(y) * 2); if (g[y][x] !== '.') g[y][x] = 'x'; }   // aliran lava
+  return g.map(r => r.join(''));
+}
+function makePadi(subur, w = 18, h = 10) {
+  const g = Array.from({ length: h }, () => Array(w).fill('.'));
+  for (let x = 1; x < w; x += subur ? 2 : 3) {
+    const top = subur ? (x % 4 ? 1 : 0) : 4 + (x % 2);
+    for (let y = top; y < h - 2; y++) g[y][x] = y === top ? (subur ? 'Y' : 's') : (subur ? 'G' : 'Y');
+  }
+  for (let x = 0; x < w; x++) { g[h - 2][x] = 'c'; g[h - 1][x] = 't'; }     // air sawah & pematang
+  return g.map(r => r.join(''));
+}
+function makeLempeng(w, h, c1, c2) {
+  return Array.from({ length: h }, (_, y) => Array.from({ length: w }, (_, x) => (y === 0 || y === h - 1) ? 'K' : ((x + y * 3) % 9 === 0 ? c2 : c1)).join(''));
+}
+Object.assign(POLITIK_PROPS, {
+  gunung_api: makeGunung(true),
+  gunung_padam: makeGunung(false),
+  padi_subur: makePadi(true),
+  padi_kurus: makePadi(false),
+  pltp: [
+    '..........KKKK...........',
+    '.........KwwwwK..........',
+    '........KwwwwwwK.........',
+    '........KawwwwaK.........',
+    '.......KawwwwwwaK........',
+    '.......KaawwwwaaK...KKKK.',
+    'KKKKKKKKKKKKKKKKKKKKKeeK.',
+    'KwwwwwwwwwwwwwwwwwwwKeeK.',
+    'KwKnnKwKnnKwKnnKwwwwKeeK.',
+    'KwKnnKwKnnKwKnnKwwwwKeeKK',
+    'KwwwwwwwwwwwwwwwwwwwKeeee',
+    'KwwwwwwwwwKTTKwwwwwwKeeee',
+    'KwwwwwwwwwKTTKwwwwwwKKKKK',
+    'KKKKKKKKKKKKKKKKKKKKK....',
+  ],
+  tenda: [
+    '......KK......',
+    '.....KccK.....',
+    '....KcccbK....',
+    '...KcccccbK...',
+    '..KccccKccbK..',
+    '.KcccccKcccbK.',
+    'KcccccKKKccccK',
+    'KKKKKKKKKKKKKK',
+  ],
+  api_biru: ['...m....', '..mcm...', '.mccm.m.', '.mcbcmcm', 'mcbbbccm', 'mcbWbbcm', '.mcbbcm.', '..KKKK..'],
+  danau: Array.from({ length: 8 }, (_, y) => Array.from({ length: 44 }, (_, x) => {
+    const e = Math.abs(x - 21.5) / 22 + Math.abs(y - 3.5) / 5;
+    return e > 1 ? '.' : e > 0.85 ? 'G' : ((x * 7 + y * 3) % 11 === 0 ? 'W' : (y < 4 ? 'c' : 'b'));
+  }).join('')),
+  kopi: ['...GG...', '..GGGG..', '.GxGGxG.', 'GGGxGGGG', '.GxGGxG.', '..GGGG..', '...TT...', '...TT...', '..KKKK..'],
+  nasi_bungkus: ['..KKKKKK..', '.KssssssK.', 'KssKssKssK', 'KsssKKsssK', 'KssssssssK', '.KKKKKKKK.'],
+  lempeng_samudra: makeLempeng(110, 8, 'n', 'b'),
+  lempeng_benua: makeLempeng(90, 12, 'T', 't'),
+  magma: ['..xxxx..', '.xOOOOx.', 'xOYYYOOx', 'xOYYYYOx', 'xOOYYOOx', '.xOOOOx.', '..xxxx..'],
+  pulau: [
+    '..........GG..............',
+    '.........GGGG....GG.......',
+    '......GGGGGGGGGGGGGGGG....',
+    '....GGGGGgGGGGGGGGgGGGGG..',
+    '..ssGGGGGGGGGGGGGGGGGGGGss',
+    'sssssssssssssssssssssssss.',
+  ],
+});
+Object.assign(CHARACTERS, {
+  laras: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#1a1c2c', R: '#38b764', B: '#333c57' } },   // pemandu wisata
+  ojan:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#ffcd75', R: '#ef7d57', B: '#29366f' } },   // helm kuning, rompi oranye
+});
+
 for (let i = 1; i <= 6; i++) POLITIK_PROPS[`berkas_${i}`] = makeBerkas(i * 2);
 ['x', 'b', 'Y', 'G', 'v', 'O'].forEach((c, i) => { POLITIK_PROPS[`bidak_${i}`] = BIDAK.map(r => r.replace(/C/g, c)); });
 
