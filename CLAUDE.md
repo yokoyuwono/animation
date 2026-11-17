@@ -48,8 +48,10 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 6. Cek: `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
 7. Render semua untuk satu topik: `tools/produce.sh <nama>` (long 16:9+9:16, semua short, thumbnail jika ada
    `tools/thumbnail-<nama>.html`). Per bagian: `tools/render.sh <nama> long|shorts|<bab-id>`.
-8. Thumbnail: sesuaikan `tools/thumbnail-<topik>.html`, lalu `node tools/thumbnail.js tools/thumbnail-<topik>.html a renders/thumbnail_<nama>.png`.
-9. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
+8. Caption & hashtag: tulis `stories/<nama>.publish.md` (judul, deskripsi + bab, tag, caption per short,
+   hashtag YouTube/TikTok/Reels). `produce.sh` menyalinnya dan membuat `renders/<nama>_paket.zip` siap unggah.
+9. Thumbnail: sesuaikan `tools/thumbnail-<topik>.html`, lalu `node tools/thumbnail.js tools/thumbnail-<topik>.html a renders/thumbnail_<nama>.png`.
+10. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
    dengan file yang berubah (index.html, src/, stories/, audio/).
 
 ## Musik & efek suara
