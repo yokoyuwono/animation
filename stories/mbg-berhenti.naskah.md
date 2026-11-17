@@ -1,4 +1,4 @@
-# Naskah — Andaikan MBG Berhenti Besok (draf 1)
+# Naskah — Andaikan MBG Berhenti Besok (draf 2: + kalimat jembatan, peta desa, papan skor)
 
 > Teks = yang diucapkan narator (Fikri). **[Layar]** = kata kunci/visual singkat. Angka bertanda *(ilustrasi)* adalah contoh hitungan, bukan data.
 > Perkiraan durasi: ±5 menit (57 kalimat).
@@ -13,6 +13,7 @@
 7. Kita bandingkan dua desa. Desa A, dapur MBG tetap jalan. Desa B, dapurnya berhenti besok. **[A: *JALAN* · B: *BERHENTI*]**
 
 ## Bab 2 — Seberapa besar MBG?
+57. *(jembatan)* Dari satu desa ini, kita lihat dulu gambaran besarnya.
 8. Pertama, seberapa besar sebenarnya MBG?
 9. Penerimanya lebih dari 58 juta orang. Sekitar seperlima penduduk Indonesia. **[*58 JUTA* PENERIMA]**
 10. Dapurnya sekitar 26 ribu. **[*26 RIBU* DAPUR]**
@@ -22,6 +23,7 @@
 14. Jadi kalau berhenti, yang kena bukan cuma piring. *(punchline)*
 
 ## Bab 3 — Sari, murid kelas 4
+58. *(jembatan)* Kembali ke desa. Mulai dari piring yang paling kecil.
 15. Kenalin Sari, kelas empat SD.
 16. Di desa A, jam istirahat ada nasi, telur, dan sayur.
 17. Di desa B, besok semua itu tidak ada lagi. **[PIRING *KOSONG*]**
@@ -31,6 +33,7 @@
 21. Perut kosong, susah fokus. Pelajaran jam ketiga lewat begitu saja. *(punchline)*
 
 ## Bab 4 — Bu Tini, juru masak dapur
+59. *(jembatan)* Yang memasak piring Sari? Ibunya sendiri.
 22. Ini Bu Tini, juru masak di dapur MBG.
 23. Satu dapur rata-rata mempekerjakan sekitar 47 orang. **[*47 ORANG*/DAPUR]**
 24. Di desa B, dapurnya tutup. Honornya berhenti hari itu juga. **[Stempel: TUTUP]**
@@ -39,6 +42,7 @@
 27. Ini bukan andai-andai. Mitra dapur yang ditangguhkan sudah mengadu ke DPR karena terlilit utang. *(punchline)*
 
 ## Bab 5 — Harga & pasokan bahan baku
+60. *(jembatan)* Bahan masakan Bu Tini dibeli dari desa sendiri.
 28. Sekarang, dampak yang paling aneh: harga.
 29. Ini pernah terjadi. Juli 2026, sekolah libur, dapur MBG berhenti sementara. **[JULI 2026: *LIBUR*]**
 30. Harga ayam di peternak anjlok ke 14 ribu per kilo. Stok kebanyakan. **[AYAM *Rp14 RB*/KG]**
@@ -52,6 +56,7 @@
 38. MBG itu seperti pembeli raksasa. Datang, harga naik. Pergi, harga jatuh. *(punchline)*
 
 ## Bab 6 — Kasus keracunan
+61. *(jembatan)* Tapi dapur yang sama juga menyimpan masalah.
 39. Lalu kenapa ada yang ingin MBG berhenti?
 40. Alasan terbesarnya: kasus keracunan. **[*KERACUNAN*]**
 41. Data BGN: 5.482 korban, dalam 71 kejadian. **[Kartu: BGN · 5.482 korban · 71 kejadian]**
@@ -62,6 +67,7 @@
 46. Di desa B, risikonya hilang. Tapi manfaatnya ikut hilang. *(punchline)*
 
 ## Bab 7 — Sisi anggaran
+62. *(jembatan)* Semua cerita desa ini akhirnya bermuara ke satu hal.
 47. Terakhir, soal uang.
 48. Kalau MBG berhenti, negara hemat sekitar 600 miliar rupiah per hari. **[HEMAT *Rp600 M*/HARI]**
 49. Kedengarannya besar. Tapi ada biaya yang tidak tercatat di APBN.
@@ -70,6 +76,7 @@
 52. Hemat di satu kolom, bisa jadi tagihan di kolom lain. *(punchline)*
 
 ## Bab 8 — Punchline
+63. *(jembatan)* Kembali ke piring Sari.
 53. Jadi, apa jawabannya?
 54. MBG tidak bisa dimatikan seperti saklar lampu. **[Saklar lampu]**
 55. Masalahnya bukan lanjut atau stop. Tapi aman, atau asal jalan. **[*AMAN* ATAU *ASAL JALAN*?]**

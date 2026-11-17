@@ -90,6 +90,43 @@ function buildMapTextures(scene) {
     pxEllipse(px, 30, 25, 26, 4, '#dfe6ee');
   });
 
+  // ---------- bangunan desa (¾) untuk peta MBG ----------
+  const gedung = (key, w, h, roof, wall, extra) => mapCanvas(scene, key, w, h, (ctx, px) => {
+    const rh = Math.round(h * 0.45);
+    px(1, h - 1, 'rgba(0,0,0,0.25)', w - 1, 1);
+    for (let y = 0; y < rh; y++) { const ins = Math.max(0, Math.round((rh - 1 - y) * 0.6)); px(ins, y, roof, w - ins * 2, 1); }
+    px(0, rh - 1, '#1a1c2c', w, 1); px(2, 1, 'rgba(255,255,255,0.18)', Math.round(w / 3), 1);
+    px(1, rh, wall, w - 2, h - rh - 1); px(1, rh, 'rgba(0,0,0,0.12)', w - 2, 1);
+    extra(px, rh);
+  });
+  gedung('sekolah_top', 42, 22, '#b13e53', '#f4e4c1', (px, rh) => {
+    for (let x = 4; x < 38; x += 6) if (x < 18 || x > 23) px(x, rh + 3, '#41a6f6', 3, 3);
+    px(19, rh + 4, '#5d3a1a', 4, 22 - rh - 5);
+    px(40, 0, '#c2c3c7', 1, 10); px(37, 0, '#e43b44', 3, 2); px(37, 2, '#f4f4f4', 3, 2);    // tiang bendera
+  });
+  ['on', 'off'].forEach(st => gedung(`dapur_top_${st}`, 28, 18, st === 'on' ? '#ef7d57' : '#6f6f70', st === 'on' ? '#f4f4f4' : '#a8a8a8', (px, rh) => {
+    px(20, 0, '#5d3a1a', 3, rh);                                         // cerobong
+    px(4, rh + 3, st === 'on' ? '#ffcd75' : '#565c6e', 4, 3); px(20, rh + 3, st === 'on' ? '#ffcd75' : '#565c6e', 4, 3);
+    px(11, rh + 3, '#5d3a1a', 6, 18 - rh - 4);
+    if (st === 'off') { for (let i = 0; i < 6; i++) { px(11 + i, rh + 3 + i, '#e43b44'); px(16 - i, rh + 3 + i, '#e43b44'); } }
+  }));
+  mapCanvas(scene, 'kandang_top', 30, 16, (ctx, px) => {
+    px(1, 15, 'rgba(0,0,0,0.25)', 29, 1);
+    px(0, 4, '#8b5a2b', 30, 1); px(0, 14, '#8b5a2b', 30, 1); for (let x = 0; x < 30; x += 3) px(x, 4, '#5d3a1a', 1, 11);   // pagar
+    px(1, 5, '#c9b07a', 28, 9);
+    px(2, 0, '#7a5a3a', 12, 5); px(2, 0, '#1a1c2c', 12, 1);                                          // kandang kecil
+    [[17, 7], [21, 10], [25, 6], [8, 10], [14, 12], [24, 12]].forEach(([x, y]) => { px(x, y, '#f4f4f4', 2, 2); px(x + 1, y - 1, '#e43b44'); });
+  });
+  mapCanvas(scene, 'pasar_top', 36, 18, (ctx, px) => {
+    px(1, 17, 'rgba(0,0,0,0.25)', 35, 1);
+    [0, 12, 24].forEach((x, i) => {
+      const c = ['#e43b44', '#41a6f6', '#38b764'][i];
+      for (let k = 0; k < 11; k += 2) px(x + k, 0, c, 1, 6), px(x + k + 1, 0, '#f4f4f4', 1, 6);
+      px(x, 6, '#1a1c2c', 11, 1); px(x + 1, 7, '#8b5a2b', 9, 8);
+      px(x + 2, 8, ['#ffcd75', '#f4f4f4', '#38b764'][i], 7, 3); px(x + 3, 11, '#ef7d57', 5, 2);
+    });
+  });
+
   mapCanvas(scene, 'karung_pupuk', 10, 12, (ctx, px) => {
     px(1, 11, 'rgba(0,0,0,0.3)', 9, 1); px(2, 0, '#1a1c2c', 6, 1); px(1, 1, '#1a1c2c', 8, 11); px(2, 1, '#f4f4f4', 6, 10); px(2, 1, '#c2c3c7', 6, 1);
     px(3, 4, '#38b764', 4, 3); px(4, 5, '#f4f4f4', 2, 1);

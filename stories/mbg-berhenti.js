@@ -35,6 +35,56 @@ function sisiDesa(dx, s, open) {
   ];
 }
 
+// ---------- PETA DESA (tampak atas) — pusat cerita: sekolah, dapur, kandang, pasar ----------
+const DESA_MBG = {
+  river: [[0, 36], [14, 42], [24, 56], [20, 78], [27, 108]],
+  roads: [[0, 70, 192, 70], [40, 20, 40, 108], [120, 70, 120, 108], [40, 94, 192, 94], [40, 20, 120, 20], [120, 20, 120, 70]],
+};
+const TEMPAT = { sekolah: [74, 40], dapur: [150, 56], kandang: [160, 30], pasar: [80, 84] };
+function mbgDesa(dx, s, buka = true) {
+  return [
+    { sprite: 'sekolah_top', x: 74 + dx, y: 46 },
+    { id: s + 'dapur', sprite: buka ? 'dapur_top_on' : 'dapur_top_off', x: 150 + dx, y: 64, smoke: buka ? { dx: 6, dy: -16, every: 300 } : undefined },
+    { sprite: 'kandang_top', x: 160 + dx, y: 36 },
+    { sprite: 'pasar_top', x: 80 + dx, y: 90 },
+    ...[[150, 82], [176, 82]].map(([x, y]) => ({ sprite: 'sawah_top_subur', x: x + dx, y, center: true, depth: 3.5 })),
+    ...[52, 66, 80, 94, 108, 134, 150, 166, 182].map((x, i) => ({ sprite: `rumah_top_${i % 4}`, x: x + dx, y: 107 })),
+    ...[[8, 64], [8, 90], [9, 106], [138, 17], [184, 17]].map(([x, y], i) => ({ sprite: `rumah_top_${(i + 1) % 4}`, x: x + dx, y })),
+    ...[[6, 20], [24, 12], [30, 30], [104, 56], [100, 36], [186, 60], [34, 86], [108, 84], [186, 106], [52, 62], [130, 46]].map(([x, y]) => ({ sprite: 'pohon_top', x: x + dx, y })),
+  ];
+}
+const mbgTokoh = (dx, k) => [
+  { id: 'sari' + k, sprite: 'girl', x: 66 + dx, y: 52, scale: 0.75, tag: 'SARI', tagColor: NAVY },
+  { id: 'tini' + k, sprite: 'tini', x: 138 + dx, y: 66, scale: 0.75, tag: 'BU TINI', tagColor: '#ef7d57' },
+  { id: 'darto' + k, sprite: 'darto', x: 140 + dx, y: 36, scale: 0.75, tag: 'PAK DARTO', tagColor: '#7d8a4a' },
+  { id: 'rina' + k, sprite: 'warga2', x: 104 + dx, y: 92, scale: 0.75, tag: 'BU RINA', tagColor: RED },
+];
+const camAt = (t, z, dx = 0) => ({ x: TEMPAT[t][0] + dx, y: TEMPAT[t][1], zoom: z });
+// adegan peta pembuka bab (kalimat jembatan); split = desa A vs B
+function hub(steps, { split = true, cam = { x: 100, y: 58, zoom: 1.2 }, bBuka = false } = {}) {
+  return split ? {
+    transition: 'clouds',
+    sky: 'map', map: DESA_MBG, split: true, focus: 'both',
+    tags: ['DESA A', 'DESA B'], tagColors: [GREEN, RED],
+    camera: cam, cameraB: { ...cam, x: R(cam.x) },
+    props: [...mbgDesa(0, 'A'), ...mbgDesa(192, 'B', bBuka)],
+    actors: [...mbgTokoh(0, 'A'), ...mbgTokoh(192, 'B')],
+    walkers: { n: [12, 10] },
+    steps,
+  } : {
+    transition: 'clouds',
+    sky: 'map', map: DESA_MBG,
+    camera: cam,
+    props: mbgDesa(0, 'A'),
+    actors: mbgTokoh(0, 'A'),
+    walkers: { n: 16 },
+    steps,
+  };
+}
+const dua = (at, cam, dur = 1200) => [{ at, camera: cam, dur }, { at, camera: { ...cam, x: R(cam.x) }, side: 'right', dur }];
+const SKOR = [['Gizi anak', 'A'], ['Pekerjaan', 'A'], ['Peternak', 'A'], ['Keamanan pangan', 'B'], ['Anggaran negara', 'B']];
+const skor = n => ({ at: 0.25, score: SKOR.slice(0, n), dur: 1300 });
+
 const STORY = {
   title: 'Andaikan MBG Berhenti Besok',
   audioDir: 'audio/mbg-berhenti',
@@ -49,20 +99,34 @@ const STORY = {
       id: 'bab-1',
       title: '58 juta piring kosong',
       scenes: [
+        // peta desa: dapur MBG berhenti
+        {
+          sky: 'map', map: DESA_MBG,
+          camera: camAt('dapur', 2.2),
+          clock: 'HARI 1',
+          props: mbgDesa(0, 'A'),
+          actors: mbgTokoh(0, 'A'),
+          walkers: { n: 16 },
+          steps: [
+            { together: [
+              { camera: { x: VERT ? 130 : 110, y: 56, zoom: 1.3 }, dur: 2400, ease: 'Cubic.easeOut' },
+              { caption: 'Bayangkan. Besok pagi, MBG berhenti.', vo: 'm-01',
+                speak: 'Bayangkan. Besok pagi, em be ge berhenti.',
+                cues: [{ at: 'besok', kw: 'BESOK PAGI...' }, { at: 'berhenti', kw: 'MBG *BERHENTI*' },
+                  { at: 'berhenti', swap: 'Adapur', to: 'dapur_top_off' }, { at: 'berhenti', smoke: 'Adapur', on: false },
+                  { at: 'berhenti', stamp: 'BERHENTI', at_: [0.5, 0.4] }, { at: 'berhenti', emote: 'tiniA', icon: 'question', dur: 1200 }] },
+            ] },
+          ],
+        },
         // aula makan: piring penuh → kosong
         {
+          transition: 'clouds',
           sky: 'indoor', fit: 'width',
-          camera: { x: 96, y: 82, zoom: 3.2 },
+          camera: { x: 96, y: 80, zoom: 1.7 },
           clock: 'HARI 1',
           props: aulaMakan(),
           actors: ANAK,
           steps: [
-            { together: [
-              { camera: { x: 96, y: 80, zoom: 1.7 }, dur: 2600, ease: 'Cubic.easeOut' },
-              { caption: 'Bayangkan. Besok pagi, MBG berhenti.', vo: 'm-01',
-                speak: 'Bayangkan. Besok pagi, em be ge berhenti.',
-                cues: [{ at: 'besok', kw: 'BESOK PAGI...' }, { at: 'berhenti', kw: 'MBG *BERHENTI*' }, { at: 'berhenti', stamp: 'BERHENTI', at_: [0.5, 0.4] }] },
-            ] },
             { caption: '58 juta piring tiba-tiba kosong.', vo: 'm-02',
               speak: 'Lima puluh delapan juta piring tiba-tiba kosong.',
               cues: [
@@ -119,18 +183,16 @@ const STORY = {
             ] },
           ],
         },
-        // desa A vs desa B
+        // desa A vs desa B (peta)
         {
           transition: 'cut',
-          sky: 'day', split: true, focus: 'both',
+          sky: 'map', map: DESA_MBG, split: true, focus: 'both',
           tags: ['DESA A', 'DESA B'], tagColors: [GREEN, RED],
-          camera: { x: 96, y: 66, zoom: 1 }, cameraB: { x: R(96), y: 66, zoom: 1 },
+          camera: { x: 110, y: 56, zoom: 1.2 }, cameraB: { x: R(110), y: 56, zoom: 1.2 },
           clock: 'HARI 1',
-          props: [...sisiDesa(0, 'A', true), ...sisiDesa(192, 'B', true)],
-          actors: [
-            { id: 'tA', sprite: 'siti', x: 120, y: 98, tag: 'DAPUR JALAN', tagColor: GREEN },
-            { id: 'tB', sprite: 'siti', x: R(120), y: 98 },
-          ],
+          props: [...mbgDesa(0, 'A'), ...mbgDesa(192, 'B')],
+          actors: [...mbgTokoh(0, 'A'), ...mbgTokoh(192, 'B')],
+          walkers: { n: [12, 12] },
           steps: [
             { caption: 'Kita bandingkan dua desa. Desa A, dapur MBG tetap jalan. Desa B, dapurnya berhenti besok.', vo: 'm-07',
               speak: 'Kita bandingkan dua desa. Desa A, dapur em be ge tetap jalan. Desa Be, dapurnya berhenti besok.',
@@ -138,9 +200,9 @@ const STORY = {
                 { at: 'dua desa', kw: '*2* DESA' },
                 { at: 'desa a', focus: 'left' }, { at: 'desa a', kw: 'A: DAPUR *JALAN*' },
                 { at: 'desa be', focus: 'right' }, { at: 'desa be', kw: 'B: DAPUR *BERHENTI*' },
-                { at: 'berhenti besok', swap: 'Bdapur', to: 'dapur_tutup' }, { at: 'berhenti besok', smoke: 'Bdapur', on: false },
+                { at: 'berhenti besok', swap: 'Bdapur', to: 'dapur_top_off' }, { at: 'berhenti besok', smoke: 'Bdapur', on: false },
                 { at: 'berhenti besok', stamp: 'TUTUP', at_: VERT ? [0.5, 0.45] : [0.5, 0.42] },
-                { at: 'besok.', tag: 'tB', text: 'DAPUR TUTUP', color: RED },
+                { at: 'besok.', emote: 'tiniB', icon: 'sweat', dur: 1300 },
               ] },
             { together: [{ focus: 'both' }, { wait: 900 }] },
           ],
@@ -153,8 +215,13 @@ const STORY = {
     {
       id: 'bab-2',
       title: 'Seberapa besar MBG?',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Dari satu desa ini, kita lihat dulu gambaran besarnya.', vo: 'm-57',
+            cues: [{ at: 0, camera: { x: 96, y: 54, zoom: 1 }, dur: 1800 }, { at: 'gambaran', kw: 'GAMBARAN *BESARNYA*' }] },
+        ], { split: false, cam: camAt('dapur', 2.2) }),
+        {
+        transition: 'clouds',
         sky: 'day', fit: VERT ? undefined : 'width',
         camera: { x: 96, y: 62, zoom: 1 },
         props: [
@@ -201,8 +268,13 @@ const STORY = {
     {
       id: 'bab-3',
       title: 'Sari dan bekal Rp300 ribu',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kembali ke desa. Mulai dari piring yang paling kecil.', vo: 'm-58',
+            cues: [...dua('mulai', camAt('sekolah', 2)), { at: 'piring', kw: 'PIRING *PALING KECIL*' }, { at: 'kecil', glow: 'sariA', times: 2 }] },
+        ]),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width', split: true, focus: 'both',
         tags: ['DESA A', 'DESA B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 76, zoom: VERT ? 2.4 : 1.7 }, cameraB: { x: R(96), y: 76, zoom: VERT ? 2.4 : 1.7 },
@@ -240,7 +312,7 @@ const STORY = {
             cues: [{ at: 'tidak sanggup', hide: 'Bbekal' }, { at: 'perut kosong', kw: 'PERUT *KOSONG*' }, { at: 'perut', emote: 'sariB', icon: 'sweat', dur: 1500 }] },
           { together: [{ focus: 'both' }, { wait: 300 }] },
           { caption: 'Perut kosong, susah fokus. Pelajaran jam ketiga lewat begitu saja.', vo: 'm-21', punch: true,
-            cues: [{ at: 'susah fokus', kw: 'SUSAH *FOKUS*' }, { at: 'susah', emote: 'sariB', icon: 'zzz', dur: 2000 }, { at: 'jam ketiga', clock: 'JAM KE-3' }, { at: 'lewat', sticker: 'dizzy', at_: VERT ? [0.5, 0.72] : [0.75, 0.32] }] },
+            cues: [skor(1), { at: 'susah fokus', kw: 'SUSAH *FOKUS*' }, { at: 'susah', emote: 'sariB', icon: 'zzz', dur: 2000 }, { at: 'jam ketiga', clock: 'JAM KE-3' }, { at: 'lewat', sticker: 'dizzy', at_: VERT ? [0.5, 0.72] : [0.75, 0.32] }] },
         ],
       }],
     },
@@ -251,8 +323,13 @@ const STORY = {
     {
       id: 'bab-4',
       title: 'Bu Tini kehilangan honor',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Yang memasak piring Sari? Ibunya sendiri.', vo: 'm-59',
+            cues: [{ at: 0, kw: 'YANG *MEMASAK*?' }, ...dua('ibunya', camAt('dapur', 2)), { at: 'ibunya', kw: 'IBUNYA *SENDIRI*' }, { at: 'ibunya', emote: 'tiniA', icon: 'heart', dur: 1100 }] },
+        ], { cam: camAt('sekolah', 2) }),
+        {
+        transition: 'clouds',
         sky: 'day', split: true, focus: 'both',
         tags: ['DESA A', 'DESA B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 68, zoom: 1.2 }, cameraB: { x: R(96), y: 68, zoom: 1.2 },
@@ -288,7 +365,7 @@ const STORY = {
             cues: [{ at: 'pemilik', show: 'kB' }, { at: 'terjepit', kw: 'PEMILIK *TERJEPIT*' }, { at: 'bangunan', pop: 'tagihan' }, { at: 'dicicil', label: 'CICILAN!', x: R(70), y: 74, bg: RED, size: 16, dur: 0 }, { at: 'dicicil', emote: 'kB', icon: 'sweat', dur: 1200 }] },
           { caption: 'Ini bukan andai-andai. Mitra dapur yang ditangguhkan sudah mengadu ke DPR karena terlilit utang.', vo: 'm-27', punch: true,
             speak: 'Ini bukan andai-andai. Mitra dapur yang ditangguhkan sudah mengadu ke de pe er karena terlilit utang.',
-            cues: [{ at: 'bukan andai', kw: '*BUKAN* ANDAI-ANDAI' }, { at: 'mengadu', kw: 'MENGADU KE *DPR*' }, { at: 'terlilit', kw: 'TERLILIT *UTANG*' }, { at: 'terlilit', sticker: 'shock', at_: Rt }] },
+            cues: [skor(2), { at: 'bukan andai', kw: '*BUKAN* ANDAI-ANDAI' }, { at: 'mengadu', kw: 'MENGADU KE *DPR*' }, { at: 'terlilit', kw: 'TERLILIT *UTANG*' }, { at: 'terlilit', sticker: 'shock', at_: Rt }] },
           { clear: true },
         ],
       }],
@@ -301,8 +378,13 @@ const STORY = {
       id: 'bab-5',
       title: 'Pembeli raksasa bernama MBG',
       scenes: [
+        hub([
+          { caption: 'Bahan masakan Bu Tini dibeli dari desa sendiri.', vo: 'm-60',
+            cues: [{ at: 0, kw: '*BAHAN* MASAKAN' }, ...dua('dibeli', { x: 120, y: 58, zoom: 1.3 }, 900), { at: 'dibeli', crowd: 'goto', side: 'left', x: 80, y: 96, spread: 16, frac: 0.6 }, { at: 'desa sendiri', kw: 'DARI *DESA SENDIRI*' }] },
+        ], { cam: camAt('dapur', 2) }),
+        
         {
-          transition: 'cut',
+          transition: 'clouds',
           sky: 'day', fit: VERT ? undefined : 'width',
           camera: { x: 120, y: 66, zoom: 1.6 },
           clock: 'JULI 2026',
@@ -379,7 +461,7 @@ const STORY = {
             { together: [{ focus: 'both' }, { camera: { x: 96, y: 70, zoom: 1.3 }, dur: 500 }, { camera: { x: R(96), y: 70, zoom: 1.3 }, side: 'right', dur: 500 }] },
             { caption: 'MBG itu seperti pembeli raksasa. Datang, harga naik. Pergi, harga jatuh.', vo: 'm-38', punch: true,
               speak: 'Em be ge itu seperti pembeli raksasa. Datang, harga naik. Pergi, harga jatuh.',
-              cues: [{ at: 'pembeli raksasa', kw: 'PEMBELI *RAKSASA*' }, { at: 'datang', kw: 'DATANG: *HARGA NAIK*' }, { at: 'pergi', kw: 'PERGI: *HARGA JATUH*', keepKw: true }] },
+              cues: [skor(3), { at: 'pembeli raksasa', kw: 'PEMBELI *RAKSASA*' }, { at: 'datang', kw: 'DATANG: *HARGA NAIK*' }, { at: 'pergi', kw: 'PERGI: *HARGA JATUH*', keepKw: true }] },
           ],
         },
       ],
@@ -391,8 +473,13 @@ const STORY = {
     {
       id: 'bab-6',
       title: 'Kasus keracunan',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Tapi dapur yang sama juga menyimpan masalah.', vo: 'm-61',
+            cues: [...dua('dapur', camAt('dapur', 2.4)), { at: 'masalah', kw: 'DAPUR *MENYIMPAN MASALAH*' }, { at: 'masalah', tint: 0.25, color: '#e43b44', side: 'left', dur: 500 }, { at: 'masalah', sticker: 'sus', at_: L }] },
+        ], { cam: camAt('dapur', 1.6), bBuka: false }),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 76, zoom: 1.6 },
         props: [...aulaMakan(), { id: 'bahaya', sprite: 'bahaya', x: 96, y: 72, scale: 2, depth: 20, hidden: true }],
@@ -425,7 +512,7 @@ const STORY = {
             cues: [{ at: 'tanpa dibenahi', kw: 'TANPA *DIBENAHI*' }, { at: 'risikonya', kw: 'RISIKO *TETAP ADA*' }, { at: 'risikonya', glow: 'bahaya', times: 3 }] },
           { caption: 'Di desa B, risikonya hilang. Tapi manfaatnya ikut hilang.', vo: 'm-46', punch: true,
             speak: 'Di desa Be, risikonya hilang. Tapi manfaatnya ikut hilang.',
-            cues: [
+            cues: [skor(4), 
               { at: 'risikonya hilang', hide: 'bahaya' }, { at: 'risikonya hilang', kw: 'RISIKO *HILANG*' },
               ...PIRING_IDS.map((id, i) => ({ at: 0.55 + i * 0.05, swap: id, to: 'piring_kosong' })),
               { at: 'manfaatnya', kw: 'MANFAAT *IKUT HILANG*', keepKw: true },
@@ -440,8 +527,13 @@ const STORY = {
     {
       id: 'bab-7',
       title: 'Hemat Rp600 miliar sehari?',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Semua cerita desa ini akhirnya bermuara ke satu hal.', vo: 'm-62',
+            cues: [...dua(0, { x: 96, y: 54, zoom: 1 }, 2000), { at: 'satu hal', kw: 'BERMUARA KE *SATU HAL*' }] },
+        ], { cam: camAt('pasar', 1.8) }),
+        {
+        transition: 'clouds',
         sky: 'day', split: true, focus: 'both',
         tags: ['DESA A', 'DESA B'], tagColors: [GREEN, RED],
         camera: { x: 96, y: 68, zoom: 1.2 }, cameraB: { x: R(96), y: 68, zoom: 1.2 },
@@ -473,7 +565,7 @@ const STORY = {
           { clear: true },
           { together: [{ focus: 'both' }, { wait: 200 }] },
           { caption: 'Hemat di satu kolom, bisa jadi tagihan di kolom lain.', vo: 'm-52', punch: true,
-            cues: [{ at: 'hemat', kw: 'HEMAT DI *SATU KOLOM*' }, { at: 'tagihan', kw: 'TAGIHAN DI *KOLOM LAIN*', keepKw: true }] },
+            cues: [skor(5), { at: 'hemat', kw: 'HEMAT DI *SATU KOLOM*' }, { at: 'tagihan', kw: 'TAGIHAN DI *KOLOM LAIN*', keepKw: true }] },
         ],
       }],
     },
@@ -484,8 +576,13 @@ const STORY = {
     {
       id: 'bab-8',
       title: 'Bukan saklar lampu',
-      scenes: [{
-        transition: 'cut',
+      scenes: [
+        hub([
+          { caption: 'Kembali ke piring Sari.', vo: 'm-63',
+            cues: [{ at: 0, camera: camAt('sekolah', 2.4), dur: 1400 }, { at: 'piring', kw: 'KEMBALI KE *PIRING SARI*' }, { at: 'sari', glow: 'sariA', times: 2 }] },
+        ], { split: false, cam: { x: 96, y: 54, zoom: 1 } }),
+        {
+        transition: 'clouds',
         sky: 'indoor', fit: 'width',
         camera: { x: 96, y: 60, zoom: 1.4 },
         props: [{ id: 'saklar', sprite: 'saklar_on', x: 96, y: 90, scale: 5, depth: 10 }],
@@ -495,7 +592,7 @@ const STORY = {
             cues: [{ at: 'dimatikan', swap: 'saklar', to: 'saklar_off' }, { at: 'dimatikan', shake: 200 }, { at: 'seperti', swap: 'saklar', to: 'saklar_on' }, { at: 'saklar', kw: 'BUKAN *SAKLAR LAMPU*' }] },
           { caption: 'Masalahnya bukan lanjut atau stop. Tapi aman, atau asal jalan.', vo: 'm-55', punch: true,
             cues: [{ at: 'bukan lanjut', kw: 'BUKAN *LANJUT* ATAU *STOP*' }, { at: 'aman', kw: '*AMAN*, ATAU *ASAL JALAN?*', keepKw: true }] },
-          { clear: true },
+          { together: [{ clear: true }, { score: SKOR, head: 'SKOR AKHIR', dur: 1200 }] },
           { caption: 'Menurutmu: lanjut tapi dibenahi, atau stop saja? Tulis di kolom komentar.', vo: 'm-56',
             cues: [
               { at: 'menurutmu', kw: '*LANJUT & DIBENAHI* ATAU *STOP*?' },
