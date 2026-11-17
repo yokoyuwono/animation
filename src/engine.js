@@ -28,6 +28,7 @@ const SKIES = {
   space:  { bands: ['#05060f', '#070917', '#0a0d20', '#0d1129'], stars: true, noGround: true, camBg: '#05060f' },
   indoor: { bands: ['#2b2f45'], noGround: true, camBg: '#2b2f45', tiles: true },
   ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
+  map:    { bands: ['#3fae5f'], noGround: true, camBg: '#2f9150' },
   deep:   { bands: ['#14365e', '#102d50', '#0c2442', '#091c35'], grass: '#c2a36b', dirt: '#9c7f4e', noHills: true, bubbles: true, camBg: '#091c35' },
 };
 
@@ -44,6 +45,7 @@ class Movie extends Phaser.Scene {
     if (typeof buildWarTextures === 'function') buildWarTextures(this);
     if (typeof buildMoneyTextures === 'function') buildMoneyTextures(this);
     if (typeof buildPolitikTextures === 'function') buildPolitikTextures(this);
+    if (typeof buildMapTextures === 'function') buildMapTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;
@@ -180,14 +182,16 @@ class Movie extends Phaser.Scene {
       this.game.events.emit('movie-scene', i + 1, scenes.length);
       const quick = sc.transition === 'cut';
       if (i > 0) {
-        if (sc.transition === 'zoom') this.ctl.forEach(c => this.tweens.add({ targets: c, z: c.z * 2.5, duration: 600, ease: 'Quad.easeIn' }));
-        await this.fade(true, quick ? 250 : 600);
+        if (sc.transition === 'zoom' || sc.transition === 'clouds') this.ctl.forEach(c => this.tweens.add({ targets: c, z: c.z * 2.5, duration: 600, ease: 'Quad.easeIn' }));
+        if (sc.transition === 'clouds') await this.cloudCover(true);
+        else await this.fade(true, quick ? 250 : 600);
       }
       this.buildScene(sc);
       if (sc.transition === 'zoom') {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
-      this.fade(false, i === 0 ? 250 : (quick ? 250 : 600));
+      if (sc.transition === 'clouds' && i > 0) this.cloudCover(false);
+      else this.fade(false, i === 0 ? 250 : (quick ? 250 : 600));
       if (sc._chapter && STORY.chapters.length > 1) this.chapterCard(sc._chapter);
       await this.wait(i === 0 || quick ? 100 : 300);
       for (const step of sc.steps || []) {
@@ -245,6 +249,11 @@ class Movie extends Phaser.Scene {
     if ('traffic' in st) { this.trafficOn = st.traffic !== 'stop'; return this.wait(50); }
     if ('glow' in st) return this.glow(st);
     if ('move' in st) return this.move(st);
+    if ('work' in st) return this.work(st);
+    if ('dialog' in st) return this.dialog(st, run);
+    if ('crowd' in st) return this.crowd(st);
+    if ('swapAll' in st) return this.swapAll(st);
+    if ('tint' in st) { const rs = st.side ? [this.hazeRects[this.sideIdx(st.side)]] : this.hazeRects; rs.forEach(r => r && r.setFillStyle(Phaser.Display.Color.HexStringToColor(st.color || '#8a7f6a').color, 1)); return this.tween({ targets: rs, alpha: st.tint, duration: st.dur ?? 1200 }); }
     if ('jump' in st) return this.jump(st);
     if ('emote' in st) return this.emote(st);
     if ('face' in st) { const a = this.actor(st.face); this.calm(a); a.spr.setFlipX(st.dir === 'left'); return this.wait(150); }
@@ -288,7 +297,7 @@ class Movie extends Phaser.Scene {
 
   buildScene(sc) {
     this.life = STORY.alive !== false && sc.alive !== false;   // gerak "hidup" otomatis
-    this.lifeBirds = this.life && !!SKIES[sc.sky || 'day'].clouds && !sc.noClouds && !sc.indoor;
+    this.lifeBirds = this.life && !!SKIES[sc.sky || 'day'].clouds && !sc.noClouds && !sc.indoor && !sc.map;
     this.nextBird = this.time.now + Phaser.Math.Between(2500, 6000);
     this.clearWorld();
     const sky = SKIES[sc.sky || 'day'];
@@ -320,6 +329,9 @@ class Movie extends Phaser.Scene {
     const skyH = sky.noGround ? H : GROUND;
     const bandH = Math.ceil(skyH / sky.bands.length);
     sky.bands.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * bandH, SW, bandH); });
+    this.mapMode = !!sc.map;
+    this.mapSpec = sc.map || null; this.mapB = sc.mapB || null;
+    if (sc.map) (this.split ? [0, 1] : [0]).forEach(si => this.drawMap(ctx, (si && sc.mapB) || sc.map, si * W, this.split ? W : SW));
     if (sky.tiles) {
       ctx.fillStyle = '#33384f';
       for (let y = 0; y < H; y += 8) for (let x = (y / 8) % 2 ? 0 : 8; x < SW; x += 16) ctx.fillRect(x, y, 8, 8);
@@ -406,6 +418,12 @@ class Movie extends Phaser.Scene {
     (sc.props || []).forEach((p, i) => this.spawnProp(p, i));
     if (sc.wires) [].concat(sc.wires[0] && Array.isArray(sc.wires[0][0]) ? sc.wires : [sc.wires]).forEach(w => this.drawWires(w, sc.wireColor));
     (sc.actors || []).forEach(a => this.spawnActor(a));
+    this.walkers = [];
+    if (sc.walkers) this.spawnWalkers(sc.walkers);
+    if (sc.map && !sc.noClouds) for (let i = 0; i < Math.ceil(SW / 90); i++) {
+      const c = this.wobj(this.add.image((i * 90 + 30) * S, (14 + (i % 2) * 50) * S, 'cloud').setScale(S * 1.3).setDepth(30).setAlpha(0.85));
+      this.tweens.add({ targets: c, x: c.x + 60 * S, duration: 40000 + i * 5000, yoyo: true, repeat: -1 });
+    }
     (sc.routes || []).forEach(r => this.spawnRoute(r));
     if (sc.sepia) this.ctl.forEach(c => { if (c.cam.postFX) c.cam.postFX.addColorMatrix().sepia(); });
     if (sc.birds) this.spawnBirds(sc.birds);
@@ -442,7 +460,8 @@ class Movie extends Phaser.Scene {
       if (p.id) this.actors[p.id] = { spr: pole, sprite: 'turbine', name: p.id, prop: true };
       return pole;
     }
-    const img = this.wobj((p.anim ? this.add.sprite(x, y, `${p.anim}_0`) : this.add.image(x, y, p.sprite)).setOrigin(0.5, p.center ? 0.5 : 1).setScale(sc).setDepth((p.depth ?? 5) + i * 0.01));
+    const dep = p.depth ?? (this.mapMode ? 4 + (p.y ?? GROUND) / 200 : 5);
+    const img = this.wobj((p.anim ? this.add.sprite(x, y, `${p.anim}_0`) : this.add.image(x, y, p.sprite)).setOrigin(0.5, p.center ? 0.5 : 1).setScale(sc).setDepth(dep + i * 0.0001));
     if (p.flip) img.setFlipX(true);
     if (p.alpha !== undefined) img.setAlpha(p.alpha);
     if (p.sway) this.tweens.add({ targets: img, angle: 4, yoyo: true, repeat: -1, duration: 900, ease: 'Sine.inOut' });
@@ -507,6 +526,202 @@ class Movie extends Phaser.Scene {
       duration: big ? 2600 : 1100,
       onComplete: () => p.destroy(),
     });
+  }
+
+  // ---------- PETA tampak atas ----------
+  drawMap(ctx, m, ox, w) {
+    const rnd = mapRand(17 + ox);
+    ctx.fillStyle = m.grass || '#3fae5f'; ctx.fillRect(ox, 0, w, H);
+    for (let i = 0; i < w * 3; i++) { ctx.fillStyle = ['#38a35a', '#4cbd6c', '#349a52'][i % 3]; ctx.fillRect(ox + Math.floor(rnd() * w), Math.floor(rnd() * H), 1 + (i % 2), 1); }
+    (m.dirt || []).forEach(([x, y, ww, hh, c]) => { ctx.fillStyle = c || '#b89a62'; ctx.fillRect(ox + x, y, ww, hh); });
+    const stamp = (pts, r, c) => {
+      ctx.fillStyle = c;
+      for (let k = 0; k < pts.length - 1; k++) {
+        const [x1, y1] = pts[k], [x2, y2] = pts[k + 1], n = Math.ceil(Math.hypot(x2 - x1, y2 - y1));
+        for (let t = 0; t <= n; t++) ctx.fillRect(Math.round(ox + x1 + (x2 - x1) * t / n - r), Math.round(y1 + (y2 - y1) * t / n - r), r * 2 + 1, r * 2 + 1);
+      }
+    };
+    if (m.river) { stamp(m.river, 4, '#d9c08c'); stamp(m.river, 3, '#2f6fbf'); stamp(m.river, 1, '#41a6f6'); }
+    if (m.plaza) { const [x, y, ww, hh] = m.plaza; ctx.fillStyle = '#c9b98a'; ctx.fillRect(ox + x - 2, y - 2, ww + 4, hh + 4); ctx.fillStyle = '#5ccf7a'; ctx.fillRect(ox + x, y, ww, hh); }
+    (m.roads || []).forEach(([x1, y1, x2, y2]) => {
+      const x = ox + Math.min(x1, x2), y = Math.min(y1, y2), ww = Math.abs(x2 - x1), hh = Math.abs(y2 - y1);
+      ctx.fillStyle = '#a8986a'; ctx.fillRect(x - 2, y - 2, ww + 5, hh + 5);
+      ctx.fillStyle = '#d6c79a'; ctx.fillRect(x - 1, y - 1, ww + 3, hh + 3);
+    });
+  }
+
+  spawnWalkers(cfg) {
+    const pool = (cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid']).filter(k => this.textures.exists(`${k}_0`));
+    (this.split ? [0, 1] : [0]).forEach(si => {
+      const m = (si && this.mapB) || this.mapSpec || {}, off = si * W;
+      const segs = (m.roads || []).map(r => [r[0] + off, r[1], r[2] + off, r[3]]);
+      if (!segs.length) return;
+      const n = Array.isArray(cfg.n) ? cfg.n[si] : (cfg.n ?? 12);
+      for (let k = 0; k < n; k++) {
+        const seg = Math.floor(Math.random() * segs.length), t = Math.random(), [x1, y1, x2, y2] = segs[seg];
+        const sp = pool[(k + si * 3) % pool.length];
+        const x = x1 + (x2 - x1) * t, y = y1 + (y2 - y1) * t + 1;
+        const spr = this.wobj(this.add.sprite(x * S, y * S, `${sp}_0`).setOrigin(0.5, 1).setScale(S * (cfg.scale || 0.5)).setDepth(4 + y / 200));
+        this.walkers.push({ spr, sprite: sp, segs, seg, t, dir: Math.random() < 0.5 ? 1 : -1, speed: Phaser.Math.FloatBetween(5, 9), pause: Math.random() * 2, side: si, mode: 'road', walking: false });
+      }
+    });
+  }
+
+  tickWalkers(dt) {
+    for (const w of this.walkers || []) {
+      const s = w.spr;
+      if (!s.active || w.mode === 'gone' || w.mode === 'stay') continue;
+      const setWalk = on => { if (on && !w.walking) s.play(`${w.sprite}_walk`); if (!on && w.walking) { s.stop(); s.setTexture(`${w.sprite}_0`); } w.walking = on; };
+      if (w.pause > 0) { w.pause -= dt; setWalk(false); continue; }
+      let nx, ny;
+      if (w.mode !== 'road') {
+        const dx = w.tx - s.x / S, dy = w.ty - s.y / S, d = Math.hypot(dx, dy);
+        if (d < 0.8) {
+          setWalk(false);
+          if (w.mode === 'leave') { s.setVisible(false); w.mode = 'gone'; }
+          else if (w.mode === 'goto') w.mode = 'stay';
+          else w.mode = 'road';
+          continue;
+        }
+        const st = Math.min(d, w.speed * (w.rush || 1) * dt);
+        nx = s.x / S + dx / d * st; ny = s.y / S + dy / d * st;
+      } else {
+        const [x1, y1, x2, y2] = w.segs[w.seg], len = Math.max(1, Math.hypot(x2 - x1, y2 - y1));
+        w.t += w.dir * w.speed * dt / len;
+        if (w.t > 1 || w.t < 0) {
+          w.t = Phaser.Math.Clamp(w.t, 0, 1);
+          const px = w.t ? x2 : x1, py = w.t ? y2 : y1;
+          const near = (ax, ay) => Math.abs(ax - px) < 2 && Math.abs(ay - py) < 2;
+          const opts = [];
+          w.segs.forEach((g, i) => { if (i === w.seg) return; if (near(g[0], g[1])) opts.push([i, 0, 1]); else if (near(g[2], g[3])) opts.push([i, 1, -1]); });
+          if (opts.length && Math.random() < 0.85) { const o = opts[Math.floor(Math.random() * opts.length)]; w.seg = o[0]; w.t = o[1]; w.dir = o[2]; }
+          else w.dir = -w.dir;
+          if (Math.random() < 0.25) w.pause = Phaser.Math.FloatBetween(0.5, 2);
+        }
+        const g = w.segs[w.seg];
+        nx = g[0] + (g[2] - g[0]) * w.t; ny = g[1] + (g[3] - g[1]) * w.t + 1;
+      }
+      if (Math.abs(nx * S - s.x) > 0.01) s.setFlipX(nx * S < s.x);
+      s.setPosition(nx * S, ny * S).setDepth(4 + ny / 200);
+      setWalk(true);
+    }
+  }
+
+  // { crowd: 'goto'|'leave'|'roam', side, x, y, frac, spread, rush }
+  crowd(st) {
+    const sides = st.side === 'right' ? [1] : st.side === 'left' ? [0] : [0, 1];
+    let ws = (this.walkers || []).filter(w => sides.includes(w.side));
+    if (st.crowd !== 'roam') ws = ws.filter(w => w.mode !== 'gone');
+    ws = Phaser.Utils.Array.Shuffle(ws.slice()).slice(0, Math.ceil(ws.length * (st.frac ?? 1)));
+    ws.forEach(w => {
+      w.pause = Math.random() * 0.4; w.rush = st.rush || 1;
+      if (st.crowd === 'goto') { w.mode = 'goto'; w.tx = st.x + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 10); w.ty = st.y + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 10) * 0.6; }
+      else if (st.crowd === 'leave') { const mid = w.side * W + W / 2; w.mode = 'leave'; w.tx = w.spr.x / S < mid ? w.side * W - 8 : w.side * W + W + 8; w.ty = w.spr.y / S; }
+      else {
+        if (w.mode === 'gone') { w.spr.setVisible(true); w.spr.x = (w.side * W + (Math.random() < 0.5 ? -6 : W + 6)) * S; }
+        const g = w.segs[w.seg]; w.mode = 'return'; w.rush = 1;
+        w.tx = g[0] + (g[2] - g[0]) * w.t; w.ty = g[1] + (g[3] - g[1]) * w.t + 1;
+      }
+    });
+    return this.wait(st.dur ?? 0);
+  }
+
+  // ganti tekstur banyak prop (id berawalan sama) satu per satu — mis. sawah mengering
+  swapAll(st) {
+    const list = Phaser.Utils.Array.Shuffle(Object.entries(this.actors).filter(([id]) => id.startsWith(st.swapAll)).map(([, a]) => a));
+    const gap = st.stagger ?? 90;
+    list.forEach((a, i) => this.time.delayedCall(i * gap, () => {
+      if (!a.spr.active) return;
+      a.spr.setTexture(st.to);
+      const b = a.spr.scaleX;
+      this.tweens.add({ targets: a.spr, scaleX: b * 1.15, scaleY: b * 1.15, duration: 110, yoyo: true });
+    }));
+    return this.wait(st.dur ?? 0);
+  }
+
+  // ---------- tokoh bekerja (mencangkul) ----------
+  work(st) {
+    const a = this.actor(st.work);
+    if (st.stop) { a.work = null; a.busy = false; a.spr.setTexture(`${a.sprite}_0`); return this.wait(st.dur ?? 50); }
+    makeToolFrames(this, a.sprite);
+    this.calm(a);
+    a.busy = true; a.spr.stop(); a.spr.angle = 0;
+    a.work = { f: 0, t: 0, every: st.speed || 420, ground: st.ground || 'wet' };
+    a.spr.setTexture(`${a.sprite}_hoe_0`);
+    return this.wait(st.dur ?? 0);
+  }
+
+  tickWork(delta) {
+    Object.values(this.actors).forEach(a => {
+      const w = a.work;
+      if (!w || !a.spr.active) return;
+      w.t += delta;
+      if (w.t < (w.f ? w.every * 0.8 : w.every)) return;
+      w.t = 0; w.f = 1 - w.f;
+      a.spr.setTexture(`${a.sprite}_hoe_${w.f}`);
+      if (!w.f || !a.spr.visible) return;
+      const dir = a.spr.flipX ? -1 : 1, gx = a.spr.x + dir * 8 * S, gy = a.spr.y;
+      const cols = w.ground === 'dry' ? [0xc9a85a, 0xa0703c] : [0x5d3a1a, 0x3b7fd0];
+      for (let k = 0; k < 4; k++) {
+        const d = this.wobj(this.add.rectangle(gx, gy - S, S, S, cols[k % 2]).setDepth(a.spr.depth + 0.1));
+        this.tweens.add({ targets: d, x: gx + Phaser.Math.Between(-4, 4) * S, y: gy - Phaser.Math.Between(3, 6) * S, duration: 180, yoyo: true, ease: 'Quad.out', onComplete: () => d.destroy() });
+      }
+      if (w.ground === 'dry') this.puff(gx, gy - S, { dir: -dir, depth: a.spr.depth + 0.2 });
+    });
+  }
+
+  // ---------- kotak dialog berfoto (tokoh "berbicara", teks saja) ----------
+  async dialog(st, run) {
+    const a = this.actor(st.dialog);
+    const GW = this.GW, V = this.V;
+    const bw = Math.min(V ? GW - 40 : 820, GW - 40), ps = V ? 104 : 92, bh = ps + 24;
+    const bx = (GW - bw) / 2, by = st.top ?? (V ? this.GH * 0.14 : 58);
+    const parts = [];
+    parts.push(this.uobj(this.add.rectangle(bx, by, bw, bh, 0xf4e4c1, 0.97).setOrigin(0).setDepth(170).setStrokeStyle(5, 0x8b5a2b)));
+    const fx = bx + bw - ps - 12, fy = by + 12;
+    parts.push(this.uobj(this.add.rectangle(fx, fy, ps, ps, 0x5fcde4).setOrigin(0).setDepth(171).setStrokeStyle(4, INK)));
+    const key = st.face || `${a.sprite}_0`;
+    const src = this.textures.get(key).getSourceImage();
+    const face = this.uobj(this.add.image(fx + ps / 2, fy + 6, key).setOrigin(0.5, 0).setDepth(172));
+    face.setScale((ps - 16) / src.width).setCrop(0, 0, src.width, Math.min(src.height, src.width * 0.95));
+    parts.push(face);
+    const nm = st.name || (a.tagText && a.tagText.text) || a.name;
+    parts.push(this.uobj(this.add.text(fx + ps / 2, fy + ps + 2, nm, { fontFamily: FONT, fontSize: '10px', color: '#ffffff', backgroundColor: '#1a1c2c', padding: { x: 4, y: 3 } }).setOrigin(0.5, 0.5).setDepth(173)));
+    const txt = this.uobj(this.add.text(bx + 18, by + 18, '', { fontFamily: FONT, fontSize: V ? '17px' : '16px', color: '#1a1c2c', lineSpacing: 10, wordWrap: { width: bw - ps - 54 } }).setDepth(172));
+    parts.push(txt);
+    const wrapped = txt.getWrappedText(st.dialog_text || st.text).join('\n');
+    parts.forEach(o => o.setAlpha(0));
+    this.extras.push(...parts);
+    await this.tween({ targets: parts, alpha: 1, duration: 160 });
+    await this.typewrite(txt, wrapped, run, 28);
+    await this.wait(st.dur ?? Math.max(1200, wrapped.length * 35));
+    if (st.keep) return;
+    await this.tween({ targets: parts, alpha: 0, duration: 200 });
+    parts.forEach(o => o.destroy());
+  }
+
+  // ---------- transisi awan (masuk dari ketinggian) ----------
+  async cloudCover(cover) {
+    const GW = this.GW, GH = this.GH;
+    if (cover) {
+      this.cloudObjs = [];
+      const sc = Math.max(GW, GH) / 64 * 0.62;
+      const white = this.uobj(this.add.rectangle(0, 0, GW, GH, 0xf4f4f4).setOrigin(0).setDepth(940).setAlpha(0), true);
+      this.cloudObjs.push(white);
+      const tw = [];
+      for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) {
+        const img = this.uobj(this.add.image(GW * 1.3 + c * GW * 0.35, (r + 0.3) * GH / 3.4 + Phaser.Math.Between(-20, 20), 'awan_besar').setScale(sc).setDepth(950), true);
+        this.cloudObjs.push(img);
+        tw.push(this.tween({ targets: img, x: c * GW * 0.33 + Phaser.Math.Between(-30, 30), duration: 650 + r * 60, ease: 'Cubic.easeOut' }));
+      }
+      tw.push(this.tween({ targets: white, alpha: 1, duration: 600, delay: 250 }));
+      await Promise.all(tw);
+    } else {
+      const objs = this.cloudObjs || [];
+      this.cloudObjs = null;
+      await Promise.all(objs.map(o => this.tween(o.type === 'Rectangle' ? { targets: o, alpha: 0, duration: 450 } : { targets: o, x: o.x - GW * 1.6, duration: 900, ease: 'Cubic.easeIn' })));
+      objs.forEach(o => o.destroy());
+    }
   }
 
   // ---------- gerak "hidup" (napas, menoleh, melangkah kecil, burung lewat) ----------
@@ -611,6 +826,8 @@ class Movie extends Phaser.Scene {
   // ---------- loop per frame ----------
   update(time, delta) {
     this.lifeTick(time);
+    this.tickWalkers(delta / 1000);
+    this.tickWork(delta);
     // kamera
     this.ctl.forEach(c => {
       const cam = c.cam, vp = c.vp;
@@ -709,7 +926,7 @@ class Movie extends Phaser.Scene {
   }
 
   spawnActor(a) {
-    const spr = this.wobj(this.add.sprite(a.x * S, (a.y ?? GROUND) * S, `${a.sprite}_0`).setOrigin(0.5, 1).setScale(S).setDepth(10));
+    const spr = this.wobj(this.add.sprite(a.x * S, (a.y ?? GROUND) * S, `${a.sprite}_0`).setOrigin(0.5, 1).setScale(S * (a.scale || 1)).setDepth(a.depth ?? 10));
     spr.setFlipX(a.face === 'left');
     if (a.hidden) spr.setVisible(false);
     this.actors[a.id] = { spr, sprite: a.sprite, name: a.name || a.id, homeX: spr.x, phase: Math.random() * 6.28,
@@ -1145,6 +1362,7 @@ class Movie extends Phaser.Scene {
     const tx = st.to * S;
     if (Math.abs(tx - a.spr.x) < 1) return;
     this.calm(a);
+    a.work = null;
     a.busy = true;
     a.spr.setVisible(true);
     a.spr.setFlipX(tx < a.spr.x);
