@@ -80,13 +80,13 @@
           [['tempe', 70, 6], ['tofu', 150, 6], ['noodle', 520, 6], ['coin', 590, 9]].forEach(([k, x, s], i) => this.img(k, x, 615, s, { angle: i % 2 ? 8 : -8 }));
           this.img('face_siti_shock', 960, 640, 8.6);
           [['tempe_tipis', 730, 9], ['bills', 790, 6], ['berkas_4', 1170, 5], ['tofu', 1240, 6]].forEach(([k, x, s], i) => this.img(k, x, 615, s, { angle: i % 2 ? 10 : -10 }));
-          this.naik(1160, 250, 8); this.naik(800, 230, -10);
-          this.label([['KURSI', '#ffffff'], ['TERISI', LIME]], 320, 62, 58);
-          this.label([['KURSI', '#ffffff'], ['MOLOR', PINK]], 960, 62, 58);
+          this.naik(1160, 280, 8); this.naik(800, 260, -10);
+          this.label([['ANDAIKAN', GOLD], ['KURSI', '#ffffff'], ['WAPRES', '#ffffff'], ['KOSONG', PINK]], 640, 66, 68, 0x1a1c2c);
+          this.label([['KURSI', '#ffffff'], ['TERISI', LIME]], 300, 172, 40);
+          this.label([['KURSI', '#ffffff'], ['MOLOR', PINK]], 980, 172, 40);
           this.label([['TEMPE', '#ffffff'], ['AMAN', LIME]], 320, 668, 52);
           this.label([['TEMPE', '#ffffff'], ['MENIPIS', PINK]], 960, 668, 52);
           this.vsBadge(640, 520);
-          this.tag('BUKAN KURSINYA?!', 640, 160, -6, 36);
         } else {
           this.img('face_siti_happy', 330, 640, 8.6);
           [['coin', 70, 9], ['jar_4', 150, 6], ['coin', 520, 9], ['coin', 590, 9]].forEach(([k, x, s]) => this.img(k, x, 615, s));
