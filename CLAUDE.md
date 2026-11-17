@@ -61,7 +61,7 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   efek `node_type: sfx, eleven_text_to_sound_v2` (±17 kredit). Paylater memakai musik chiptune ceria.
 
 ## Catatan teknis
-- Tiap akhir adegan ada jeda 900 ms (`STORY.endPause` / adegan `endPause`) agar kata terakhir tidak terpotong.
+- Tiap akhir adegan ada jeda 500 ms (`STORY.endPause` / adegan `endPause`) agar kata terakhir tidak terpotong.
 - Browser memblokir suara otomatis → pemutar menampilkan tombol "▶ Putar dengan suara" untuk cerita ber-`audioDir`.
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail).

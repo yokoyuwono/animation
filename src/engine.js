@@ -194,7 +194,7 @@ class Movie extends Phaser.Scene {
         await this.runStep(step, run);
       }
       // jeda "napas" sebelum pindah adegan, supaya kata terakhir tidak terpotong
-      await this.wait(sc.endPause ?? STORY.endPause ?? 900);
+      await this.wait(sc.endPause ?? STORY.endPause ?? 500);
     }
     if (!this.alive(run)) return;
     if (this.music) this.tweens.add({ targets: this.music, volume: 0, duration: 700 });
