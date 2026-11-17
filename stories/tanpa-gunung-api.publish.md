@@ -14,7 +14,14 @@
 Bayangkan besok pagi semua gunung berapi di Indonesia padam selamanya. Tidak ada letusan, tidak ada evakuasi... tapi sawah Mbah Karto makin kurus, tagihan listrik naik, dan nasi bungkus ikut naik. Kita simulasikan dua Indonesia: A yang asli, dan B yang semua gunung apinya padam.
 
 ⏱️ Bab
-{{BAB}}
+0:00 Semua gunung api padam
+0:34 127 gunung api aktif
+0:59 Hidup tanpa letusan
+1:38 Gunung yang mengisi piring
+2:28 Listrik dari perut bumi
+3:10 Bromo, Ijen, Toba, dan kopi
+3:46 Indonesia mungkin tidak ada
+4:18 Tetangga galak tapi dermawan
 
 📌 Fakta kunci:
 • ±500 gunung api, 127 aktif; ±15 juta warga tinggal di sekitar gunung berstatus waspada/siaga (Badan Geologi, Des 2025)
