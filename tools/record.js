@@ -15,7 +15,7 @@ const { chromium } = require('playwright');
   const info = await p.evaluate(() => { const s = game.scene.getScene('movie'); return { vo: Object.keys(s.voDur || {}).length, loaded: Object.keys(s.voDur || {}).filter(k => s.cache.audio.exists('vo-' + k)).length, ctx: game.sound.context && game.sound.context.state }; });
   console.log('audio:', JSON.stringify(info));
   const t0 = Date.now();
-  const dl = p.waitForEvent('download', { timeout: 300000 });
+  const dl = p.waitForEvent('download', { timeout: 900000 });
   await p.click('#btn-rec');
   const d = await dl;
   await d.saveAs(out);
