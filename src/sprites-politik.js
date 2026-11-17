@@ -239,6 +239,80 @@ Object.assign(CHARACTERS, {
   darto: { body: BOY_BODY, legs: BOY_LEGS, colors: { H: '#8b5a2b', R: '#7d8a4a', B: '#5d3a1a' } },  // caping cokelat
 });
 
+Object.assign(POLITIK_PROPS, {
+  bekal: [
+    '.KKKKKKKKKK.',
+    'KccccccccccK',
+    'KKKKKKKKKKKK',
+    'KWWWKYYYKGGK',
+    'KWWWKYOYKGgK',
+    'KWWWKYYYKGGK',
+    '.KKKKKKKKKK.',
+  ],
+  papan_tulis: (() => {
+    const w = 60, h = 30, g = [];
+    for (let y = 0; y < h; y++) {
+      let r = '';
+      for (let x = 0; x < w; x++) {
+        if (x < 2 || x >= w - 2 || y < 2 || y >= h - 2) r += (x === 0 || x === w - 1 || y === 0 || y === h - 1) ? 'K' : 'T';
+        else if ((y === 8 && x > 6 && x < 40) || (y === 13 && x > 6 && x < 50) || (y === 18 && x > 6 && x < 32)) r += 'w';
+        else r += 'g';
+      }
+      g.push(r);
+    }
+    return g;
+  })(),
+  telur: [
+    '.W..W..W..W.',
+    'WWWWWWWWWWWW',
+    'KsKsKsKsKsKs',
+    'KssssssssssK',
+    '.KKKKKKKKKK.',
+  ],
+  bahaya: [
+    '.....KK.....',
+    '....KxxK....',
+    '...KxWWxK...',
+    '...KxKKxK...',
+    '..KxxKKxxK..',
+    '..KxxKKxxK..',
+    '.KxxxKKxxxK.',
+    '.KxxxxxxxxK.',
+    'KxxxxKKxxxxK',
+    'KxxxxxxxxxxK',
+    'KKKKKKKKKKKK',
+  ],
+  saklar_on: [
+    'KKKKKKKKKK',
+    'KwwwwwwwwK',
+    'KwKKKKKKwK',
+    'KwKGGGGKwK',
+    'KwKGWWGKwK',
+    'KwKGGGGKwK',
+    'KwKeeeeKwK',
+    'KwKeeeeKwK',
+    'KwKKKKKKwK',
+    'KwwwwwwwwK',
+    'KKKKKKKKKK',
+  ],
+  saklar_off: [
+    'KKKKKKKKKK',
+    'KwwwwwwwwK',
+    'KwKKKKKKwK',
+    'KwKeeeeKwK',
+    'KwKeeeeKwK',
+    'KwKxxxxKwK',
+    'KwKxWWxKwK',
+    'KwKxxxxKwK',
+    'KwKKKKKKwK',
+    'KwwwwwwwwK',
+    'KKKKKKKKKK',
+  ],
+});
+Object.assign(CHARACTERS, {
+  tini: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#f4f4f4', R: '#f4f4f4', B: '#566c86' } },   // juru masak: jilbab & celemek putih
+});
+
 for (let i = 1; i <= 6; i++) POLITIK_PROPS[`berkas_${i}`] = makeBerkas(i * 2);
 ['x', 'b', 'Y', 'G', 'v', 'O'].forEach((c, i) => { POLITIK_PROPS[`bidak_${i}`] = BIDAK.map(r => r.replace(/C/g, c)); });
 
