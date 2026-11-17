@@ -3,7 +3,7 @@
 > Netral: menampilkan manfaat DAN masalah MBG. Angka bekal & struk = ilustrasi.
 > Cek ulang data keracunan & jumlah dapur ke rilis resmi BGN/Kemenkes sebelum unggah.
 
-## YouTube (video panjang · `mbg-berhenti_long_16x9.mp4` · thumbnail varian A/B untuk uji A/B)
+## YouTube (video panjang · `mbg-berhenti_long_16x9.mp4` · thumbnail varian A)
 
 **Judul (pilih satu):**
 - Andaikan MBG Berhenti Besok: Kenapa Ayam Murah tapi Peternak Menangis?
