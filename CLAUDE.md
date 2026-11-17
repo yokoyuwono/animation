@@ -71,4 +71,5 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Browser memblokir suara otomatis → pemutar menampilkan tombol "▶ Putar dengan suara" untuk cerita ber-`audioDir`.
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail + paket unggah),
-  `wapres-kosong` (seri "Andaikan", 8 bab, bersuara; sprite di `src/sprites-politik.js`). Ide berikutnya: "Andaikan MBG berhenti besok".
+  `wapres-kosong` dan `mbg-berhenti` (seri "Andaikan", lengkap + short + thumbnail + paket; sprite di `src/sprites-politik.js`).
+  Ide fantasi berikutnya (menunggu pilihan pemilik): Borobudur dibangun hari ini · kampung Indonesia pindah ke Mars · Indonesia tanpa gunung berapi.
