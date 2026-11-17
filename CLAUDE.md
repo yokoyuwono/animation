@@ -51,7 +51,10 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 8. Caption & hashtag: tulis `stories/<nama>.publish.md` (judul, deskripsi + bab, tag, caption per short,
    hashtag YouTube/TikTok/Reels). `produce.sh` menyalinnya dan membuat `renders/<nama>_paket.zip` siap unggah.
 9. Thumbnail: sesuaikan `tools/thumbnail-<topik>.html`, lalu `node tools/thumbnail.js tools/thumbnail-<topik>.html a renders/thumbnail_<nama>.png`.
-10. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
+10. Link unduhan: `tools/links.sh` (otomatis di `produce.sh`) menulis `DOWNLOADS.md` — daftar link GitHub semua
+   hasil render per topik. Commit & push hasil render. Jika pemilik minta "list link", jawab dari `DOWNLOADS.md`.
+   (Upload ke Google Drive dari sesi cloud dibatasi ±3 MB per file → video panjang tidak bisa.)
+11. Publikasikan ulang halaman HP (artifact "Pixel Movie", https://claude.ai/artifact/8rpomo7GzqcbnZqkKaTstX)
    dengan file yang berubah (index.html, src/, stories/, audio/).
 
 ## Musik & efek suara
