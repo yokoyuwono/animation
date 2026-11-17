@@ -106,6 +106,10 @@ const FACES = {
   siti_happy:  makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'happy' }),
   siti_shock:  makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'shock' }),
   siti_cry:    makePortrait({ hair: '#257179', shirt: '#ffcd75', style: 'hijab', face: 'cry' }),
+  sari_happy:  makePortrait({ hair: '#f4f4f4', shirt: '#ff77a8', style: 'hijab', face: 'happy' }),
+  sari_cry:    makePortrait({ hair: '#f4f4f4', shirt: '#ff77a8', style: 'hijab', face: 'cry' }),
+  darto_happy: makePortrait({ hair: '#8b5a2b', shirt: '#7d8a4a', style: 'neat', face: 'happy' }),
+  darto_cry:   makePortrait({ hair: '#8b5a2b', shirt: '#7d8a4a', style: 'neat', face: 'cry' }),
   raka_happy:  makePortrait({ hair: '#5d3a1a', shirt: '#38b764', style: 'neat', face: 'happy' }),
 };
 
