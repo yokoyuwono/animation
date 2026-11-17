@@ -44,7 +44,7 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
    Unduh `content_url` ke `audio/<nama>/raw/<id>.mp3` (host `elevenlabsusercontent.com` diizinkan
    di environment cloud "animation").
 5. `tools/process-vo.sh audio/<nama> 1.2` → audio jadi + `manifest.json`; lalu `node tools/vo-lines.js stories/<nama>.js --save`.
-   Opsional: draf pakai `eleven_flash_v2_5` (±½ biaya) untuk uji tempo; final tetap `eleven_v4`. Jika draf kurang bagus, abaikan.
+   Catatan: lewat connector ElevenLabs, `eleven_flash_v2_5` ternyata dihitung SAMA dengan `eleven_v4` (±1 kredit/huruf) → selalu pakai `eleven_v4`.
 6. Cek: `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
 7. Render semua untuk satu topik: `tools/produce.sh <nama>` (long 16:9+9:16, semua short, thumbnail jika ada
    `tools/thumbnail-<nama>.html`). Per bagian: `tools/render.sh <nama> long|shorts|<bab-id>`.
@@ -67,4 +67,5 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Tiap akhir adegan ada jeda 500 ms (`STORY.endPause` / adegan `endPause`) agar kata terakhir tidak terpotong.
 - Browser memblokir suara otomatis → pemutar menampilkan tombol "▶ Putar dengan suara" untuk cerita ber-`audioDir`.
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
-- Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail).
+- Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail + paket unggah),
+  `wapres-kosong` (seri "Andaikan", 8 bab, bersuara; sprite di `src/sprites-politik.js`). Ide berikutnya: "Andaikan MBG berhenti besok".

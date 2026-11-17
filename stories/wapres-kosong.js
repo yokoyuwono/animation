@@ -287,7 +287,7 @@ const STORY = {
               { at: 'tepat waktu', clock: 'HARI', from: 2, to: 28, dur: 900 }, { at: 'tepat waktu', sticker: 'cool', at_: Rt },
             ] },
           { together: [{ focus: 'right' }, { clock: 'HARI 1' }] },
-          { caption: 'Di skenario B, koalisi saling tarik. Rapat molor, nama berganti-ganti.', vo: 'w-24',
+          { caption: 'Di skenario B, koalisi saling tarik. Rapat molor, nama berganti-ganti.', vo: 'w-24', speak: 'Di skenario Be, koalisi saling tarik. Rapat molor, nama berganti-ganti.',
             cues: [
               { at: 'saling tarik', kw: 'KOALISI *SALING TARIK*' },
               { at: 'saling tarik', move: 'Bb0', to: R(50), dur: 500 }, { at: 'saling tarik', move: 'Bb3', to: R(142), dur: 500 },
@@ -371,7 +371,7 @@ const STORY = {
               { at: 'tinggal', kw: 'UANG *TETAP TINGGAL*' },
             ] },
           { focus: 'right' },
-          { caption: 'Di skenario B, investor asing menarik uangnya keluar.', vo: 'w-33',
+          { caption: 'Di skenario B, investor asing menarik uangnya keluar.', vo: 'w-33', speak: 'Di skenario Be, investor asing menarik uangnya keluar.',
             cues: [
               { at: 'investor', pop: 'Bduit1' }, { at: 'investor', pop: 'Bduit2' },
               { at: 'menarik', exit: 'invB1', to: 'right' }, { at: 'menarik', exit: 'invB2', to: 'right' },
@@ -421,7 +421,7 @@ const STORY = {
           { caption: 'Gandum untuk mi dan roti? Hampir semuanya impor.', vo: 'w-38',
             cues: [{ at: 'gandum', pop: 'Ami' }, { at: 'gandum', pop: 'Bmi' }, { at: 'hampir', kw: 'GANDUM: *HAMPIR SEMUA IMPOR*' }] },
           { together: [{ focus: 'right' }, { clock: 'BULAN', from: 2, to: 6, dur: 1200 }] },
-          { caption: 'Di skenario B, rupiah melemah. Tempe, tahu, dan mi instan ikut naik.', vo: 'w-39',
+          { caption: 'Di skenario B, rupiah melemah. Tempe, tahu, dan mi instan ikut naik.', vo: 'w-39', speak: 'Di skenario Be, rupiah melemah. Tempe, tahu, dan mi instan ikut naik.',
             cues: [
               { at: 'tempe', label: 'NAIK!', x: R(48), y: 30, bg: '#e43b44', size: 18, dur: 0 },
               { at: 'tahu', label: 'NAIK!', x: R(62), y: 22, bg: '#e43b44', size: 18, dur: 0 },
@@ -456,7 +456,7 @@ const STORY = {
           { together: [{ focus: 'both' }, { camera: { x: R(96), y: 66, zoom: 1 }, side: 'right', dur: 600 }] },
           { caption: 'Yang paling terasa? Keluarga menengah ke bawah. Sebagian besar uangnya habis untuk makan.', vo: 'w-44',
             cues: [{ at: 'menengah', kw: 'MENENGAH *KE BAWAH*' }, { at: 'habis', kw: 'HABIS *UNTUK MAKAN*' }] },
-          { caption: 'Ini struk belanja Bu Siti di skenario B.', vo: 'w-45' },
+          { caption: 'Ini struk belanja Bu Siti di skenario B.', vo: 'w-45', speak: 'Ini struk belanja Bu Siti di skenario Be.' },
           { receipt: 'STRUK BU SITI · SKENARIO B', stagger: 420,
             lines: [['Tempe', '+Rp3.000'], ['Tahu', '+Rp2.000'], ['Mi instan', '+Rp2.500'], ['Bensin', '+Rp10.000']],
             total: ['NAIK / MINGGU', '+Rp17.500'], note: '≈ Rp70 ribu/bulan · ILUSTRASI' },
