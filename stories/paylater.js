@@ -63,7 +63,7 @@ const hub = (steps, cam = camAt('kos', 2.2), n = 16) => ({
   props: kotaKos(), actors: kotaTokoh(), walkers: { n }, steps,
 });
 const SKOR = [['Gaya hidup', 'D'], ['Ketenangan', 'R'], ['Dana darurat', 'R'], ['Rumah', 'R']];
-const skor = n => ({ at: 0.3, score: SKOR.slice(0, n), sides: ['R', 'D'], dur: 1300 });
+const skor = n => ({ at: 0.3, score: SKOR.slice(0, n), sides: ['R', 'D'], lr: ['D', 'R'], names: ['DIMAS', 'RAKA'], dur: 1300 });
 
 const STORY = {
   title: 'Paylater vs Menabung',
@@ -575,7 +575,7 @@ const STORY = {
               { at: 'bedanya', kw: 'BEDANYA DI *CARA MEMEGANG*', keepKw: true },
             ] },
           { clear: true },
-          { score: SKOR, sides: ['R', 'D'], head: 'SKOR AKHIR', dur: 1200 },
+          { score: SKOR, sides: ['R', 'D'], lr: ['D', 'R'], names: ['DIMAS', 'RAKA'], head: 'SKOR AKHIR', dur: 1200 },
           { caption: 'Kamu lebih mirip Dimas, atau Raka? Jujur di kolom komentar.', vo: 'p-51',
             cues: [
               { at: 'dimas', glow: 'dimas', times: 3 }, { at: 'raka', glow: 'raka', times: 3 },

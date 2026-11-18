@@ -451,6 +451,7 @@ class Movie extends Phaser.Scene {
     // label sisi (BENSIN / LISTRIK)
     if (this.split && sc.tags) {
       const colors = sc.tagColors || ['#b13e53', '#38b764'];
+      this.lastTags = { names: sc.tags, colors };
       this.tags = sc.tags.map((t, i) => this.uobj(this.add.text(0, 0, t, {
         fontFamily: FONT, fontSize: `${this.layout().tagSize}px`, color: '#ffffff',
         backgroundColor: colors[i], padding: { x: 10, y: 8 },
@@ -677,61 +678,123 @@ class Movie extends Phaser.Scene {
     });
   }
 
-  // ---------- papan skor A vs B yang bertambah tiap bab ----------
-  // { score: [['Bencana', 'B'], ['Beras', 'A']], head, dur }  -> baris terakhir = skor baru
-  async scoreboard(st) {
-    const GW = this.GW, V = this.V, rows = st.score;
-    const fs = V ? 20 : 18, rowH = fs + 18, w = V ? GW - 120 : 460;
-    const h = 64 + rows.length * rowH + 14, x = (GW - w) / 2, y = V ? this.GH * 0.2 : 70;
-    const parts = [];
-    parts.push(this.uobj(this.add.rectangle(x, y, w, h, INK, 0.94).setOrigin(0).setDepth(175).setStrokeStyle(5, 0xffcd75)));
-    parts.push(this.uobj(this.add.text(x + 24, y + 26, st.head || 'PAPAN SKOR', { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffcd75' }).setOrigin(0, 0.5).setDepth(176)));
+  // ---------- PAPAN SKOR gaya pertandingan ----------
+  // { score: [['Kategori','A'], ...], sides?, names?, colors?, dur }  -> baris terakhir = poin baru
+  // tim kiri = sisi kiri layar, tim kanan = sisi kanan; { head: 'SKOR AKHIR' } -> papan akhir besar
+  teamInfo(st) {
     const sd = st.sides || ['A', 'B'];
-    const winA = rows.filter(r => r[1] === sd[0]).length, winB = rows.length - winA;
-    parts.push(this.uobj(this.add.text(x + w - 18, y + 26, `${sd[0]} ${winA} : ${winB} ${sd[1]}`, { fontFamily: FONT, fontSize: `${fs - 4}px`, color: '#ffffff' }).setOrigin(1, 0.5).setDepth(176)));
-    const last = [];
-    rows.forEach(([name, win], i) => {
-      const ry = y + 64 + i * rowH + rowH / 2;
-      const t = this.uobj(this.add.text(x + 24, ry, name.toUpperCase(), { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffffff' }).setOrigin(0, 0.5).setDepth(176));
-      const b = this.uobj(this.add.text(x + w - 30, ry, win, { fontFamily: FONT, fontSize: `${fs + 4}px`, color: '#1a1c2c', backgroundColor: win === sd[0] ? '#a7f070' : '#ff77a8', padding: { x: 8, y: 5 } }).setOrigin(1, 0.5).setDepth(177));
-      parts.push(t, b);
-      if (i === rows.length - 1) last.push(t, b);
+    const lr = st.lr || (sd.includes('A') && sd.includes('B') ? ['A', 'B'] : sd);
+    let lt = this.lastTags;
+    if (!lt) { for (const ch of STORY.chapters || []) { const sc = (ch.scenes || []).find(x => x.tags); if (sc) { lt = { names: sc.tags, colors: sc.tagColors || ['#b13e53', '#38b764'] }; break; } } }
+    const names = st.names || (lt && lt.names) || lr.map(l => `TIM ${l}`);
+    const colors = st.colors || (lt && lt.colors) || ['#b13e53', '#38b764'];
+    return { lr, names, colors };
+  }
+  scoreTotal() {
+    if (this._scoreTotal) return this._scoreTotal;
+    let m = 0;
+    const walk = o => { if (!o || typeof o !== 'object') return; if (Array.isArray(o.score)) m = Math.max(m, o.score.length); Object.values(o).forEach(walk); };
+    walk(STORY.chapters);
+    return (this._scoreTotal = m || 5);
+  }
+  async scoreboard(st) {
+    if (st.head) return this.scoreFinal(st);
+    const GW = this.GW, GH = this.GH, V = this.V, rows = st.score;
+    const { lr, names, colors } = this.teamInfo(st);
+    const col = c => Phaser.Display.Color.HexStringToColor(c).color;
+    const cnt = rs => lr.map(l => rs.filter(r => r[1] === l).length);
+    const before = cnt(rows.slice(0, -1)), after = cnt(rows);
+    const [cat, winL] = rows[rows.length - 1], wi = Math.max(0, lr.indexOf(winL));
+    const w = V ? GW - 60 : 540, bw = (w - 64) / 2, bh = V ? 96 : 86;
+    const x0 = (GW - w) / 2, y0 = V ? GH * 0.1 : 40;
+    const parts = [], add = o => { parts.push(this.uobj(o)); return o; };
+    add(this.add.rectangle(x0 - 6, y0 - 6, w + 12, bh + 12, INK, 0.95).setOrigin(0).setDepth(175).setStrokeStyle(4, 0xf4f4f4));
+    const digits = [];
+    [0, 1].forEach(i => {
+      const bx = i ? x0 + w - bw : x0;
+      add(this.add.rectangle(bx, y0, bw, bh, col(colors[i]), 1).setOrigin(0).setDepth(176));
+      add(this.add.text(bx + bw / 2, y0 + 16, names[i], { fontFamily: FONT, fontSize: `${V ? 14 : 14}px`, color: '#ffffff' }).setOrigin(0.5).setDepth(177));
+      digits.push(add(this.add.text(bx + bw / 2, y0 + bh / 2 + 12, String(before[i]), { fontFamily: FONT, fontSize: `${V ? 44 : 40}px`, color: '#ffffff', stroke: '#1a1c2c', strokeThickness: 6 }).setOrigin(0.5).setDepth(178)));
     });
+    const vx = x0 + w / 2, vy = y0 + bh / 2;
+    add(this.add.rectangle(vx, vy, 40, 40, 0xef7d57).setAngle(45).setDepth(179).setStrokeStyle(3, 0x1a1c2c));
+    add(this.add.text(vx, vy, 'VS', { fontFamily: FONT, fontSize: '13px', color: '#ffffff' }).setOrigin(0.5).setDepth(180));
+    const total = Math.max(this.scoreTotal(), rows.length), dr = 7, gap = 22;
+    const dy = y0 + bh + 20, dx0 = vx - (total - 1) * gap / 2;
+    const dots = [];
+    for (let k = 0; k < total; k++) {
+      const r = rows[k], c = r ? col(colors[Math.max(0, lr.indexOf(r[1]))]) : 0x333c57;
+      dots.push(add(this.add.circle(dx0 + k * gap, dy, dr, c).setDepth(177).setStrokeStyle(2, 0xf4f4f4)));
+    }
+    const ribbon = add(this.add.text(vx, dy + 34, `+1 ${names[wi]}  ·  ${cat.toUpperCase()}`, { fontFamily: FONT, fontSize: `${V ? 16 : 16}px`, color: '#1a1c2c', backgroundColor: '#ffcd75', padding: { x: 12, y: 8 } }).setOrigin(0.5).setDepth(178));
+    this.extras.push(...parts);
+    const off = -(y0 + bh + 120);
+    parts.forEach(o => { o._y = o.y; o.y += off; });
+    ribbon.setAlpha(0); dots[rows.length - 1].setScale(0);
+    await this.tween({ targets: parts, y: { getEnd: t => t._y }, duration: 380, ease: 'Back.out' });
+    const d = digits[wi];
+    this.sfx('success', 0.7);
+    await this.tween({ targets: d, scaleY: 0, duration: 90 });
+    d.setText(String(after[wi]));
+    this.tween({ targets: d, scaleY: 1, scaleX: { from: 1.6, to: 1 }, duration: 260, ease: 'Back.out' });
+    const fl = add(this.add.rectangle(wi ? x0 + w - bw : x0, y0, bw, bh, 0xffffff, 0.85).setOrigin(0).setDepth(177.5));
+    this.extras.push(fl);
+    this.tweens.add({ targets: fl, alpha: 0, duration: 380 });
+    for (let k = 0; k < 14; k++) {
+      const c = [0xffcd75, 0xf4f4f4, col(colors[wi]), 0x41a6f6][k % 4];
+      const px = add(this.add.rectangle(d.x, d.y, 6, 6, c).setDepth(181));
+      this.extras.push(px);
+      const ang = (k / 14) * Math.PI * 2, dist = Phaser.Math.Between(40, 90);
+      this.tweens.add({ targets: px, x: d.x + Math.cos(ang) * dist, y: d.y + Math.sin(ang) * dist + 30, alpha: 0, angle: 180, duration: 650, ease: 'Quad.out' });
+    }
+    this.tweens.add({ targets: dots[rows.length - 1], scale: 1, duration: 300, ease: 'Back.out' });
+    this.tweens.add({ targets: ribbon, alpha: 1, scale: { from: 0.6, to: 1 }, duration: 260, ease: 'Back.out' });
+    await this.wait(st.dur ?? 1600);
+    const live = parts.filter(o => o.active);
+    await this.tween({ targets: live, y: `-=${y0 + bh + 140}`, duration: 300, ease: 'Quad.in' });
+    live.forEach(o => o.active && o.destroy());
+  }
+  // versi tidak menahan narasi (corner: true)
+  scoreCorner(st) { this.scoreboard(st); return this.wait(0); }
+
+  // papan SKOR AKHIR: dua kolom tim + daftar kemenangan per tim + pita MENANG
+  async scoreFinal(st) {
+    const GW = this.GW, GH = this.GH, V = this.V, rows = st.score;
+    const { lr, names, colors } = this.teamInfo(st);
+    const col = c => Phaser.Display.Color.HexStringToColor(c).color;
+    const sc = lr.map(l => rows.filter(r => r[1] === l).length);
+    const lh = V ? 34 : 28;
+    const w = V ? GW - 40 : 640, bw = (w - 70) / 2, x0 = (GW - w) / 2, y0 = V ? GH * 0.16 : 64;
+    const bh = (V ? 130 : 116) + Math.max(...sc) * lh;
+    const parts = [], add = o => { parts.push(this.uobj(o)); return o; };
+    add(this.add.rectangle(0, 0, GW, GH, INK, 0.55).setOrigin(0).setDepth(174));
+    const blocks = [];
+    [0, 1].forEach(i => {
+      const bx = i ? x0 + w - bw : x0;
+      blocks.push(add(this.add.rectangle(bx, y0, bw, bh, col(colors[i]), 1).setOrigin(0).setDepth(176).setStrokeStyle(4, 0xf4f4f4)));
+      add(this.add.text(bx + bw / 2, y0 + 22, names[i], { fontFamily: FONT, fontSize: '14px', color: '#ffffff' }).setOrigin(0.5).setDepth(177));
+      add(this.add.text(bx + bw / 2, y0 + 72, String(sc[i]), { fontFamily: FONT, fontSize: `${V ? 54 : 50}px`, color: '#ffffff', stroke: '#1a1c2c', strokeThickness: 7 }).setOrigin(0.5).setDepth(178));
+      rows.filter(r => r[1] === lr[i]).forEach((r, k) => add(this.add.text(bx + bw / 2, y0 + (V ? 130 : 118) + k * lh, `+ ${r[0].toUpperCase()}`, { fontFamily: FONT, fontSize: `${V ? 11 : 10}px`, color: '#1a1c2c', backgroundColor: '#f4f4f4', padding: { x: 8, y: 6 } }).setOrigin(0.5).setDepth(178)));
+    });
+    add(this.add.text(GW / 2, y0 - 8, st.head, { fontFamily: FONT, fontSize: `${V ? 20 : 18}px`, color: '#1a1c2c', backgroundColor: '#ffcd75', padding: { x: 14, y: 8 } }).setOrigin(0.5).setDepth(183));
+    const vx = x0 + w / 2, vy = y0 + 72;
+    add(this.add.rectangle(vx, vy, 48, 48, 0xef7d57).setAngle(45).setDepth(179).setStrokeStyle(3, 0x1a1c2c));
+    add(this.add.text(vx, vy, 'VS', { fontFamily: FONT, fontSize: '15px', color: '#ffffff' }).setOrigin(0.5).setDepth(180));
     this.extras.push(...parts);
     parts.forEach(o => o.setAlpha(0));
-    await this.tween({ targets: parts.filter(o => !last.includes(o)), alpha: 1, duration: 200 });
+    await this.tween({ targets: parts, alpha: 1, duration: 260 });
+    const wi = sc[0] === sc[1] ? -1 : (sc[0] > sc[1] ? 0 : 1);
     await this.wait(250);
-    this.sfx('success', 0.7);
-    last.forEach(o => o.setAlpha(1));
-    last[1].setScale(2.2);
-    await this.tween({ targets: last[1], scale: 1, duration: 260, ease: 'Back.out' });
+    const bx = wi < 0 ? GW / 2 : (wi ? x0 + w - bw : x0) + bw / 2;
+    const win = add(this.add.text(bx, y0 + bh + 6, wi < 0 ? 'SERI!' : 'MENANG!', { fontFamily: FONT, fontSize: `${V ? 18 : 16}px`, color: '#ffffff', backgroundColor: '#e43b44', padding: { x: 10, y: 7 } }).setOrigin(0.5).setDepth(182).setAngle(-5));
+    this.extras.push(win);
+    this.sfx('stamp'); this.time.delayedCall(160, () => this.sfx('success', 0.7));
+    this.tween({ targets: win, scale: { from: 2.4, to: 1 }, duration: 260, ease: 'Back.out' });
+    if (wi >= 0) this.tweens.add({ targets: blocks[1 - wi], alpha: 0.55, duration: 300 });
     await this.wait(st.dur ?? 1600);
     if (st.keep) return;
-    await this.tween({ targets: parts, alpha: 0, duration: 200 });
+    await this.tween({ targets: parts, alpha: 0, duration: 220 });
     parts.forEach(o => o.destroy());
-  }
-
-  // ---------- papan skor mini di pojok (tidak menahan narasi) ----------
-  // { score: rows, corner: true, sides, dur }  -> baris terakhir = poin baru
-  scoreCorner(st) {
-    const GW = this.GW, V = this.V, rows = st.score, sd = st.sides || ['A', 'B'];
-    const [name, win] = rows[rows.length - 1];
-    const winA = rows.filter(r => r[1] === sd[0]).length, winB = rows.length - winA;
-    const fs = V ? 15 : 13, w = V ? 300 : 280, h = fs * 2 + 34;
-    const x = GW - w - 16, y = V ? this.GH * 0.11 : 52;
-    const parts = [
-      this.uobj(this.add.rectangle(x, y, w, h, INK, 0.92).setOrigin(0).setDepth(176).setStrokeStyle(4, 0xffcd75)),
-      this.uobj(this.add.text(x + 12, y + 14, `SKOR  ${sd[0]} ${winA} : ${winB} ${sd[1]}`, { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffcd75' }).setOrigin(0, 0.5).setDepth(177)),
-      this.uobj(this.add.text(x + 12, y + h - 16, name.toUpperCase(), { fontFamily: FONT, fontSize: `${fs - 2}px`, color: '#ffffff' }).setOrigin(0, 0.5).setDepth(177)),
-      this.uobj(this.add.text(x + w - 12, y + h - 16, win, { fontFamily: FONT, fontSize: `${fs + 2}px`, color: '#1a1c2c', backgroundColor: win === sd[0] ? '#a7f070' : '#ff77a8', padding: { x: 6, y: 4 } }).setOrigin(1, 0.5).setDepth(178)),
-    ];
-    this.extras.push(...parts);
-    parts.forEach(o => { o.x += w + 30; });
-    this.sfx('success', 0.6);
-    this.tweens.add({ targets: parts, x: `-=${w + 30}`, duration: 320, ease: 'Back.out' });
-    this.tweens.add({ targets: parts[3], scale: { from: 1.8, to: 1 }, duration: 300, delay: 260, ease: 'Back.out' });
-    this.time.delayedCall(320 + (st.dur ?? 2000), () => this.tweens.add({ targets: parts, alpha: 0, duration: 250, onComplete: () => parts.forEach(o => o.destroy()) }));
-    return this.wait(0);
   }
 
   // ---------- kartu kutipan: 1 frame bersih (punchline + status skor) untuk di-screenshot ----------

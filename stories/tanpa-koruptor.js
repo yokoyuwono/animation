@@ -304,7 +304,7 @@ const STORY = {
           C('k-42s', [{ at: 0, camera: cam('balai', 2.6), dur: 1400 }, { at: 'siapa', kw: 'KORUPTOR *ITU SIAPA?*' }], { only: 'short' }),
           C('k-43', [{ at: 0, kw: 'KORUPTOR *ITU SIAPA?*' }], { only: 'long' }),
           C('k-44', [{ at: 0, camera: { x: 96, y: 56, zoom: 1 }, dur: 2400 }, { at: 'amplop', kw: 'MULAI DARI *AMPLOP KECIL*' }]),
-          C('k-45', [{ at: 'menolak', kw: 'BERANI *MENOLAK*' }, { at: 'menolak', stamp: 'TOLAK', color: GREEN, at_: [0.5, 0.42] }]),
+          C('k-45', [{ at: 'menolak', kw: 'BERANI *MENOLAK*' }, { at: 'orang yang', stamp: 'TOLAK', color: GREEN, at_: [0.5, 0.42] }]),
           { together: [{ clear: true }, { score: SKOR, sides: SIDES, head: 'SKOR AKHIR', dur: 1300 }] },
           C('k-46', [{ at: 'setuju', kw: 'SETUJU *NGGAK?*' }, { at: 'komentar', label: 'KOMEN', x: 76, y: 24, bg: GREEN, dur: 0 }, { at: 'komentar', label: 'SUBSCRIBE', x: 124, y: 24, bg: '#e43b44', dur: 0 }], { only: 'long' }),
           C('k-47', [{ at: 'tag', kw: '*TAG* TEMANMU!' }, { at: 'jali', glow: 'jaliA', times: 2 }], { only: 'short' }),
