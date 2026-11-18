@@ -45,6 +45,11 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   wati:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#b13e53', R: '#ff77a8', B: '#7a3b8f' } },
   jali:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#ffcd75', B: '#1a1c2c' } },  // calo (kemeja kuning mencolok)
   petugas:{ body: BOY_BODY, legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#a8b84a', B: '#5d3a1a' } },
+  // seri genz-milenial (fiktif): pulau A Gen Z (ungu), pulau B milenial (teal)
+  kayla: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#7a3b8f', R: '#c9a0dc', B: '#29366f' } },
+  rafi:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#7a3b8f', B: '#333c57' } },
+  bayu:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#257179', B: '#5d3a1a' } },
+  sinta: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#5d3a1a', R: '#73eff7', B: '#257179' } },
 });
 
 function buildMapTextures(scene) {
@@ -251,6 +256,42 @@ function buildMapTextures(scene) {
   mapCanvas(scene, 'gunting', 14, 10, (ctx, px) => {
     pxEllipse(px, 3, 7, 2, 2, '#e43b44'); pxEllipse(px, 3, 7, 1, 1, '#f4f4f4'); pxEllipse(px, 8, 8, 2, 1, '#e43b44'); px(8, 8, '#f4f4f4');
     for (let i = 0; i < 8; i++) { px(4 + i, 5 - (i >> 1), '#c2c3c7'); px(5 + i, 6 - (i >> 2), '#a8a8a8'); }
+  });
+
+  // ---------- seri genz-milenial (pulau) ----------
+  mapCanvas(scene, 'kapal_karam', 28, 12, (ctx, px) => {
+    px(2, 11, 'rgba(0,0,0,0.25)', 25, 1); px(1, 3, '#5d3a1a', 24, 7); px(2, 4, '#8b5a2b', 22, 5);
+    for (let x = 4; x < 24; x += 4) px(x, 4, '#5d3a1a', 1, 5); px(24, 2, '#5d3a1a', 3, 3); px(14, 0, '#c2c3c7', 1, 4); px(15, 0, '#f4f4f4', 5, 3);
+    px(8, 5, '#2f6fbf', 5, 3);
+  });
+  mapCanvas(scene, 'api_top', 9, 9, (ctx, px) => {
+    [[1, 3], [3, 1], [5, 1], [7, 3], [7, 5], [5, 7], [3, 7], [1, 5]].forEach(([x, y]) => px(x, y, '#8a8f99', 1, 1));
+    pxEllipse(px, 4, 4, 2, 2, '#ef7d57'); px(4, 3, '#ffcd75', 1, 2);
+  });
+  mapCanvas(scene, 'api_unggun', 18, 16, (ctx, px) => {
+    px(1, 15, 'rgba(0,0,0,0.3)', 16, 1); px(2, 12, '#5d3a1a', 14, 2); px(4, 10, '#8b5a2b', 10, 2);
+    pxEllipse(px, 9, 7, 4, 4, '#e43b44'); pxEllipse(px, 9, 8, 3, 3, '#ef7d57'); pxEllipse(px, 9, 9, 1, 2, '#ffcd75'); px(8, 1, '#ef7d57', 2, 3);
+  });
+  mapCanvas(scene, 'hp_jadul', 7, 12, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 7, 12); px(1, 1, '#8a8f99', 5, 10); px(2, 2, '#a7f070', 3, 3);
+    for (let y = 6; y < 10; y += 2) for (let x = 1; x < 6; x += 2) px(x, y, '#333c57');
+  });
+  mapCanvas(scene, 'kincir', 30, 30, (ctx, px) => {
+    const c = 15;
+    for (let a = 0; a < 64; a++) { const t = (a / 64) * Math.PI * 2; px(Math.round(c + 13 * Math.cos(t)), Math.round(c + 13 * Math.sin(t)), '#c9a46a'); }
+    for (let k = 0; k < 8; k++) { const t = (k / 8) * Math.PI * 2; for (let r = 2; r < 14; r++) px(Math.round(c + r * Math.cos(t)), Math.round(c + r * Math.sin(t)), '#8b5a2b'); px(Math.round(c + 14 * Math.cos(t)) - 1, Math.round(c + 14 * Math.sin(t)) - 1, '#41a6f6', 3, 3); }
+    pxEllipse(px, c, c, 2, 2, '#5d3a1a');
+  });
+  mapCanvas(scene, 'lumbung', 30, 32, (ctx, px) => {
+    px(1, 31, 'rgba(0,0,0,0.3)', 29, 1);
+    [5, 13, 21].forEach(x => px(x, 22, '#5d3a1a', 2, 9));
+    px(4, 12, '#8b5a2b', 22, 10); for (let x = 6; x < 26; x += 3) px(x, 13, '#a0703c', 1, 8);
+    for (let y = 0; y < 12; y++) px(15 - y - 1, y, '#c9a85a', (y + 1) * 2 + 1, 1);
+    px(12, 15, '#5d3a1a', 6, 7); px(13, 16, '#ffcd75', 4, 2);
+  });
+  mapCanvas(scene, 'kelapa', 9, 9, (ctx, px) => { pxEllipse(px, 4, 5, 3, 3, '#5d3a1a'); pxEllipse(px, 3, 4, 1, 1, '#8b5a2b'); px(3, 0, '#38b764', 3, 2); });
+  mapCanvas(scene, 'jalur_pasir', 34, 14, (ctx, px) => {
+    pxEllipse(px, 17, 7, 16, 6, '#e4d3a8'); const r = mapRand(9); for (let i = 0; i < 20; i++) px(Math.floor(2 + r() * 30), Math.floor(3 + r() * 8), '#c9b98a');
   });
 
   // ---------- benda dekat (tampak samping): internet & nasi ----------

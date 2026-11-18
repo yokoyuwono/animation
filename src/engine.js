@@ -33,7 +33,7 @@ const SKIES = {
 };
 
 const MOVIE_OPTS = { format: 'h', chapter: null };
-const SFX_NAMES = ['pop', 'tick', 'notif', 'kaching', 'stamp', 'coin', 'buzz', 'scratch', 'success', 'gunting', 'tetes', 'jangkrik'];
+const SFX_NAMES = ['pop', 'tick', 'notif', 'kaching', 'stamp', 'coin', 'buzz', 'scratch', 'success', 'gunting', 'tetes', 'jangkrik', 'ombak'];
 const MUSIC_VOL = 0.22, SFX_VOL = 0.55;
 
 class Movie extends Phaser.Scene {
@@ -216,6 +216,16 @@ class Movie extends Phaser.Scene {
     // only: 'long' (kompilasi) | 'short' (satu bab saja, mis. #cerita--v--bab-3)
     if (st.only && st.only !== (MOVIE_OPTS.chapter ? 'short' : 'long')) return;
     if ('quote' in st) return this.quoteCard(st);
+    // { spin: id, dur } -> benda berputar terus (kincir); { spin: id, stop: true }
+    if ('spin' in st) { const a = this.actor(st.spin); this.tweens.killTweensOf(a.spr); if (!a._spinOrigin) { a._spinOrigin = true; a.spr.y -= a.spr.displayHeight * (a.spr.originY - 0.5); a.spr.setOrigin(0.5, 0.5); } if (!st.stop) this.tweens.add({ targets: a.spr, angle: 360, duration: st.dur || 1400, repeat: -1 }); return this.wait(0); }
+    // { encok: id } -> tokoh memegangi pinggang (membungkuk sebentar, gemetar)
+    if ('encok' in st) {
+      const a = this.actor(st.encok); this.calm(a); a.busy = true;
+      const ang = a.spr.flipX ? -14 : 14;
+      this.tweens.add({ targets: a.spr, angle: ang, duration: 260, yoyo: true, hold: st.dur ?? 1100, onComplete: () => { a.busy = false; } });
+      this.tweens.add({ targets: a.spr, x: a.spr.x + S, duration: 60, yoyo: true, repeat: 6, delay: 260 });
+      return this.wait(0);
+    }
     if ('together' in st) return Promise.all(st.together.map(s => this.runStep(s, run)));
     if ('wait' in st) return this.wait(st.wait);
     if ('hook' in st) return this.hook(st);
@@ -539,8 +549,18 @@ class Movie extends Phaser.Scene {
   // ---------- PETA tampak atas ----------
   drawMap(ctx, m, ox, w) {
     const rnd = mapRand(17 + ox);
-    ctx.fillStyle = m.grass || '#3fae5f'; ctx.fillRect(ox, 0, w, H);
-    for (let i = 0; i < w * 3; i++) { ctx.fillStyle = ['#38a35a', '#4cbd6c', '#349a52'][i % 3]; ctx.fillRect(ox + Math.floor(rnd() * w), Math.floor(rnd() * H), 1 + (i % 2), 1); }
+    // pulau: { island: [cx, cy, rx, ry], bumps: [[x, y, rx, ry], ...] } -> laut di sekeliling, pantai pasir, daratan rumput
+    const isl = m.island ? [m.island, ...(m.bumps || [])] : null;
+    const inside = (x, y) => !isl || isl.some(([cx, cy, rx, ry]) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 < 1);
+    if (isl) {
+      ctx.fillStyle = m.sea || '#2f6fbf'; ctx.fillRect(ox, 0, w, H);
+      for (let i = 0; i < w * 2; i++) { ctx.fillStyle = i % 3 ? '#3b7fd0' : '#9fd4ff'; ctx.fillRect(ox + Math.floor(rnd() * w), Math.floor(rnd() * H), 2 + (i % 3), 1); }
+      const ell = (cx, cy, rx, ry, c) => { ctx.fillStyle = c; for (let y = -ry; y <= ry; y++) { const half = Math.floor(rx * Math.sqrt(Math.max(0, 1 - (y * y) / (ry * ry)))); ctx.fillRect(ox + cx - half, cy + y, half * 2 + 1, 1); } };
+      isl.forEach(([cx, cy, rx, ry]) => ell(cx, cy, rx + 7, ry + 7, '#9fd4ff'));
+      isl.forEach(([cx, cy, rx, ry]) => ell(cx, cy, rx + 5, ry + 5, '#e4d3a8'));
+      isl.forEach(([cx, cy, rx, ry]) => ell(cx, cy, rx, ry, m.grass || '#3fae5f'));
+    } else { ctx.fillStyle = m.grass || '#3fae5f'; ctx.fillRect(ox, 0, w, H); }
+    for (let i = 0; i < w * 3; i++) { const x = Math.floor(rnd() * w), y = Math.floor(rnd() * H); if (!inside(x, y)) continue; ctx.fillStyle = ['#38a35a', '#4cbd6c', '#349a52'][i % 3]; ctx.fillRect(ox + x, y, 1 + (i % 2), 1); }
     (m.dirt || []).forEach(([x, y, ww, hh, c]) => { ctx.fillStyle = c || '#b89a62'; ctx.fillRect(ox + x, y, ww, hh); });
     const stamp = (pts, r, c) => {
       ctx.fillStyle = c;

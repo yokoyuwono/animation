@@ -19,6 +19,7 @@
 7s. *(pembuka · short)* Gen Z terdampar di pulau. Siapa yang bisa bikin api duluan?
 8. Tidak ada sinyal. Kayla panik lima menit. **[SINYAL *0*]**
 9. Lalu dia ingat video life-hack survival lima belas detik di berandanya. **[LIFE-HACK *15 DETIK*]**
+9b. Dari lima video yang dia ingat, cuma satu yang berhasil. **[*1 DARI 5* BERHASIL]**
 10. Batu, serat kelapa, tiup pelan. Dalam satu jam, api menyala. **[API *1 JAM*]**
 11. Di pulau B, Bayu mengandalkan ingatan buku saku. Gosok kayu, gagal, ulang. **[BUKU SAKU · *COBA-COBA*]** **[SFX: kayu digosok]**
 11b. Apinya baru menyala sore hari, tangannya lecet. **[*SORE* HARI]**
@@ -30,7 +31,7 @@
 14. Di pulau A, banyak yang gelisah. Tangan masih refleks meraba saku. **[*GELISAH*]**
 15. Di pulau B, Sinta dan kawan-kawan malah bikin permainan sendiri. **[GOBAK SODOR · *LAYANGAN*]**
 16. Masa kecil mereka memang akrab dengan bosan, tanpa layar di tangan. **[AKRAB DENGAN *BOSAN*]**
-17. Lucunya, sekarang justru milenial pengguna internet paling banyak. **[MILENIAL *90%* ONLINE · APJII 2026]**
+17. Lucunya, hari ini justru milenial yang paling banyak online. **[MILENIAL *90%* ONLINE · APJII 2026]**
 18. Di pulau, kebal bosan ternyata keahlian bertahan hidup. *(punchline)* · *skor: Tahan bosan → B*
 
 ## Bab 4 — Bulan keenam: konflik & isi kepala
@@ -47,7 +48,8 @@
 25s. *(pembuka · short)* Musim kemarau di pulau. Siapa yang kelaparan?
 26. Di pulau A, panen pertama dirayakan. Self-reward, habis capek bercocok tanam. **[*SELF-REWARD* PANEN]**
 27. Di pulau B, Bayu menyisihkan sebagian ke lumbung. Dana darurat versi pulau. **[*DANA DARURAT* (LUMBUNG)]**
-28. Mereka tumbuh di bayang-bayang krisis 1998. Kebiasaan menyimpan terbawa sampai ke pulau. *(ilustrasi)* **[KRISIS *1998*]**
+28. Mereka dibesarkan orang tua yang trauma krisis 1998. **[KRISIS *1998*]**
+28b. Kebiasaan menyimpan itu terbawa sampai ke pulau.
 29. Saat kemarau, pulau B tetap makan. Pulau A mulai mengencangkan ikat pinggang. **[*KENCANGKAN* IKAT PINGGANG]**
 30. Self-reward itu enak, sampai kemarau datang. *(punchline)* · *skor: Pangan → B*
 
