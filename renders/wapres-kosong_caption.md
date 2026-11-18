@@ -15,13 +15,13 @@
 
 ⏱️ Bab
 0:00 Satu surat, satu kursi kosong
-0:29 Aturan 60 hari
-1:00 1998 vs 2001
-1:32 Dampak politik
-2:11 Investor benci ketidakpastian
-2:40 Dampaknya ke dompet kita
-3:42 Kalau dua kursi kosong
-4:08 Bukan kursinya, tapi kepastiannya
+0:30 Aturan 60 hari
+1:06 1998 vs 2001
+1:44 Dampak politik
+2:29 Investor benci ketidakpastian
+3:04 Dampaknya ke dompet kita
+4:11 Kalau dua kursi kosong
+4:43 Bukan kursinya, tapi kepastiannya
 
 📌 Fakta kunci:
 • UUD 1945 Pasal 8 ayat 2: wapres kosong → presiden usul 2 nama, MPR bersidang paling lambat 60 hari
