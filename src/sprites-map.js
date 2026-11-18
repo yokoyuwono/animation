@@ -24,6 +24,23 @@ function pxEllipse(px, cx, cy, rx, ry, color) {
 // angka acak tetap (agar gambar sama tiap kali dimuat)
 function mapRand(seed) { let s = seed; return () => ((s = (s * 9301 + 49297) % 233280) / 233280); }
 
+
+// ---------- tokoh baru (seri Andaikan: ojol, internet, nasi) ----------
+if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
+  udin:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#2f8a55', R: '#38b764', B: '#1a1c2c' } },  // driver ojol (helm & jaket hijau polos)
+  joko:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#ef7d57', B: '#5d3a1a' } },  // ojek pangkalan (rompi oranye)
+  ijah:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#7a3b8f', R: '#ffcd75', B: '#7a3b8f' } },
+  nadia: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#1a1c2c', R: '#41a6f6', B: '#29366f' } },
+  hasan: { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#257179', B: '#5d3a1a' } },
+  rara:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#5d3a1a', R: '#ff77a8', B: '#b13e53' } },
+  dafa:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#e43b44' } },  // seragam SD
+  nenek: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#c2c3c7', R: '#7a3b8f', B: '#5d3a1a' } },
+  wiryo: { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#c2c3c7', R: '#8b5a2b', B: '#1a1c2c' } },
+  endang:{ body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#b13e53', R: '#f4f4f4', B: '#b13e53' } },
+  tole:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#e43b44', B: '#3b5dc9' } },
+  bima:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#f4f4f4', R: '#f4f4f4', B: '#5d3a1a' } },  // tukang roti
+});
+
 function buildMapTextures(scene) {
   // ---------- gunung api dari atas ----------
   ['on', 'off'].forEach(state => mapCanvas(scene, `gunung_top_${state}`, 76, 50, (ctx, px) => {
@@ -127,6 +144,29 @@ function buildMapTextures(scene) {
     px(4, rh + 2, '#333c57', 18, 16 - rh - 3); for (let y = rh + 3; y < 15; y += 2) px(4, y, '#565c6e', 18, 1);
   });
 
+  // ---------- peta: ojol / internet / nasi ----------
+  gedung('shelter_top', 26, 14, '#38b764', '#d6d6d6', (px, rh) => { px(2, rh + 2, '#1a1c2c', 22, 1); for (let x = 3; x < 24; x += 5) px(x, rh + 3, '#8b5a2b', 1, 14 - rh - 4); });
+  gedung('halte_top', 22, 12, '#3b5dc9', '#c2c3c7', (px, rh) => { px(2, rh + 3, '#8b5a2b', 18, 2); });
+  gedung('pangkalan_top', 18, 12, '#ef7d57', '#f4e4c1', (px, rh) => { px(3, rh + 2, '#1a1c2c', 12, 1); });
+  gedung('warung_top', 22, 14, '#e43b44', '#f4e4c1', (px, rh) => { for (let k = 0; k < 22; k += 4) px(k, rh - 2, '#f4f4f4', 2, 2); px(3, rh + 3, '#ffcd75', 16, 3); });
+  gedung('gudang_top', 40, 22, '#8a8f99', '#c9c3a8', (px, rh) => { px(14, rh + 3, '#5d3a1a', 12, 22 - rh - 4); for (let x = 2; x < 38; x += 4) px(x, 2, '#6f747d', 1, rh - 3); });
+  gedung('roti_top', 24, 16, '#ffcd75', '#f4f4f4', (px, rh) => { px(4, rh + 2, '#c9a85a', 6, 3); px(14, rh + 2, '#c9a85a', 6, 3); px(10, rh + 5, '#5d3a1a', 4, 16 - rh - 6); });
+  ['on', 'off'].forEach(st => mapCanvas(scene, `menara_top_${st}`, 14, 30, (ctx, px) => {
+    const c = st === 'on' ? '#c2c3c7' : '#6f6f70';
+    px(2, 29, 'rgba(0,0,0,0.25)', 11, 1);
+    for (let y = 2; y < 29; y++) { const h = Math.round(1 + y * 0.18); px(7 - h, y, c, 1, 1); px(6 + h, y, c, 1, 1); if (y % 4 === 0) px(7 - h, y, c, h * 2, 1); }
+    px(6, 0, c, 2, 3);
+    if (st === 'on') { px(5, 0, '#e43b44', 1, 1); px(8, 0, '#e43b44', 1, 1); px(3, 5, '#41a6f6', 2, 2); px(9, 5, '#41a6f6', 2, 2); }
+  }));
+  [['#e43b44', 0], ['#3b5dc9', 1], ['#ffcd75', 2]].forEach(([c, i]) => mapCanvas(scene, `mobil_top_${i}`, 14, 9, (ctx, px) => {
+    px(1, 8, 'rgba(0,0,0,0.3)', 13, 1); px(1, 2, '#1a1c2c', 12, 6); px(2, 3, c, 10, 4); px(4, 3, '#9fd4ff', 6, 2); px(2, 7, '#1a1c2c', 2, 1); px(10, 7, '#1a1c2c', 2, 1);
+  }));
+  mapCanvas(scene, 'ojol_top', 9, 8, (ctx, px) => { px(1, 7, 'rgba(0,0,0,0.3)', 8, 1); px(1, 5, '#1a1c2c', 7, 2); px(3, 1, '#38b764', 3, 4); px(3, 0, '#2f8a55', 3, 2); px(0, 6, '#1a1c2c', 2, 1); px(7, 6, '#1a1c2c', 2, 1); });
+  const ladang = (key, base, crop) => mapCanvas(scene, key, 26, 16, (ctx, px) => { px(0, 0, '#6b4a2b', 26, 16); px(1, 1, base, 24, 14); for (let y = 2; y < 15; y += 3) for (let x = 2; x < 24; x += 3) px(x, y, crop, 2, 2); });
+  ladang('ladang_jagung', '#8b6a46', '#c9c94a');
+  ladang('ladang_singkong', '#8b6a46', '#38b764');
+  ladang('lahan_rumah', '#c9c3a8', '#a8a8a8');
+
   mapCanvas(scene, 'kandang_top', 30, 16, (ctx, px) => {
     px(1, 15, 'rgba(0,0,0,0.25)', 29, 1);
     px(0, 4, '#8b5a2b', 30, 1); px(0, 14, '#8b5a2b', 30, 1); for (let x = 0; x < 30; x += 3) px(x, 4, '#5d3a1a', 1, 11);   // pagar
@@ -154,6 +194,47 @@ function buildMapTextures(scene) {
   mapCanvas(scene, 'petak_retak', 48, 6, (ctx, px) => { px(0, 0, '#6b4a2b', 48, 6); px(1, 1, '#a0703c', 46, 4); const r = mapRand(5); for (let x = 2; x < 46; x += 3) px(x, 1 + Math.floor(r() * 4), '#5d3a1a', 1 + Math.floor(r() * 2), 1); });
   mapCanvas(scene, 'padi_kering', 18, 10, (ctx, px) => { for (let x = 1; x < 18; x += 3) { px(x, 6 + (x % 2), '#8b5a2b', 1, 3 - (x % 2)); px(x, 5 + (x % 2), '#c9a85a', 1, 1); } px(0, 8, '#a0703c', 18, 1); px(0, 9, '#5d3a1a', 18, 1); px(4, 8, '#5d3a1a', 2, 1); px(12, 8, '#5d3a1a', 3, 1); });
   mapCanvas(scene, 'padi_muda', 18, 10, (ctx, px) => { for (let x = 1; x < 18; x += 3) { px(x, 5, '#5ccf7a', 1, 3); px(x - 1, 5, '#38b764', 1, 1); px(x + 1, 6, '#38b764', 1, 1); } px(0, 8, '#41a6f6', 18, 1); px(0, 9, '#5d3a1a', 18, 1); });
+
+  // ---------- benda dekat (tampak samping): internet & nasi ----------
+  mapCanvas(scene, 'paket', 20, 16, (ctx, px) => {                                   // tumpukan paket
+    [[0, 8, 11, 8], [10, 9, 10, 7], [3, 1, 12, 7]].forEach(([x, y, w, h]) => { px(x, y, '#5d3a1a', w, h); px(x + 1, y + 1, '#c9a46a', w - 2, h - 2); px(x + Math.floor(w / 2) - 1, y + 1, '#e4d3a8', 2, h - 2); px(x + 2, y + 3, '#f4f4f4', 3, 2); });
+  });
+  ['ok', 'fail'].forEach(st => mapCanvas(scene, `qr_${st}`, 12, 16, (ctx, px) => {   // papan QR kasir
+    px(0, 0, '#1a1c2c', 12, 14); px(1, 1, '#f4f4f4', 10, 12); px(4, 14, '#1a1c2c', 4, 2);
+    const r = mapRand(7); for (let y = 2; y < 11; y++) for (let x = 2; x < 10; x++) if (r() > 0.5) px(x, y, '#1a1c2c');
+    [[2, 2], [7, 2], [2, 7]].forEach(([x, y]) => { px(x, y, '#1a1c2c', 3, 3); px(x + 1, y + 1, '#f4f4f4'); });
+    if (st === 'fail') for (let i = 0; i < 10; i++) { px(1 + i, 2 + i, '#e43b44', 2, 1); px(10 - i, 2 + i, '#e43b44', 2, 1); }
+  }));
+  mapCanvas(scene, 'radio', 16, 11, (ctx, px) => {
+    px(10, 0, '#1a1c2c', 1, 3); px(0, 3, '#5d3a1a', 16, 8); px(1, 4, '#8b5a2b', 14, 6);
+    pxEllipse(px, 5, 7, 2, 2, '#1a1c2c'); px(9, 5, '#ffcd75', 5, 2); px(9, 8, '#c2c3c7', 2, 1); px(12, 8, '#c2c3c7', 2, 1);
+  });
+  ['on', 'off'].forEach(st => mapCanvas(scene, `ringlight_${st}`, 14, 30, (ctx, px) => {  // lampu siaran langsung
+    const c = st === 'on' ? '#fff6c2' : '#565c6e';
+    for (let a = 0; a < 40; a++) { const t = (a / 40) * Math.PI * 2; px(Math.round(7 + 6 * Math.cos(t)), Math.round(7 + 6 * Math.sin(t)), c, 1, 1); }
+    px(5, 5, '#1a1c2c', 4, 6); px(6, 6, st === 'on' ? '#41a6f6' : '#333c57', 2, 4);
+    px(6, 14, '#1a1c2c', 2, 14); px(2, 28, '#1a1c2c', 10, 2);
+  }));
+  mapCanvas(scene, 'karung_beras', 12, 14, (ctx, px) => {
+    px(1, 13, 'rgba(0,0,0,0.3)', 11, 1); px(1, 2, '#c9c3a8', 10, 11); px(2, 3, '#f4f4f4', 8, 9); px(3, 0, '#c9c3a8', 6, 3); px(4, 6, '#38b764', 4, 3);
+  });
+  mapCanvas(scene, 'karung_gandum', 12, 14, (ctx, px) => {
+    px(1, 13, 'rgba(0,0,0,0.3)', 11, 1); px(1, 2, '#a8865a', 10, 11); px(2, 3, '#d9b77a', 8, 9); px(3, 0, '#a8865a', 6, 3); px(4, 5, '#3b5dc9', 4, 4); px(5, 6, '#f4f4f4', 2, 2);
+  });
+  mapCanvas(scene, 'etalase', 40, 20, (ctx, px) => {                                 // etalase warteg
+    px(0, 19, 'rgba(0,0,0,0.3)', 40, 1); px(0, 10, '#5d3a1a', 40, 10); px(1, 11, '#8b5a2b', 38, 8);
+    px(0, 0, '#c2c3c7', 40, 10); px(1, 1, '#d8f1ff', 38, 8);
+    [[3, '#f4f4f4'], [12, '#38b764'], [21, '#e43b44'], [30, '#ffcd75']].forEach(([x, c]) => { px(x, 5, '#a8a8a8', 7, 3); px(x + 1, 4, c, 5, 2); });
+  });
+  mapCanvas(scene, 'etalase_kosong', 40, 20, (ctx, px) => {
+    px(0, 19, 'rgba(0,0,0,0.3)', 40, 1); px(0, 10, '#5d3a1a', 40, 10); px(1, 11, '#8b5a2b', 38, 8);
+    px(0, 0, '#c2c3c7', 40, 10); px(1, 1, '#d8f1ff', 38, 8);
+    [[3, '#a8a8a8'], [12, '#38b764'], [21, '#e43b44'], [30, '#c9c94a']].forEach(([x, c]) => { px(x, 5, '#a8a8a8', 7, 3); if (x > 3) px(x + 1, 4, c, 5, 2); });
+  });
+  mapCanvas(scene, 'kapal_top', 30, 10, (ctx, px) => {                               // kapal kargo tampak atas
+    px(2, 9, 'rgba(0,0,0,0.2)', 27, 1); px(0, 3, '#e43b44', 2, 4); px(2, 1, '#1a1c2c', 26, 8); px(28, 3, '#1a1c2c', 2, 4); px(3, 2, '#b13e53', 24, 6);
+    [[5, '#ffcd75'], [10, '#41a6f6'], [15, '#38b764'], [20, '#ffcd75']].forEach(([x, c]) => px(x, 3, c, 4, 4)); px(24, 3, '#f4f4f4', 3, 4);
+  });
 }
 
 // ---------- alat kerja: cangkul (dibuat dari frame tokoh mana pun) ----------

@@ -552,7 +552,7 @@ class Movie extends Phaser.Scene {
   }
 
   spawnWalkers(cfg) {
-    const pool = (cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid']).filter(k => this.textures.exists(`${k}_0`));
+    const pools = [cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid'], cfg.spritesB || cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid']].map(l => l.filter(k => this.textures.exists(`${k}_0`)));
     (this.split ? [0, 1] : [0]).forEach(si => {
       const m = (si && this.mapB) || this.mapSpec || {}, off = si * W;
       const segs = (m.roads || []).map(r => [r[0] + off, r[1], r[2] + off, r[3]]);
@@ -560,7 +560,7 @@ class Movie extends Phaser.Scene {
       const n = Array.isArray(cfg.n) ? cfg.n[si] : (cfg.n ?? 12);
       for (let k = 0; k < n; k++) {
         const seg = Math.floor(Math.random() * segs.length), t = Math.random(), [x1, y1, x2, y2] = segs[seg];
-        const sp = pool[(k + si * 3) % pool.length];
+        const pool = pools[si]; const sp = pool[(k + si * 3) % pool.length];
         const x = x1 + (x2 - x1) * t, y = y1 + (y2 - y1) * t + 1;
         const spr = this.wobj(this.add.sprite(x * S, y * S, `${sp}_0`).setOrigin(0.5, 1).setScale(S * (cfg.scale || 0.5)).setDepth(4 + y / 200));
         this.walkers.push({ spr, sprite: sp, segs, seg, t, dir: Math.random() < 0.5 ? 1 : -1, speed: Phaser.Math.FloatBetween(5, 9), pause: Math.random() * 2, side: si, mode: 'road', walking: false });
