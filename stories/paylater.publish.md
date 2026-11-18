@@ -14,11 +14,11 @@ Dimas pakai paylater, Raka menabung. Gaji sama-sama 5 juta. Lima tahun kemudian,
 
 ⏱️ Bab
 0:00 Gaji sama, nasib beda
-1:16 Tahun 1: Gali lubang tutup lubang
-1:41 Tahun 3: Saat musibah datang
-2:02 Tahun 5: KPR ditolak & struk tagihan
-2:37 Bagian 2: Kenapa bisa begini?
-3:39 4 aturan aman paylater
+1:18 Tahun 1: Gali lubang tutup lubang
+1:49 Tahun 3: Saat musibah datang
+2:15 Tahun 5: KPR ditolak & struk tagihan
+2:55 Bagian 2: Kenapa bisa begini?
+4:04 4 aturan aman paylater
 
 📌 4 aturan aman paylater:
 1. Total cicilan maks. 30% gaji
