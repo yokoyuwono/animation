@@ -33,7 +33,7 @@ const SKIES = {
 };
 
 const MOVIE_OPTS = { format: 'h', chapter: null };
-const SFX_NAMES = ['pop', 'tick', 'notif', 'kaching', 'stamp', 'coin', 'buzz', 'scratch', 'success'];
+const SFX_NAMES = ['pop', 'tick', 'notif', 'kaching', 'stamp', 'coin', 'buzz', 'scratch', 'success', 'gunting', 'tetes', 'jangkrik'];
 const MUSIC_VOL = 0.22, SFX_VOL = 0.55;
 
 class Movie extends Phaser.Scene {
@@ -213,6 +213,9 @@ class Movie extends Phaser.Scene {
 
   async runStep(st, run) {
     if (!this.alive(run)) return;
+    // only: 'long' (kompilasi) | 'short' (satu bab saja, mis. #cerita--v--bab-3)
+    if (st.only && st.only !== (MOVIE_OPTS.chapter ? 'short' : 'long')) return;
+    if ('quote' in st) return this.quoteCard(st);
     if ('together' in st) return Promise.all(st.together.map(s => this.runStep(s, run)));
     if ('wait' in st) return this.wait(st.wait);
     if ('hook' in st) return this.hook(st);
@@ -253,7 +256,7 @@ class Movie extends Phaser.Scene {
     if ('glow' in st) return this.glow(st);
     if ('move' in st) return this.move(st);
     if ('work' in st) return this.work(st);
-    if ('score' in st) return this.scoreboard(st);
+    if ('score' in st) return st.corner ? this.scoreCorner(st) : this.scoreboard(st);
     if ('dialog' in st) return this.dialog(st, run);
     if ('crowd' in st) return this.crowd(st);
     if ('swapAll' in st) return this.swapAll(st);
@@ -705,6 +708,47 @@ class Movie extends Phaser.Scene {
     await this.wait(st.dur ?? 1600);
     if (st.keep) return;
     await this.tween({ targets: parts, alpha: 0, duration: 200 });
+    parts.forEach(o => o.destroy());
+  }
+
+  // ---------- papan skor mini di pojok (tidak menahan narasi) ----------
+  // { score: rows, corner: true, sides, dur }  -> baris terakhir = poin baru
+  scoreCorner(st) {
+    const GW = this.GW, V = this.V, rows = st.score, sd = st.sides || ['A', 'B'];
+    const [name, win] = rows[rows.length - 1];
+    const winA = rows.filter(r => r[1] === sd[0]).length, winB = rows.length - winA;
+    const fs = V ? 15 : 13, w = V ? 300 : 280, h = fs * 2 + 34;
+    const x = GW - w - 16, y = V ? this.GH * 0.11 : 52;
+    const parts = [
+      this.uobj(this.add.rectangle(x, y, w, h, INK, 0.92).setOrigin(0).setDepth(176).setStrokeStyle(4, 0xffcd75)),
+      this.uobj(this.add.text(x + 12, y + 14, `SKOR  ${sd[0]} ${winA} : ${winB} ${sd[1]}`, { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffcd75' }).setOrigin(0, 0.5).setDepth(177)),
+      this.uobj(this.add.text(x + 12, y + h - 16, name.toUpperCase(), { fontFamily: FONT, fontSize: `${fs - 2}px`, color: '#ffffff' }).setOrigin(0, 0.5).setDepth(177)),
+      this.uobj(this.add.text(x + w - 12, y + h - 16, win, { fontFamily: FONT, fontSize: `${fs + 2}px`, color: '#1a1c2c', backgroundColor: win === sd[0] ? '#a7f070' : '#ff77a8', padding: { x: 6, y: 4 } }).setOrigin(1, 0.5).setDepth(178)),
+    ];
+    this.extras.push(...parts);
+    parts.forEach(o => { o.x += w + 30; });
+    this.sfx('success', 0.6);
+    this.tweens.add({ targets: parts, x: `-=${w + 30}`, duration: 320, ease: 'Back.out' });
+    this.tweens.add({ targets: parts[3], scale: { from: 1.8, to: 1 }, duration: 300, delay: 260, ease: 'Back.out' });
+    this.time.delayedCall(320 + (st.dur ?? 2000), () => this.tweens.add({ targets: parts, alpha: 0, duration: 250, onComplete: () => parts.forEach(o => o.destroy()) }));
+    return this.wait(0);
+  }
+
+  // ---------- kartu kutipan: 1 frame bersih (punchline + status skor) untuk di-screenshot ----------
+  // { quote: 'Teks punchline', sub: 'Infrastruktur: B ✓', dur }
+  async quoteCard(st) {
+    const GW = this.GW, GH = this.GH, V = this.V;
+    const bg = this.uobj(this.add.rectangle(0, 0, GW, GH, 0x29366f, 1).setOrigin(0).setDepth(185));
+    const fs = V ? 22 : 22;
+    const q = this.uobj(this.add.text(GW / 2, GH * (V ? 0.42 : 0.4), `"${st.quote}"`, { fontFamily: FONT, fontSize: `${fs}px`, color: '#ffffff', align: 'center', lineSpacing: 10, wordWrap: { width: GW * (V ? 0.84 : 0.72) } }).setOrigin(0.5).setDepth(186));
+    const parts = [bg, q];
+    if (st.sub) parts.push(this.uobj(this.add.text(GW / 2, q.y + q.height / 2 + 48, st.sub, { fontFamily: FONT, fontSize: `${V ? 18 : 16}px`, color: '#1a1c2c', backgroundColor: '#ffcd75', padding: { x: 12, y: 8 } }).setOrigin(0.5).setDepth(186)));
+    parts.push(this.uobj(this.add.text(GW / 2, GH - (V ? 120 : 40), STORY.title || '', { fontFamily: FONT, fontSize: '11px', color: '#94b0c2' }).setOrigin(0.5).setDepth(186)));
+    this.extras.push(...parts);
+    parts.forEach(o => o.setAlpha(0));
+    await this.tween({ targets: parts, alpha: 1, duration: 220 });
+    await this.wait(st.dur ?? 1600);
+    await this.tween({ targets: parts, alpha: 0, duration: 220 });
     parts.forEach(o => o.destroy());
   }
 

@@ -39,6 +39,12 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   endang:{ body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#b13e53', R: '#f4f4f4', B: '#b13e53' } },
   tole:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#e43b44', B: '#3b5dc9' } },
   bima:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#f4f4f4', R: '#f4f4f4', B: '#5d3a1a' } },  // tukang roti
+  // seri tanpa-koruptor (semua fiktif)
+  slamet:{ body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#ffcd75', R: '#ef7d57', B: '#333c57' } },  // kontraktor kecil (helm proyek)
+  dinda: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#e43b44' } },  // seragam SD
+  wati:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#b13e53', R: '#ff77a8', B: '#7a3b8f' } },
+  jali:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#ffcd75', B: '#1a1c2c' } },  // calo (kemeja kuning mencolok)
+  petugas:{ body: BOY_BODY, legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#a8b84a', B: '#5d3a1a' } },
 });
 
 function buildMapTextures(scene) {
@@ -194,6 +200,58 @@ function buildMapTextures(scene) {
   mapCanvas(scene, 'petak_retak', 48, 6, (ctx, px) => { px(0, 0, '#6b4a2b', 48, 6); px(1, 1, '#a0703c', 46, 4); const r = mapRand(5); for (let x = 2; x < 46; x += 3) px(x, 1 + Math.floor(r() * 4), '#5d3a1a', 1 + Math.floor(r() * 2), 1); });
   mapCanvas(scene, 'padi_kering', 18, 10, (ctx, px) => { for (let x = 1; x < 18; x += 3) { px(x, 6 + (x % 2), '#8b5a2b', 1, 3 - (x % 2)); px(x, 5 + (x % 2), '#c9a85a', 1, 1); } px(0, 8, '#a0703c', 18, 1); px(0, 9, '#5d3a1a', 18, 1); px(4, 8, '#5d3a1a', 2, 1); px(12, 8, '#5d3a1a', 3, 1); });
   mapCanvas(scene, 'padi_muda', 18, 10, (ctx, px) => { for (let x = 1; x < 18; x += 3) { px(x, 5, '#5ccf7a', 1, 3); px(x - 1, 5, '#38b764', 1, 1); px(x + 1, 6, '#38b764', 1, 1); } px(0, 8, '#41a6f6', 18, 1); px(0, 9, '#5d3a1a', 18, 1); });
+
+  // ---------- seri tanpa-koruptor ----------
+  gedung('balai_top', 46, 26, '#b13e53', '#f4f4f4', (px, rh) => {
+    for (let x = 4; x < 44; x += 6) px(x, rh + 2, '#c2c3c7', 2, 26 - rh - 4);
+    px(19, rh + 10, '#5d3a1a', 8, 26 - rh - 11); px(10, 1, '#ffcd75', 26, 2);
+    px(44, 0, '#c2c3c7', 1, 10); px(41, 0, '#e43b44', 3, 2); px(41, 2, '#f4f4f4', 3, 2);
+  });
+  mapCanvas(scene, 'jalan_rusak', 24, 8, (ctx, px) => {
+    px(0, 0, '#6f6f70', 24, 8); const r = mapRand(11);
+    [[4, 3], [12, 5], [19, 2]].forEach(([x, y]) => { pxEllipse(px, x, y, 2, 1, '#3b2a1a'); px(x - 1, y, '#41a6f6', 2, 1); });
+    for (let i = 0; i < 10; i++) px(Math.floor(r() * 24), Math.floor(r() * 8), '#8a8f99');
+  });
+  mapCanvas(scene, 'jalan_mulus', 24, 8, (ctx, px) => { px(0, 0, '#333c57', 24, 8); for (let x = 1; x < 24; x += 6) px(x, 3, '#f4f4f4', 3, 1); });
+  mapCanvas(scene, 'amplop', 12, 8, (ctx, px) => {
+    px(0, 0, '#c9a46a', 12, 8); px(1, 1, '#f4e4c1', 10, 6);
+    for (let i = 0; i < 5; i++) { px(1 + i, 1 + i * 0.6 | 0, '#c9a46a'); px(10 - i, 1 + i * 0.6 | 0, '#c9a46a'); }
+    px(5, 4, '#e43b44', 2, 2);
+  });
+  mapCanvas(scene, 'loket', 48, 40, (ctx, px) => {
+    px(0, 39, 'rgba(0,0,0,0.3)', 48, 1); px(0, 0, '#a8a8a8', 48, 40); px(1, 1, '#c2c3c7', 46, 38);
+    px(2, 2, '#3b5dc9', 44, 6); for (let x = 6; x < 42; x += 6) px(x, 4, '#f4f4f4', 3, 2);
+    px(8, 11, '#1a1c2c', 32, 16); px(9, 12, '#d8f1ff', 30, 14); for (let x = 14; x < 40; x += 6) px(x, 12, '#8a8f99', 1, 14);
+    px(4, 27, '#5d3a1a', 40, 3); px(6, 30, '#8b5a2b', 36, 9);
+  });
+  ['bocor', 'baru'].forEach(st => mapCanvas(scene, `atap_${st}`, 96, 12, (ctx, px) => {
+    const a = st === 'baru' ? '#e43b44' : '#8a3b3b', b = st === 'baru' ? '#b13e53' : '#5d2a2a';
+    for (let y = 0; y < 12; y += 3) for (let x = (y / 3) % 2 * 3; x < 96; x += 6) { px(x, y, a, 5, 3); px(x, y + 2, b, 5, 1); }
+    px(0, 10, '#5d3a1a', 96, 2);
+    if (st === 'bocor') { px(44, 2, '#1a1c2c', 8, 10); px(46, 0, '#1a1c2c', 3, 2); px(41, 5, '#5d3a1a', 3, 1); }
+  }));
+  mapCanvas(scene, 'tetes', 3, 4, (ctx, px) => { px(1, 0, '#9fd4ff'); px(0, 1, '#41a6f6', 3, 2); px(1, 3, '#41a6f6'); });
+  ['buku', 'buku_basah'].forEach(st => mapCanvas(scene, st, 14, 7, (ctx, px) => {
+    px(0, 1, '#29366f', 14, 6); px(1, 0, '#f4f4f4', 6, 6); px(7, 0, '#f4f4f4', 6, 6);
+    for (let y = 1; y < 6; y++) { px(2, y, '#565c6e', 4, 1); px(8, y, '#565c6e', 4, 1); y++; }
+    if (st === 'buku_basah') { pxEllipse(px, 4, 3, 3, 2, 'rgba(65,166,246,0.75)'); pxEllipse(px, 10, 3, 2, 2, 'rgba(65,166,246,0.6)'); px(3, 5, '#3b5dc9', 1, 2); px(9, 5, '#3b5dc9', 1, 2); }
+  }));
+  mapCanvas(scene, 'rak_buku', 26, 32, (ctx, px) => {
+    px(0, 31, 'rgba(0,0,0,0.3)', 26, 1); px(0, 0, '#5d3a1a', 26, 32); px(1, 1, '#8b5a2b', 24, 30);
+    const cs = ['#e43b44', '#41a6f6', '#38b764', '#ffcd75', '#7a3b8f', '#ef7d57'];
+    [2, 12, 22].forEach((y, r) => { px(1, y + 8, '#5d3a1a', 24, 1); for (let x = 2, i = r; x < 24; x += 3, i++) px(x, y + (i % 2), cs[i % 6], 2, 8 - (i % 2)); });
+  });
+  ['tipis', 'lubang', 'tebal'].forEach(st => mapCanvas(scene, `aspal_${st}`, 80, st === 'tebal' ? 8 : 5, (ctx, px) => {
+    const h = st === 'tebal' ? 8 : 5;
+    px(0, 0, st === 'tebal' ? '#1a1c2c' : '#565c6e', 80, h);
+    if (st === 'tebal') for (let x = 4; x < 80; x += 12) px(x, 3, '#f4f4f4', 6, 1);
+    else { const r = mapRand(5); for (let i = 0; i < 14; i++) px(Math.floor(r() * 80), Math.floor(r() * h), '#8a8f99', 2, 1); }
+    if (st === 'lubang') [[14, 2], [38, 3], [60, 2]].forEach(([x, y]) => { pxEllipse(px, x, y, 4, 2, '#3b2a1a'); px(x - 2, y, '#41a6f6', 4, 1); });
+  }));
+  mapCanvas(scene, 'gunting', 14, 10, (ctx, px) => {
+    pxEllipse(px, 3, 7, 2, 2, '#e43b44'); pxEllipse(px, 3, 7, 1, 1, '#f4f4f4'); pxEllipse(px, 8, 8, 2, 1, '#e43b44'); px(8, 8, '#f4f4f4');
+    for (let i = 0; i < 8; i++) { px(4 + i, 5 - (i >> 1), '#c2c3c7'); px(5 + i, 6 - (i >> 2), '#a8a8a8'); }
+  });
 
   // ---------- benda dekat (tampak samping): internet & nasi ----------
   mapCanvas(scene, 'paket', 20, 16, (ctx, px) => {                                   // tumpukan paket
