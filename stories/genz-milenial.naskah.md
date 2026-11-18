@@ -1,4 +1,4 @@
-# Naskah — Andaikan 100 Gen Z vs 100 Milenial Terdampar (draf 1)
+# Naskah — Andaikan 100 Gen Z vs 100 Milenial Terdampar (draf 2 — revisi masukan)
 
 > Teks = ucapan narator (Fikri). **[Layar]** = kata kunci/visual. *(ilustrasi)* = contoh, bukan data. **[SFX: …]** = efek suara.
 > Aturan simulasi: semua terdampar di umur **20 tahun**. Pulau A: 100 Gen Z (lahir 2006, terdampar 2026).
@@ -18,9 +18,10 @@
 7. *(jembatan · long)* Hari pertama di pantai. Kayla dari pulau A langsung mengangkat ponselnya.
 7s. *(pembuka · short)* Gen Z terdampar di pulau. Siapa yang bisa bikin api duluan?
 8. Tidak ada sinyal. Kayla panik lima menit. **[SINYAL *0*]**
-9. Lalu dia ingat video tutorial bikin api yang pernah dia tonton. **[INGAT *TUTORIAL*]**
-10. Dan ternyata, Gen Z seumuran Kayla sempat wajib ikut pramuka di sekolah. **[PRAMUKA *WAJIB* 2014–2024]**
-11. Di pulau B, Bayu menggosok kayu sampai tangannya lecet. Api baru menyala sore hari. **[SFX: kayu digosok]**
+9. Lalu dia ingat video life-hack survival lima belas detik di berandanya. **[LIFE-HACK *15 DETIK*]**
+10. Batu, serat kelapa, tiup pelan. Dalam satu jam, api menyala. **[API *1 JAM*]**
+11. Di pulau B, Bayu mengandalkan ingatan buku saku. Gosok kayu, gagal, ulang. **[BUKU SAKU · *COBA-COBA*]** **[SFX: kayu digosok]**
+11b. Apinya baru menyala sore hari, tangannya lecet. **[*SORE* HARI]**
 12. Malam pertama, pulau A sudah punya api dan tenda daun. *(punchline)* · *skor: Bertahan minggu pertama → A*
 
 ## Bab 3 — Bulan pertama: sepi tanpa layar
@@ -35,8 +36,8 @@
 ## Bab 4 — Bulan keenam: konflik & isi kepala
 19. *(jembatan · long)* Enam bulan berlalu. Di kedua pulau, mulai ada yang bertengkar.
 19s. *(pembuka · short)* Enam bulan terdampar. Mulai ada yang ribut.
-20. Di pulau B, masalah dipendam. "Nggak apa-apa," kata semua orang. **[*"NGGAK APA-APA"*]**
-21. Sampai suatu malam, satu pertengkaran kecil meledak jadi perkelahian. **[SFX: buzz]**
+20. Di pulau B, masalah dipendam. "Nggak apa-apa," kata semua orang. **[*"NGGAK APA-APA"*]** — *balon kata "Nggak apa-apa" menumpuk makin besar di atas kepala warga*
+21. Sampai suatu sore, rebutan satu buah kelapa meledak jadi perkelahian. **[REBUTAN *KELAPA*]** **[SFX: buzz]**
 22. Di pulau A, Kayla membuat lingkaran curhat tiap malam di dekat api. **[LINGKARAN *CURHAT*]**
 23. Generasi ini terbiasa membicarakan kesehatan mental terang-terangan. **[BICARA *TERBUKA*]**
 24. Mengakui lelah ternyata lebih cepat memadamkan api konflik. *(punchline)* · *skor: Rukun → A*
@@ -44,24 +45,25 @@
 ## Bab 5 — Tahun kedua: pangan & tabungan
 25. *(jembatan · long)* Tahun kedua. Musim kemarau datang ke dua pulau sekaligus.
 25s. *(pembuka · short)* Musim kemarau di pulau. Siapa yang kelaparan?
-26. Di pulau A, hasil panen sempat dihabiskan dalam pesta bulan purnama. **[PESTA *PANEN*]**
-27. Di pulau B, Bayu membangun lumbung. Sebagian hasil selalu disisihkan. **[*LUMBUNG*]**
+26. Di pulau A, panen pertama dirayakan. Self-reward, habis capek bercocok tanam. **[*SELF-REWARD* PANEN]**
+27. Di pulau B, Bayu menyisihkan sebagian ke lumbung. Dana darurat versi pulau. **[*DANA DARURAT* (LUMBUNG)]**
 28. Mereka tumbuh di bayang-bayang krisis 1998. Kebiasaan menyimpan terbawa sampai ke pulau. *(ilustrasi)* **[KRISIS *1998*]**
 29. Saat kemarau, pulau B tetap makan. Pulau A mulai mengencangkan ikat pinggang. **[*KENCANGKAN* IKAT PINGGANG]**
-30. Menabung itu tidak keren, sampai kemarau datang. *(punchline)* · *skor: Pangan → B*
+30. Self-reward itu enak, sampai kemarau datang. *(punchline)* · *skor: Pangan → B*
 
 ## Bab 6 — Twist tahun kelima: siapa paling inovatif?
 31. *(jembatan · long)* Tahun kelima. Pulau B rapi dan aman. Tapi pulau A mulai membangun hal aneh.
 31s. *(pembuka · short)* Lima tahun di pulau. Gen Z membangun sesuatu yang aneh.
 32. Rafi, si anak teknik dari pulau A, membuat kincir air dari bambu. **[KINCIR *BAMBU*]**
 33. Gagal tiga kali. Tiap gagal, dia mencoba cara baru. **[GAGAL *3×*, COBA LAGI]**
-34. Di pulau A, ide siapa pun boleh dicoba. Yang paling muda pun didengar. **[*SEMUA* BOLEH USUL]**
-35. Di pulau B, usulan baru harus menunggu persetujuan yang lebih senior. **[TUNGGU *IZIN*]**
+34. Di pulau A, ide siapa pun boleh dicoba, walau sering gagal. **[*SEMUA* BOLEH COBA]**
+35. Di pulau B, usul baru sering kalah oleh satu kalimat: "Sistem lama sudah aman." **[*"JANGAN DIUBAH-UBAH"*]**
 36. Saat kincir Rafi berputar, pulau A punya air mengalir ke ladang. **[AIR *MENGALIR*]** **[SFX: success]**
 37. Berani gagal ternyata mesin inovasi paling murah. *(punchline)* · *skor: Inovasi → A*
 
 ## Bab 7 — Tahun kesepuluh: dua pulau bertemu
-38. *(jembatan · long)* Tahun kesepuluh. Semuanya kini berumur tiga puluh.
+38. *(jembatan · long)* Tahun kesepuluh. Semuanya kini berumur tiga puluh. **[TAHUN 10 · *UMUR 30*]**
+38b. Dan pinggang mulai sering bunyi. **[*ENCOK* MULAI]** — *tokoh memegangi punggung*
 38s. *(pembuka · short)* Sepuluh tahun kemudian, dua pulau akhirnya bertemu.
 39. Air laut surut, dan muncul jalur pasir di antara kedua pulau. **[JALUR *PASIR*]**
 40. Pulau A membawa kincir dan cara berbicara yang terbuka.
@@ -78,4 +80,5 @@
 
 ---
 **Papan skor berjalan:** Bertahan minggu pertama (A) · Tahan bosan (B) · Rukun (A) · Pangan (B) · Inovasi (A) → **A 3 : 2 B**, lalu twist: desa gabungan.
-**Catatan fakta (cek ulang sebelum suara):** Permendikbud 63/2014 menjadikan pramuka ekskul wajib, dicabut Permendikbudristek 12/2024 (26 Mar 2024) → Gen Z kelahiran 2006 bersekolah di masa wajib; APJII 2026: penetrasi milenial 90,34%, Gen Z 89,02%; I-NAMHS 2022: ±1 dari 3 remaja 10–17 th pernah punya masalah kesehatan mental, hanya 2,6% mengakses layanan (bisa jadi kartu di Bab 4). "Gen Z lebih terbuka soal kesehatan mental", "milenial akrab dengan bosan/krisis 1998 → hemat" = kecenderungan umum, disampaikan sebagai skenario, bukan data.
+**Rilis:** short Bab 2 dulu ("Gen Z menang bikin api duluan") atau Bab 5 (self-reward vs lumbung) → bab lain → kompilasi YouTube.
+**Catatan fakta (cek ulang sebelum suara):** APJII 2026: penetrasi milenial 90,34%, Gen Z 89,02%; I-NAMHS 2022: ±1 dari 3 remaja 10–17 th pernah punya masalah kesehatan mental, hanya 2,6% mengakses layanan (bisa jadi kartu di Bab 4). "Gen Z lebih terbuka soal kesehatan mental", "milenial akrab dengan bosan/krisis 1998 → hemat" = kecenderungan umum, disampaikan sebagai skenario, bukan data.
