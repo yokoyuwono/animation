@@ -16,7 +16,7 @@
 ## Bab 2 — Seberapa besar nasi?
 7. *(jembatan)* Dari sawah di pinggir desa ini, kita lihat dulu skalanya.
 8. Kebutuhan beras kita sekitar 31 juta ton setahun. **[*31 JUTA TON*/TAHUN]**
-9. Tahun lalu, produksinya sekitar 34 juta ton. Untuk pertama kalinya surplus besar. **[*34,7 JUTA TON*]**
+9. Tahun lalu, produksinya sekitar 34 juta ton. Lebih dari cukup. **[*34,7 JUTA TON*]**
 10. Kalau dibagi rata, kira-kira 110 kilo per orang setahun. **[±*110 KG*/ORANG] (hitungan)**
 11. Nasi bukan sekadar makanan. Ia hampir seperti jam makan itu sendiri. *(punchline)*
 
