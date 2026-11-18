@@ -78,9 +78,11 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail + paket unggah),
   `wapres-kosong`, `mbg-berhenti`, `tanpa-gunung-api` (seri "Andaikan", lengkap + short + thumbnail + paket; sprite di `src/sprites-politik.js` & `src/sprites-map.js`),
-  `ojol-libur`, `internet-mati`, `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption).
+  `ojol-libur`, `internet-mati`, `tanpa-nasi`, `tanpa-koruptor`, `genz-milenial` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption).
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),
   awan < 10 dtk dari awan sebelumnya otomatis jadi transisi 'zoom' (cek: `node tools/clouds.js stories/<nama>.js`).
-  SFX tambahan: gunting, tetes, jangkrik.
+  SFX tambahan: gunting, tetes, jangkrik, ombak. Peta pulau: `map: { island: [cx,cy,rx,ry], bumps }`; `{ spin: id }` (kincir), `{ encok: id }`.
+- Halaman HP (artifact) dibatasi 512 file: audio Paylater sudah dilepas dari sana (videonya sudah dirender).
+  Untuk cerita baru berikutnya, lepas audio cerita lama yang sudah dirender (`remove` di publish_files).
   Ide fantasi berikutnya: Borobudur dibangun hari ini · kampung Indonesia pindah ke Mars. Semua video sudah memakai gaya peta + alur antar-bab (paylater, wapres-kosong, mbg-berhenti, tanpa-gunung-api).
