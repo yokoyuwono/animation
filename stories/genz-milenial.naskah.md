@@ -1,7 +1,8 @@
-# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 3 · per tahun)
+# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 4 · per tahun, milenial unggul etos kerja)
 
 > Aturan: semua terdampar umur **20**. Pulau A = 100 Gen Z (2026). Pulau B = 100 milenial *versi umur 20* (2010). Dua pulau kembar.
 > **Tanpa HP:** ponsel hanya disebut di hook (tanpa sinyal, baterai habis hari ke-3), setelah itu tidak ada lagi.
+> **Sudut pandang:** milenial versi umur 20 tumbuh dengan lebih sedikit kemudahan → etos kerja, fisik, dan mental lebih tahan banting; Gen Z unggul di ide, adaptasi cepat, dan keterbukaan. Disampaikan sebagai skenario/kecenderungan, bukan data.
 > Tiap tahun = 1 bab (±20–25 dtk, siap jadi short): **dibangun · konflik · perbandingan A vs B · poin**.
 > Kode di kanan: `♻ z-xx` = suara lama dipakai ulang · `BARU` = perlu dibuat. **[Layar]** = kata kunci. *(long)* = jembatan kompilasi, *(short)* = pembuka potongan.
 
@@ -19,11 +20,11 @@
 8s. *(short)* Gen Z terdampar di pulau. Siapa yang bisa bikin api duluan? — ♻ z-07s
 9. Kayla dari pulau A mengingat video life-hack lima belas detik. **[LIFE-HACK *15 DETIK*]** — BARU
 10. Dari lima video yang dia ingat, cuma satu yang berhasil. **[*1 DARI 5*]** — ♻ z-10
-11. Batu, serat kelapa, tiup pelan. Dalam satu jam, api menyala. **[API *1 JAM*]** — ♻ z-11
+11. **Konflik:** Apinya menyala, tapi tenda daun roboh dua kali. Banyak yang cepat lelah. **[CEPAT *LELAH*]** — BARU
 12. Di pulau B, Bayu mengandalkan ingatan buku saku. Gosok kayu, gagal, ulang. — ♻ z-12
-13. Apinya baru menyala sore hari, tangannya lecet. **[*SORE* HARI]** — ♻ z-13
-14. **Konflik:** Malam itu pulau B kedinginan dan mulai saling menyalahkan. — BARU
-15. Tahun pertama: yang cepat belajar, menang start. *(punchline · poin A)* — BARU
+13. Masa kecil tanpa banyak kemudahan membuat mereka tahan capek. **[*ETOS KERJA*]** — BARU
+14. Sore itu, pulau B sudah punya api, atap kokoh, dan air bersih. **[ATAP *KOKOH*]** — BARU
+15. Tahun pertama: yang tahan banting, menang start. *(punchline · poin B)* — BARU
 
 ## Tahun 2 — Sepi tanpa layar
 16. *(long)* Api sudah ada. Tapi masalah berikutnya justru datang dari kepala. — ♻ z-15
@@ -105,13 +106,13 @@
 67. Gabungan keduanya jadi desa paling kuat di kepulauan itu. **[DESA *GABUNGAN*]** — ♻ z-46
 
 ## Penutup
-68. *(long)* Jadi, siapa yang bertahan? / *(short)* Gen Z atau milenial, siapa yang bertahan? — ♻ z-47 / z-47s · **SKOR AKHIR A 5 : 4 B**
-69. Skornya tipis. Tapi pemenang sebenarnya bukan generasi. — ♻ z-48
-70. Yang menang adalah kebiasaan: menyimpan, mencoba, dan saling bicara. — ♻ z-49
+68. *(long)* Jadi, siapa yang bertahan? / *(short)* Gen Z atau milenial, siapa yang bertahan? — ♻ z-47 / z-47s · **SKOR AKHIR B 5 : 4 A**
+69. Pulau B menang tipis, berkat etos kerja dan mental tahan banting. **[*TAHAN BANTING*]** — BARU
+70. Tapi tanpa ide dan keterbukaan pulau A, desa gabungan tak akan sekuat itu. **[IDE + *KERJA KERAS*]** — BARU
 71. *(long)* Kamu tim pulau A atau pulau B? Tulis di kolom komentar. — ♻ z-50
 72. *(short)* Tag temanmu yang bakal jadi Bayu, atau Kayla, di pulau itu! — ♻ z-51
 
 ---
-**Papan skor per tahun:** T1 A · T2 B · T3 A · T4 B · T5 A · T6 B · T7 A · T8 B · T9 A → **A 5 : 4 B**; Tahun 10 = desa gabungan.
-**Suara:** ±33 dipakai ulang, **±41 kalimat baru** (±2.300 kredit). Durasi ±5–5,5 menit (12 bab).
+**Papan skor per tahun:** T1 B · T2 B · T3 A · T4 B · T5 A · T6 B · T7 A · T8 B · T9 A → **B 5 : 4 A** (milenial menang tipis); Tahun 10 = desa gabungan.
+**Suara:** ±30 dipakai ulang, **±44 kalimat baru** (±2.500 kredit). Durasi ±5–5,5 menit (12 bab).
 **Fakta:** APJII 2026 (milenial 90,34% vs Gen Z 89,02% online), I-NAMHS 2022 (±1 dari 3 remaja; 2,6% akses layanan). Sisanya skenario.
