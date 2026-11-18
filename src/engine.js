@@ -180,17 +180,20 @@ class Movie extends Phaser.Scene {
       if (!this.alive(run)) return;
       const sc = scenes[i];
       this.game.events.emit('movie-scene', i + 1, scenes.length);
-      const quick = sc.transition === 'cut';
+      // awan berdekatan terasa berulang: jika < STORY.cloudGap (10 dtk) dari awan terakhir -> transisi 'zoom' (menyelam)
+      let tr = sc.transition;
+      if (tr === 'clouds' && i > 0 && this.lastCloudAt !== undefined && this.time.now - this.lastCloudAt < (STORY.cloudGap ?? 10000)) tr = 'zoom';
+      const quick = tr === 'cut';
       if (i > 0) {
-        if (sc.transition === 'zoom' || sc.transition === 'clouds') this.ctl.forEach(c => this.tweens.add({ targets: c, z: c.z * 2.5, duration: 600, ease: 'Quad.easeIn' }));
-        if (sc.transition === 'clouds') await this.cloudCover(true);
-        else await this.fade(true, quick ? 250 : 600);
+        if (tr === 'zoom' || tr === 'clouds') this.ctl.forEach(c => this.tweens.add({ targets: c, z: c.z * 2.5, duration: 600, ease: 'Quad.easeIn' }));
+        if (tr === 'clouds') await this.cloudCover(true);
+        else await this.fade(true, quick ? 250 : (tr === 'zoom' ? 450 : 600));
       }
       this.buildScene(sc);
-      if (sc.transition === 'zoom') {
+      if (tr === 'zoom') {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
-      if (sc.transition === 'clouds' && i > 0) this.cloudCover(false);
+      if (tr === 'clouds' && i > 0) { this.cloudCover(false); this.lastCloudAt = this.time.now; }
       else this.fade(false, i === 0 ? 250 : (quick ? 250 : 600));
       if (sc._chapter && STORY.chapters.length > 1) this.chapterCard(sc._chapter);
       await this.wait(i === 0 || quick ? 100 : 300);
