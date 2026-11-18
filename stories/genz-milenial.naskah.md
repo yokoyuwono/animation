@@ -1,84 +1,117 @@
-# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 3 — per tahun)
+# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 3 · per tahun)
 
-> Aturan: semua terdampar umur 20. Pulau A = 100 Gen Z (2026). Pulau B = 100 milenial versi umur 20 (2010). Dua pulau kembar.
-> **Tanpa HP:** ponsel hanya muncul sekali di hook (tanpa sinyal, baterai habis hari ke-3), setelah itu tidak dipakai lagi.
-> Struktur: Hook → **Tahun 1 s.d. Tahun 10** (tiap tahun = 1 bab ±20 dtk: yang dibangun · konflik · perbandingan A vs B · poin) → Penutup.
-> ♻ = kalimat lama yang bisa dipakai ulang (hemat kredit). *(jembatan · long)* / *(pembuka · short)* seperti seri sebelumnya.
+> Aturan: semua terdampar umur **20**. Pulau A = 100 Gen Z (2026). Pulau B = 100 milenial *versi umur 20* (2010). Dua pulau kembar.
+> **Tanpa HP:** ponsel hanya disebut di hook (tanpa sinyal, baterai habis hari ke-3), setelah itu tidak ada lagi.
+> Tiap tahun = 1 bab (±20–25 dtk, siap jadi short): **dibangun · konflik · perbandingan A vs B · poin**.
+> Kode di kanan: `♻ z-xx` = suara lama dipakai ulang · `BARU` = perlu dibuat. **[Layar]** = kata kunci. *(long)* = jembatan kompilasi, *(short)* = pembuka potongan.
 
 ## Hook — Hari 1
-1. ♻ Bayangkan. Dua kapal karam di dua pulau kembar.
-2. ♻ Pulau A: seratus Gen Z, umur dua puluh. · ♻ Pulau B: seratus milenial, saat mereka juga umur dua puluh.
-3. Ponsel? Tidak ada sinyal. Hari ketiga, semua baterai habis. **[HP *MATI*]**
-4. Sepuluh tahun ke depan, apa yang akan mereka bangun? **[10 TAHUN]** · ♻ judul
+1. Bayangkan. Dua kapal karam di dua pulau kembar. **[2 PULAU *KEMBAR*]** — ♻ z-01
+2. Pulau A: seratus Gen Z, umur dua puluh. **[A: *GEN Z* · 20 TAHUN]** — ♻ z-02
+3. Pulau B: seratus milenial, saat mereka juga umur dua puluh. **[B: *MILENIAL* · 20 TAHUN]** — ♻ z-03
+4. Ponsel tidak ada sinyal. Hari ketiga, semua baterai habis. **[HP *MATI*]** — BARU
+5. Mulai sekarang, hanya tangan dan kepala mereka. **[TANPA *TEKNOLOGI*]** — BARU
+6. Sepuluh tahun kemudian, pulau mana yang lebih berhasil? **[SIAPA *BERTAHAN*?]** — ♻ z-05
+7. Andaikan Gen Z dan milenial terdampar. **[Judul]** — ♻ z-06
 
 ## Tahun 1 — Api & atap
-5. *(jembatan)* Tahun pertama: bertahan hidup dulu.
-6. ♻ Pulau A mengandalkan ingatan video life-hack lima belas detik. ♻ Dari lima, cuma satu yang berhasil.
-7. Pulau B mengandalkan pengalaman main di luar: gosok kayu, gagal, ulang.
-8. **Konflik:** di B, api baru menyala sore hari. Malam pertama mereka kedinginan.
-9. Akhir tahun satu: pulau A lebih dulu punya api dan atap. · *poin A*
+8. *(long)* Tahun pertama. Semua fokus pada satu hal: bertahan. — BARU
+8s. *(short)* Gen Z terdampar di pulau. Siapa yang bisa bikin api duluan? — ♻ z-07s
+9. Kayla dari pulau A mengingat video life-hack lima belas detik. **[LIFE-HACK *15 DETIK*]** — BARU
+10. Dari lima video yang dia ingat, cuma satu yang berhasil. **[*1 DARI 5*]** — ♻ z-10
+11. Batu, serat kelapa, tiup pelan. Dalam satu jam, api menyala. **[API *1 JAM*]** — ♻ z-11
+12. Di pulau B, Bayu mengandalkan ingatan buku saku. Gosok kayu, gagal, ulang. — ♻ z-12
+13. Apinya baru menyala sore hari, tangannya lecet. **[*SORE* HARI]** — ♻ z-13
+14. **Konflik:** Malam itu pulau B kedinginan dan mulai saling menyalahkan. — BARU
+15. Tahun pertama: yang cepat belajar, menang start. *(punchline · poin A)* — BARU
 
 ## Tahun 2 — Sepi tanpa layar
-10. *(jembatan)* Tahun kedua, masalahnya pindah ke kepala.
-11. Di pulau A, banyak yang gelisah. Ada yang berhenti kerja berhari-hari. **[*MOGOK* KERJA]**
-12. ♻ Di pulau B, Sinta dan kawan-kawan malah bikin permainan sendiri. Gobak sodor, layangan.
-13. Kebal bosan ternyata bikin pekerjaan tetap jalan. · *poin B*
+16. *(long)* Api sudah ada. Tapi masalah berikutnya justru datang dari kepala. — ♻ z-15
+16s. *(short)* Setahun tanpa layar. Siapa yang paling tersiksa? — BARU
+17. Di pulau A, banyak yang gelisah. Tangan masih refleks meraba saku. **[*GELISAH*]** — ♻ z-16
+18. **Konflik:** Ada yang berhenti kerja berhari-hari. Ladang terbengkalai. **[*MOGOK* KERJA]** — BARU
+19. Di pulau B, Sinta dan kawan-kawan malah bikin permainan sendiri. **[GOBAK SODOR · *LAYANGAN*]** — ♻ z-17
+20. Masa kecil mereka memang akrab dengan bosan, tanpa layar di tangan. — ♻ z-18
+21. Lucunya, hari ini justru milenial yang paling banyak online. **[APJII 2026]** — ♻ z-19
+22. Di pulau, kebal bosan ternyata keahlian bertahan hidup. *(punchline · poin B)* — ♻ z-20
 
-## Tahun 3 — Konflik pertama
-14. *(jembatan)* Tahun ketiga, pertengkaran besar pertama.
-15. ♻ Di pulau B, masalah dipendam. "Nggak apa-apa." ♻ Sampai rebutan satu kelapa meledak jadi perkelahian.
-16. ♻ Di pulau A, Kayla membuat lingkaran curhat tiap malam.
-17. Masalah dibicarakan sebelum membesar. · *poin A*
+## Tahun 3 — Pertengkaran pertama
+23. *(long)* Tahun ketiga, pertengkaran besar pertama pecah. — BARU
+23s. *(short)* Tiga tahun terdampar. Mulai ada yang ribut. — BARU
+24. Di pulau B, masalah dipendam. "Nggak apa-apa," kata semua orang. **[*"NGGAK APA-APA"*]** — ♻ z-22
+25. **Konflik:** Sampai suatu sore, rebutan satu buah kelapa meledak jadi perkelahian. — ♻ z-23
+26. Di pulau A, Kayla membuat lingkaran curhat tiap malam di dekat api. **[LINGKARAN *CURHAT*]** — ♻ z-24
+27. Generasi ini terbiasa membicarakan kesehatan mental terang-terangan. **[I-NAMHS 2022]** — ♻ z-25
+28. Mengakui lelah ternyata lebih cepat memadamkan api konflik. *(punchline · poin A)* — ♻ z-26
 
 ## Tahun 4 — Kemarau
-18. *(jembatan)* Tahun keempat, kemarau panjang.
-19. ♻ Pulau A merayakan panen. Self-reward. ♻ Pulau B menyisihkan sebagian ke lumbung.
-20. **Konflik:** di A, jatah makan dipotong setengah. Mulai saling curiga.
-21. ♻ Self-reward itu enak, sampai kemarau datang. · *poin B*
+29. *(long)* Tahun keempat, kemarau panjang datang ke dua pulau. — BARU
+29s. *(short)* Musim kemarau di pulau. Siapa yang kelaparan? — ♻ z-27s
+30. Di pulau A, panen besar dirayakan. Self-reward, habis capek bertani. **[*SELF-REWARD* PANEN]** — BARU
+31. Di pulau B, Bayu menyisihkan sebagian ke lumbung. Dana darurat versi pulau. **[*DANA DARURAT*]** — ♻ z-29
+32. Mereka dibesarkan orang tua yang trauma krisis 1998. — ♻ z-30
+33. **Konflik:** Di pulau A, jatah makan dipotong setengah. Mulai saling curiga. — BARU
+34. Self-reward itu enak, sampai kemarau datang. *(punchline · poin B)* — ♻ z-33
 
 ## Tahun 5 — Kincir
-22. *(jembatan)* Tahun kelima, Rafi punya ide aneh.
-23. ♻ Kincir air dari bambu. ♻ Gagal tiga kali, tiap gagal mencoba cara baru.
-24. ♻ Di pulau B, usul baru sering kalah oleh satu kalimat: "Sistem lama sudah aman."
-25. Air mulai mengalir ke ladang pulau A. · *poin A*
+35. *(long)* Tahun kelima. Pulau B rapi dan aman. Tapi pulau A mulai membangun hal aneh. — ♻ z-34
+35s. *(short)* Lima tahun di pulau. Gen Z membangun sesuatu yang aneh. — ♻ z-34s
+36. Rafi, si anak teknik dari pulau A, membuat kincir air dari bambu. **[KINCIR *BAMBU*]** — ♻ z-35
+37. Gagal tiga kali. Tiap gagal, dia mencoba cara baru. **[GAGAL *3×*]** — ♻ z-36
+38. **Konflik:** Di pulau B, usul baru sering kalah oleh satu kalimat: "Sistem lama sudah aman." — ♻ z-38
+39. Saat kincir Rafi berputar, pulau A punya air mengalir ke ladang. — ♻ z-39
+40. Berani gagal ternyata mesin inovasi paling murah. *(punchline · poin A)* — ♻ z-40
 
 ## Tahun 6 — Aturan
-26. *(jembatan)* Tahun keenam, penduduk makin banyak urusan.
-27. Pulau B menulis aturan dan jadwal piket di papan kayu. **[ATURAN *TERTULIS*]**
-28. Pulau A rapat untuk semua hal. Voting bisa sampai tengah malam. **[RAPAT *TIAP HARI*]**
-29. **Konflik:** di A, ladang telat ditanam karena rapat belum selesai.
-30. Kadang, aturan sederhana lebih cepat dari diskusi panjang. · *poin B*
+41. *(long)* Tahun keenam. Penduduk makin banyak, urusan makin rumit. — BARU
+41s. *(short)* Seratus orang, satu pulau. Siapa yang mengatur? — BARU
+42. Pulau B menulis aturan dan jadwal piket di papan kayu. **[ATURAN *TERTULIS*]** — BARU
+43. Pulau A memutuskan semua hal lewat rapat. Voting sampai tengah malam. **[RAPAT *TIAP MALAM*]** — BARU
+44. **Konflik:** Ladang pulau A telat ditanam, karena rapatnya belum selesai. — BARU
+45. Kadang, aturan sederhana lebih cepat daripada diskusi panjang. *(punchline · poin B)* — BARU
 
 ## Tahun 7 — Pasar
-31. *(jembatan)* Tahun ketujuh, mereka mulai bertukar barang.
-32. Pulau B barter sederhana: ikan ditukar ubi.
-33. Pulau A membuat pasar dengan "uang" dari kerang, dan kerajinan anyaman untuk dijual. **[PASAR *KERANG*]**
-34. Ide jualan kecil-kecilan membuat semua orang punya peran. · *poin A*
+46. *(long)* Tahun ketujuh, kedua pulau mulai bertukar barang. — BARU
+46s. *(short)* Tanpa uang di pulau, bagaimana mereka berdagang? — BARU
+47. Pulau B barter sederhana: ikan ditukar ubi. **[*BARTER*]** — BARU
+48. **Konflik:** Tapi barter sering macet. Yang punya ikan tidak butuh ubi. — BARU
+49. Pulau A membuat pasar, dengan uang dari kerang. **[PASAR *KERANG*]** — BARU
+50. Ada yang jual anyaman, ada yang buka jasa potong rambut. — BARU
+51. Ide kecil-kecilan membuat semua orang punya peran. *(punchline · poin A)* — BARU
 
 ## Tahun 8 — Badai
-35. *(jembatan)* Tahun kedelapan, badai besar datang.
-36. Rumah pulau B kokoh. Lumbungnya tetap kering. **[RUMAH *KOKOH*]**
-37. **Konflik:** di A, atap beterbangan. Pasar kerang hancur semalam.
-38. Bersiap untuk hari buruk ternyata investasi terbaik. · *poin B*
+52. *(long)* Tahun kedelapan, badai besar datang semalaman. — BARU
+52s. *(short)* Badai besar datang. Pulau mana yang selamat? — BARU
+53. Rumah pulau B kokoh. Lumbungnya tetap kering. **[RUMAH *KOKOH*]** — BARU
+54. **Konflik:** Di pulau A, atap beterbangan. Pasar kerang hancur dalam semalam. — BARU
+55. Pulau A harus membangun ulang dari awal. — BARU
+56. Bersiap untuk hari buruk ternyata investasi terbaik. *(punchline · poin B)* — BARU
 
 ## Tahun 9 — Perahu
-39. *(jembatan)* Tahun kesembilan, pulau A ingin tahu: ada apa di seberang laut?
-40. Mereka membangun perahu bersama, dari kincir sampai layar daun.
-41. Di pulau B, Bayu menolak: "Di sini sudah aman, untuk apa pergi?"
-42. Rasa penasaran membawa pulau A menemukan pulau tetangga. · *poin A*
+57. *(long)* Tahun kesembilan. Pulau A penasaran: ada apa di seberang laut? — BARU
+57s. *(short)* Gen Z membangun perahu. Mau ke mana? — BARU
+58. Mereka membangun perahu bersama, dengan layar dari anyaman daun. **[*PERAHU*]** — BARU
+59. **Konflik:** Dua kali perahu terbalik. Mereka tetap mencoba lagi. — BARU
+60. Di pulau B, Bayu menolak: "Di sini sudah aman, untuk apa pergi?" — BARU
+61. Rasa penasaran membawa pulau A menemukan pulau tetangga. *(punchline · poin A)* — BARU
 
 ## Tahun 10 — Bertemu
-43. ♻ Tahun kesepuluh. Semuanya kini berumur tiga puluh. ♻ Dan pinggang mulai sering bunyi.
-44. Perahu pulau A merapat di pantai pulau B. **[DUA PULAU *BERTEMU*]**
-45. ♻ Pulau A membawa kincir dan cara berbicara yang terbuka. ♻ Pulau B membawa lumbung dan ketahanan.
-46. ♻ Gabungan keduanya jadi desa paling kuat di kepulauan itu.
+62. *(long)* Tahun kesepuluh. Semuanya kini berumur tiga puluh. **[UMUR *30*]** — ♻ z-41
+62s. *(short)* Sepuluh tahun kemudian, dua pulau akhirnya bertemu. — ♻ z-41s
+63. Dan pinggang mulai sering bunyi. **[*ENCOK* MULAI]** — ♻ z-42
+64. Perahu pulau A akhirnya merapat di pantai pulau B. **[DUA PULAU *BERTEMU*]** — BARU
+65. Pulau A membawa kincir dan cara berbicara yang terbuka. — ♻ z-44
+66. Pulau B membawa lumbung dan ketahanan menghadapi bosan. — ♻ z-45
+67. Gabungan keduanya jadi desa paling kuat di kepulauan itu. **[DESA *GABUNGAN*]** — ♻ z-46
 
 ## Penutup
-47. ♻ Jadi, siapa yang bertahan? · **SKOR AKHIR A 5 : 4 B**
-48. ♻ Skornya tipis. Tapi pemenang sebenarnya bukan generasi.
-49. ♻ Yang menang adalah kebiasaan: menyimpan, mencoba, dan saling bicara.
-50. ♻ CTA long (komentar) / short (tag teman).
+68. *(long)* Jadi, siapa yang bertahan? / *(short)* Gen Z atau milenial, siapa yang bertahan? — ♻ z-47 / z-47s · **SKOR AKHIR A 5 : 4 B**
+69. Skornya tipis. Tapi pemenang sebenarnya bukan generasi. — ♻ z-48
+70. Yang menang adalah kebiasaan: menyimpan, mencoba, dan saling bicara. — ♻ z-49
+71. *(long)* Kamu tim pulau A atau pulau B? Tulis di kolom komentar. — ♻ z-50
+72. *(short)* Tag temanmu yang bakal jadi Bayu, atau Kayla, di pulau itu! — ♻ z-51
 
 ---
-**Papan skor per tahun:** T1 A · T2 B · T3 A · T4 B · T5 A · T6 B · T7 A · T8 B · T9 A → **A 5 : 4 B**, T10 = desa gabungan.
-**Kalimat baru ±30** (sisanya ♻ dipakai ulang) → estimasi ±1.700 kredit.
+**Papan skor per tahun:** T1 A · T2 B · T3 A · T4 B · T5 A · T6 B · T7 A · T8 B · T9 A → **A 5 : 4 B**; Tahun 10 = desa gabungan.
+**Suara:** ±33 dipakai ulang, **±41 kalimat baru** (±2.300 kredit). Durasi ±5–5,5 menit (12 bab).
+**Fakta:** APJII 2026 (milenial 90,34% vs Gen Z 89,02% online), I-NAMHS 2022 (±1 dari 3 remaja; 2,6% akses layanan). Sisanya skenario.
