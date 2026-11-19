@@ -50,6 +50,11 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   rafi:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#7a3b8f', B: '#333c57' } },
   bayu:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#257179', B: '#5d3a1a' } },
   sinta: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#5d3a1a', R: '#73eff7', B: '#257179' } },
+  // seri rupiah-7000 (fiktif): keluarga Pak Harun
+  harun: { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#6b6b70', R: '#7d8a4a', B: '#333c57' } },  // ayah, rambut beruban, kaos lusuh
+  sri:   { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#257179', R: '#ef7d57', B: '#5d3a1a' } },  // ibu, jilbab teal, daster oranye
+  dina:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#1a1c2c', R: '#41a6f6', B: '#29366f' } },  // seragam pabrik biru
+  bimo:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#8a8f99' } },  // seragam SMA (putih-abu)
 });
 
 function buildMapTextures(scene) {
@@ -421,5 +426,94 @@ function makeMapHoe(scene, sprite) {
     ctx.drawImage(src, ox + (i ? 1 : 0), oy + (i ? 1 : 0));
     draw((x, y, c, ww = 1, hh = 1) => { ctx.fillStyle = c; ctx.fillRect(x, y, ww, hh); });
     tex.refresh();
+  });
+}
+
+// ============================================================
+//  RUANG MAKAN MALAM (seri rupiah-7000) — tampak samping
+// ============================================================
+function buildRumahTextures(scene) {
+  // jendela malam: bulan, bintang, siluet atap tetangga, gorden merah
+  mapCanvas(scene, 'jendela_malam', 34, 30, (ctx, px) => {
+    px(3, 0, '#4a3222', 28, 27); px(5, 2, '#11163a', 24, 23);
+    px(5, 13, '#161d48', 24, 6); px(5, 19, '#1d2552', 24, 6);
+    pxEllipse(px, 23, 7, 3, 3, '#f4e4c1'); px(22, 5, '#fff7dd', 2, 2);
+    [[8, 4], [12, 9], [17, 3], [27, 13], [9, 15], [15, 12]].forEach(([x, y]) => px(x, y, '#f4f4f4'));
+    px(5, 21, '#0b0f2a', 8, 4); px(7, 19, '#0b0f2a', 4, 2); px(14, 20, '#0b0f2a', 9, 5); px(16, 18, '#0b0f2a', 5, 2); px(24, 22, '#0b0f2a', 5, 3);
+    px(10, 22, '#ffcd75'); px(18, 22, '#ffcd75');                            // lampu rumah tetangga
+    px(16, 2, '#4a3222', 2, 23); px(5, 12, '#4a3222', 24, 2);               // kusen silang
+    px(1, 26, '#7a5a3c', 32, 3); px(1, 28, '#4a3222', 32, 1);               // ambang jendela
+    for (const x0 of [0, 27]) { px(x0, 0, '#b13e53', 7, 26); for (let x = x0 + 1; x < x0 + 7; x += 2) px(x, 1, '#8a2e40', 1, 25); }
+    px(0, 0, '#5d3a1a', 34, 1);                                              // rel gorden
+  });
+  // lampu gantung + cahaya hangat (gradasi transparan)
+  mapCanvas(scene, 'lampu_gantung', 12, 30, (ctx, px) => {
+    px(5, 0, '#1a1c2c', 1, 18);
+    for (let y = 18; y < 23; y++) { const h = 2 + (y - 18); px(6 - h, y, y === 22 ? '#b13e53' : '#ef7d57', h * 2, 1); }
+    pxEllipse(px, 5, 25, 2, 2, '#fff3b0'); px(5, 24, '#ffffff');
+  });
+  mapCanvas(scene, 'cahaya_lampu', 120, 90, (ctx) => {
+    const g = ctx.createRadialGradient(60, 20, 2, 60, 30, 70);
+    g.addColorStop(0, 'rgba(255,224,150,0.55)'); g.addColorStop(0.45, 'rgba(255,205,117,0.22)'); g.addColorStop(1, 'rgba(255,205,117,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, 120, 90);
+  });
+  // kalender dinding: tanggal 20 dilingkari merah
+  mapCanvas(scene, 'kalender', 14, 18, (ctx, px) => {
+    px(6, 0, '#1a1c2c', 2, 1); px(1, 1, '#1a1c2c', 12, 17); px(2, 2, '#f4f4f4', 10, 15); px(2, 2, '#e43b44', 10, 4);
+    px(4, 3, '#f4f4f4', 6, 1);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) px(3 + c * 2 + (c > 1 ? 1 : 0), 8 + r * 2, '#8a8f99');
+    px(8, 13, '#e43b44', 3, 1); px(8, 15, '#e43b44', 3, 1); px(7, 14, '#e43b44'); px(11, 14, '#e43b44');
+  });
+  mapCanvas(scene, 'jam_dinding', 11, 11, (ctx, px) => {
+    pxEllipse(px, 5, 5, 5, 5, '#1a1c2c'); pxEllipse(px, 5, 5, 4, 4, '#f4f4f4');
+    px(5, 2, '#1a1c2c', 1, 4); px(5, 5, '#e43b44', 3, 1); px(5, 5, '#1a1c2c');
+  });
+  mapCanvas(scene, 'foto_keluarga', 18, 13, (ctx, px) => {
+    px(0, 0, '#c9a46a', 18, 13); px(1, 1, '#7a5a3c', 16, 11); px(2, 2, '#9fd4ff', 14, 9); px(2, 8, '#73c48f', 14, 3);
+    [[4, '#6b6b70', '#7d8a4a'], [7, '#257179', '#ef7d57'], [10, '#1a1c2c', '#41a6f6'], [13, '#1a1c2c', '#f4f4f4']].forEach(([x, h, b], i) => {
+      const y = i > 1 ? 5 : 4; px(x, y, '#f4c29a', 2, 2); px(x, y - 1, h, 2, 1); px(x - 1 + (i > 1 ? 1 : 0), y + 2, b, 3 - (i > 1 ? 1 : 0), 3);
+    });
+  });
+  // TV tabung di atas rak: berita kurs (layar biru, pita merah)
+  mapCanvas(scene, 'tv_tabung', 24, 32, (ctx, px) => {
+    px(10, 0, '#1a1c2c', 1, 4); px(14, 0, '#1a1c2c', 1, 4); px(11, 3, '#1a1c2c', 3, 1);
+    px(1, 4, '#3a3a4a', 22, 17); px(3, 6, '#29366f', 15, 12); px(3, 6, '#3b5dc9', 15, 3);
+    px(3, 15, '#e43b44', 15, 3); px(4, 16, '#f4f4f4', 8, 1);
+    for (let i = 0; i < 6; i++) px(5 + i * 2, 13 - i, '#a7f070', 2, 1);      // grafik naik
+    px(19, 7, '#8a8f99', 3, 2); px(19, 11, '#8a8f99', 3, 2); px(19, 15, '#1a1c2c', 3, 4);
+    px(0, 21, '#7a5a3c', 24, 11); px(1, 22, '#5d3a1a', 22, 1); px(2, 24, '#6b4a32', 9, 7); px(13, 24, '#6b4a32', 9, 7); px(9, 27, '#c9a46a', 1, 1); px(14, 27, '#c9a46a', 1, 1);
+  });
+  // meja makan panjang bertaplak kotak-kotak
+  mapCanvas(scene, 'meja_makan', 76, 20, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 76, 11);
+    for (let y = 1; y < 10; y++) for (let x = 1; x < 75; x++) px(x, y, ((Math.floor(x / 3) + Math.floor(y / 3)) % 2) ? '#f4f4f4' : '#e43b44');
+    for (let x = 1; x < 75; x += 2) px(x, 10, '#e43b44');
+    for (const x of [6, 66]) { px(x, 11, '#3b2414', 4, 9); px(x + 1, 11, '#5d3a1a', 2, 9); }
+  });
+  mapCanvas(scene, 'kursi', 12, 20, (ctx, px) => {
+    px(1, 0, '#3b2414', 10, 2); px(1, 0, '#3b2414', 2, 20); px(9, 0, '#3b2414', 2, 20); px(3, 4, '#5d3a1a', 6, 1); px(3, 8, '#5d3a1a', 6, 1);
+  });
+  // isi meja
+  mapCanvas(scene, 'bakul_nasi', 12, 9, (ctx, px) => {
+    pxEllipse(px, 6, 3, 5, 2, '#f4f4f4'); px(1, 3, '#a8784a', 10, 6); for (let x = 1; x < 11; x += 2) px(x, 4, '#c9a46a', 1, 5); px(2, 8, '#7a5a3c', 8, 1);
+  });
+  mapCanvas(scene, 'piring_tempe', 14, 6, (ctx, px) => {
+    pxEllipse(px, 7, 4, 6, 1, '#c2c3c7'); pxEllipse(px, 7, 3, 6, 1, '#f4f4f4');
+    for (let i = 0; i < 3; i++) { px(2 + i * 4, 1, '#c9a46a', 3, 2); px(3 + i * 4, 1, '#8b5a2b'); px(4 + i * 4, 2, '#8b5a2b'); }
+  });
+  mapCanvas(scene, 'piring_tipis', 14, 6, (ctx, px) => {                        // tempe tipis tinggal sepotong
+    pxEllipse(px, 7, 4, 6, 1, '#c2c3c7'); pxEllipse(px, 7, 3, 6, 1, '#f4f4f4'); px(6, 2, '#c9a46a', 3, 1);
+  });
+  mapCanvas(scene, 'teko', 10, 9, (ctx, px) => {
+    pxEllipse(px, 4, 5, 3, 3, '#8a8f99'); px(3, 1, '#5d606b', 3, 1); px(8, 3, '#8a8f99', 2, 1); px(9, 2, '#8a8f99'); px(0, 4, '#5d606b', 1, 3);
+  });
+  mapCanvas(scene, 'gelas_teh', 5, 7, (ctx, px) => { px(0, 0, '#c2c3c7', 5, 7); px(1, 2, '#b85c1e', 3, 4); px(1, 1, '#d98a4a', 3, 1); });
+  mapCanvas(scene, 'tagihan', 10, 12, (ctx, px) => {
+    px(0, 0, '#c2c3c7', 10, 12); px(1, 1, '#f4f4f4', 8, 10);
+    for (let y = 3; y < 9; y += 2) px(2, y, '#8a8f99', 6, 1); px(5, 8, '#e43b44', 4, 3);
+  });
+  mapCanvas(scene, 'kalkulator', 8, 10, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 8, 10); px(1, 1, '#a7f070', 6, 2);
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) px(1 + c * 2, 4 + r * 2, '#8a8f99');
   });
 }

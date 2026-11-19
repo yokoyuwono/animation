@@ -27,6 +27,7 @@ const SKIES = {
   dawn:   { bands: ['#29366f', '#3b5dc9', '#7a8fd9', '#d9a3c4', '#f8d3a0'], hillFar: '#5a7fa8', hillNear: '#2f6b5c', grass: '#38b764', dirt: '#8b5a2b', body: 'sun', bodyY: 66, clouds: true },
   space:  { bands: ['#05060f', '#070917', '#0a0d20', '#0d1129'], stars: true, noGround: true, camBg: '#05060f' },
   indoor: { bands: ['#2b2f45'], noGround: true, camBg: '#2b2f45', tiles: true },
+  rumah:  { bands: ['#b59c72'], noGround: true, camBg: '#2a2030', room: true },   // ruang makan malam: dinding hangat, lis kayu, lantai tegel
   ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
   map:    { bands: ['#3fae5f'], noGround: true, camBg: '#2f9150' },
   beach:  { bands: ['#5fcde4', '#74d4e8', '#8fdcec', '#a8e4f0', '#c4eef5'], sea: true, grass: '#e4d3a8', dirt: '#d9c08c', body: 'sun', bodyY: 18, clouds: true },
@@ -47,6 +48,7 @@ class Movie extends Phaser.Scene {
     if (typeof buildMoneyTextures === 'function') buildMoneyTextures(this);
     if (typeof buildPolitikTextures === 'function') buildPolitikTextures(this);
     if (typeof buildMapTextures === 'function') buildMapTextures(this);
+    if (typeof buildRumahTextures === 'function') buildRumahTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;
@@ -362,6 +364,17 @@ class Movie extends Phaser.Scene {
     this.mapMode = !!sc.map;
     this.mapSpec = sc.map || null; this.mapB = sc.mapB || null;
     if (sc.map) (this.split ? [0, 1] : [0]).forEach(si => this.drawMap(ctx, (si && sc.mapB) || sc.map, si * W, this.split ? W : SW));
+    if (sky.room) {   // dinding bergaris halus, lis kayu bawah, lantai tegel kotak-kotak
+      for (let x = 0; x < SW; x += 6) { ctx.fillStyle = '#a98f66'; ctx.fillRect(x, 0, 1, 70); }
+      ctx.fillStyle = '#c9b085'; ctx.fillRect(0, 0, SW, 3);
+      ctx.fillStyle = '#6b4a32'; ctx.fillRect(0, 70, SW, GROUND - 70);
+      ctx.fillStyle = '#7d5a3c'; for (let x = 2; x < SW; x += 16) ctx.fillRect(x, 73, 12, GROUND - 76);
+      ctx.fillStyle = '#4a3222'; ctx.fillRect(0, 70, SW, 1); ctx.fillRect(0, GROUND - 1, SW, 1);
+      for (let y = GROUND; y < H; y += 6) for (let x = 0; x < SW; x += 6) {
+        ctx.fillStyle = ((x + y) / 6) % 2 ? '#8c7b6a' : '#9a8a78'; ctx.fillRect(x, y, 6, 6);
+        ctx.fillStyle = '#6f6152'; ctx.fillRect(x, y, 6, 1); ctx.fillRect(x, y, 1, 6);
+      }
+    }
     if (sky.tiles) {
       ctx.fillStyle = '#33384f';
       for (let y = 0; y < H; y += 8) for (let x = (y / 8) % 2 ? 0 : 8; x < SW; x += 16) ctx.fillRect(x, y, 8, 8);
