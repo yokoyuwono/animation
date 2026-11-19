@@ -16,7 +16,14 @@
 Bayangkan besok pagi semua aplikasi ojol libur, sebulan penuh. Bang Udin kehilangan penghasilan, warung Mak Ijah sepi pesanan, Nadia telat kuliah... tapi Pak Joko, ojek pangkalan, malah kebanjiran penumpang. Kita bandingkan dua kota: A (ojol jalan) dan B (ojol libur).
 
 ⏱️ Bab
-{BAB}
+0:00 Kota tanpa jaket hijau
+0:26 Seberapa besar ojol?
+0:52 Bang Udin, driver ojol
+1:25 Warung Mak Ijah sepi
+1:57 Nadia dan jalanan macet
+2:23 Twist: yang justru untung
+2:48 Hari ke-30
+3:15 Jembatan bernama ojol
 
 Skor akhir: Kota A 4 : 1 Kota B.
 
