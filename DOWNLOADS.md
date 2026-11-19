@@ -53,11 +53,14 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 - [internet-mati_short_bab-8.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-8.mp4)
 
 **Thumbnail**
+- [thumbnail_internet-mati_nanobanana.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_internet-mati_nanobanana.png)
 - [thumbnail_internet-mati_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_internet-mati_varian-a.png)
 - [thumbnail_internet-mati_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_internet-mati_varian-b.png)
 
 **Caption & hashtag**
 - [internet-mati_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/internet-mati_caption.md)
+
+## internet-mati_nanobanana.png
 
 ## mbg-berhenti
 

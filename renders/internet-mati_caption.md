@@ -5,7 +5,7 @@
 > serangan ransomware Pusat Data Nasional Juni 2024, ±210 instansi terganggu, layanan imigrasi pulih 28 Juni 2024.
 > Cek ulang angka ke sumber resmi sebelum unggah.
 
-## YouTube (video panjang · `internet-mati_long_16x9.mp4` · thumbnail varian A atau B)
+## YouTube (video panjang · `internet-mati_long_16x9.mp4` · thumbnail utama: `thumbnail_internet-mati_nanobanana.png`)
 
 **Judul (pilih satu):**
 - Andaikan Internet di Indonesia Mati Seminggu: Siapa yang Paling Panik?

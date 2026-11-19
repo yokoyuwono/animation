@@ -87,7 +87,7 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   (`makeBust` + `BUSTS` di `src/sprites-faces.js`: pola hoodie/plaid/jacket, wajah grin/panic/happy/cry, gestur thumb/phone),
   latar peta dari video (`node tools/thumb-bg.js <hash> tools/thumb-bg/<topik>.png <ms>`), judul besar Press Start 2P bergaris tepi.
   JANGAN pakai gestur telunjuk ke atas ('point') — terkesan jari tengah. Hasil: `renders/thumbnail_<topik>_ilustrasi-a|b.png`.
-- **Thumbnail utama sekarang dibuat pemilik lewat Google Nano Banana** dengan prompt di `tools/thumbnail-prompts.md` (hasilnya disukai).
+- **Thumbnail utama dibuat lewat Google Nano Banana** (pemilik di aplikasi Gemini, atau otomatis via ElevenLabs `creative_generate_image` model `gemini-nano-banana-2.1`, ±200 kredit/gambar, `generations_count: 1`, hanya bila diminta) dengan prompt di `tools/thumbnail-prompts.md` (hasilnya disukai).
   Untuk video baru: tulis prompt per video di file itu; simpan hasil kiriman pemilik sebagai `renders/thumbnail_<topik>_nanobanana.png` (1280×720).
   `genz-milenial` (Andaikan, draf 6: lengkap + 12 short + thumbnail + paket; wajah `face_rafi_*`/`face_bayu_*`).
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
