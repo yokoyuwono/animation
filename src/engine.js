@@ -594,7 +594,7 @@ class Movie extends Phaser.Scene {
     const pools = [cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid'], cfg.spritesB || cfg.sprites || ['warga', 'warga2', 'boy', 'girl', 'grandpa', 'kid']].map(l => l.filter(k => this.textures.exists(`${k}_0`)));
     (this.split ? [0, 1] : [0]).forEach(si => {
       const m = (si && this.mapB) || this.mapSpec || {}, off = si * W;
-      const segs = (m.roads || []).map(r => [r[0] + off, r[1], r[2] + off, r[3]]);
+      const segs = [...(m.roads || []), ...(m.paths || [])].map(r => [r[0] + off, r[1], r[2] + off, r[3]]);  // paths = jalur jalan kaki tak tergambar
       if (!segs.length) return;
       const n = Array.isArray(cfg.n) ? cfg.n[si] : (cfg.n ?? 12);
       for (let k = 0; k < n; k++) {

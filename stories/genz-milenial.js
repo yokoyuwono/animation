@@ -106,7 +106,11 @@ const L = [0.28, 0.3], Rt = [0.74, 0.3];
 const UNGU = '#7a3b8f', TEAL = '#257179', GREEN = '#38b764', RED = '#b13e53', GELAP = '#1a1c2c';
 
 // ---------- DUA PULAU KEMBAR (tampak atas): kiri PULAU A (Gen Z), kanan PULAU B (milenial versi umur 20) ----------
-const PULAU = { island: [96, 56, 72, 36], bumps: [[58, 36, 30, 16], [136, 78, 30, 16]], roads: [[52, 60, 146, 60], [96, 34, 96, 86]], river: [[150, 22], [148, 40], [154, 60], [160, 80]] };
+const PULAU = { island: [96, 56, 72, 36], bumps: [[58, 36, 30, 16], [136, 78, 30, 16]], roads: [[52, 60, 146, 60], [96, 34, 96, 86]], river: [[150, 22], [148, 40], [154, 60], [160, 80]],
+  // jalur jalan kaki (tak tergambar) agar 100 warga tersebar di seluruh pulau
+  paths: [[36, 44, 84, 44], [40, 52, 140, 52], [36, 68, 150, 68], [44, 76, 140, 76], [70, 84, 160, 84], [110, 88, 160, 88], [60, 28, 120, 28], [40, 36, 70, 36], [120, 40, 140, 40],
+    [36, 40, 36, 72], [60, 26, 60, 84], [76, 24, 76, 88], [116, 30, 116, 90], [132, 40, 132, 92], [24, 56, 40, 56], [150, 70, 168, 70]] };
+const ORANG = 100;  // warga per pulau
 const T = { kemah: [96, 60], ladang: [52, 40], sungai: [150, 46], pantai: [40, 92], tepi: [172, 60] };
 const TENDA = [[80, 52], [112, 52], [80, 72], [112, 72]];
 function pulau(dx, s, o = {}) {
@@ -129,10 +133,10 @@ const cam = (t, z) => ({ x: T[t][0], y: T[t][1], zoom: z });
 const dua = (at, c, dur = 1200) => [{ at, camera: c, dur }, { at, camera: { ...c, x: R(c.x) }, side: 'right', dur }];
 const WALK = ['warga', 'warga2', 'girl', 'boy'];
 const TAGS = ['PULAU A · GEN Z', 'PULAU B · MILENIAL'];
-function peta(steps, { c = { x: 96, y: 58, zoom: 1.1 }, o = {}, transition = 'clouds', n = [8, 8] } = {}) {
+function peta(steps, { c = { x: 96, y: 58, zoom: 1.1 }, o = {}, transition = 'clouds', n = [ORANG, ORANG] } = {}) {
   return { transition, sky: 'map', map: PULAU, split: true, focus: 'both', tags: TAGS, tagColors: [UNGU, TEAL],
     camera: c, cameraB: { ...c, x: R(c.x) }, props: [...pulau(0, 'A', o), ...pulau(192, 'B', o)], actors: [...tokoh(0, 'A'), ...tokoh(192, 'B')],
-    walkers: { n, sprites: WALK }, steps };
+    walkers: { n, sprites: WALK, scale: 0.42 }, steps };
 }
 // adegan dekat: propsFn(dx, s) & actorsFn(dx, s) untuk tiap pulau
 function dekat(propsFn, actorsFn, steps, { c = { x: 100, y: 80, zoom: VERT ? 1.3 : 1.7 }, clock } = {}) {
@@ -165,8 +169,8 @@ const STORY = {
         { ...peta([
           { together: [{ camera: { x: 96, y: 58, zoom: 1 }, dur: 2400, ease: 'Cubic.easeOut' }, { sfx: 'ombak', vol: 0.9 },
             C('z-01', [{ at: 'karam', shake: 200 }, { at: 'kembar', kw: '2 PULAU *KEMBAR*' }, { at: 'kembar', crowd: 'goto', side: 'left', x: 60, y: 84, spread: 14, frac: 0.8 }, { at: 'kembar', crowd: 'goto', side: 'right', x: R(60), y: 84, spread: 14, frac: 0.8 }])] },
-          C('z-02', [{ at: 0, focus: 'left' }, { at: 'gen', kw: 'A: *GEN Z* · 20 TAHUN' }, { at: 'gen', label: 'TAHUN 2026', x: 96, y: 14, bg: UNGU, size: 12, dur: 0 }]),
-          C('z-03', [{ at: 0, focus: 'right' }, { at: 'milenial', kw: 'B: *MILENIAL* · 20 TAHUN' }, { at: 'milenial', label: 'TAHUN 2010', x: R(96), y: 14, bg: TEAL, size: 12, dur: 0 }]),
+          C('z-02', [{ at: 0, focus: 'left' }, { at: 'seratus', label: '100 ORANG', x: 96, y: 26, bg: UNGU, size: 12, dur: 0 }, { at: 'gen', kw: 'A: *GEN Z* · 20 TAHUN' }, { at: 'gen', label: 'TAHUN 2026', x: 96, y: 14, bg: UNGU, size: 12, dur: 0 }]),
+          C('z-03', [{ at: 0, focus: 'right' }, { at: 'seratus', label: '100 ORANG', x: R(96), y: 26, bg: TEAL, size: 12, dur: 0 }, { at: 'milenial', kw: 'B: *MILENIAL* · 20 TAHUN' }, { at: 'milenial', label: 'TAHUN 2010', x: R(96), y: 14, bg: TEAL, size: 12, dur: 0 }]),
           { together: [{ focus: 'both' }, C('y-04', [{ at: 'sinyal', kw: 'HP *MATI*' }, { at: 'sinyal', emote: 'kaylaA', icon: 'question', dur: 900 }, { at: 'habis', emote: 'bayuB', icon: 'sweat', dur: 900 }, { at: 'ketiga', clock: 'HARI 3' }])] },
           C('y-05', [{ at: 'tangan', kw: 'HANYA *TANGAN & KEPALA*' }]),
           C('z-05', [{ at: 'berhasil', kw: 'SIAPA *BERTAHAN*?' }, { at: 'sepuluh', clock: 'TAHUN', from: 0, to: 10, dur: 1200 }]),
@@ -285,7 +289,7 @@ const STORY = {
         peta([...buka('y-44', 'y-44s', [{ at: 0, camera: { x: 96, y: 60, zoom: 1.6 }, dur: 1200 }, { at: 0, camera: { x: R(96), y: 60, zoom: 1.6 }, side: 'right', dur: 1200 }, { at: 'manusia', kw: 'MASALAHNYA: *MANUSIA*' }],
             [{ at: 0, camera: { x: 96, y: 60, zoom: 1.6 }, dur: 1200 }, { at: 0, camera: { x: R(96), y: 60, zoom: 1.6 }, side: 'right', dur: 1200 }, { at: 'mengaturnya', kw: 'BAGAIMANA *MENGATUR*?' }]),
           { together: [MASALAH('MALAS TAPI MINTA JATAH'), C('y-45', [{ at: 'malas', emote: 'kaylaA', icon: 'zzz', dur: 900 }, { at: 'jatah', kw: 'MALAS TAPI *MINTA JATAH*' }])] }],
-          { c: cam('kemah', 1.8), o: { api: true, tenda: true, ladang: true, lumbung: true, kincir: true }, n: [10, 10] }),
+          { c: cam('kemah', 1.8), o: { api: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), s === 'B' ? { id: 'Bpapan', sprite: 'papan_aturan', x: R(130), y: 101, scale: 1.2, depth: 5, hidden: true } : { sprite: 'table', x: 110, y: 101, depth: 5 },
           ...(s === 'A' ? [0, 1].map(i => ({ id: 'Apd' + i, sprite: 'padi_muda', x: 160 + i * 14, y: 101, depth: 6, hidden: true })) : [])],
           (dx, s) => s === 'A' ? [kayla(80), warga('a1', 'boy', 130, { face: 'left' }), warga('a2', 'girl', 146, { face: 'left' }), warga('a3', 'warga', 96)] : [bayu(100), warga('b1', 'warga', R(70)), warga('b2', 'girl', R(56))], [
@@ -303,7 +307,7 @@ const STORY = {
       scenes: [
         peta([...buka('y-50', 'y-50s', [...dua(0, cam('kemah', 2.4), 1300), { at: 'berbeda', kw: 'HASIL KERJA *BERBEDA*' }], [...dua(0, cam('kemah', 2.4), 1300), { at: 'berdagang', kw: 'TANPA UANG, *DAGANG*?' }]),
           { together: [MASALAH('TUKAR YANG ADIL'), C('y-51', [{ at: 'nelayan', kw: 'NELAYAN · PETANI · *PENGANYAM*' }, { at: 'adil', kw: 'BAGAIMANA *TUKAR ADIL*?' }])] }],
-          { c: cam('pantai', 2), o: { api: true, tenda: true, ladang: true, lumbung: true, kincir: true }, n: [12, 10] }),
+          { c: cam('pantai', 2), o: { api: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), { sprite: 'table', x: 110 + dx, y: 101, depth: 5 },
           ...(s === 'B' ? [{ id: 'Byam', sprite: 'yam', x: R(100), y: 88, scale: 1.6, depth: 9 }] : [
             ...[0, 1, 2, 3].map(i => ({ id: 'Akr' + i, sprite: 'kerang', x: 96 + i * 8, y: 88, scale: 1.4, depth: 9, hidden: true })),
