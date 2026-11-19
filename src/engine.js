@@ -885,11 +885,18 @@ class Movie extends Phaser.Scene {
   }
 
   // ---------- kotak dialog berfoto (tokoh "berbicara", teks saja) ----------
+  // batas atas aman untuk kotak info: di bawah jam & label sisi yang ada di area [x0, x1]
+  safeTop(x0, x1, min = 0) {
+    let y = min;
+    const objs = [...(this.tags || []), ...(this.badges || []).flat(), this.clockText];
+    objs.forEach(o => { if (o && o.active && o.visible && o.alpha > 0 && o.x < x1 && o.x + o.width > x0) y = Math.max(y, o.y + o.height + 8); });
+    return y;
+  }
   async dialog(st, run) {
     const a = this.actor(st.dialog);
     const GW = this.GW, V = this.V;
     const bw = Math.min(V ? GW - 40 : 820, GW - 40), ps = V ? 104 : 92, bh = ps + 24;
-    const bx = (GW - bw) / 2, by = st.top ?? (V ? this.GH * 0.14 : 58);
+    const bx = (GW - bw) / 2, by = st.top ?? this.safeTop(bx, bx + bw, V ? this.GH * 0.14 : 58);
     const parts = [];
     parts.push(this.uobj(this.add.rectangle(bx, by, bw, bh, 0xf4e4c1, 0.97).setOrigin(0).setDepth(170).setStrokeStyle(5, 0x8b5a2b)));
     const fx = bx + bw - ps - 12, fy = by + 12;
@@ -1402,7 +1409,8 @@ class Movie extends Phaser.Scene {
     const rowsH = st.bars.length * (14 + 6 + barH + rowGap);
     const h = pad * 2 + title.height + 10 + rowsH;
     const bx = this.V ? vp.x + (vp.w - w) / 2 : (st.place === 'left' ? vp.x + 24 : vp.x + vp.w - w - 24);
-    const by = this.V ? Math.max(vp.y + 100, vp.y + vp.h * (st.y ?? 0.12)) : vp.y + (st.y ?? 0.16) * vp.h;
+    const by0 = this.V ? Math.max(vp.y + 100, vp.y + vp.h * (st.y ?? 0.12)) : vp.y + (st.y ?? 0.16) * vp.h;
+    const by = this.safeTop(bx, bx + w, by0);
     const box = this.uobj(this.add.rectangle(bx, by, w, h, INK, 0.92).setOrigin(0).setDepth(130).setStrokeStyle(4, 0xffcd75));
     title.setPosition(bx + pad, by + pad);
     const parts = [box, title];
@@ -1493,7 +1501,7 @@ class Movie extends Phaser.Scene {
     const vp = c.vp;
     let bx = st.place === 'left' || (st.place !== 'right' && p.x > vp.x + vp.w / 2) ? p.x - w - 60 : p.x + 60;
     bx = Phaser.Math.Clamp(bx, vp.x + 12, vp.x + vp.w - w - 12);
-    let by = Phaser.Math.Clamp(p.y - h / 2, vp.y + 70, vp.y + vp.h - h - 12);
+    let by = Phaser.Math.Clamp(p.y - h / 2, this.safeTop(bx, bx + w, vp.y + 70), vp.y + vp.h - h - 12);
     if (this.V) {
       bx = Phaser.Math.Clamp(p.x - w / 2, vp.x + 12, vp.x + vp.w - w - 12);
       by = p.y - h - 70 >= vp.y + 110 ? p.y - h - 70 : p.y + 70;

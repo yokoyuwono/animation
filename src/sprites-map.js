@@ -327,6 +327,11 @@ function buildMapTextures(scene) {
   mapCanvas(scene, 'ikan', 9, 5, (ctx, px) => { px(1, 1, '#8a8f99', 6, 3); px(2, 1, '#c2c3c7', 4, 1); px(7, 0, '#8a8f99', 2, 5); px(2, 2, '#1a1c2c'); });
   mapCanvas(scene, 'batu_kecil', 7, 5, (ctx, px) => { pxEllipse(px, 3, 2, 3, 2, '#a8a8a8'); px(2, 1, '#e4e4e4'); });
   mapCanvas(scene, 'bambu_batang', 12, 3, (ctx, px) => { px(0, 0, '#a8b84a', 12, 3); px(4, 0, '#5d7a2b', 1, 3); px(8, 0, '#5d7a2b', 1, 3); });
+  // tumpukan uang kertas merah berpita (gaya ikatan bank), tampak samping
+  mapCanvas(scene, 'uang_tumpuk', 22, 18, (ctx, px) => {
+    for (let i = 0; i < 5; i++) { const y = 15 - i * 3; px(0, y - 1, '#1a1c2c', 22, 4); px(1, y, '#e43b44', 20, 2); px(1, y, '#ff8a8a', 20, 1); px(2, y + 1, '#f4f4f4', 18, 1); }
+    px(9, 2, '#1a1c2c', 4, 16); px(10, 3, '#ffcd75', 2, 14);   // pita kertas
+  });
   mapCanvas(scene, 'sabun', 10, 6, (ctx, px) => { px(0, 1, '#c9a46a', 10, 5); px(1, 0, '#f4e4c1', 8, 5); px(2, 1, '#ffffff', 3, 1); px(7, 0, '#9fd4ff', 2, 1); });
   mapCanvas(scene, 'tempayan', 14, 16, (ctx, px) => { px(1, 15, 'rgba(0,0,0,0.3)', 13, 1); pxEllipse(px, 7, 9, 6, 6, '#a0603c'); pxEllipse(px, 7, 9, 4, 5, '#c97a4a'); px(4, 1, '#8b4a2b', 7, 3); px(5, 2, '#41a6f6', 5, 1); px(3, 9, '#8b4a2b', 9, 1); });
   mapCanvas(scene, 'rumah_batu', 44, 34, (ctx, px) => {
