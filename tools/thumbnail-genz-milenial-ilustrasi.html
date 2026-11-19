@@ -11,7 +11,7 @@
     Thumbnail gaya "ilustrasi": karakter setengah badan bergestur (makeBust di src/sprites-faces.js),
     latar = tangkapan peta dari video sendiri (tools/thumb-bg/<topik>.png), judul besar bergaris tepi,
     pembagi miring, VS belah ketupat oranye (identitas kita).
-      #a -> GEN Z (panik, HP mati) vs MILENIAL (jempol)   #b -> MILENIAL telunjuk ke atas + skor 4 : 5
+      #a -> GEN Z (panik, HP mati) vs MILENIAL (jempol)   #b -> sama dengan #a + twist skor 4 : 5 MENANG TIPIS
   -->
   <div id="stage"></div>
   <script src="../lib/phaser.min.js"></script>
@@ -47,13 +47,13 @@
         const d = this.add.graphics(); d.fillStyle(0xf4f4f4, 1); d.fillPoints([[690, 0], [710, 0], [590, 720], [570, 720]].map(([x, y]) => new Phaser.Geom.Point(x, y)), true);
         // karakter
         this.add.image(330, 724, 'bust_rafi_panic').setOrigin(0.5, 1).setScale(7.2);
-        this.add.image(965, 724, VAR === 'a' ? 'bust_bayu_grin' : 'bust_bayu_point').setOrigin(0.5, 1).setScale(7.2);
+        this.add.image(965, 724, 'bust_bayu_grin').setOrigin(0.5, 1).setScale(7.2);
         this.spark(130, 250, -30, GOLD);
         // kilau percaya diri di samping senyum Bayu
         const star = (x, y, r) => { const g = this.add.graphics(); g.fillStyle(0xffcd75, 1).lineStyle(5, 0x1a1c2c, 1);
           const pts = [[0, -r], [r * 0.25, -r * 0.25], [r, 0], [r * 0.25, r * 0.25], [0, r], [-r * 0.25, r * 0.25], [-r, 0], [-r * 0.25, -r * 0.25]].map(([a, b]) => new Phaser.Geom.Point(x + a, y + b));
           g.fillPoints(pts, true); g.strokePoints(pts, true); };
-        if (VAR === 'a') { star(1175, 300, 34); star(1215, 235, 18); } else { star(1100, 175, 28); star(1140, 135, 15); }
+        star(1175, 300, 34); star(1215, 235, 18);
         // judul
         this.title('GEN Z', 320, 92, PINK);
         this.title('MILENIAL', 960, 92, LIME, 68);

@@ -176,6 +176,11 @@ function makeBust(o) {
     rect(cx - 5, 51, cx - 4, 62, 'W'); rect(cx + 3, 51, cx + 4, 62, 'W');
     rect(cx - 12, 72, cx + 12, 80, 'Q');      // kantong depan
   }
+  if (o.pattern === 'jacket') {
+    for (let y = 43; y < 50; y++) for (let x = 0; x < W; x++) { const d = Math.abs(x + 0.5 - cx); if (d <= 13 - (y - 43) && d >= 5) px(x, y, 'Q'); }  // kerah
+    rect(cx - 1, 50, cx, H - 1, 'Q'); for (let y = 52; y < H; y += 3) px(cx - 1, y, 'w');                                         // ritsleting
+    rect(cx - 26, 64, cx - 20, 66, 'W'); rect(cx + 20, 64, cx + 26, 66, 'W');                                                    // strip reflektor
+  }
   rect(cx - 5, 39, cx + 4, 44, 'S');           // leher
   outline(g, c => c !== 'K' && c !== '.');
   // kepala dari potret besar
@@ -193,20 +198,28 @@ function makeBust(o) {
   if (o.gesture === 'phone') {
     arm(8, H - 3, 12, 58); fist(12, 52);
     lr(2, 24, 16, 48, 'K'); lr(4, 26, 14, 44, 'w');            // HP, layar mati abu
-    lr(5, 31, 12, 35, 'K'); lr(6, 32, 7, 34, 'e'); lp(13, 33, 'K'); lr(8, 38, 9, 41, 'e'); lp(8, 43, 'e'); lp(9, 43, 'e');
+    if (o.screen === 'off') { for (let i = 0; i < 8; i++) { lr(5 + i, 30 + i * 1.4, 6 + i, 31 + i * 1.4, 'e'); lr(12 - i, 30 + i * 1.4, 13 - i, 31 + i * 1.4, 'e'); } }
+    else { lr(5, 31, 12, 35, 'K'); lr(6, 32, 7, 34, 'e'); lp(13, 33, 'K'); lr(8, 38, 9, 41, 'e'); lp(8, 43, 'e'); lp(9, 43, 'e'); }
     lr(14, 40, 18, 47, 'S');                                   // jempol menjepit HP
   }
-  if (o.gesture === 'thumb') { arm(W - 7, H - 3, 62, 66); fist(60, 58); lr(55, 40, 59, 52, 'S'); }
+  if (o.gesture === 'thumb') {   // jempol ke atas: kepalan miring dengan lipatan jari mendatar, jempol di sisi dalam
+    arm(W - 7, H - 3, 63, 68);
+    lr(52, 52, 68, 64, 'S'); for (const y of [55, 58, 61]) lr(57, y, 68, y, 'k');   // kepalan + lipatan jari
+    lr(52, 36, 57, 52, 'S'); lr(53, 36, 56, 37, 'n');                               // jempol + kuku
+  }
   if (o.gesture === 'point') { arm(W - 7, H - 3, 66, 50); fist(65, 44); lr(62, 22, 65, 38, 'S'); }
   outline(L, c => c !== 'K' && c !== 'k' && c !== '.');
   for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = L[y][x]; if (c !== '.') g[y][x] = c === 'k' ? 'K' : c; }
-  return { rows: g.map(r => r.join('')), colors: { H: o.hair, R: o.shirt, Q: o.shirt2 || o.shirt, q: o.shirt3 || '#1a1c2c', y: o.stripe || o.shirt, e: '#e43b44', x: '#b13e53' } };
+  return { rows: g.map(r => r.join('')), colors: { n: '#ffd9c0', H: o.hair, R: o.shirt, Q: o.shirt2 || o.shirt, q: o.shirt3 || '#1a1c2c', y: o.stripe || o.shirt, e: '#e43b44', x: '#b13e53' } };
 }
 
 const BUSTS = {
   rafi_panic: makeBust({ hair: '#1a1c2c', shirt: '#7a3b8f', shirt2: '#5a2a6f', pattern: 'hoodie', style: 'spiky', face: 'panic', gesture: 'phone' }),   // Gen Z, HP mati
   bayu_grin:  makeBust({ hair: '#3b2a1a', shirt: '#2a8a8f', shirt2: '#1d5f63', shirt3: '#123d40', stripe: '#d9a441', pattern: 'plaid', style: 'neat', face: 'grin', gesture: 'thumb' }),
-  bayu_point: makeBust({ hair: '#3b2a1a', shirt: '#2a8a8f', shirt2: '#1d5f63', shirt3: '#123d40', stripe: '#d9a441', pattern: 'plaid', style: 'neat', face: 'grin', gesture: 'point' }),
+  // Ojol Libur: Bang Udin (jaket hijau polos tanpa logo) & Pak Joko (ojek pangkalan)
+  udin_happy: makeBust({ hair: '#1a1c2c', shirt: '#38b764', shirt2: '#257149', pattern: 'jacket', style: 'neat', face: 'happy', gesture: 'thumb' }),
+  udin_cry:   makeBust({ hair: '#1a1c2c', shirt: '#38b764', shirt2: '#257149', pattern: 'jacket', style: 'neat', face: 'cry', gesture: 'phone', screen: 'off' }),
+  joko_grin:  makeBust({ hair: '#5d3a1a', shirt: '#ef7d57', shirt2: '#b13e53', shirt3: '#7a2a2a', stripe: '#ffcd75', pattern: 'plaid', style: 'neat', face: 'grin', gesture: 'thumb' }),
 };
 function buildBustTextures(scene) {
   for (const [k, f] of Object.entries(BUSTS)) pxTexture(scene, `bust_${k}`, f.rows, { ...PALETTE, ...f.colors });

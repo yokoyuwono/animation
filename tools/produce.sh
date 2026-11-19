@@ -17,6 +17,6 @@ fi
 # paket unggah: caption/hashtag + semua file dalam satu ZIP
 if [ -f "stories/$t.publish.md" ]; then cp "stories/$t.publish.md" "renders/${t}_caption.md"; fi
 rm -f "renders/${t}_paket.zip"
-zip -qj "renders/${t}_paket.zip" renders/${t}_long_*.mp4 renders/shorts/${t}_short_*.mp4 renders/thumbnail_${t}_varian-*.png renders/thumbnail_${t}_9x16.png renders/${t}_caption.md 2>/dev/null || true
+zip -qj "renders/${t}_paket.zip" renders/${t}_long_*.mp4 renders/shorts/${t}_short_*.mp4 renders/thumbnail_${t}_*.png renders/${t}_caption.md 2>/dev/null || true
 tools/links.sh
 echo "SELESAI: $t  ->  renders/${t}_paket.zip  (link unduhan: DOWNLOADS.md)"

@@ -83,6 +83,10 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   `internet-mati` (Andaikan: lengkap + 8 short + thumbnail + paket; wajah `face_rara_*`/`face_nenek_happy`),
   `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption),
   `romawi-kuno` (dikerjakan di sesi kedua, cabang `romawi-kuno`). Prompt thumbnail gaya ilustrasi (Nano Banana): `tools/thumbnail-prompts.md`.
+- **Thumbnail gaya ilustrasi (disukai pemilik, varian A):** `tools/thumbnail-<topik>-ilustrasi.html` — karakter setengah badan bergestur
+  (`makeBust` + `BUSTS` di `src/sprites-faces.js`: pola hoodie/plaid/jacket, wajah grin/panic/happy/cry, gestur thumb/phone),
+  latar peta dari video (`node tools/thumb-bg.js <hash> tools/thumb-bg/<topik>.png <ms>`), judul besar Press Start 2P bergaris tepi.
+  JANGAN pakai gestur telunjuk ke atas ('point') — terkesan jari tengah. Hasil: `renders/thumbnail_<topik>_ilustrasi-a|b.png`.
   `genz-milenial` (Andaikan, draf 6: lengkap + 12 short + thumbnail + paket; wajah `face_rafi_*`/`face_bayu_*`).
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),

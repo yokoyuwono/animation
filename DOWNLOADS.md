@@ -24,11 +24,17 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 - [genz-milenial_short_tahun-9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-9.mp4)
 
 **Thumbnail**
+- [thumbnail_genz-milenial_ilustrasi-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_ilustrasi-a.png)
+- [thumbnail_genz-milenial_ilustrasi-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_ilustrasi-b.png)
 - [thumbnail_genz-milenial_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_varian-a.png)
 - [thumbnail_genz-milenial_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_varian-b.png)
 
 **Caption & hashtag**
 - [genz-milenial_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/genz-milenial_caption.md)
+
+## genz-milenial_ilustrasi-a.png
+
+## genz-milenial_ilustrasi-b.png
 
 ## internet-mati
 
@@ -93,11 +99,17 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 - [ojol-libur_short_bab-8.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/ojol-libur_short_bab-8.mp4)
 
 **Thumbnail**
+- [thumbnail_ojol-libur_ilustrasi-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_ilustrasi-a.png)
+- [thumbnail_ojol-libur_ilustrasi-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_ilustrasi-b.png)
 - [thumbnail_ojol-libur_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_varian-a.png)
 - [thumbnail_ojol-libur_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_varian-b.png)
 
 **Caption & hashtag**
 - [ojol-libur_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/ojol-libur_caption.md)
+
+## ojol-libur_ilustrasi-a.png
+
+## ojol-libur_ilustrasi-b.png
 
 ## paylater
 
