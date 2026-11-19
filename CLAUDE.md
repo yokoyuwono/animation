@@ -43,7 +43,8 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 ## Alur membuat video baru
 1. Riset fakta terbaru (web search) → tulis narasi & skema per bab → minta persetujuan pemilik.
 2. Tulis `stories/<nama>.js` (salin pola `paylater.js`), daftarkan di `index.html` (STORIES + `<option>`).
-3. Uji naskah dulu TANPA suara (durasi perkiraan). Setelah final: `node tools/vo-lines.js stories/<nama>.js --changed`
+3. **Animasi dulu, suara belakangan (hemat kredit):** kalimat tanpa VO otomatis memakai tempo perkiraan Fikri (±60 ms/huruf `speak`)
+   dan tampil sebagai teks `[draf]` di layar → pemilik review animasi → baru buat suara untuk kalimat final. Uji naskah dulu TANPA suara (durasi perkiraan). Setelah final: `node tools/vo-lines.js stories/<nama>.js --changed`
    → hanya kalimat baru/berubah yang perlu dibuat (hemat kredit).
 4. Buat suara via connector ElevenLabs (`creative_create_flow`, lalu `creative_generate_speech` per kalimat,
    maksimal ±17 sekaligus karena batas konkurensi; cek dengan `creative_get_flow_run_status`).
