@@ -21,16 +21,18 @@ r-07. Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk. **[*BISU* 7 HARI
 r-08. Dia ingin roti, tapi tak punya satu koin pun. **[TANPA *SATU KOIN*]** *(balon tukang roti: "Pecunia?" = Uangnya?)*
 r-09. Di kota hampir sejuta orang, dia sendirian. *(punchline)* **[± *1 JUTA* ORANG · DIA *SENDIRIAN*]**
 
-## Bab 2 — Dunia serba manual
-13. *(long)* Pelan-pelan, Dimas mulai memperhatikan kota ini. / *(short)* Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya?
-14. Tak ada listrik, tak ada mesin. Semua digerakkan otot. **[SERBA *MANUAL*]**
-15. Budak memikul guci, menggiling gandum, menyalin buku. **[TENAGA *BUDAK*]**
-16. Di Italia, kira-kira sepertiga penduduk adalah budak. **[± *1/3* BUDAK]** *(perkiraan sejarawan)*
-17. Paling atas, Kaisar Claudius. Paling bawah, orang asing seperti dia. **[KAISAR → *ORANG ASING*]**
-18. Dimas menukar kaos dan jinsnya dengan tunik kasar. **[GANTI *TUNIK*]**
-19. Lalu dia melihat air selokan, lalat, dan orang demam di jalan. **[DEMAM · *LALAT*]**
-20. Tak ada obat, tak ada rumah sakit. Dimas mulai panik. **[TANPA *OBAT*]**
-21. Di sini, sakit perut saja bisa membunuh. *(punchline)* **[*PANIK*]**
+## Bab 2 — Dunia serba manual  *(animasi draf: `stories/romawi-kuno.js`)*
+r-10. *(long)* Pelan-pelan, Dimas mulai memperhatikan kota ini. **[DIMAS *MENGAMATI*]**
+r-10s. *(short)* Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya? **[TANPA *LISTRIK*?]**
+r-11. Tak ada listrik, tak ada mesin. Semua digerakkan otot. **[SEMUA *TENAGA OTOT*]** *(peta: budak memikul guci dari pelabuhan Tiber)*
+r-12. Budak memikul guci, menggiling gandum, menyalin buku. **[TENAGA *BUDAK*]**
+r-13. Di Italia, kira-kira sepertiga penduduk adalah budak. **[± *1 DARI 3* ORANG = BUDAK]** *(kartu, perkiraan)*
+r-14. Paling atas, Kaisar Claudius. Paling bawah, para budak. **[ATAS: *KAISAR* · BAWAH: *BUDAK*]** *(kartu tangga sosial)*
+r-15. Orang asing tanpa pelindung, seperti Dimas, mudah jatuh ke sana. *(punchline)* **[ORANG ASING = *RENTAN*]**
+r-16. Dimas menukar kaos dan jinsnya dengan tunik kasar. **[KAOS + JINS → *TUNIK*]** *(penjual: "Mirabile!" = Ajaib!)*
+r-17. Lalu dia melihat selokan terbuka, lalat, dan orang demam. **[SELOKAN · LALAT · *DEMAM*]**
+r-18. Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik. **[TANPA *ANTIBIOTIK* · TANPA *RUMAH SAKIT UMUM*]** *(label: antibiotik 1928)*
+r-19. Di sini, sakit perut saja bisa membunuh. *(punchline, hitam-putih)* **[SAKIT PERUT = *BISA MEMBUNUH*]**
 
 ## Bab 3 — Kelaparan
 22. *(long)* Tapi yang paling cepat membunuhnya bukan penyakit. / *(short)* Tanpa uang di Roma kuno, bisakah kamu dapat makan?
@@ -122,6 +124,7 @@ Opsi: (a) animasi dulu tanpa suara (draf), lalu pangkas ±15 kalimat sebelum VO;
 |---|---|
 | Kaisar 41–54 M = Claudius | Suetonius, *Claudius* |
 | Bahasa Inggris Kuno muncul setelah pemukiman Anglo-Saxon di Britania, abad ke-5 M | *umum (sejarah bahasa Inggris) — cek sumber* |
+| Rumah sakit di Roma: hanya *valetudinaria* untuk tentara/budak perkebunan, belum ada rumah sakit umum; penisilin ditemukan 1928 | *cek sumber* |
 | Penduduk Roma ± 1 juta (abad ke-1; perkiraan, diperdebatkan 450 rb–1 jt+) | *perlu sumber akademik* |
 | Salve / Quis es? / Barbarus / Pecunia = Latin klasik | kamus Latin |
 | Budak ± sepertiga penduduk Italia (perkiraan) | Bradley; [Scheidel 2005](https://www.gwern.net/doc/history/2005-scheidel.pdf) |

@@ -317,6 +317,67 @@ function buildRomawiTextures(scene) {
     px(10, 0, RM.marmer2, 6, 8); px(11, 1, '#c2baa7', 4, 3); px(12, 2, RM.marmer3, 2, 1);   // tiang berkepala singa (abstrak)
     px(12, 4, RM.air2, 1, 5); px(13, 5, RM.air, 1, 4);
   });
+
+  // =====================================================================
+  //  BAB 2 — dunia serba manual & kota yang kotor
+  // =====================================================================
+  const anim = (key, rate) => { if (!scene.anims.exists(key)) scene.anims.create({ key, frames: [{ key: `${key}_0` }, { key: `${key}_1` }], frameRate: rate, repeat: -1 }); };
+  // gilingan gandum batu "jam pasir" (seperti di toko roti Pompeii) — 2 frame: palang kayu berputar
+  [0, 1].forEach(f => mapCanvas(scene, `gilingan_${f}`, 26, 26, (ctx, px) => {
+    px(3, 22, '#8a8070', 20, 4); px(3, 22, '#a89f8a', 20, 1);                       // alas batu
+    for (let y = 12; y < 22; y++) { const half = Math.round(3 + (y - 12) * 0.7); px(13 - half, y, '#6d6a62', half * 2, 1); px(13 - half, y, '#8a877e', 2, 1); }   // meta (kerucut bawah)
+    for (let y = 2; y < 14; y++) { const half = Math.round(7 - Math.abs(y - 8) * 0.55); px(13 - half, y, '#5a5750', half * 2, 1); px(13 - half, y, '#7a776e', 2, 1); }  // catillus (jam pasir)
+    px(10, 1, '#3d3a34', 6, 2);                                                      // corong gandum
+    px(11, 0, '#d9b36c', 4, 1);
+    if (f === 0) { px(0, 8, RM.kayu, 26, 2); px(0, 8, RM.kayuT, 26, 1); }            // palang menyamping
+    else { px(11, 6, RM.kayu, 4, 5); px(9, 7, RM.kayuT, 8, 2); }                     // palang menghadap kamera
+    px(4, 21, '#efe6cf', 18, 1); px(6, 20, '#efe6cf', 3, 1); px(17, 20, '#efe6cf', 3, 1);   // tepung tumpah
+  }));
+  anim('gilingan', 2.5);
+  // meja juru tulis: gulungan papirus terbuka, tempat tinta, pena buluh, rak gulungan
+  mapCanvas(scene, 'meja_tulis', 34, 22, (ctx, px) => {
+    px(22, 0, RM.kayu, 12, 12); px(23, 1, RM.kayuT, 10, 10);                        // rak gulungan
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) { px(24 + c * 3, 2 + r * 3, '#e8d9b0', 2, 2); px(24 + c * 3, 2 + r * 3, '#c9b48a', 1, 1); }
+    px(0, 12, '#8b6a45', 34, 2); px(0, 12, '#a07c52', 34, 1); px(3, 14, '#6d5235', 2, 8); px(29, 14, '#6d5235', 2, 8);
+    px(4, 9, '#efe3c2', 14, 3); px(3, 9, '#c9b48a', 2, 3); px(17, 9, '#c9b48a', 2, 3);   // papirus terbuka
+    for (let x = 6; x < 16; x += 2) px(x, 10, '#5d4a3a', 1, 1);                     // tulisan
+    px(19, 10, '#2b1d16', 2, 2); px(20, 7, '#c9a24a', 1, 3);                        // tinta + pena buluh
+  });
+  // lapak baju bekas: rangka kayu, tunik tergantung, meja
+  mapCanvas(scene, 'lapak_baju', 40, 30, (ctx, px) => {
+    px(1, 0, RM.kayuT, 2, 30); px(37, 0, RM.kayuT, 2, 30); px(0, 1, RM.kayu, 40, 2);   // rangka
+    [[4, '#a08a68'], [13, '#b5523b'], [22, '#5a8fbf'], [31, '#d9b36c']].forEach(([x, c]) => {   // tunik tergantung
+      px(x + 2, 3, '#3d2a1c', 1, 1); px(x, 4, c, 6, 2); px(x - 1, 5, c, 8, 2); px(x, 7, c, 6, 8); px(x, 10, 'rgba(0,0,0,0.25)', 6, 1); px(x + 1, 4, 'rgba(255,255,255,0.2)', 2, 10);
+    });
+    px(0, 20, '#8b6a45', 40, 2); px(0, 20, '#a07c52', 40, 1); px(3, 22, '#6d5235', 3, 8); px(34, 22, '#6d5235', 3, 8);
+    px(8, 18, '#a08a68', 8, 2); px(20, 18, '#8a7f6a', 9, 2); px(21, 17, '#8a7f6a', 7, 1);   // tumpukan kain
+  });
+  // kaos + jins Dimas (dilipat) — barang aneh bagi orang Roma
+  mapCanvas(scene, 'kaos_modern', 12, 11, (ctx, px) => {
+    px(1, 0, '#1a1c2c', 10, 6); px(2, 1, '#8b9bb4', 8, 4); px(0, 1, '#8b9bb4', 2, 2); px(10, 1, '#8b9bb4', 2, 2); px(4, 1, '#a9b6cc', 4, 1);
+    px(1, 6, '#1a1c2c', 10, 5); px(2, 7, '#29366f', 8, 3); px(6, 7, '#3b5dc9', 1, 3); px(3, 8, '#c9a24a', 1, 1);
+  });
+  // selokan terbuka di tengah jalan (air kotor kehijauan)
+  mapCanvas(scene, 'selokan', 70, 5, (ctx, px) => {
+    const rnd = mapRand(21);
+    px(0, 0, '#3a3d48', 70, 5); px(1, 1, '#4f5a3a', 68, 3); px(1, 1, '#66704a', 68, 1);
+    for (let i = 0; i < 25; i++) px(1 + Math.floor(rnd() * 67), 2 + Math.floor(rnd() * 2), i % 3 ? '#3d4630' : '#7a6a3a', 2, 1);
+  });
+  // lalat beterbangan (2 frame)
+  [0, 1].forEach(f => mapCanvas(scene, `lalat_${f}`, 16, 10, (ctx, px) => {
+    const pts = f ? [[2, 3], [7, 1], [12, 5], [5, 7], [14, 8]] : [[3, 1], [8, 4], [11, 2], [4, 8], [13, 6]];
+    pts.forEach(([x, y]) => { px(x, y, '#1a1c2c'); px(x - 1, y - 1, 'rgba(220,230,240,0.7)'); px(x + 1, y - 1, 'rgba(220,230,240,0.7)'); });
+  }));
+  anim('lalat', 7);
+  // warga demam terbaring di trotoar (tunik, kain kompres)
+  mapCanvas(scene, 'orang_sakit', 18, 7, (ctx, px) => {
+    px(0, 2, '#1a1c2c', 18, 5);
+    px(1, 3, '#3b2a1a', 2, 3); px(3, 3, '#e8c4a0', 3, 3); px(3, 2, '#f4f4f4', 3, 1);   // kepala + kompres
+    px(6, 3, '#8a7f6a', 8, 3); px(6, 4, '#5d4a32', 8, 1); px(14, 4, '#e8c4a0', 3, 2);  // tunik, kaki
+    px(4, 4, '#c94a4a', 1, 1);                                                          // pipi merah (demam)
+  });
+  // tikar lusuh
+  mapCanvas(scene, 'tikar', 22, 2, (ctx, px) => { px(0, 0, '#8a7350', 22, 2); for (let x = 1; x < 22; x += 3) px(x, 0, '#6d5a3c', 1, 2); });
 }
 
 // pasang ke mesin tanpa mengubah engine.js: dibungkus pada buildMapTextures

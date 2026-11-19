@@ -16,6 +16,18 @@ const SP = {
   'r-07':  ['Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk.', 'Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk.'],
   'r-08':  ['Dia ingin roti, tapi tak punya satu koin pun.', 'Dia ingin roti, tapi tak punya satu koin pun.'],
   'r-09':  ['Di kota hampir sejuta orang, dia sendirian.', 'Di kota hampir sejuta orang, dia sendirian.'],
+  // Bab 2 — dunia serba manual
+  'r-10':  ['Pelan-pelan, Dimas mulai memperhatikan kota ini.', 'Pelan-pelan, Dimas mulai memperhatikan kota ini.'],
+  'r-10s': ['Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya?', 'Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya?'],
+  'r-11':  ['Tak ada listrik, tak ada mesin. Semua digerakkan otot.', 'Tak ada listrik, tak ada mesin. Semua digerakkan otot.'],
+  'r-12':  ['Budak memikul guci, menggiling gandum, menyalin buku.', 'Budak memikul guci, menggiling gandum, menyalin buku.'],
+  'r-13':  ['Di Italia, kira-kira sepertiga penduduk adalah budak.', 'Di Italia, kira-kira sepertiga penduduk adalah budak.'],
+  'r-14':  ['Paling atas, Kaisar Claudius. Paling bawah, para budak.', 'Paling atas, Kaisar Claudius. Paling bawah, para budak.'],
+  'r-15':  ['Orang asing tanpa pelindung, seperti Dimas, mudah jatuh ke sana.', 'Orang asing tanpa pelindung, seperti Dimas, mudah jatuh ke sana.'],
+  'r-16':  ['Dimas menukar kaos dan jinsnya dengan tunik kasar.', 'Dimas menukar kaos dan jinsnya dengan tunik kasar.'],
+  'r-17':  ['Lalu dia melihat selokan terbuka, lalat, dan orang demam.', 'Lalu dia melihat selokan terbuka, lalat, dan orang demam.'],
+  'r-18':  ['Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik.', 'Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik.'],
+  'r-19':  ['Di sini, sakit perut saja bisa membunuh.', 'Di sini, sakit perut saja bisa membunuh.'],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -32,14 +44,14 @@ const ROMA = {
 };
 const SUBURA = { x: 150, y: 44 };            // gang tempat Dimas terbangun
 const WARGA_PETA = ['rm_tukang', 'rm_pedagang', 'rm_warga', 'rm_ibu', 'rm_budak', 'rm_pemuda', 'rm_gadis', 'rm_tua'];
-function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, dimas = false, extraProps = [] } = {}) {
+function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, dimas = false, dimasSprite = 'dimas', jobs = [], extraProps = [] } = {}) {
   return {
     transition, sky: 'map', map: ROMA, noClouds: true, camera: c, clock,
     props: [{ sprite: 'roma_peta', x: 96, y: 54, scale: 0.5, center: true, depth: 1 },
       { id: 'kilat', sprite: 'kilat', x: SUBURA.x, y: SUBURA.y + 1, scale: 0.4, depth: 20, hidden: true },
       { id: 'pin', sprite: 'roma_penanda', x: SUBURA.x, y: SUBURA.y - 3, scale: 0.8, depth: 20, hidden: true }, ...extraProps],
-    actors: dimas ? [{ id: 'dimasP', sprite: 'dimas', x: SUBURA.x, y: SUBURA.y + 1, scale: 0.26, tag: 'DIMAS', tagColor: UNGU }] : [],
-    walkers: { n: 54, sprites: WARGA_PETA, scale: 0.22, stay: [[{ act: 'idle', n: 7, x: 112, y: 58, spread: 10 }, { act: 'idle', n: 4, x: 75, y: 23, spread: 4 }, { act: 'idle', n: 3, x: 92, y: 92, spread: 14 }]] },
+    actors: dimas ? [{ id: 'dimasP', sprite: dimasSprite, x: SUBURA.x, y: SUBURA.y + 1, scale: 0.26, tag: 'DIMAS', tagColor: UNGU }] : [],
+    walkers: { n: 54 - jobs.reduce((t, j) => t + j.n, 0), sprites: WARGA_PETA, scale: 0.22, jobs: [jobs], stay: [[{ act: 'idle', n: 7, x: 112, y: 58, spread: 10 }, { act: 'idle', n: 4, x: 75, y: 23, spread: 4 }, { act: 'idle', n: 3, x: 92, y: 92, spread: 14 }]] },
     steps,
   };
 }
@@ -183,6 +195,136 @@ const STORY = {
               { at: 'sendirian', kw: 'DIA *SENDIRIAN*', keepKw: true }, { at: 'sendirian', emote: 'dimasP', icon: 'sweat', dur: 1400 }], { punch: true })] },
           { wait: 700 },
         ], { transition: 'clouds', c: { x: SUBURA.x, y: SUBURA.y, zoom: 2.8 }, clock: 'HARI 7', dimas: true }),
+      ],
+    },
+
+    // ================= BAB 2 — DUNIA SERBA MANUAL =================
+    {
+      id: 'bab-2', title: 'Dunia serba manual',
+      scenes: [
+        // 1) Peta: dari Subura, budak memikul guci dari pelabuhan Tiber ke Forum
+        peta([
+          { together: [{ pop: 'pin' }, { camera: { x: 104, y: 56, zoom: 1.5 }, dur: 4200, ease: 'Sine.easeInOut' },
+            C('r-10', [{ at: 0, kw: 'DIMAS *MENGAMATI*' }, { at: 'kota', emote: 'dimasP', icon: 'question', dur: 1000 }], { only: 'long' }),
+            C('r-10s', [{ at: 0, kw: 'TANPA *LISTRIK*?' }, { at: 'mesin', sticker: 'shock', at_: [0.75, 0.3] }], { only: 'short' })] },
+          C('r-11', [{ at: 'listrik', kw: 'TANPA *LISTRIK* & *MESIN*' },
+            { at: 'otot', camera: { x: 66, y: 62, zoom: 2.1 }, dur: 1600 },
+            { at: 'otot', label: 'PELABUHAN TIBER', x: 58, y: 58, bg: '#2f6fbf', size: 14, dur: 0 },
+            { at: 'digerakkan', kw: 'SEMUA *TENAGA OTOT*' }]),
+          { clearLabels: true },
+        ], { transition: 'clouds', c: { x: SUBURA.x, y: SUBURA.y, zoom: 2.6 }, clock: 'HARI 8', dimas: true,
+          jobs: [{ n: 9, from: [42, 66], to: [104, 60], carry: 'amfora', carryScale: 0.5 }, { n: 5, from: [42, 70], to: [80, 98], carry: 'amfora', carryScale: 0.5 }] }),
+
+        // 2) Jalan bengkel: budak memikul guci, menggiling gandum, menyalin buku
+        {
+          transition: 'clouds', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 8',
+          props: [...JALAN,
+            { sprite: 'pinus_samping', x: 98, y: 60, depth: 2.2 },
+            { sprite: 'insula_c', x: 40, y: 88, depth: 3 }, { sprite: 'insula_b', x: 156, y: 88, depth: 3 },
+            { sprite: 'kuil_jauh', x: 98, y: 87, scale: 0.7, depth: 2.3 },
+            { id: 'giling', sprite: 'gilingan_0', anim: 'gilingan', x: 54, y: 96, depth: 8 },
+            { id: 'tulis', sprite: 'meja_tulis', x: 142, y: 96, depth: 8 },
+            { id: 'guci', sprite: 'amfora', x: 214, y: 82, depth: 12 },
+          ],
+          actors: [
+            r('dimas', 'dimas', 98, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+            r('penggiling', 'rm_budak', 41, { name: 'Budak', face: 'right' }),
+            r('penulis', 'rm_pemuda', 134, { y: 89, depth: 7, name: 'Juru tulis', face: 'left' }),
+            r('pemikul', 'rm_budak', 214, { face: 'left', name: 'Budak' }),
+          ],
+          steps: [
+            C('r-12', [
+              { at: 0, kw: 'TENAGA *BUDAK*' },
+              { at: 'memikul', move: 'pemikul', to: 120, dur: 2600 }, { at: 'memikul', move: 'guci', to: 120, dur: 2600 },
+              { at: 'memikul', label: 'MEMIKUL GUCI', x: 146, y: 70, bg: GELAP, size: 16, dur: 0 },
+              { at: 'menggiling', label: 'MENGGILING GANDUM', x: 46, y: 64, bg: GELAP, size: 16, dur: 0 },
+              { at: 'menggiling', emote: 'penggiling', icon: 'sweat', dur: 1200 },
+              { at: 'menyalin', label: 'MENYALIN BUKU', x: 142, y: 56, bg: GELAP, size: 16, dur: 0 },
+              { at: 'buku', emote: 'penulis', icon: 'note', dur: 1000 },
+            ]),
+            { clearLabels: true },
+            C('r-13', [
+              { at: 0, move: 'pemikul', to: 60, dur: 3600 }, { at: 0, move: 'guci', to: 60, dur: 3600 },
+              { at: 'sepertiga', kw: '± *1 DARI 3* ORANG = BUDAK' },
+              { at: 'sepertiga', card: 'Budak di Italia', items: ['± sepertiga penduduk', '(perkiraan sejarawan)', 'Tanpa hak, bisa dijual'], x: 98, y: 60, place: 'left' },
+              { at: 'budak', emote: 'dimas', icon: 'exclaim', dur: 1000 },
+            ]),
+            { clear: true },
+            C('r-14', [
+              { at: 0, card: 'Tangga sosial Roma', items: ['1. Kaisar', '2. Senator & bangsawan', '3. Warga Roma', '4. Mantan budak', '5. Budak'], x: 98, y: 60, place: 'left' },
+              { at: 'claudius', kw: 'ATAS: *KAISAR*' }, { at: 'budak', kw: 'BAWAH: *BUDAK*' },
+            ]),
+            C('r-15', [
+              { at: 'asing', kw: 'ORANG ASING = *RENTAN*' }, { at: 'dimas', glow: 'dimas', times: 2 },
+              { at: 'jatuh', emote: 'dimas', icon: 'sweat', dur: 1400 }, { at: 'jatuh', sticker: 'sweat', at_: [0.7, 0.3] },
+            ], { punch: true }),
+            { clear: true },
+          ],
+        },
+
+        // 3) Lapak baju bekas: kaos & jins ditukar tunik
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: 80 } : CAM_DEKAT, clock: 'HARI 9',
+          props: [...JALAN,
+            { sprite: 'siprus_samping', x: 102, y: 60, depth: 2.2 },
+            { sprite: 'insula_a', x: 44, y: 88, depth: 3 }, { sprite: 'insula_c', x: 152, y: 88, depth: 3 },
+            { sprite: 'lapak_baju', x: 64, y: 96, depth: 8 },
+            { id: 'kaos', sprite: 'kaos_modern', x: 90, y: 88, depth: 12, hidden: true },
+            { id: 'asap', sprite: 'puff', x: 98, y: 92, scale: 2.4, depth: 13, hidden: true },
+          ],
+          actors: [
+            r('penjual', 'rm_gadis', 54, { y: 89, depth: 7, face: 'right', name: 'Penjual', tag: 'PENJUAL BAJU', tagColor: TEAL }),
+            r('dimas', 'dimas', 98, { face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+            r('dimasT', 'dimas_tunik', 98, { face: 'left', hidden: true, name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-16', [
+              { at: 0, kw: 'KAOS + JINS → *TUNIK*' },
+              { at: 'menukar', pop: 'kaos' }, { at: 'kaos', move: 'kaos', to: 74, dur: 900 },
+              { at: 'jinsnya', say: 'penjual', text: 'Mirabile!', dur: 900 },
+              { at: 'jinsnya', label: '(Ajaib!)', x: 54, y: 62, bg: GELAP, size: 17, dur: 0 },
+              { at: 'tunik', pop: 'asap' }, { at: 'tunik', hide: 'dimas', dur: 150 }, { at: 'tunik', show: 'dimasT', dur: 250 },
+              { at: 'kasar', hide: 'asap', dur: 300 }, { at: 'kasar', emote: 'dimasT', icon: 'sweat', dur: 1000 },
+            ]),
+            { clear: true },
+          ],
+        },
+
+        // 4) Gang kotor: selokan terbuka, lalat, orang demam → panik
+        {
+          transition: 'cut', sky: 'sunset', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 9',
+          props: [...JALAN,
+            { id: 'selokan', sprite: 'selokan', x: 100, y: 104, depth: 2.6 },
+            { sprite: 'insula_b', x: 42, y: 88, depth: 3 }, { sprite: 'insula_a', x: 154, y: 88, depth: 3 },
+            { sprite: 'kuil_jauh', x: 98, y: 87, scale: 0.7, depth: 2.3 },
+            { sprite: 'tikar', x: 60, y: 93, scale: 1.3, depth: 5 },
+            { id: 'sakit', sprite: 'orang_sakit', x: 60, y: 92, scale: 1.3, depth: 6 },
+            { id: 'lalat1', sprite: 'lalat_0', anim: 'lalat', x: 60, y: 84, depth: 14, float: true },
+            { id: 'lalat2', sprite: 'lalat_0', anim: 'lalat', x: 104, y: 100, depth: 14, float: true },
+            { sprite: 'amfora', x: 130, y: 89, depth: 4, flip: true },
+          ],
+          actors: [ r('dimas', 'dimas_tunik', 116, { face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-17', [
+              { at: 'selokan', label: 'SELOKAN TERBUKA', x: 100, y: 96, bg: '#5d6a3a', size: 16, dur: 0 },
+              { at: 'lalat', label: 'LALAT', x: 104, y: 86, bg: GELAP, size: 16, dur: 0 },
+              { at: 'orang', label: 'DEMAM', x: 60, y: 78, bg: MERAH, size: 16, dur: 0 },
+              { at: 'orang', emote: 'sakit', icon: 'sweat', dur: 1400 },
+              { at: 'demam', kw: 'SELOKAN · LALAT · *DEMAM*' },
+            ]),
+            { clearLabels: true },
+            C('r-18', [
+              { at: 'antibiotik', kw: 'TANPA *ANTIBIOTIK*' },
+              { at: 'antibiotik', label: 'ANTIBIOTIK: 1928', x: 140, y: 62, bg: GELAP, size: 16, dur: 0 },
+              { at: 'rumah sakit', kw: 'TANPA *RUMAH SAKIT UMUM*' },
+              { at: 'panik', emote: 'dimas', icon: 'exclaim', dur: 1200 }, { at: 'panik', shake: 300 }, { at: 'panik', jump: 'dimas', times: 2, height: 3 },
+              { at: 'panik', camera: { x: 112, y: 80, zoom: 2.1 }, dur: 900 },
+            ]),
+            { clearLabels: true },
+            { together: [{ mono: true }, C('r-19', [{ at: 'sakit perut', kw: 'SAKIT PERUT = *BISA MEMBUNUH*', keepKw: true }, { at: 'membunuh', sticker: 'dizzy', at_: [0.72, 0.3] }], { punch: true })] },
+            { mono: false },
+          ],
+        },
       ],
     },
   ],
