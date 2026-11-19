@@ -85,7 +85,8 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),
   awan < 10 dtk dari awan sebelumnya otomatis jadi transisi 'zoom' (cek: `node tools/clouds.js stories/<nama>.js`).
-  SFX tambahan: gunting, tetes, jangkrik, ombak. Peta pulau: `map: { island: [cx,cy,rx,ry], bumps }`; `{ spin: id }` (kincir), `{ encok: id }`.
+  SFX tambahan: gunting, tetes, jangkrik, ombak.
+  Musik per adegan: `STORY.musics = ['arena']` (file `<sfxDir>/music-arena.mp3`) + adegan `{ music: 'arena' }` (crossfade); `STORY.musicVol` (default 0.22). Peta pulau: `map: { island: [cx,cy,rx,ry], bumps }`; `{ spin: id }` (kincir), `{ encok: id }`.
 - Halaman HP (artifact) dibatasi 512 file: audio Paylater sudah dilepas dari sana (videonya sudah dirender).
   Untuk cerita baru berikutnya, lepas audio cerita lama yang sudah dirender (`remove` di publish_files).
   Ide fantasi berikutnya: Borobudur dibangun hari ini · kampung Indonesia pindah ke Mars. Semua video sudah memakai gaya peta + alur antar-bab (paylater, wapres-kosong, mbg-berhenti, tanpa-gunung-api).

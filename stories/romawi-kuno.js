@@ -53,6 +53,8 @@ const STORY = {
   title: 'Andaikan Terlempar ke Roma 50 M',
   audioDir: 'audio/romawi-kuno',
   sfx: true,
+  musics: ['arena'],                // music-arena.mp3 ("Arena of Iron") -> adegan arena diberi { music: 'arena' }
+  musicVol: 0.36,                    // musik Roma lebih jelas (default mesin 0.22)
   sfxDir: 'audio/romawi-kuno/sfx',   // musik khusus Roma ("Sunset in AD", dari pemilik) + salinan efek bersama
   captionStyle: 'keyword',
   chapters: [

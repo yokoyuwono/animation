@@ -100,6 +100,8 @@ class Movie extends Phaser.Scene {
       need.forEach(k => this.load.audio(`vo-${k}`, `${dir}/${k}.mp3`));
       // musik & efek suara (opsional): STORY.sfx = true -> audio/<cerita>/sfx/*.mp3
       if (STORY.sfx) SFX_NAMES.concat('music').forEach(n => { if (!this.cache.audio.exists(`sfx-${n}`)) this.load.audio(`sfx-${n}`, `${STORY.sfxDir || 'audio/_shared/sfx'}/${n}.mp3`); });
+      // musik tambahan per adegan: STORY.musics = ['arena'] -> <sfxDir>/music-arena.mp3, dipilih lewat adegan { music: 'arena' }
+      if (STORY.sfx) (STORY.musics || []).forEach(n => { if (!this.cache.audio.exists(`sfx-music-${n}`)) this.load.audio(`sfx-music-${n}`, `${STORY.sfxDir || 'audio/_shared/sfx'}/music-${n}.mp3`); });
       if (!this.load.list.size) return;
       return new Promise(res => { this.load.once('complete', res); this.load.start(); });
     });
@@ -112,8 +114,8 @@ class Movie extends Phaser.Scene {
     const ms = this.voDur[st.vo] * 1000;
     if (this.music) {   // musik mengecil saat narasi
       this.tweens.killTweensOf(this.music);
-      this.tweens.add({ targets: this.music, volume: MUSIC_VOL * 0.45, duration: 150 });
-      this.time.delayedCall(ms, () => this.music && this.tweens.add({ targets: this.music, volume: MUSIC_VOL, duration: 500 }));
+      this.tweens.add({ targets: this.music, volume: this.musicVol() * 0.45, duration: 150 });
+      this.time.delayedCall(ms, () => this.music && this.tweens.add({ targets: this.music, volume: this.musicVol(), duration: 500 }));
     }
     return ms;
   }
@@ -169,14 +171,21 @@ class Movie extends Phaser.Scene {
     return [...(STORY.intro || []), ...body, ...(STORY.outro || [])];
   }
 
+  // musik latar: name kosong = music.mp3, selain itu music-<name>.mp3 (STORY.musics); crossfade bila berganti
+  switchMusic(name) {
+    const key = name ? `sfx-music-${name}` : 'sfx-music';
+    if (!STORY.sfx || key === this.musicNow || !this.cache.audio.exists(key)) return;
+    const old = this.music;
+    if (old) { this.tweens.killTweensOf(old); this.tweens.add({ targets: old, volume: 0, duration: 1200, onComplete: () => old.stop() }); }
+    this.music = this.sound.add(key, { loop: true, volume: 0 }); this.musicNow = key;
+    this.music.play();
+    this.tweens.add({ targets: this.music, volume: this.musicVol(), duration: 1200 });
+  }
+  musicVol() { return STORY.musicVol ?? MUSIC_VOL; }
+
   async playStory(run) {
     const scenes = this.sequence();
-    this.music = null;
-    if (STORY.sfx && this.cache.audio.exists('sfx-music')) {
-      this.music = this.sound.add('sfx-music', { loop: true, volume: 0 });
-      this.music.play();
-      this.tweens.add({ targets: this.music, volume: MUSIC_VOL, duration: 1200 });
-    }
+    this.music = null; this.musicNow = null;
     for (let i = 0; i < scenes.length; i++) {
       if (!this.alive(run)) return;
       const sc = scenes[i];
@@ -190,7 +199,8 @@ class Movie extends Phaser.Scene {
         if (tr === 'clouds') await this.cloudCover(true);
         else await this.fade(true, quick ? 250 : (tr === 'zoom' ? 450 : 600));
       }
-      this.buildScene(sc);
+      this.buildScene(sc);   // (buildScene menghentikan semua tween -> musik dinyalakan/diganti sesudahnya)
+      if (i === 0 || sc.music !== undefined) this.switchMusic(sc.music);
       if (tr === 'zoom') {
         this.ctl.forEach(c => { const z = c.z; c.z = z * 2.5; this.tweens.add({ targets: c, z, duration: 1000, ease: 'Quad.easeOut' }); });
       }
