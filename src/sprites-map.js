@@ -294,6 +294,22 @@ function buildMapTextures(scene) {
     pxEllipse(px, 17, 7, 16, 6, '#e4d3a8'); const r = mapRand(9); for (let i = 0; i < 20; i++) px(Math.floor(2 + r() * 30), Math.floor(3 + r() * 8), '#c9b98a');
   });
 
+  // perahu (tampak atas & samping), kerang, ember, papan aturan, daun obat, anyaman
+  mapCanvas(scene, 'perahu_top', 20, 9, (ctx, px) => { px(1, 8, 'rgba(0,0,0,0.2)', 18, 1); px(0, 3, '#5d3a1a', 20, 4); px(2, 2, '#8b5a2b', 16, 6); px(9, 0, '#c9a46a', 6, 4); px(10, 1, '#e4d3a8', 4, 2); });
+  mapCanvas(scene, 'perahu', 44, 30, (ctx, px) => {
+    px(20, 2, '#5d3a1a', 2, 20); for (let y = 3; y < 19; y++) px(22, y, '#c9a46a', Math.round((y - 2) * 0.9), 1);
+    for (let x = 0; x < 44; x++) { const d = Math.round(Math.abs(x - 22) / 6); px(x, 21 + d, '#5d3a1a', 1, 1); }
+    px(4, 21, '#8b5a2b', 36, 3); px(8, 24, '#8b5a2b', 28, 2); px(12, 26, '#5d3a1a', 20, 2);
+  });
+  mapCanvas(scene, 'kerang', 9, 7, (ctx, px) => { pxEllipse(px, 4, 4, 4, 3, '#f4e4c1'); for (let x = 1; x < 8; x += 2) px(x, 2, '#c9a46a', 1, 4); px(3, 6, '#c9a46a', 3, 1); });
+  mapCanvas(scene, 'ember', 10, 10, (ctx, px) => { px(0, 2, '#8a8f99', 10, 8); px(1, 3, '#c2c3c7', 8, 6); px(1, 3, '#41a6f6', 8, 2); px(2, 0, '#1a1c2c', 6, 1); px(1, 1, '#1a1c2c', 1, 2); px(8, 1, '#1a1c2c', 1, 2); });
+  mapCanvas(scene, 'papan_aturan', 30, 28, (ctx, px) => {
+    px(4, 18, '#5d3a1a', 2, 10); px(24, 18, '#5d3a1a', 2, 10); px(0, 0, '#5d3a1a', 30, 20); px(1, 1, '#c9a46a', 28, 18);
+    px(4, 3, '#1a1c2c', 22, 2); for (let y = 7; y < 18; y += 3) { px(4, y, '#5d3a1a', 3, 1); px(9, y, '#5d3a1a', 15, 1); }
+  });
+  mapCanvas(scene, 'daun_obat', 12, 10, (ctx, px) => { pxEllipse(px, 4, 4, 3, 2, '#38b764'); pxEllipse(px, 8, 5, 3, 2, '#5ccf7a'); px(5, 6, '#2f8a55', 1, 4); px(3, 3, '#a7f070'); });
+  mapCanvas(scene, 'anyaman', 14, 8, (ctx, px) => { px(0, 0, '#a0703c', 14, 8); for (let y = 0; y < 8; y += 2) for (let x = (y / 2) % 2 * 2; x < 14; x += 4) px(x, y, '#e4d3a8', 2, 2); });
+
   // ---------- benda dekat (tampak samping): internet & nasi ----------
   mapCanvas(scene, 'paket', 20, 16, (ctx, px) => {                                   // tumpukan paket
     [[0, 8, 11, 8], [10, 9, 10, 7], [3, 1, 12, 7]].forEach(([x, y, w, h]) => { px(x, y, '#5d3a1a', w, h); px(x + 1, y + 1, '#c9a46a', w - 2, h - 2); px(x + Math.floor(w / 2) - 1, y + 1, '#e4d3a8', 2, h - 2); px(x + 2, y + 3, '#f4f4f4', 3, 2); });

@@ -218,6 +218,17 @@ class Movie extends Phaser.Scene {
     if ('quote' in st) return this.quoteCard(st);
     // { spin: id, dur } -> benda berputar terus (kincir); { spin: id, stop: true }
     if ('spin' in st) { const a = this.actor(st.spin); this.tweens.killTweensOf(a.spr); if (!a._spinOrigin) { a._spinOrigin = true; a.spr.y -= a.spr.displayHeight * (a.spr.originY - 0.5); a.spr.setOrigin(0.5, 0.5); } if (!st.stop) this.tweens.add({ targets: a.spr, angle: 360, duration: st.dur || 1400, repeat: -1 }); return this.wait(0); }
+    // { rain: true|false, side? } -> hujan (garis biru jatuh di layar)
+    if ('rain' in st) {
+      if (this.rainEv) { this.rainEv.remove(); this.rainEv = null; }
+      if (st.rain) this.rainEv = this.time.addEvent({ delay: 30, loop: true, callback: () => {
+        for (let k = 0; k < 3; k++) {
+          const x = Phaser.Math.Between(0, this.GW), d = this.uobj(this.add.rectangle(x, -20, 2, 14, 0x9fd4ff, 0.7).setDepth(160).setAngle(12));
+          this.tweens.add({ targets: d, y: this.GH + 20, x: x - 60, duration: Phaser.Math.Between(450, 700), onComplete: () => d.destroy() });
+        }
+      } });
+      return this.wait(st.dur ?? 0);
+    }
     // { encok: id } -> tokoh memegangi pinggang (membungkuk sebentar, gemetar)
     if ('encok' in st) {
       const a = this.actor(st.encok); this.calm(a); a.busy = true;
@@ -297,6 +308,7 @@ class Movie extends Phaser.Scene {
     this.tags = [];
     this.routes = {};
     this.extras = [];
+    if (this.rainEv) { this.rainEv.remove(); this.rainEv = null; }
     this.props = [];
     this.trafficOn = true;
     this.ctl.forEach(c => c.cam.postFX && c.cam.postFX.clear());
@@ -1572,7 +1584,8 @@ class Movie extends Phaser.Scene {
 
   // ---------- teks (kamera UI) ----------
   // Lama tampil ≈ kecepatan voice over (±16 huruf/detik)
-  holdTime(text, st) { return st.dur ?? Math.max(1300, text.length * 62); }
+  // tanpa VO: perkiraan tempo Fikri (1,2x) ±60 ms per huruf teks ucapan (+320 ms seperti jeda VO)
+  holdTime(text, st) { return st.dur ?? Math.max(1300, (st.speak || text).length * 60 + 320); }
 
   async hook(st) {
     const L = this.layout();
@@ -1591,6 +1604,12 @@ class Movie extends Phaser.Scene {
     if (STORY.captionStyle === 'keyword' || st.style === 'keyword') {
       const vo = this.playVO(st);
       const hold = vo ? vo + 320 : this.holdTime(st.caption, st);
+      // kalimat yang belum punya suara: tampilkan teks draf di bawah (untuk review sebelum membuat VO)
+      if (!vo && st.vo && STORY.audioDir && STORY.draftSubs !== false) {
+        const L = this.layout();
+        const t = this.uobj(this.add.text(this.GW / 2, this.GH - (this.V ? 150 : 34), `[draf] ${st.caption}`, { fontFamily: FONT, fontSize: `${this.V ? 13 : 11}px`, color: '#ffcd75', backgroundColor: '#1a1c2ccc', padding: { x: 8, y: 6 }, align: 'center', wordWrap: { width: L.capW } }).setOrigin(0.5, 1).setDepth(190));
+        this.time.delayedCall(hold, () => t.destroy());
+      }
       this.scheduleCues(st, vo || hold, run ?? this.run);
       this.reactToName(st, vo || hold);
       if (st.punch) this.ctl.forEach(c => !this.tweens.isTweening(c) && this.tweens.add({ targets: c, z: c.z * 1.1, duration: hold + 300, ease: 'Sine.easeInOut' }));
