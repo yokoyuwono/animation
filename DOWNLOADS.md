@@ -3,6 +3,33 @@
 Tekan link → file langsung terunduh. (Perlu login GitHub jika repo privat.)
 Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giuo4e/renders
 
+## genz-milenial
+
+**Video panjang**
+- [genz-milenial_long_16x9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/genz-milenial_long_16x9.mp4)
+- [genz-milenial_long_9x16.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/genz-milenial_long_9x16.mp4)
+
+**Short**
+- [genz-milenial_short_bab-1.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_bab-1.mp4)
+- [genz-milenial_short_penutup.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_penutup.mp4)
+- [genz-milenial_short_tahun-1.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-1.mp4)
+- [genz-milenial_short_tahun-10.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-10.mp4)
+- [genz-milenial_short_tahun-2.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-2.mp4)
+- [genz-milenial_short_tahun-3.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-3.mp4)
+- [genz-milenial_short_tahun-4.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-4.mp4)
+- [genz-milenial_short_tahun-5.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-5.mp4)
+- [genz-milenial_short_tahun-6.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-6.mp4)
+- [genz-milenial_short_tahun-7.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-7.mp4)
+- [genz-milenial_short_tahun-8.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-8.mp4)
+- [genz-milenial_short_tahun-9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/genz-milenial_short_tahun-9.mp4)
+
+**Thumbnail**
+- [thumbnail_genz-milenial_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_varian-a.png)
+- [thumbnail_genz-milenial_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_genz-milenial_varian-b.png)
+
+**Caption & hashtag**
+- [genz-milenial_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/genz-milenial_caption.md)
+
 ## mbg-berhenti
 
 **Video panjang**

@@ -79,7 +79,8 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Tombol Rekam tidak tersedia di halaman claude.ai (unduhan diblokir); rekam lewat `tools/render.sh`.
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail + paket unggah),
   `wapres-kosong`, `mbg-berhenti`, `tanpa-gunung-api` (seri "Andaikan", lengkap + short + thumbnail + paket; sprite di `src/sprites-politik.js` & `src/sprites-map.js`),
-  `ojol-libur`, `internet-mati`, `tanpa-nasi`, `tanpa-koruptor`, `genz-milenial` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption).
+  `ojol-libur`, `internet-mati`, `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption),
+  `genz-milenial` (Andaikan, draf 6: lengkap + 12 short + thumbnail + paket; wajah `face_rafi_*`/`face_bayu_*`).
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),
   awan < 10 dtk dari awan sebelumnya otomatis jadi transisi 'zoom' (cek: `node tools/clouds.js stories/<nama>.js`).

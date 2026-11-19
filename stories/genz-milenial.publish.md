@@ -15,17 +15,17 @@ Dua kapal karam di dua pulau kembar. Pulau A: 100 Gen Z umur 20. Pulau B: 100 mi
 
 ⏱️ Bab
 0:00 Dua kapal karam
-0:25 Tahun 1: malam pertama
-1:04 Tahun 2: kerja tanpa hiburan
-1:37 Tahun 3: lapar membuat ribut
-2:12 Tahun 4: kemarau
-2:47 Tahun 5: memikul air
-3:19 Tahun 6: yang malas tapi minta jatah
-3:49 Tahun 7: tukar yang adil
-4:18 Tahun 8: badai
-4:43 Tahun 9: wabah
-5:12 Tahun 10: dua pulau bertemu
-5:37 Siapa yang bertahan?
+0:26 Tahun 1: malam pertama
+1:03 Tahun 2: kerja tanpa hiburan
+1:33 Tahun 3: lapar membuat ribut
+2:04 Tahun 4: kemarau
+2:37 Tahun 5: memikul air
+3:09 Tahun 6: yang malas tapi minta jatah
+3:35 Tahun 7: tukar yang adil
+4:00 Tahun 8: badai
+4:25 Tahun 9: wabah
+4:51 Tahun 10: dua pulau bertemu
+5:13 Siapa yang bertahan?
 
 Skor akhir: Pulau B 5 : 4 Pulau A. Milenial menang tipis berkat etos kerja & mental tahan banting, tapi tanpa ide dan keterbukaan Gen Z, desa gabungan tak akan sekuat itu.
 
@@ -64,6 +64,6 @@ Rujukan: survei kesehatan mental remaja I-NAMHS 2022.
 **Komentar sematan (semua platform):** Tim A (Gen Z) atau Tim B (Milenial)? Jawab satu huruf aja 👇
 
 ## Catatan unggah
-- Waktu bab di deskripsi = perkiraan dari naskah; cek ulang dengan video 16:9 setelah unggah.
+- Waktu bab sudah dicocokkan dengan video 16:9 (durasi 5:31); geser ±1 detik bila perlu.
 - YouTube: tandai "konten yang diubah/sintetis" hanya jika diminta platform (suara narator AI).
 - Hindari framing merendahkan satu generasi di judul/komentar balasan; tekankan "keduanya saling melengkapi".
