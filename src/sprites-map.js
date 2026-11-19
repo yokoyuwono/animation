@@ -308,6 +308,14 @@ function buildMapTextures(scene) {
     px(4, 3, '#1a1c2c', 22, 2); for (let y = 7; y < 18; y += 3) { px(4, y, '#5d3a1a', 3, 1); px(9, y, '#5d3a1a', 15, 1); }
   });
   mapCanvas(scene, 'daun_obat', 12, 10, (ctx, px) => { pxEllipse(px, 4, 4, 3, 2, '#38b764'); pxEllipse(px, 8, 5, 3, 2, '#5ccf7a'); px(5, 6, '#2f8a55', 1, 4); px(3, 3, '#a7f070'); });
+  mapCanvas(scene, 'sabun', 10, 6, (ctx, px) => { px(0, 1, '#c9a46a', 10, 5); px(1, 0, '#f4e4c1', 8, 5); px(2, 1, '#ffffff', 3, 1); px(7, 0, '#9fd4ff', 2, 1); });
+  mapCanvas(scene, 'tempayan', 14, 16, (ctx, px) => { px(1, 15, 'rgba(0,0,0,0.3)', 13, 1); pxEllipse(px, 7, 9, 6, 6, '#a0603c'); pxEllipse(px, 7, 9, 4, 5, '#c97a4a'); px(4, 1, '#8b4a2b', 7, 3); px(5, 2, '#41a6f6', 5, 1); px(3, 9, '#8b4a2b', 9, 1); });
+  mapCanvas(scene, 'rumah_batu', 44, 34, (ctx, px) => {
+    px(1, 33, 'rgba(0,0,0,0.3)', 43, 1); px(2, 14, '#8a8f99', 40, 19);
+    const r = mapRand(21); for (let y = 15; y < 32; y += 4) for (let x = 3 + ((y / 4) % 2) * 3; x < 41; x += 7) px(x, y, r() > 0.5 ? '#c2c3c7' : '#a8a8a8', 6, 3);
+    for (let y = 0; y < 14; y++) px(21 - y - 1 - 1, y, '#5d3a1a', (y + 1) * 2 + 3, 1);
+    px(18, 22, '#5d3a1a', 8, 11); px(7, 18, '#41a6f6', 6, 5); px(31, 18, '#41a6f6', 6, 5);
+  });
   mapCanvas(scene, 'anyaman', 14, 8, (ctx, px) => { px(0, 0, '#a0703c', 14, 8); for (let y = 0; y < 8; y += 2) for (let x = (y / 2) % 2 * 2; x < 14; x += 4) px(x, y, '#e4d3a8', 2, 2); });
 
   // ---------- benda dekat (tampak samping): internet & nasi ----------

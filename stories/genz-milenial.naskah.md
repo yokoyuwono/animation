@@ -1,4 +1,4 @@
-# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 5 · tiap tahun berawal dari masalah)
+# Naskah — Andaikan Gen Z vs Milenial Terdampar: 10 Tahun Kemudian (draf 6 · tiap tahun berawal dari masalah + kemajuan nyata)
 
 > Aturan: semua terdampar umur **20**. Pulau A = 100 Gen Z (2026). Pulau B = 100 milenial *versi umur 20* (2010). Dua pulau kembar, nasib sama.
 > **Tanpa HP:** ponsel hanya disebut di hook (tanpa sinyal, baterai habis hari ke-3).
@@ -52,6 +52,7 @@
 31. 🔥 Ladang retak. Panen gagal di dua pulau. **[PANEN *GAGAL*]** — BARU
 32. Di pulau A, hasil panen sebelumnya sudah habis untuk self-reward. **[*SELF-REWARD*]** — BARU
 33. Di pulau B, Bayu menyisihkan sebagian ke lumbung. Dana darurat versi pulau. — ♻ z-29
+33b. Air hujan pun disimpan di tempayan tanah liat buatan sendiri. **[*GERABAH*]** — BARU
 34. Mereka dibesarkan orang tua yang trauma krisis 1998. — ♻ z-30
 35. **Konflik:** Di pulau A, jatah makan dipotong setengah. Mulai saling curiga. — BARU
 36. Self-reward itu enak, sampai kemarau datang. *(punchline · poin B)* — ♻ z-33
@@ -88,24 +89,25 @@
 56. *(long)* Tahun kedelapan, langit gelap sejak pagi. — BARU
 56s. *(short)* Badai besar datang. Pulau mana yang selamat? — BARU
 57. 🔥 Badai besar datang tanpa peringatan, semalaman penuh. **[*BADAI*]** — BARU
-58. Rumah pulau B kokoh. Lumbungnya tetap kering. **[RUMAH *KOKOH*]** — BARU
+58. Rumah pulau B dibangun dari batu karang. Lambat, tapi kokoh. **[RUMAH *BATU KARANG*]** — BARU
+58b. Lumbung dan tempayannya tetap aman. — BARU
 59. **Konflik:** Di pulau A, atap beterbangan. Pasar kerang hancur dalam semalam. — BARU
 60. Bersiap untuk hari buruk ternyata investasi terbaik. *(punchline · poin B)* — BARU
 
 ## Tahun 9 — Wabah
 61. *(long)* Tahun kesembilan, penyakit kulit mulai menyebar di dua pulau. — BARU
-61s. *(short)* Wabah menyebar, obatnya tidak ada di pulau. Siapa yang berani mencari? — BARU
+61s. *(short)* Wabah kulit menyebar, obatnya tidak ada. Siapa yang menemukan jalan keluar? — BARU
 62. 🔥 Obatnya tidak tumbuh di pulau mereka. **[OBAT *TIDAK ADA*]** — BARU
-63. Di pulau B, Bayu menolak menyeberang: "Laut terlalu berbahaya." — BARU
-64. Pulau A membangun perahu bersama, dengan layar dari anyaman daun. **[*PERAHU*]** — BARU
-65. **Konflik:** Dua kali perahu terbalik. Mereka tetap mencoba lagi. — BARU
-66. Berani mencoba membawa pulau A ke pulau tetangga, tempat daun obat tumbuh. *(punchline · poin A)* — BARU
+63. Di pulau B, mereka bertahan dengan ramuan lama. Sembuhnya lambat. **[RAMUAN *LAMA*]** — BARU
+64. Di pulau A, Rafi ingat: abu dan minyak kelapa bisa jadi sabun. **[*SABUN* ABU + KELAPA]** — BARU
+65. **Konflik:** Percobaan pertama bikin kulit perih. Resepnya diubah tiga kali. — BARU
+66. Sabun sederhana membuat wabah reda lebih cepat. *(punchline · poin A)* — BARU
 
 ## Tahun 10 — Bertemu
 67. *(long)* Tahun kesepuluh. Semuanya kini berumur tiga puluh. — ♻ z-41
 67s. *(short)* Sepuluh tahun kemudian, dua pulau akhirnya bertemu. — ♻ z-41s
 68. Dan pinggang mulai sering bunyi. **[*ENCOK* MULAI]** — ♻ z-42
-69. Perahu pulau A merapat di pantai pulau B, membawa daun obat. **[DUA PULAU *BERTEMU*]** — BARU
+69. Pulau A membuat perahu, lalu berlayar ke pulau B membawa sabun. **[DUA PULAU *BERTEMU*]** — BARU
 70. Pulau A membawa kincir dan cara berbicara yang terbuka. — ♻ z-44
 71. Pulau B membawa lumbung dan ketahanan menghadapi bosan. — ♻ z-45
 72. Gabungan keduanya jadi desa paling kuat di kepulauan itu. **[DESA *GABUNGAN*]** — ♻ z-46
@@ -119,5 +121,6 @@
 
 ---
 **Papan skor per tahun:** T1 B · T2 B · T3 A · T4 B · T5 A · T6 B · T7 A · T8 B · T9 A → **B 5 : 4 A**; Tahun 10 = desa gabungan.
+**Kemajuan nyata:** gerabah (T4), kincir (T5), pasar kerang (T7), rumah batu karang (T8), sabun abu + minyak kelapa (T9), perahu (T10).
 **Suara:** ±24 dipakai ulang, **±56 kalimat baru** (±3.100 kredit dari sisa ±7.700). Durasi ±5,5 menit (12 bab).
 **Fakta:** APJII 2026 (milenial 90,34% vs Gen Z 89,02% online — bisa jadi kartu di Tahun 2), I-NAMHS 2022. Sisanya skenario.
