@@ -309,10 +309,10 @@ const STORY = {
         peta([...buka('y-37', 'y-37s', [...dua(0, cam('sungai', 2.4), 1300), { at: 'jauh', kw: 'AIR ADA, *TAPI JAUH*' }], [...dua(0, cam('sungai', 2.4), 1300), { at: 'jalan keluar', kw: 'SIAPA *PUNYA SOLUSI*?' }]),
           { together: [MASALAH('MEMIKUL AIR'), C('y-38', [...dua(0.05, { x: 126, y: 56, zoom: 2.9 }, 1000), { at: 'dipikul', move: 'rafiA', to: 120, speed: 14 }, { at: 'dipikul', move: 'bayuB', to: R(140), speed: 14 }, { at: 'sakit', kw: 'PUNGGUNG *SAKIT*' }])] }],
           { c: cam('kemah', 1.8), o: { th: 5, api: true, tenda: true, ladang: true, kering: true, lumbung: true } }),
-        dekat((dx, s) => [...pantai(dx), { sprite: 'petak_air', x: 152 + dx, y: 104, scale: 2.2, depth: 3 }, { id: s + 'emb', sprite: 'ember', x: 78 + dx, y: 92, scale: 1.4, depth: 12 },
+        dekat((dx, s) => [...pantai(dx), { sprite: 'petak_air', x: 152 + dx, y: 104, scale: 2.2, depth: 3 }, { id: s + 'emb', sprite: 'ember', x: (s === 'A' ? 112 : 92) + dx, y: 101, scale: 1.2, depth: 12 },  // ember di tangan/samping, bukan di kepala
           ...(s === 'A' ? [{ id: 'Akcr', sprite: 'kincir', x: 150, y: 100, scale: 0.85, depth: 6, hidden: true }] : [])],
           (dx, s) => s === 'A' ? [rafi(80), warga('a1', 'girl', 50)] : [bayu(80), warga('b1', 'warga', R(50))], [
-          { together: [{ focus: 'right' }, C('y-39', [{ at: 'memikul', move: 'bayuB', to: R(130), speed: 20 }, { at: 'memikul', move: 'Bemb', to: R(128), speed: 20 }, { at: 'sistem lama', label: '"SISTEM LAMA SUDAH AMAN"', x: R(100), y: 46, bg: '#333c57', size: 10, dur: 0 },
+          { together: [{ focus: 'right' }, C('y-39', [{ at: 'memikul', move: 'bayuB', to: R(130), speed: 20 }, { at: 'memikul', move: 'Bemb', to: R(142), speed: 20 }, { at: 'sistem lama', label: '"SISTEM LAMA SUDAH AMAN"', x: R(100), y: 60, bg: '#333c57', size: 10, dur: 0 },
             { at: 'aman', encok: 'bayuB' }, { at: 'aman', kw: '*"JANGAN DIUBAH"*' }])] },
           { together: [{ focus: 'left' }, C('z-35', [{ at: 'kincir', work: 'rafiA', speed: 380 }, { at: 'bambu', kw: 'KINCIR *BAMBU*' }])] },
           C('z-36', [{ at: 'gagal', label: 'GAGAL 1', x: 150, y: 54, bg: RED, size: 10, dur: 0 }, { at: 'gagal', sfx: 'buzz', vol: 0.6 }, { at: 'tiga', label: 'GAGAL 2', x: 150, y: 42, bg: RED, size: 10, dur: 0 },

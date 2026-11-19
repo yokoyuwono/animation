@@ -1074,6 +1074,9 @@ class Movie extends Phaser.Scene {
       const stackH = t.height + this.badges[i].reduce((s, b) => s + b.height + 6, 0);
       // 9:16 terbelah: label panel bawah ditaruh di bawah agar tidak tertutup narasi di tengah
       let y = (this.V && i === 1 && vp.y > 10) ? vp.y + vp.h - 170 - stackH : vp.y + (i === 0 || vp.y < 10 ? top : 14);
+      // jam (pojok kiri atas) tidak boleh menutupi label sisi: label turun ke bawah jam
+      const ck = this.clockText && this.clockText.active && this.clockText.visible ? this.clockText : null;
+      if (ck && vp.x < ck.x + ck.width && Math.abs(y - ck.y) < ck.height) y = ck.y + ck.height + 6;
       t.setVisible(vis).setPosition(vp.x + 14, y);
       y += t.height + 8;
       this.badges[i].forEach(b => { b.setVisible(vis).setPosition(vp.x + 14, y); y += b.height + 6; });
