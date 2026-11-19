@@ -111,10 +111,10 @@ const UNGU = '#7a3b8f', TEAL = '#257179', GREEN = '#38b764', RED = '#b13e53', GE
 // Sumber daya terlihat: hutan (NW), bambu (NE), sungai + mata air (tengah-timur), kelapa (pantai), batu (SE), tanah liat (SW), ikan & karang (laut)
 const PULAU = { island: [96, 56, 86, 44], bumps: [[30, 30, 22, 14], [168, 80, 18, 14]],
   river: [[126, 14], [132, 30], [140, 46], [146, 66], [152, 86], [156, 106]],
-  roads: [[50, 62, 132, 62], [96, 30, 96, 92]],
+  roads: [[80, 63, 134, 63], [96, 30, 96, 92]],
   dirt: [[84, 52, 26, 20, '#c9b98a']],
   // jalur jalan kaki (tak tergambar) agar warga tersebar
-  paths: [[30, 50, 90, 50], [40, 74, 130, 74], [60, 86, 140, 86], [70, 40, 120, 40], [110, 52, 132, 52], [50, 56, 50, 84], [76, 30, 76, 92], [116, 34, 116, 94], [20, 62, 50, 62]] };
+  paths: [[18, 46, 46, 46], [40, 76, 130, 76], [60, 88, 140, 88], [80, 40, 120, 40], [110, 52, 132, 52], [46, 66, 46, 86], [80, 30, 80, 92], [116, 34, 116, 94], [18, 68, 46, 68]] };  // tidak melintasi ladang
 const ORANG = 100;  // warga per pulau
 const T = { kemah: [96, 62], ladang: [62, 48], sungai: [140, 46], pantai: [40, 92], hutan: [36, 38], tepi: [172, 60] };
 const TENDA = [[84, 54], [108, 54], [84, 72], [108, 72]];
@@ -149,9 +149,9 @@ function pulau(dx, s, o = {}) {
 function kerja(o, s) {
   const th = o.th ?? 0, K = [96, 64], jobs = [], stay = [];
   if (th >= 1) {
-    jobs.push({ n: 7, from: [36, 40], to: [78, 66], carry: 'kayu' });
+    jobs.push({ n: 7, from: [34, 28], to: [86, 30], carry: 'kayu' });
     jobs.push({ n: 5, from: [96, 96], to: [96, 70], carry: 'ikan' });
-    jobs.push({ n: 4, from: [22, 72], to: [84, 50], carry: 'kelapa', carryScale: 0.6 });
+    jobs.push({ n: 4, from: [22, 72], to: [82, 70], carry: 'kelapa', carryScale: 0.6 });
     if (!(s === 'A' && o.kincir)) jobs.push({ n: s === 'B' && th >= 5 ? 9 : 6, from: [138, 50], to: [104, 62], carry: 'ember', carryScale: 0.6 });
     jobs.push({ n: 3, from: [160, 36], to: [106, 58], carry: 'bambu_batang' });
   }

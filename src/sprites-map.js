@@ -380,7 +380,8 @@ function buildMapTextures(scene) {
 }
 
 // ---------- alat kerja: cangkul (dibuat dari frame tokoh mana pun) ----------
-function makeToolFrames(scene, sprite) {
+function makeToolFrames(scene, sprite, kind = 'hoe') {
+  if (kind === 'cangkul') return makeMapHoe(scene, sprite);
   const key0 = `${sprite}_hoe_0`;
   if (scene.textures.exists(key0) || !scene.textures.exists(`${sprite}_0`)) return;
   const src = scene.textures.get(`${sprite}_0`).getSourceImage();
@@ -395,6 +396,24 @@ function makeToolFrames(scene, sprite) {
     const tex = scene.textures.createCanvas(`${sprite}_hoe_${i}`, w, h);
     const ctx = tex.getContext();
     ctx.drawImage(src, ox + (i ? 1 : 0), oy);
+    draw((x, y, c, ww = 1, hh = 1) => { ctx.fillStyle = c; ctx.fillRect(x, y, ww, hh); });
+    tex.refresh();
+  });
+}
+
+// versi peta (kecil): cangkul cokelat tanpa mata logam mengilap, agar tidak tampak seperti ember di kepala
+function makeMapHoe(scene, sprite) {
+  if (scene.textures.exists(`${sprite}_cangkul_0`) || !scene.textures.exists(`${sprite}_0`)) return;
+  const src = scene.textures.get(`${sprite}_0`).getSourceImage();
+  const w = src.width + 8, h = src.height + 2, ox = 4, oy = 2;
+  const frames = [
+    (px) => { for (let i = 0; i < 6; i++) px(ox + 10 + i, oy + 9 - Math.round(i * 0.6), '#8b5a2b'); px(ox + 16, oy + 4, '#3a2a1a', 2, 2); },            // diangkat ke samping
+    (px) => { for (let i = 0; i < 6; i++) px(ox + 10 + i, oy + 9 + Math.round(i * 0.6), '#8b5a2b'); px(ox + 16, oy + 13, '#3a2a1a', 2, 2); },           // menghantam tanah
+  ];
+  frames.forEach((draw, i) => {
+    const tex = scene.textures.createCanvas(`${sprite}_cangkul_${i}`, w, h);
+    const ctx = tex.getContext();
+    ctx.drawImage(src, ox + (i ? 1 : 0), oy + (i ? 1 : 0));
     draw((x, y, c, ww = 1, hh = 1) => { ctx.fillStyle = c; ctx.fillRect(x, y, ww, hh); });
     tex.refresh();
   });

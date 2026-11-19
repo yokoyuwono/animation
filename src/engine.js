@@ -626,10 +626,10 @@ class Movie extends Phaser.Scene {
       });
       ((cfg.stay || [])[si] || []).forEach((st, ji) => {
         for (let k = 0; k < st.n; k++) {
-          const sp = pool[(k + ji * 2 + si) % pool.length]; makeToolFrames(this, sp);
+          const sp = pool[(k + ji * 2 + si) % pool.length]; makeToolFrames(this, sp, 'cangkul');
           const x = st.x + off + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 6), y = st.y + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 6) * 0.5;
           const idle = st.act === 'idle';   // idle = berkumpul/istirahat (menoleh sesekali), selain itu bekerja (mencangkul)
-          const spr = this.wobj(this.add.sprite(x * S, y * S, idle ? `${sp}_0` : `${sp}_hoe_0`).setOrigin(0.5, 1).setScale(sc).setDepth(4 + y / 200).setFlipX(idle ? x > (st.x + off) : Math.random() < 0.5));
+          const spr = this.wobj(this.add.sprite(x * S, y * S, idle ? `${sp}_0` : `${sp}_cangkul_0`).setOrigin(0.5, 1).setScale(sc).setDepth(4 + y / 200).setFlipX(idle ? x > (st.x + off) : Math.random() < 0.5));
           this.stayers.push({ spr, sprite: sp, f: 0, idle, t: Math.random() * 2, every: idle ? Phaser.Math.FloatBetween(2, 4.5) : Phaser.Math.FloatBetween(0.35, 0.55) });
         }
       });
@@ -641,7 +641,7 @@ class Movie extends Phaser.Scene {
       if (!p.spr.active) continue;
       p.t += dt; if (p.t < p.every) continue;
       p.t = 0; p.f = 1 - p.f;
-      if (p.idle) p.spr.setFlipX(!p.spr.flipX); else p.spr.setTexture(`${p.sprite}_hoe_${p.f}`);
+      if (p.idle) p.spr.setFlipX(!p.spr.flipX); else p.spr.setTexture(`${p.sprite}_cangkul_${p.f}`);
     }
     for (const w of this.walkers || []) {
       const s = w.spr;
@@ -679,7 +679,7 @@ class Movie extends Phaser.Scene {
       }
       if (Math.abs(nx * S - s.x) > 0.01) s.setFlipX(nx * S < s.x);
       s.setPosition(nx * S, ny * S).setDepth(4 + ny / 200);
-      if (w.carry) w.carry.setPosition(s.x, s.y - s.displayHeight * 0.78).setDepth(s.depth + 0.001).setVisible(w.dir === 1 && s.visible);
+      if (w.carry) w.carry.setPosition(s.x, s.y - s.displayHeight + S * 0.5).setDepth(s.depth + 0.001).setVisible(w.dir === 1 && s.visible);
       setWalk(true);
     }
   }
