@@ -80,7 +80,9 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Video yang sudah ada: `motor-listrik`, `perang-dunia` (Bab 4 bersuara), `paylater` (lengkap + 6 short + thumbnail + paket unggah),
   `wapres-kosong`, `mbg-berhenti`, `tanpa-gunung-api` (seri "Andaikan", lengkap + short + thumbnail + paket; sprite di `src/sprites-politik.js` & `src/sprites-map.js`),
   `ojol-libur` (Andaikan: lengkap + 8 short + thumbnail + paket; wajah `face_udin_*`/`face_joko_happy`),
-  `internet-mati`, `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption),
+  `internet-mati` (Andaikan: lengkap + 8 short + thumbnail + paket; wajah `face_rara_*`/`face_nenek_happy`),
+  `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption),
+  `romawi-kuno` (dikerjakan di sesi kedua, cabang `romawi-kuno`). Prompt thumbnail gaya ilustrasi (Nano Banana): `tools/thumbnail-prompts.md`.
   `genz-milenial` (Andaikan, draf 6: lengkap + 12 short + thumbnail + paket; wajah `face_rafi_*`/`face_bayu_*`).
 - Fitur mesin baru: `only: 'long'|'short'` (dual-VO: jembatan untuk kompilasi, pembuka/CTA khusus short per bab),
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),

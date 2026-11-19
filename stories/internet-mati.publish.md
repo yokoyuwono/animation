@@ -16,7 +16,14 @@
 Bayangkan besok pagi sinyal internet di seluruh kota hilang, seminggu penuh. QR di kasir Pak Hasan gagal dipindai, live jualan Kak Rara gelap, tugas daring Dafa hilang... tapi Nenek Sum malah tersenyum, cucunya akhirnya mau ngobrol. Kita bandingkan dua kota: A (internet nyala) dan B (internet mati).
 
 ⏱️ Bab
-{BAB}
+0:00 Sinyal hilang
+0:27 Seberapa tergantung kita?
+0:48 Pak Hasan dan QRIS
+1:23 Toko online Kak Rara
+1:49 Dafa dan layanan publik
+2:19 Twist: rumah Nenek Sum
+2:41 Hari ke-7
+3:03 Baru terasa saat padam
 
 Skor akhir: Kota A 3 : 2 Kota B.
 

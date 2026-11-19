@@ -30,6 +30,29 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 **Caption & hashtag**
 - [genz-milenial_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/genz-milenial_caption.md)
 
+## internet-mati
+
+**Video panjang**
+- [internet-mati_long_16x9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/internet-mati_long_16x9.mp4)
+- [internet-mati_long_9x16.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/internet-mati_long_9x16.mp4)
+
+**Short**
+- [internet-mati_short_bab-1.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-1.mp4)
+- [internet-mati_short_bab-2.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-2.mp4)
+- [internet-mati_short_bab-3.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-3.mp4)
+- [internet-mati_short_bab-4.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-4.mp4)
+- [internet-mati_short_bab-5.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-5.mp4)
+- [internet-mati_short_bab-6.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-6.mp4)
+- [internet-mati_short_bab-7.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-7.mp4)
+- [internet-mati_short_bab-8.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/shorts/internet-mati_short_bab-8.mp4)
+
+**Thumbnail**
+- [thumbnail_internet-mati_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_internet-mati_varian-a.png)
+- [thumbnail_internet-mati_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_internet-mati_varian-b.png)
+
+**Caption & hashtag**
+- [internet-mati_caption.md](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/internet-mati_caption.md)
+
 ## mbg-berhenti
 
 **Video panjang**
