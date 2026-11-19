@@ -116,6 +116,9 @@ const FACES = {
   udin_happy:  makePortrait({ hair: '#1a1c2c', shirt: '#38b764', style: 'neat', face: 'happy' }),    // driver ojol (jaket hijau)
   udin_cry:    makePortrait({ hair: '#1a1c2c', shirt: '#38b764', style: 'neat', face: 'cry' }),
   joko_happy:  makePortrait({ hair: '#5d3a1a', shirt: '#ef7d57', style: 'neat', face: 'happy' }),    // ojek pangkalan
+  rara_happy:  makePortrait({ hair: '#b13e53', shirt: '#ff77a8', style: 'hijab', face: 'happy' }),    // Kak Rara (toko online)
+  rara_cry:    makePortrait({ hair: '#b13e53', shirt: '#ff77a8', style: 'hijab', face: 'cry' }),
+  nenek_happy: makePortrait({ hair: '#c2c3c7', shirt: '#7a3b8f', style: 'hijab', face: 'happy' }),  // Nenek Sum
   rafi_shock:  makePortrait({ hair: '#1a1c2c', shirt: '#7a3b8f', style: 'spiky', face: 'shock' }),   // Gen Z
   rafi_cry:    makePortrait({ hair: '#1a1c2c', shirt: '#7a3b8f', style: 'spiky', face: 'cry' }),
   bayu_calm:   makePortrait({ hair: '#3b2a1a', shirt: '#257179', style: 'neat', face: 'calm' }),     // milenial
