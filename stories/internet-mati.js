@@ -93,7 +93,7 @@ function peta(steps, { split = true, c = cam('menara', 1.4), bOn = false, transi
     walkers: { n, sprites: WALK } }
     : { ...base, camera: c, props: kota(0, 'A'), actors: tokoh(0, 'A'), walkers: { n: n[0] + 4, sprites: WALK } };
 }
-function dekat(propsFn, actorsFn, steps, { c = { x: 100, y: 80, zoom: VERT ? 1.3 : 1.7 }, clock } = {}) {
+function dekat(propsFn, actorsFn, steps, { c = { x: 100, y: 82, zoom: VERT ? 1.3 : 1.15 }, clock } = {}) {   // zoom lebih kecil: tokoh di tepi tidak terpotong saat layar terbelah
   return { transition: 'clouds', sky: 'day', split: true, focus: 'both', tags: ['KOTA A', 'KOTA B'], tagColors: [GREEN, RED],
     camera: c, cameraB: { ...c, x: R(c.x) }, clock, props: [...propsFn(0, 'A'), ...propsFn(192, 'B')], actors: [...actorsFn(0, 'A'), ...actorsFn(192, 'B')], steps };
 }
