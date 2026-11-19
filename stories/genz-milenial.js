@@ -247,7 +247,7 @@ const STORY = {
       id: 'tahun-2', title: 'Tahun 2: kerja tanpa hiburan',
       scenes: [
         peta([...buka('y-16', 'y-16s', [...dua(0, cam('ladang', 2.4), 1300), { at: 'menanam', kw: 'MENANAM *SENDIRI*' }], [...dua(0, cam('ladang', 2.4), 1300), { at: 'tersiksa', kw: 'SIAPA *PALING TERSIKSA*?' }]),
-          { together: [MASALAH('KERJA TIAP HARI'), C('y-17', [{ at: 'digarap', kw: 'KERJA *TIAP HARI*' }, { at: 'hiburan', kw: 'TANPA *HIBURAN*' }])] }],
+          { together: [MASALAH('KERJA TIAP HARI'), C('y-17', [...dua(0.05, { x: 62, y: 52, zoom: 2.9 }, 1000), { at: 'digarap', kw: 'KERJA *TIAP HARI*' }, { at: 'hiburan', kw: 'TANPA *HIBURAN*' }])] }],
           { c: cam('kemah', 1.8), o: { th: 2, api: true, tenda: true, ladang: true } }),
         dekat((dx, s) => [...pantai(dx), ...[0, 1, 2].map(i => ({ id: `${s}pd${i}`, sprite: 'padi_subur', x: 110 + i * 18 + dx, y: 101, depth: 6 })),
           ...(s === 'B' ? [{ id: 'Bkite', sprite: 'kite', x: R(80), y: 40, scale: 1.4, depth: 12, hidden: true }] : [])],
@@ -266,7 +266,7 @@ const STORY = {
       id: 'tahun-3', title: 'Tahun 3: lapar membuat ribut',
       scenes: [
         peta([...buka('y-23', 'y-23s', [...dua(0, cam('kemah', 2.4), 1300), { at: 'menipis', kw: 'MAKANAN *MENIPIS*' }], [...dua(0, cam('kemah', 2.4), 1300), { at: 'tersulut', kw: 'MUDAH *TERSULUT*' }]),
-          { together: [MASALAH('LAPAR'), C('y-24', [{ at: 'tersulut', kw: 'LAPAR = *MUDAH MARAH*' }, { at: 'perkelahian', emote: 'bayuB', icon: 'exclaim', dur: 900 }, { at: 'perkelahian', emote: 'kaylaA', icon: 'exclaim', dur: 900 }])] }],
+          { together: [MASALAH('LAPAR'), C('y-24', [...dua(0.05, { x: 96, y: 80, zoom: 2.9 }, 1000), { at: 'tersulut', kw: 'LAPAR = *MUDAH MARAH*' }, { at: 'perkelahian', emote: 'bayuB', icon: 'exclaim', dur: 900 }, { at: 'perkelahian', emote: 'kaylaA', icon: 'exclaim', dur: 900 }])] }],
           { c: { x: 96, y: 60, zoom: 1.4 }, o: { th: 3, api: true, tenda: true, ladang: true } }),
         dekat((dx, s) => [...pantai(dx), { sprite: 'api_unggun', x: 100 + dx, y: 101, scale: 1.3, depth: 6 }, { id: s + 'kl', sprite: 'kelapa', x: 100 + dx, y: 76, scale: 1.6, depth: 14, hidden: true }],
           (dx, s) => s === 'A' ? [kayla(70), warga('a1', 'boy', 130, { face: 'left' }), warga('a2', 'girl', 150, { face: 'left' })] : [bayu(70), warga('b1', 'warga', R(130), { face: 'left' }), warga('b2', 'warga2', R(150), { face: 'left' })], [
@@ -287,7 +287,7 @@ const STORY = {
       id: 'tahun-4', title: 'Tahun 4: kemarau',
       scenes: [
         peta([...buka('y-30', 'z-27s', [...dua(0, cam('ladang', 2.4), 1300), { at: 'lima bulan', kw: '5 BULAN *TANPA HUJAN*' }], [...dua(0, cam('ladang', 2.4), 1300), { at: 'kelaparan', kw: 'SIAPA *KELAPARAN*?' }]),
-          { together: [MASALAH('PANEN GAGAL'), C('y-31', [{ at: 'retak', swapAll: 'Ald', to: 'sawah_top_kurus', stagger: 200 }, { at: 'retak', swapAll: 'Bld', to: 'sawah_top_kurus', stagger: 200 }, { at: 'gagal', kw: 'PANEN *GAGAL*' }])] }],
+          { together: [MASALAH('PANEN GAGAL'), C('y-31', [...dua(0.05, { x: 52, y: 70, zoom: 2.9 }, 1000), { at: 'retak', swapAll: 'Ald', to: 'sawah_top_kurus', stagger: 200 }, { at: 'retak', swapAll: 'Bld', to: 'sawah_top_kurus', stagger: 200 }, { at: 'gagal', kw: 'PANEN *GAGAL*' }])] }],
           { c: cam('kemah', 1.8), o: { th: 4, api: true, tenda: true, ladang: true, lumbung: true } }),
         dekat((dx, s) => [...pantai(dx), { id: s + 'ks', sprite: s === 'A' ? 'basket_half' : 'basket_full', x: 110 + dx, y: 101, scale: 1.5, depth: 8 },
           ...(s === 'B' ? [{ id: 'Blbg', sprite: 'lumbung', x: R(150), y: 101, scale: 1.2, depth: 5 }, ...[0, 1].map(i => ({ id: 'Btmp' + i, sprite: 'tempayan', x: R(124 + i * 12), y: 101, scale: 1.3, depth: 7, hidden: true }))] : [])],
@@ -307,7 +307,7 @@ const STORY = {
       id: 'tahun-5', title: 'Tahun 5: memikul air',
       scenes: [
         peta([...buka('y-37', 'y-37s', [...dua(0, cam('sungai', 2.4), 1300), { at: 'jauh', kw: 'AIR ADA, *TAPI JAUH*' }], [...dua(0, cam('sungai', 2.4), 1300), { at: 'jalan keluar', kw: 'SIAPA *PUNYA SOLUSI*?' }]),
-          { together: [MASALAH('MEMIKUL AIR'), C('y-38', [{ at: 'dipikul', move: 'rafiA', to: 120, speed: 14 }, { at: 'dipikul', move: 'bayuB', to: R(140), speed: 14 }, { at: 'sakit', kw: 'PUNGGUNG *SAKIT*' }])] }],
+          { together: [MASALAH('MEMIKUL AIR'), C('y-38', [...dua(0.05, { x: 126, y: 56, zoom: 2.9 }, 1000), { at: 'dipikul', move: 'rafiA', to: 120, speed: 14 }, { at: 'dipikul', move: 'bayuB', to: R(140), speed: 14 }, { at: 'sakit', kw: 'PUNGGUNG *SAKIT*' }])] }],
           { c: cam('kemah', 1.8), o: { th: 5, api: true, tenda: true, ladang: true, kering: true, lumbung: true } }),
         dekat((dx, s) => [...pantai(dx), { sprite: 'petak_air', x: 152 + dx, y: 104, scale: 2.2, depth: 3 }, { id: s + 'emb', sprite: 'ember', x: 78 + dx, y: 92, scale: 1.4, depth: 12 },
           ...(s === 'A' ? [{ id: 'Akcr', sprite: 'kincir', x: 150, y: 100, scale: 0.85, depth: 6, hidden: true }] : [])],
@@ -329,7 +329,7 @@ const STORY = {
       scenes: [
         peta([...buka('y-44', 'y-44s', [{ at: 0, camera: { x: 96, y: 60, zoom: 1.6 }, dur: 1200 }, { at: 0, camera: { x: R(96), y: 60, zoom: 1.6 }, side: 'right', dur: 1200 }, { at: 'manusia', kw: 'MASALAHNYA: *MANUSIA*' }],
             [{ at: 0, camera: { x: 96, y: 60, zoom: 1.6 }, dur: 1200 }, { at: 0, camera: { x: R(96), y: 60, zoom: 1.6 }, side: 'right', dur: 1200 }, { at: 'mengaturnya', kw: 'BAGAIMANA *MENGATUR*?' }]),
-          { together: [MASALAH('MALAS TAPI MINTA JATAH'), C('y-45', [{ at: 'malas', emote: 'kaylaA', icon: 'zzz', dur: 900 }, { at: 'jatah', kw: 'MALAS TAPI *MINTA JATAH*' }])] }],
+          { together: [MASALAH('MALAS TAPI MINTA JATAH'), C('y-45', [...dua(0.05, { x: 62, y: 52, zoom: 2.9 }, 1000), { at: 'malas', emote: 'kaylaA', icon: 'zzz', dur: 900 }, { at: 'jatah', kw: 'MALAS TAPI *MINTA JATAH*' }])] }],
           { c: cam('kemah', 1.8), o: { th: 6, api: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), s === 'B' ? { id: 'Bpapan', sprite: 'papan_aturan', x: R(130), y: 101, scale: 1.2, depth: 5, hidden: true } : { sprite: 'table', x: 110, y: 101, depth: 5 },
           ...(s === 'A' ? [0, 1].map(i => ({ id: 'Apd' + i, sprite: 'padi_muda', x: 160 + i * 14, y: 101, depth: 6, hidden: true })) : [])],
@@ -347,7 +347,7 @@ const STORY = {
       id: 'tahun-7', title: 'Tahun 7: tukar yang adil',
       scenes: [
         peta([...buka('y-50', 'y-50s', [...dua(0, cam('kemah', 2.4), 1300), { at: 'berbeda', kw: 'HASIL KERJA *BERBEDA*' }], [...dua(0, cam('kemah', 2.4), 1300), { at: 'berdagang', kw: 'TANPA UANG, *DAGANG*?' }]),
-          { together: [MASALAH('TUKAR YANG ADIL'), C('y-51', [{ at: 'nelayan', kw: 'NELAYAN · PETANI · *PENGANYAM*' }, { at: 'adil', kw: 'BAGAIMANA *TUKAR ADIL*?' }])] }],
+          { together: [MASALAH('TUKAR YANG ADIL'), C('y-51', [...dua(0.05, { x: 96, y: 88, zoom: 2.9 }, 1000), { at: 'nelayan', kw: 'NELAYAN · PETANI · *PENGANYAM*' }, { at: 'adil', kw: 'BAGAIMANA *TUKAR ADIL*?' }])] }],
           { c: cam('pantai', 2), o: { th: 7, api: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), { sprite: 'table', x: 110 + dx, y: 101, depth: 5 },
           ...(s === 'B' ? [{ id: 'Byam', sprite: 'yam', x: R(100), y: 88, scale: 1.6, depth: 9 }] : [
@@ -367,7 +367,7 @@ const STORY = {
       id: 'tahun-8', title: 'Tahun 8: badai',
       scenes: [
         peta([...buka('y-56', 'y-56s', [{ at: 0, tint: 0.4, color: GELAP, dur: 1500 }, { at: 'gelap', kw: 'LANGIT *GELAP*' }], [{ at: 0, tint: 0.4, color: GELAP, dur: 1500 }, { at: 'selamat', kw: 'PULAU MANA *SELAMAT*?' }]),
-          { together: [MASALAH('BADAI'), { rain: true }, C('y-57', [{ at: 'badai', shake: 400 }, { at: 'badai', kw: '*BADAI* SEMALAMAN' }, { at: 'semalaman', shake: 400 }])] }],
+          { together: [MASALAH('BADAI'), { rain: true }, C('y-57', [...dua(0.05, { x: 96, y: 64, zoom: 2.9 }, 1000), { at: 'badai', shake: 400 }, { at: 'badai', kw: '*BADAI* SEMALAMAN' }, { at: 'semalaman', shake: 400 }])] }],
           { c: { x: 96, y: 60, zoom: 1.3 }, o: { th: 8, api: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), s === 'B' ? { id: 'Brb', sprite: 'rumah_batu', x: R(70), y: 101, scale: 1.2, depth: 4 } : { id: 'Atnd', sprite: 'tenda', x: 80, y: 101, depth: 4 },
           ...(s === 'B' ? [{ sprite: 'lumbung', x: R(150), y: 101, scale: 1.1, depth: 5 }, { sprite: 'tempayan', x: R(170), y: 101, scale: 1.2, depth: 6 }] : [0, 1, 2].map(i => ({ id: 'Akr' + i, sprite: 'kerang', x: 130 + i * 10, y: 96, scale: 1.4, depth: 9 })))],
@@ -386,7 +386,7 @@ const STORY = {
       id: 'tahun-9', title: 'Tahun 9: wabah',
       scenes: [
         peta([...buka('y-61', 'y-61s', [...dua(0, cam('kemah', 2.4), 1300), { at: 'menyebar', kw: 'PENYAKIT *MENYEBAR*' }], [...dua(0, cam('kemah', 2.4), 1300), { at: 'jalan keluar', kw: 'SIAPA *PUNYA SOLUSI*?' }]),
-          { together: [MASALAH('WABAH'), C('y-62', [{ at: 'tidak tumbuh', kw: 'OBAT *TIDAK ADA*' }, { at: 'mereka', emote: 'kaylaA', icon: 'sweat', dur: 1000 }, { at: 'mereka', emote: 'bayuB', icon: 'sweat', dur: 1000 }])] }],
+          { together: [MASALAH('WABAH'), C('y-62', [...dua(0.05, { x: 96, y: 66, zoom: 2.9 }, 1000), { at: 'tidak tumbuh', kw: 'OBAT *TIDAK ADA*' }, { at: 'mereka', emote: 'kaylaA', icon: 'sweat', dur: 1000 }, { at: 'mereka', emote: 'bayuB', icon: 'sweat', dur: 1000 }])] }],
           { c: { x: 96, y: 60, zoom: 1.4 }, o: { th: 9, api: true, rumah: true, tenda: true, ladang: true, lumbung: true, kincir: true } }),
         dekat((dx, s) => [...pantai(dx), { sprite: 'petak_air', x: 160 + dx, y: 104, scale: 2.4, depth: 3 },
           { sprite: 'table', x: 130 + dx, y: 101, depth: 5 },
