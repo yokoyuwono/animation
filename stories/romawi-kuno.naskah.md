@@ -1,129 +1,136 @@
-# Naskah — Andaikan Kamu Terlempar ke Roma Tahun 50 Masehi, Bisa Jadi Kaisar? (draf 1)
+# Naskah — Andaikan Kamu Terlempar ke Roma 50 Masehi: Bisa Bertahan Hidup? (draf 2 · jalur gladiator)
 
-> **Premis:** Dimas, 25 tahun, lulusan teknik, tiba-tiba terbangun di Roma tahun 50 M (masa Kaisar Claudius).
-> Ia hanya membawa ingatan. HP-nya ada, tapi mati di hari pertama (pola sama dengan `genz-milenial`).
-> **A vs B (papan skor):** **ROMA ASLI** (cara lama Romawi) vs **ROMA + DIMAS** (ilmu modern).
-> **Twist:** ilmunya baru berguna setelah ia bisa bahasa Latin & paham politik. Pengetahuan saja tidak cukup.
-> **Pola tiap bab (±30 dtk, siap jadi short):** jembatan (long) / pembuka (short) → 🔥 masalah → ide Dimas → konflik → punchline + skor.
-> Fiksi: Dimas, Tuan Sextus, Marcus, Kleon, Felix, Rufus = tokoh rekaan. Claudius, Pallas, Narcissus, Aqua Claudia = nyata.
-> Semua kalimat **BARU** (belum ada suara). `[KATA KUNCI]` = teks layar; *kata* = kata berwarna.
+> **Premis:** Dimas, 25 tahun, lulusan teknik, terbangun di Roma tahun 50 M (masa Kaisar Claudius). Hanya membawa ingatan; HP mati.
+> **Alur:** bisu → dunia serba manual & menakutkan → kelaparan → jadi gladiator sukarela demi uang cepat → menang memakai
+> **(1) analisis data lawan, (3) fisika + pilihan jenis gladiator, (4) psikologi penonton.**
+> **Pengganti skor A vs B:** meteran **LAPAR** (bab 1–4) lalu meteran **PELUANG HIDUP** (bab 5–8, naik tiap ilmu dipakai; angka = ilustrasi).
+> **Pola tiap bab (siap jadi short):** jembatan *(long)* / pembuka *(short)* → masalah → yang dilakukan Dimas → twist/fakta → punchline.
+> Fiksi: Dimas, Bruno "Si Banteng", Lanista Varus, Kleon, Tita (penjual roti). Nyata: Claudius, amfiteater Statilius Taurus, retiarius, secutor.
+> Semua kalimat **BARU**. `[KATA KUNCI]` = teks layar; *kata* = kata berwarna. Hindari dialog/adegan khas film gladiator tertentu.
 
-## Hook — kilas maju (±10 dtk)
-1. Roma, tahun lima puluh Masehi. Seorang pemuda diadili. **[ROMA · *50 M*]**
-2. Tuduhannya: penyihir. Hukumannya bisa mati. **[TUDUHAN: *PENYIHIR*]**
-3. Padahal dia cuma membuat sabun. **[CUMA *SABUN*?!]**
-4. Namanya Dimas. Dua bulan lalu, dia masih di Bekasi. **[2 BULAN *SEBELUMNYA*]**
-5. Andaikan kamu terlempar ke Roma kuno. Bisa jadi kaisar? **[Judul]**
+## Hook — kilas maju (±12 dtk)
+1. Roma, lima puluh Masehi. Sepuluh ribu penonton di arena. **[ROMA · *50 M*]**
+2. Di tengahnya, pemuda kurus, hanya membawa jaring. **[HANYA *JARING*]**
+3. Lawannya raksasa berhelm besi. **[*RAKSASA* BERHELM]**
+4. Kalau kalah, kaisar ingin melihat wajahnya saat mati. **[KAISAR *MENONTON*]**
+5. Namanya Dimas. Tiga bulan lalu, dia masih di Bekasi. **[3 BULAN *SEBELUMNYA*]**
+6. Andaikan kamu terlempar ke Roma kuno. Bisa bertahan hidup? **[Judul]**
 
-## Bab 1 — Hari pertama: dikira budak
-6. *(long)* Semua berawal di sebuah gang sempit kota Roma. — *(short)* Bangun-bangun, kamu ada di Roma kuno. Apa yang terjadi?
-7. Dimas terbangun di gang. HP-nya mati, tak ada sinyal. **[HP *MATI*]**
-8. Orang-orang bicara bahasa Latin. Dia tak paham satu kata pun. **[BAHASA *LATIN*]**
-9. 🔥 Tanpa keluarga, tanpa pelindung, tanpa uang. **[TANPA *PELINDUNG*]**
-10. Di Roma, orang asing seperti itu mudah ditangkap.
-11. Dimas diseret ke pasar budak, lehernya dipasangi papan. **[PASAR *BUDAK*]**
-12. Papan itu menulis asal, umur, dan kesehatannya. **[*PAPAN* JUAL]**
-13. Di Italia, sekitar sepertiga penduduk adalah budak. **[± *1/3* PENDUDUK]** *(kartu fakta: perkiraan Bradley/Scheidel)*
-14. Dimas dibeli Tuan Sextus, pedagang minyak zaitun. **[TUAN *SEXTUS*]**
-15. Ilmu teknik empat tahun, tak bisa menolongnya hari itu. *(punchline · poin ROMA)* **[ROMA 1 : 0 DIMAS]**
+## Bab 1 — Minggu pertama: bisu
+7. *(long)* Semua berawal di sebuah gang sempit kota Roma. / *(short)* Bangun tidur, kamu sudah di Roma kuno. Apa yang terjadi?
+8. Dimas terbangun di gang. HP-nya mati, tanpa sinyal. **[HP *MATI*]**
+9. Semua orang bicara Latin. Dia tak paham satu kata pun. **[BAHASA *LATIN*]**
+10. Dia mencoba bahasa Inggris. Orang-orang malah tertawa. **[*HELLO*?]**
+11. Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk. **[*BISU* 7 HARI]**
+12. Di kota sejuta orang, dia sendirian. *(punchline)* **[SENDIRIAN]**
 
-## Bab 2 — Sabun & air bersih
-16. *(long)* Di rumah Tuan Sextus, Dimas ditaruh di dapur. — *(short)* Orang Roma kuno mandi tanpa sabun. Lalu pakai apa?
-17. Dimas terpukau. Air mengalir dari akuaduk ke air mancur kota. **[AKUADUK]**
-18. Air bersih Roma ternyata lebih maju dari dugaannya. **[AIR *MENGALIR*]**
-19. 🔥 Tapi orang mandi pakai minyak, lalu dikerok logam. **[MINYAK + *KEROKAN*]**
-20. Di toilet umum, spons pembersih dipakai bergantian. **[SPONS *BERSAMA*]** *(sisipkan stiker "ewh")*
-21. Penghuni dapur sering sakit perut. **[SAKIT *PERUT*]**
-22. Dimas ingat: abu kayu dan lemak bisa jadi sabun. **[ABU + *LEMAK*]**
-23. Konflik: koki menertawakan. "Itu krim rambut orang Galia!" **[KRIM *RAMBUT*?]** *(fakta: Plinius menyebut sapo buatan Galia untuk rambut)*
-24. Dimas memaksa semua cuci tangan sebelum masak. **[CUCI *TANGAN*]**
-25. Sebulan kemudian, dapur Sextus jarang sakit perut. *(punchline · poin DIMAS)* **[ROMA 1 : 1 DIMAS]**
+## Bab 2 — Dunia serba manual
+13. *(long)* Pelan-pelan, Dimas mulai memperhatikan kota ini. / *(short)* Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya?
+14. Tak ada listrik, tak ada mesin. Semua digerakkan otot. **[SERBA *MANUAL*]**
+15. Budak memikul guci, menggiling gandum, menyalin buku. **[TENAGA *BUDAK*]**
+16. Di Italia, kira-kira sepertiga penduduk adalah budak. **[± *1/3* BUDAK]** *(perkiraan sejarawan)*
+17. Paling atas, Kaisar Claudius. Paling bawah, orang asing seperti dia. **[KAISAR → *ORANG ASING*]**
+18. Dimas menukar kaos dan jinsnya dengan tunik kasar. **[GANTI *TUNIK*]**
+19. Lalu dia melihat air selokan, lalat, dan orang demam di jalan. **[DEMAM · *LALAT*]**
+20. Tak ada obat, tak ada rumah sakit. Dimas mulai panik. **[TANPA *OBAT*]**
+21. Di sini, sakit perut saja bisa membunuh. *(punchline)* **[*PANIK*]**
 
-## Bab 3 — Angka nol
-26. *(long)* Tuan Sextus mulai memperhatikan budak barunya. — *(short)* Romawi tidak punya angka nol. Seberapa repot berhitung?
-27. Dimas disuruh membantu menghitung stok minyak. **[STOK *MINYAK*]**
-28. 🔥 Angka Romawi tak punya nol. Coba kalikan CCCXLVIII dengan XXIV. **[*CCCXLVIII* × XXIV]**
-29. Juru tulis memakai papan hitung dan kerikil. **[PAPAN *HITUNG*]**
-30. Dimas menulis angka dengan nol, lalu bersusun. Jauh lebih cepat. **[ANGKA *NOL*]**
-31. Konflik: tak ada yang bisa membaca catatannya. **[TAK ADA YANG *PAHAM*]**
-32. Juru tulis Felix menuduh angkanya akal-akalan. **[*AKAL-AKALAN*?]**
-33. Nol baru dipakai berhitung di India, enam abad lagi. **[NOL: *628 M*]** *(fakta: Brahmagupta)*
-34. Rumus secepat apa pun, percuma kalau tak ada yang percaya. *(punchline · poin ROMA)* **[ROMA 2 : 1 DIMAS]**
+## Bab 3 — Kelaparan
+22. *(long)* Tapi yang paling cepat membunuhnya bukan penyakit. / *(short)* Tanpa uang di Roma kuno, bisakah kamu dapat makan?
+23. Hari kesepuluh, perutnya benar-benar kosong. **[LAPAR ▓▓▓░]**
+24. Dimas mengemis di depan toko roti. Tak ada yang memberi. **[*MENGEMIS*]**
+25. Roma membagi gandum gratis, tapi hanya untuk warga terdaftar. **[GANDUM GRATIS: *WARGA SAJA*]**
+26. Orang asing seperti Dimas tidak termasuk. **[*BUKAN* WARGA]**
+27. Dia memungut sisa buah di pasar. Diusir pedagang. **[*DIUSIR*]**
+28. Hari keempat belas, kakinya gemetar. Pandangannya kabur. **[LAPAR ▓▓▓▓]**
+29. Dia butuh uang. Cepat. Tanpa syarat. *(punchline)* **[UANG *CEPAT*]**
 
-## Bab 4 — Cetak buku
-35. *(long)* Dimas tak menyerah. Ia ingin ilmunya menyebar. — *(short)* Di Roma kuno, satu buku disalin dengan tangan. Bisakah dicetak?
-36. 🔥 Di Roma, buku berbentuk gulungan, disalin satu per satu. **[DISALIN *TANGAN*]**
-37. Dimas mengukir huruf dari kayu. Mesin cetak, versi darurat. **[HURUF *KAYU*]**
-38. Konflik: tinta Romawi terlalu encer. Hurufnya luber. **[TINTA *LUBER*]**
-39. Papirus mahal, dan penyalin buku takut kehilangan kerja. **[PAPIRUS *MAHAL*]**
-40. Yang laku malah cap kayu untuk menandai guci minyak. **[CAP *GUCI*]**
-41. Mesin cetak sungguhan baru muncul di Eropa sekitar 1440. **[± *1440*]** *(fakta: Gutenberg)*
-42. Penemuan butuh bahan, tukang, dan pembeli. Bukan cuma ide. *(punchline · poin ROMA)* **[ROMA 3 : 1 DIMAS]**
+## Bab 4 — Arena
+30. *(long)* Hari itu, seluruh kota berjalan ke satu arah. / *(short)* Kelaparan di Roma kuno, ada satu jalan pintas yang mengerikan.
+31. Dimas ikut arus ke sebuah amfiteater batu. **[AMFITEATER]**
+32. Colosseum? Belum ada. Baru dibangun dua puluh tahun lagi. **[COLOSSEUM *BELUM ADA*]**
+33. Di arena, gladiator bertarung. Kebanyakan budak dan tawanan. **[GLADIATOR]**
+34. Tapi seorang petugas berteriak: siapa pun boleh mendaftar. **[*RELAWAN* BOLEH]**
+35. Relawan langsung dapat uang muka. **[UANG *MUKA*]** *(fakta: auctoratus)*
+36. Syaratnya cuma satu: sumpah. **[SYARATNYA: *SUMPAH*]**
+37. Rela dibakar, dirantai, dicambuk, dan dibunuh pedang. **[*SUMPAH* GLADIATOR]** *(fakta: Petronius, Satyricon)*
+38. Perut Dimas berbunyi. Dia mengangguk. *(punchline)* **[*SETUJU*]**
 
-## Bab 5 — Obat dari jamur?
-43. *(long)* Lalu, musibah datang ke rumah Tuan Sextus. — *(short)* Tanpa antibiotik, luka kecil bisa membunuh. Apa yang kamu lakukan?
-44. 🔥 Marcus, putra Sextus, tergores pisau. Lukanya bernanah. **[LUKA *BERNANAH*]**
-45. Tabib menyarankan doa dan ramuan. **[DOA + *RAMUAN*]**
-46. Dimas ingat penisilin berasal dari jamur. **[*JAMUR* = OBAT?]**
-47. Konflik: jamur roti bisa juga beracun. Memurnikannya butuh laboratorium. **[*BERACUN*?]** *(fakta: Fleming 1928, produksi massal 1940-an)*
-48. Jadi Dimas memakai yang pasti: air direbus, kain bersih. **[AIR *DIREBUS*]**
-49. Lukanya dicuci dan ditutup madu, obat tabib Romawi juga. **[MADU]** *(fakta: Celsus, De Medicina — cek)*
-50. Seminggu kemudian, Marcus bisa berlari lagi. *(punchline · poin DIMAS)* **[ROMA 3 : 2 DIMAS]**
+## Bab 5 — Sekolah gladiator & ilmu pertama: fisika
+39. *(long)* Malam itu, untuk pertama kalinya, Dimas makan kenyang. / *(short)* Orang modern masuk sekolah gladiator. Senjata apa yang dia pilih?
+40. Menunya bubur jelai dan kacang. Julukannya: pemakan jelai. **[*PEMAKAN JELAI*]** *(fakta: studi tulang Efesus 2014)*
+41. Minumannya? Air campur abu tanaman, untuk tulang. **[MINUM *ABU*]**
+42. Lanista Varus, pemilik sekolah, bertanya: senjata apa? **[PILIH *SENJATA*]**
+43. Dimas kurus. Pedang dan perisai berat bukan untuknya. **[TERLALU *BERAT*]**
+44. Dia memilih retiarius: jaring, trisula, tanpa helm. **[*RETIARIUS*]**
+45. Logika teknik: ringan berarti cepat, jangkauan jauh berarti aman. **[RINGAN = *CEPAT*]**
+46. Musuh abadi retiarius: secutor, berhelm bulat tertutup. **[LAWAN: *SECUTOR*]**
+47. Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak. **[HELM = *SESAK*]**
+48. Rencananya sederhana: jangan dilawan, bikin dia lelah. *(punchline)* **[PELUANG HIDUP *10%*]**
 
-## Bab 6 — Dicurigai penyihir
-51. *(long)* Tapi kabar kesembuhan Marcus cepat menyebar. — *(short)* Terlalu pintar di Roma kuno itu berbahaya. Kenapa?
-52. 🔥 Budak asing, busa aneh, angka aneh, luka yang sembuh. **[*ANEH*]**
-53. Tetangga bernama Rufus menuduh Dimas penyihir. **[*PENYIHIR*!]**
-54. Hukum Roma melarang racun dan sihir yang mencelakakan. **[HUKUM *SIHIR*]** *(fakta: Lex Cornelia de sicariis et veneficis, 81 SM)*
-55. Konflik: Dimas ingin membela diri, tapi Latinnya patah-patah. **[LATIN *PATAH-PATAH*]**
-56. Ia hanya bisa menunjuk sabun. Hakim makin curiga. **[HAKIM *CURIGA*]**
-57. Pintar tapi tak bisa bicara, sama dengan mencurigakan. *(punchline · poin ROMA)* **[ROMA 4 : 2 DIMAS]**
+## Bab 6 — Ilmu kedua: analisis data
+49. *(long)* Tapi Dimas tahu, rencana tanpa data cuma tebakan. / *(short)* Cara orang modern mengalahkan gladiator: pakai data.
+50. Tiap hari, dia menonton gladiator lain berlatih. **[*MENGAMATI*]**
+51. Di papan lilin, dia mencatat seperti analis sepak bola. **[CATATAN *LAWAN*]**
+52. Lawannya diumumkan: Bruno, si Banteng, juara tujuh kali. **[BRUNO · *7× MENANG*]**
+53. Catatan pertama: Bruno selalu menyerbu di awal. **[SELALU *MENYERBU*]**
+54. Catatan kedua: setelah seratus hitungan, tangannya turun. **[± *100 HITUNGAN*]**
+55. Catatan ketiga: dia selalu memutar ke kiri. **[PUTAR *KIRI*]**
+56. Lawan yang kuat ternyata bisa ditebak. *(punchline)* **[PELUANG HIDUP *35%*]**
 
-## Bab 7 — Twist: bahasa & politik
-58. *(long)* Sidang ditunda sebulan. Dimas memakai waktunya baik-baik. — *(short)* Ilmu modern di zaman kuno ternyata tidak cukup. Apa yang kurang?
-59. Kleon, budak tua dari Yunani, mengajarinya Latin tiap malam. **[BELAJAR *LATIN*]**
-60. Kleon juga mengajari aturan tak tertulis: cari pelindung. **[CARI *PELINDUNG*]**
-61. Di sidang kedua, Dimas bicara lancar. **[SIDANG *KEDUA*]**
-62. Sabunnya, katanya, adalah hadiah untuk kejayaan Tuan Sextus. **[*HADIAH* UNTUK TUAN]**
-63. Sextus membela. Tuduhan gugur. **[TUDUHAN *GUGUR*]**
-64. Lalu Sextus membebaskannya. Dimas memakai topi orang merdeka. **[*MERDEKA*]** *(fakta: pileus)*
-65. Kini catatan angka nolnya dibaca, karena dia bisa menjelaskan. **[DIDENGAR]**
-66. Ilmu baru berguna setelah orang mau mendengar. *(punchline · poin DIMAS)* **[ROMA 4 : 3 DIMAS]**
+## Bab 7 — Ilmu ketiga: penonton
+57. *(long)* Satu masalah lagi tersisa: bagaimana kalau dia kalah? / *(short)* Di arena Romawi, yang menentukan hidup-mati bukan pemenang.
+58. Yang kalah boleh minta ampun. Penontonlah yang ikut memutuskan. **[*AMPUN*?]**
+59. Dan Claudius suka menyuruh retiarius yang kalah dibunuh. **[*KAISAR* KEJAM]** *(fakta: Suetonius, Claudius 34 — cek)*
+60. Alasannya: dia ingin melihat wajah mereka, karena tanpa helm. **[TANPA *HELM*]**
+61. Jadi Dimas butuh penonton di pihaknya. Seperti influencer. **[JADI *INFLUENCER*]**
+62. Dia memberi dirinya julukan: Fulmen, si Petir. **[*FULMEN* · SI PETIR]**
+63. Dia membuat salam khas, lalu mengajarkannya ke anak pasar. **[SALAM *KHAS*]**
+64. Seminggu kemudian, anak-anak meneriakkan namanya di jalan. **["FUL-MEN!"]**
+65. Kalau kalah pun, penonton akan membelanya. *(punchline)* **[PELUANG HIDUP *55%*]**
 
-## Penutup — jadi kaisar?
-67. *(long)* Jadi, bisakah Dimas jadi kaisar? / *(short)* Orang modern di Roma kuno, bisa jadi kaisar?
-68. Tidak. Tahta dipegang keluarga kaisar, bukan orang pintar. **[*BUKAN* KAISAR]**
-69. Tapi di istana Claudius, mantan budak jadi pejabat berkuasa. **[PALLAS · *NARCISSUS*]** *(fakta)*
-70. Dimas memilih jalan itu: juru hitung yang dipercaya. **[JURU *HITUNG*]**
-71. Agustus 52 Masehi, akuaduk baru diresmikan. Dimas ada di kerumunan. **[AQUA *CLAUDIA*]** *(fakta: 1 Agustus 52 M)*
-72. Skor akhir: Roma asli 4, Dimas 3. **[SKOR AKHIR *4 : 3*]**
-73. Pengetahuan saja tidak cukup. Butuh bahasa, dan kepercayaan. **[BAHASA + *KEPERCAYAAN*]**
-74. *(long)* Kalau kamu terlempar ke Roma, ilmu apa yang kamu bawa? Tulis di komentar.
-75. *(short)* Tag temanmu yang paling cepat jadi budak di Roma!
+## Bab 8 — Duel
+66. *(long)* Hari pertandingan tiba. / *(short)* Pemuda kurus melawan juara tujuh kali. Siapa menang?
+67. Pintu arena terbuka. Sepuluh ribu orang bersorak. **[*ARENA*]**
+68. Dimas memberi salam khasnya. Sebagian penonton membalas. **["FUL-MEN!"]**
+69. Bruno menyerbu, persis seperti catatannya. **[*MENYERBU*]**
+70. Dimas mundur, memutar ke kanan. Selalu ke kanan. **[PUTAR *KANAN*]**
+71. Dia menghitung dalam hati. Lima puluh. Delapan puluh. **[*50*… *80*…]**
+72. Di balik helm, Bruno mulai terengah. **[*TERENGAH*]**
+73. Seratus. Tangan Bruno turun. **[*100*]**
+74. Jaring dilempar. Bruno terjerat, lalu jatuh. **[*TERJERAT*!]**
+75. Trisula Dimas di lehernya. Seluruh arena menunggu. **[TUNGGU…]**
+76. Dimas tidak menusuk. Dia menoleh ke penonton. **[MENOLEH]**
+77. Penonton berteriak: ampuni keduanya! **[*AMPUNI*!]**
+78. Dua gladiator keluar hidup-hidup. Penonton puas. **[KEDUANYA *HIDUP*]** *(fakta: banyak duel tidak berakhir mati)*
+79. Hadiah koin dilempar ke pasir. Malam itu, Dimas makan daging. *(punchline)* **[PELUANG HIDUP *100%*]**
+
+## Penutup
+80. *(long)* Jadi, bisakah orang modern bertahan hidup di Roma kuno? / *(short)* Orang modern di Roma kuno, bisa bertahan hidup?
+81. Dimas bisa. Tapi bukan karena otot dari masa depan. **[BUKAN *OTOT*]**
+82. Melainkan cara berpikir: data, fisika, dan membaca penonton. **[DATA · FISIKA · *PENONTON*]**
+83. Tapi sumpahnya masih mengikat. Duel berikutnya sudah menunggu. **[DUEL *BERIKUTNYA*…]** *(cliffhanger → bagian 2)*
+84. *(long)* Kalau kamu terlempar, ilmu apa yang kamu pakai? Tulis di komentar.
+85. *(short)* Tag temanmu yang bakal langsung menyerah di arena!
 
 ---
-**Papan skor per bab:** B1 Roma · B2 Dimas · B3 Roma · B4 Roma · B5 Dimas · B6 Roma · B7 Dimas → **ROMA 4 : 3 DIMAS** (Roma menang tipis = twist).
-**Jam simulasi:** HARI 1 (Mei 50 M) → MINGGU 2 → BULAN 1 → BULAN 2 (sidang) → BULAN 3 → AGUSTUS 52 M.
-**Suara (perkiraan):** 75 kalimat + ±7 pembuka short ≈ ±82 baris × ±50 huruf ≈ **±4.100 kredit** — hampir seluruh sisa ±4.500.
-Opsi hemat: buang kalimat 10, 12, 18, 29, 40, 45, 65 dan pakai satu versi CTA → ±3.600 kredit.
-**Kemajuan nyata Dimas:** sabun & cuci tangan (B2), angka nol (B3), cap kayu (B4), perawatan luka steril (B5).
+**Meteran:** LAPAR (B1–B4) → PELUANG HIDUP 10% → 35% → 55% → 100% (B5–B8, ilustrasi).
+**Jam simulasi:** HARI 1 → HARI 7 → HARI 14 → HARI 15 (daftar) → BULAN 2 (latihan) → BULAN 3 (duel).
+**Durasi:** ±85 kalimat + 8 pembuka short ≈ ±6–7 menit long; 8 short (tiap bab).
+**Suara (perkiraan):** ±93 baris × ±50 huruf ≈ **±4.600 kredit** → **melebihi sisa ±4.500.**
+Opsi: (a) animasi dulu tanpa suara (draf), lalu pangkas ±15 kalimat sebelum VO; (b) isi ulang kredit; (c) pecah jadi 2 video (B1–B4 & B5–B8).
 
-## Fakta & sumber (dicek 19 Nov 2026; wajib dicek ulang ke sumber primer sebelum publikasi)
+## Fakta & sumber (dicek 19 Nov 2026; cek ulang ke sumber primer sebelum publikasi)
 | Fakta di naskah | Sumber |
 |---|---|
-| Kaisar 41–54 M = Claudius; mantan budak Narcissus (surat-menyurat) & Pallas (kas) sangat berkuasa | Suetonius, *Claudius*; [Wikipedia: Pallas](https://en.wikipedia.org/wiki/Pallas_(freedman)); [UNRV: Claudius](https://unrv.com/early-empire/claudius.php) |
-| Claudius menambah 3 huruf ke alfabet Latin (bisa jadi bonus di Bab 7) | Suetonius, *Claudius* 41 ([lexundria](https://lexundria.com/suet_cl/34-42/r)) |
-| Budak ± sepertiga penduduk Italia (perkiraan, masa Augustus ±35%) | Bradley; [Scheidel 2005](https://www.gwern.net/doc/history/2005-scheidel.pdf) |
-| Budak dijual dengan papan di leher (titulus): asal, umur, cacat/penyakit | [World History Encyclopedia: Slavery in the Roman World](https://www.worldhistory.org/article/629) |
-| Orang bebas yang dimerdekakan memakai topi *pileus*; libertus | [Wikipedia: Ancient Roman freedmen](https://en.wikipedia.org/wiki/Ancient_Roman_freedmen) |
-| Mandi pakai minyak zaitun + strigil (kerokan logam); sabun (*sapo*) disebut Plinius sebagai buatan Galia untuk rambut | [The Conversation: The dirty history of soap](https://theconversation.com/the-dirty-history-of-soap-136434); Plinius, *Naturalis Historia* 28.191 |
-| Spons toilet umum (*tersorium*) dipakai bergantian | [Smithsonian](https://www.smithsonianmag.com/history/how-the-ancient-romans-went-to-the-bathroom-180979056/); [History Hit](https://www.historyhit.com/how-the-ancient-romans-went-to-the-toilet/) |
-| Aqua Claudia mulai 38 M (Caligula), diresmikan Claudius 1 Agustus 52 M | [Wikipedia: De aquaeductu](https://en.wikipedia.org/wiki/De_aquaeductu); Frontinus, *De aquaeductu* 1.13 |
-| Angka Romawi tanpa nol; hitung pakai papan hitung/abakus (*calculi* = kerikil) | [Wikipedia: Roman abacus](https://en.wikipedia.org/wiki/Roman_abacus); [CACM: How did the Romans calculate](https://cacm.acm.org/blogcacm/how-did-the-romans-calculate) |
-| Aturan berhitung dengan nol: Brahmagupta, 628 M | [BBC Science Focus](https://www.sciencefocus.com/science/resisting-a-new-concept-the-discovery-of-zero) |
-| Buku Romawi = gulungan papirus disalin tangan; cetak kayu Tiongkok (Sutra Intan 868 M); Gutenberg ±1440 | [Lumen: History of Books](https://courses.lumenlearning.com/suny-massmedia/chapter/3-2-history-of-books/) |
-| Penisilin: Fleming 1928, gagal dimurnikan; produksi massal baru 1940-an | [World History Encyclopedia: Discovery of Penicillin](https://www.worldhistory.org/article/2490/discovery-of-penicillin/); [PopSci](https://www.popsci.com/science/penicillin-discovery/) |
-| Madu & anggur dipakai merawat luka (Celsus, *De Medicina*, ±30 M) | **belum dicek** — perlu konfirmasi sebelum VO |
-| Hukum racun & sihir: *Lex Cornelia de sicariis et veneficis* (81 SM); contoh sidang sihir: Apuleius (±158 M) | [Wikipedia: Lex Cornelia](https://en.wikipedia.org/wiki/Lex_Cornelia_de_sicariis_et_veneficis); Rives 2003, *Magic in Roman Law* |
-
-**Catatan kejujuran:** sidang Dimas, durasi sebulan, dan pembebasan cepat = dramatisasi (pembebasan resmi untuk kewarganegaraan penuh biasanya butuh umur ≥30 th — *lex Aelia Sentia*; Dimas 25 th → status "Latin", cukup ditulis "merdeka").
+| Kaisar 41–54 M = Claudius | Suetonius, *Claudius* |
+| Budak ± sepertiga penduduk Italia (perkiraan) | Bradley; [Scheidel 2005](https://www.gwern.net/doc/history/2005-scheidel.pdf) |
+| Jatah gandum gratis (*frumentatio*) hanya untuk warga terdaftar | *umum diketahui — perlu sumber* |
+| Amfiteater batu pertama Roma: Statilius Taurus (29 SM), terbakar 64 M; Colosseum dibuka 80 M | [Wikipedia: Amphitheater of Statilius Taurus](https://en.wikipedia.org/wiki/Amphitheater_of_Statilius_Taurus) |
+| Relawan gladiator (*auctorati*) orang merdeka, dapat uang muka saat bersumpah | [Wikipedia: Auctorati](https://en.wikipedia.org/wiki/Auctorati); [Cambridge SCP](https://www.na5.cambridgescp.com/weblink/286) |
+| Isi sumpah: rela dibakar, dirantai, dicambuk, dibunuh pedang | Petronius, *Satyricon* 117 |
+| Gladiator makan jelai & kacang ("hordearii"), minum abu tanaman | [DigVentures (studi PLoS One 2014)](https://digventures.com/2014/10/breakfast-of-champions-roman-gladiators-ate-vegetarian-diet-washed-down-with-plant-ash/); [News-Medical](https://www.news-medical.net/news/20141021/Anthropological-study-sheds-light-on-the-eating-habits-of-Roman-gladiators.aspx) |
+| Retiarius (jaring, trisula, tanpa helm) vs secutor (helm bulat, lubang mata kecil, udara terbatas) | [Wikipedia: Secutor](https://en.wikipedia.org/wiki/Secutor); [TheCollector: helm gladiator](https://www.thecollector.com/gladiator-helmets-types-characteristics) |
+| Claudius menyuruh retiarius yang jatuh dibunuh agar melihat wajahnya | Suetonius, *Claudius* 34 — **wajib dicek teks aslinya** |
+| Gladiator kalah bisa minta ampun (*missio*); keputusan penyelenggara, dipengaruhi penonton; banyak duel tak berakhir mati | *perlu sumber akademik (mis. Ville; Carter)* |
+**Dramatisasi:** durasi latihan (±2 bulan), nama & rekor Bruno, julukan "Fulmen", "100 hitungan", "10.000 penonton", meteran peluang.

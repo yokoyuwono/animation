@@ -1,36 +1,33 @@
-# Andaikan Terlempar ke Roma 50 M — skema visual (draf 1)
+# Andaikan Terlempar ke Roma 50 M: Bisa Bertahan Hidup? — skema visual (draf 2 · jalur gladiator)
 
-**Format:** seri "Andaikan", gaya peta + simulasi, ±4,5 menit, hook + 7 bab + penutup (tiap bab = short, dual-VO). Naskah: `romawi-kuno.naskah.md`.
-**Peta pusat (tampak atas, `sky: 'map'`):** satu distrik kota Roma — Sungai Tiber (kiri), Forum (tengah), pasar budak,
-**rumah Tuan Sextus** (domus beratap genteng merah + halaman/atrium = titik awal tiap bab), pemandian umum, air mancur,
-dan akuaduk berlengkung (sebagian masih perancah → `swapAll` jadi utuh di penutup, Aqua Claudia 52 M).
-`walkers`: warga bertoga, budak memikul amfora, prajurit. `crowd`: kerumunan pasar budak (B1), sidang (B6/B7), peresmian (penutup).
-**Tokoh (fiktif, desain orisinal):** Dimas (kaos & celana jins → tunik kasar → tunik + topi pileus), Tuan Sextus (pedagang minyak, toga bergaris),
-Marcus (putranya, ±8 th), Kleon (budak tua Yunani, janggut putih, guru), Felix (juru tulis, papan hitung), Rufus (tetangga penuduh), hakim.
-Claudius hanya siluet jauh di podium (tanpa wajah meniru patung/aktor).
-**Jam simulasi:** pojok kiri atas "HARI 1 · 50 M" → MINGGU 2 → BULAN 1 → BULAN 2 → BULAN 3 → "AGUSTUS 52 M".
-**Papan skor berjalan:** "ROMA ASLI vs ROMA + DIMAS" (`score`, `corner: true` di tengah bab, papan besar di akhir bab).
-**Transisi:** peta ⇄ adegan dekat lewat `transition: 'clouds'` (otomatis 'zoom' bila < 10 dtk).
+**Format:** seri "Andaikan", gaya peta + simulasi, ±6–7 menit, hook + 8 bab + penutup (tiap bab = short, dual-VO). Naskah: `romawi-kuno.naskah.md`.
+**Peta pusat (tampak atas, `sky: 'map'`):** satu distrik Roma — Sungai Tiber, gang tempat Dimas terbangun, pasar & toko roti,
+**amfiteater batu (pusat peta, titik awal tiap bab)**, sekolah gladiator (*ludus*: halaman pasir berpagar), rumah-rumah beratap genteng.
+`walkers`: warga bertunik/toga, budak memikul guci, anak-anak pasar. `crowd`: arus ke amfiteater (B4, B8), anak meneriakkan "FUL-MEN" (B7).
+**Tokoh (fiktif, desain orisinal):** Dimas (kaos+jins → tunik kasar → perlengkapan retiarius: jaring, trisula, pelindung bahu),
+Bruno "Si Banteng" (secutor, helm bulat tertutup), Lanista Varus (pemilik ludus, gemuk, cincin), Tita (penjual roti), anak-anak pasar.
+Claudius: siluet di tribun kehormatan, tanpa wajah. **Hindari** kostum/adegan/dialog yang meniru film gladiator terkenal.
+**Jam:** HARI 1 → HARI 7 → HARI 14 → HARI 15 → BULAN 2 → BULAN 3.
+**Pengganti skor:** meteran **LAPAR** (bar perut, makin merah) B1–B4; meteran **PELUANG HIDUP** (10% → 35% → 55% → 100%, label *ilustrasi*) B5–B8.
 
-| Bab | Peta (pembuka) | Adegan dekat (tampak samping) | Momen visual / kata kunci |
+| Bab | Peta (pembuka) | Adegan dekat (tampak samping) | Momen visual |
 |---|---|---|---|
-| Hook | Kerumunan di Forum (`crowd goto`) | Dimas di depan hakim, Rufus menunjuk; zoom ke sebatang sabun | stempel "PENYIHIR?", `scratch` hitam-putih → "2 BULAN SEBELUMNYA", judul |
-| 1 Dikira budak | Kilat → Dimas muncul di gang | Dimas angkat HP "SINYAL 0" → mati; balon kata Latin "???"; pasar budak, papan di leher; Sextus menunjuk | kartu "± 1/3 PENDUDUK ITALIA BUDAK *(perkiraan)*"; skor 1:0 |
-| 2 Sabun | Air mengalir di akuaduk → air mancur | Pemandian: minyak + strigil; spons toilet (stiker jijik); dapur: Dimas aduk abu + lemak, busa; koki tertawa "KRIM RAMBUT GALIA"; cuci tangan | `swapAll` dapur: tokoh sakit perut → sehat; skor 1:1 |
-| 3 Angka nol | Gudang amfora di rumah Sextus | Felix & papan hitung kerikil vs Dimas menulis kolom angka; layar `CCCXLVIII × XXIV` vs `348 × 24 = 8.352`; Felix curiga | stopwatch balapan; kartu "NOL: INDIA 628 M"; skor 2:1 |
-| 4 Cetak buku | Toko buku/penyalin di Forum | Penyalin menulis gulungan; Dimas mengukir huruf kayu → tinta luber; cap kayu di guci minyak laku | kartu "± 1440 MESIN CETAK"; skor 3:1 |
-| 5 Obat | Rumah Sextus malam (lampu minyak) | Marcus terluka; tabib berdoa; gelembung ingatan cawan Petri "PENISILIN?" → tanda silang "BUTUH LAB"; air direbus, kain, madu | `swapAll` Marcus berbaring → berlari; skor 3:2 |
-| 6 Penyihir | Rufus berbisik ke warga (balon menyebar dari rumah ke rumah) | Ruang sidang: Dimas gagap, balon kata patah-patah; hakim mengerutkan dahi | kartu "LEX CORNELIA 81 SM"; skor 4:2 |
-| 7 Twist | Malam, rumah Sextus | Kleon mengajar di papan lilin (*tabula*); kalender BULAN 2; sidang kedua: Dimas lancar (`dialog`), Sextus membela; topi pileus dipasang | stiker "MERDEKA", SFX success; skor 4:3 |
-| Penutup | Peta penuh; akuaduk selesai (`swapAll`), kerumunan peresmian | Siluet Claudius di podium; Dimas memegang gulungan juru hitung | kartu "PALLAS & NARCISSUS: MANTAN BUDAK"; SKOR AKHIR 4:3; kutipan "Pengetahuan saja tidak cukup"; CTA |
+| Hook | Kamera turun ke amfiteater penuh (`crowd`) | Dimas + jaring vs Bruno; siluet kaisar | `scratch` hitam-putih → "3 BULAN SEBELUMNYA", judul |
+| 1 Bisu | Kilat di gang → Dimas muncul | HP "SINYAL 0" → mati; balon kata Latin "???"; "HELLO?" → warga tertawa | jam HARI 1 → 7, stiker bingung |
+| 2 Serba manual | Budak memikul, kincir gandum diputar tangan | Dimas tukar kaos jadi tunik (`swapAll` kostum); selokan, lalat, orang demam | kartu "± 1/3 PENDUDUK BUDAK", tangga KAISAR → ORANG ASING |
+| 3 Lapar | Pasar & toko roti | mengemis (kepala menggeleng), diusir pedagang, kaki gemetar (`shake`) | meteran LAPAR naik; kartu "GANDUM GRATIS: WARGA SAJA" |
+| 4 Arena | `crowd goto` arus ke amfiteater | gladiator bertarung; petugas berteriak; koin uang muka; Dimas bersumpah | kartu "COLOSSEUM BELUM ADA (dibuka 80 M)", kartu kutipan sumpah, stempel "SETUJU" |
+| 5 Ludus + fisika | Ludus | mangkuk bubur jelai, cangkir abu; rak senjata; diagram berat vs kecepatan; helm secutor dengan lubang mata (zoom) | meteran PELUANG 10% |
+| 6 Data | Ludus, pagi berulang | Dimas di pinggir pagar, papan lilin; papan statistik gaya analis olahraga: MENYERBU · ±100 · PUTAR KIRI | PELUANG 35% |
+| 7 Penonton | Pasar, anak-anak | Dimas latihan salam khas; anak-anak menirukan; tulisan dinding "FULMEN" | kartu fakta Claudius & retiarius; PELUANG 55% |
+| 8 Duel | Arena penuh | Bruno menyerbu → Dimas memutar ke kanan; hitungan 50…80…100 di layar; jaring dilempar; trisula di leher; Dimas menoleh ke penonton; dua gladiator keluar | slow-mo, SFX kerumunan, PELUANG 100%, koin di pasir |
+| Penutup | Peta senja, Dimas makan di ludus | — | kutipan "Bukan otot, tapi cara berpikir"; cliffhanger "DUEL BERIKUTNYA…"; CTA |
 
-**Sprite baru (`src/sprites-romawi.js`):**
-- Peta: blok rumah Romawi (atap genteng, atrium), Forum + kuil berpilar, akuaduk berlengkung (utuh & berperancah), air mancur, pemandian, pasar budak (panggung kayu), Sungai Tiber + jembatan batu, pohon pinus payung & siprus.
-- Tokoh peta & samping: Dimas (3 kostum), Sextus, Marcus, Kleon, Felix, Rufus, hakim, warga bertoga, budak memikul amfora, prajurit (helm generik, tanpa meniru film).
-- Benda: papan jual leher, HP mati, amfora/guci, strigil, spons bertongkat, kuali sabun + busa, papan hitung + kerikil, gulungan papirus, huruf kayu, cap kayu, papan lilin, lampu minyak, kain & madu, topi pileus, siluet podium kaisar.
-- Wajah besar (`sprites-faces` gaya, tapi di file baru): `face_dimas_shock`, `face_dimas_happy`, `face_sextus_angry` (untuk thumbnail & dialog).
-**Animasi baru (tanpa ubah engine bila bisa):** busa sabun (partikel/prop pop), kerikil bergeser di papan hitung (`swapAll`), tinta luber (swap), balon bisikan menyebar (prop beruntun).
-**SFX:** pakai pustaka bersama; opsional baru: palu sidang, kerumunan bergumam.
-**Thumbnail:** "TIM *ROMA* / TIM *DIMAS*", wajah besar Dimas kaget (kaos modern di tengah orang bertoga) vs Sextus; barisan sabun · angka 0 · gulungan · jamur;
-bawah: "JADI KAISAR?!" atau "DIKIRA PENYIHIR?!" (skor TIDAK dibocorkan); VS belah ketupat oranye, latar ungu/teal.
-**Etika:** tanpa logo/merek; Claudius tanpa wajah; angka skor & kejadian Dimas = ilustrasi; fakta di tabel sumber naskah dicek ulang sebelum publikasi.
+**Sprite baru (`src/sprites-romawi.js`):** amfiteater batu (tampak atas & dalam), ludus, rumah Romawi, toko roti, pasar, selokan;
+Dimas 3 kostum, Bruno/secutor, retiarius lain, lanista, penjual roti, anak pasar, warga bertunik/toga, budak, siluet kaisar;
+benda: jaring, trisula, helm secutor (besar), papan lilin, mangkuk bubur, cangkir abu, koin, guci, HP mati.
+Wajah besar baru: `face_dimas_lapar`, `face_dimas_fokus`, `face_bruno_marah` (thumbnail + `dialog`).
+**Animasi baru (tanpa ubah engine bila bisa):** meteran bar (pakai `score`/label bila cukup), lempar jaring (prop bergerak + swap terjerat), hitungan besar di layar.
+**SFX:** pustaka bersama; opsional baru: sorak kerumunan, denting besi, lempar jaring.
+**Thumbnail:** "TIM *OTOT* / TIM *OTAK*", wajah besar Dimas fokus (tunik, jaring) vs Bruno berhelm; barisan: jaring · papan catatan · helm;
+bawah: "BISA MENANG?!"; VS belah ketupat oranye, latar ungu/teal.
