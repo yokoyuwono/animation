@@ -88,6 +88,19 @@ function makePortrait(o) {
       rect(12, 18, 17, 18, 'K'); rect(27, 18, 32, 18, 'K');
       rect(14, 31, 29, 31, 'K'); rect(14, 32, 29, 33, 'W'); rect(15, 34, 28, 35, 'x'); rect(16, 36, 27, 36, 'K'); px(14, 34, 'K'); px(29, 34, 'K'); px(15, 35, 'K'); px(28, 35, 'K');
       break;
+    case 'grin':     // percaya diri: satu alis naik, senyum lebar bergigi
+      rect(12, 22, 16, 24, 'K'); px(13, 22, 'W'); rect(27, 22, 31, 24, 'K'); px(28, 22, 'W');
+      rect(11, 17, 17, 17, 'K'); px(27, 17, 'K'); rect(28, 16, 33, 16, 'K');
+      rect(13, 31, 30, 31, 'K'); rect(13, 32, 30, 34, 'W'); rect(13, 35, 30, 35, 'K'); px(12, 30, 'K'); px(31, 30, 'K');
+      for (let x = 16; x < 30; x += 3) px(x, 33, 'w');
+      break;
+    case 'panic':    // panik: mata melotot, alis cemas, mulut bergelombang, keringat
+      rect(12, 20, 17, 26, 'W'); rect(27, 20, 32, 26, 'W'); rect(14, 23, 15, 24, 'K'); rect(29, 23, 30, 24, 'K');
+      [[12, 20, 17, 20], [12, 26, 17, 26], [27, 20, 32, 20], [27, 26, 32, 26]].forEach(([a, b, c, d]) => rect(a, b, c, d, 'K'));
+      for (let i = 0; i < 6; i++) { px(11 + i, 18 - Math.round(i * 0.5), 'K'); px(32 - i, 18 - Math.round(i * 0.5), 'K'); }
+      for (let x = 15; x <= 28; x++) px(x, 33 + (x % 4 < 2 ? 0 : 1), 'K');
+      rect(36, 18, 37, 21, 'c'); rect(35, 20, 38, 23, 'c'); rect(6, 24, 7, 26, 'c');
+      break;
     case 'shock':
       rect(12, 20, 17, 26, 'W'); rect(27, 20, 32, 26, 'W'); rect(14, 22, 15, 24, 'K'); rect(29, 22, 30, 24, 'K');
       [[12, 20, 17, 20], [12, 26, 17, 26], [27, 20, 32, 20], [27, 26, 32, 26]].forEach(([a, b, c, d]) => rect(a, b, c, d, 'K'));
@@ -127,4 +140,74 @@ const FACES = {
 
 function buildFaceTextures(scene) {
   for (const [k, f] of Object.entries(FACES)) pxTexture(scene, `face_${k}`, f.rows, { ...PALETTE, ...f.colors });
+}
+
+// ============================================================
+//  KARAKTER SETENGAH BADAN BERGESTUR (thumbnail gaya ilustrasi)
+//  makeBust({ hair, shirt, shirt2, shirt3, stripe, pattern: 'plaid'|'hoodie'|'plain', style, face, gesture })
+//    gesture: 'phone' (pegang HP mati dekat wajah) | 'thumb' (jempol) | 'point' (telunjuk ke atas) | 'none'
+// ============================================================
+function makeBust(o) {
+  const W = 76, H = 86, cx = 37.5;
+  const g = Array.from({ length: H }, () => Array(W).fill('.'));
+  const px = (x, y, c) => { x = Math.round(x); y = Math.round(y); if (g[y] && g[y][x] !== undefined) g[y][x] = c; };
+  const rect = (x0, y0, x1, y1, c) => { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) px(x, y, c); };
+  const outline = (grid, isFill) => {   // sel kosong yang bertetangga dengan isi -> garis tepi
+    const add = [];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      if (grid[y][x] !== '.') continue;
+      if ([[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => grid[y + dy] && grid[y + dy][x + dx] && isFill(grid[y + dy][x + dx]))) add.push([x, y]);
+    }
+    add.forEach(([x, y]) => { grid[y][x] = 'K'; });
+  };
+  // badan & bahu
+  for (let y = 43; y < H; y++) {
+    const half = Math.min(33, 20 + (y - 43) * 0.9);
+    for (let x = 0; x < W; x++) if (Math.abs(x + 0.5 - cx) <= half) px(x, y, 'R');
+  }
+  if (o.pattern === 'plaid') for (let y = 43; y < H; y++) for (let x = 0; x < W; x++) {
+    if (g[y][x] !== 'R') continue;
+    const vx = x % 8 < 2, vy = y % 8 < 2;
+    if (vx && vy) px(x, y, 'q'); else if (vx || vy) px(x, y, 'Q');
+    if (x % 8 === 5 || y % 8 === 5) px(x, y, 'y');
+  }
+  if (o.pattern === 'hoodie') {
+    for (let y = 41; y < 51; y++) for (let x = 0; x < W; x++) { const d = Math.abs(x + 0.5 - cx); if (d <= 15 + (y - 41) * 0.6 && d >= 6 - (y - 41) * 0.2) px(x, y, 'Q'); }
+    rect(cx - 5, 51, cx - 4, 62, 'W'); rect(cx + 3, 51, cx + 4, 62, 'W');
+    rect(cx - 12, 72, cx + 12, 80, 'Q');      // kantong depan
+  }
+  rect(cx - 5, 39, cx + 4, 44, 'S');           // leher
+  outline(g, c => c !== 'K' && c !== '.');
+  // kepala dari potret besar
+  const head = makePortrait({ hair: o.hair, shirt: o.shirt, style: o.style, face: o.face });
+  head.rows.forEach((row, y) => { if (y > 42) return; [...row].forEach((c, x) => { if (c !== '.' && !(y > 38 && c === 'R')) px(x + 16, y, c); }); });
+  // lengan & tangan di lapisan sendiri (garis tepi penuh), lalu ditempel di atas badan
+  const L = Array.from({ length: H }, () => Array(W).fill('.'));
+  const lp = (x, y, c) => { x = Math.round(x); y = Math.round(y); if (L[y] && L[y][x] !== undefined) L[y][x] = c; };
+  const lr = (x0, y0, x1, y1, c) => { for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) lp(x, y, c); };
+  const arm = (x0, y0, x1, y1, w = 11) => {
+    const n = Math.ceil(Math.hypot(x1 - x0, y1 - y0));
+    for (let i = 0; i <= n; i++) { const x = x0 + (x1 - x0) * i / n, y = y0 + (y1 - y0) * i / n; lr(Math.round(x - w / 2), Math.round(y - w / 2), Math.round(x + w / 2), Math.round(y + w / 2), 'R'); }
+  };
+  const fist = (x, y) => { lr(x - 6, y - 5, x + 6, y + 6, 'S'); for (let i = -3; i <= 3; i += 3) lr(x + i, y, x + i, y + 5, 'k'); };
+  if (o.gesture === 'phone') {
+    arm(8, H - 3, 12, 58); fist(12, 52);
+    lr(2, 24, 16, 48, 'K'); lr(4, 26, 14, 44, 'w');            // HP, layar mati abu
+    lr(5, 31, 12, 35, 'K'); lr(6, 32, 7, 34, 'e'); lp(13, 33, 'K'); lr(8, 38, 9, 41, 'e'); lp(8, 43, 'e'); lp(9, 43, 'e');
+    lr(14, 40, 18, 47, 'S');                                   // jempol menjepit HP
+  }
+  if (o.gesture === 'thumb') { arm(W - 7, H - 3, 62, 66); fist(60, 58); lr(55, 40, 59, 52, 'S'); }
+  if (o.gesture === 'point') { arm(W - 7, H - 3, 66, 50); fist(65, 44); lr(62, 22, 65, 38, 'S'); }
+  outline(L, c => c !== 'K' && c !== 'k' && c !== '.');
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = L[y][x]; if (c !== '.') g[y][x] = c === 'k' ? 'K' : c; }
+  return { rows: g.map(r => r.join('')), colors: { H: o.hair, R: o.shirt, Q: o.shirt2 || o.shirt, q: o.shirt3 || '#1a1c2c', y: o.stripe || o.shirt, e: '#e43b44', x: '#b13e53' } };
+}
+
+const BUSTS = {
+  rafi_panic: makeBust({ hair: '#1a1c2c', shirt: '#7a3b8f', shirt2: '#5a2a6f', pattern: 'hoodie', style: 'spiky', face: 'panic', gesture: 'phone' }),   // Gen Z, HP mati
+  bayu_grin:  makeBust({ hair: '#3b2a1a', shirt: '#2a8a8f', shirt2: '#1d5f63', shirt3: '#123d40', stripe: '#d9a441', pattern: 'plaid', style: 'neat', face: 'grin', gesture: 'thumb' }),
+  bayu_point: makeBust({ hair: '#3b2a1a', shirt: '#2a8a8f', shirt2: '#1d5f63', shirt3: '#123d40', stripe: '#d9a441', pattern: 'plaid', style: 'neat', face: 'grin', gesture: 'point' }),
+};
+function buildBustTextures(scene) {
+  for (const [k, f] of Object.entries(BUSTS)) pxTexture(scene, `bust_${k}`, f.rows, { ...PALETTE, ...f.colors });
 }

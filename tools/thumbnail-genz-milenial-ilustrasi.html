@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thumbnail ilustrasi · Gen Z vs Milenial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+  <!--
+    Thumbnail gaya "ilustrasi": karakter setengah badan bergestur (makeBust di src/sprites-faces.js),
+    latar = tangkapan peta dari video sendiri (tools/thumb-bg/<topik>.png), judul besar bergaris tepi,
+    pembagi miring, VS belah ketupat oranye (identitas kita).
+      #a -> GEN Z (panik, HP mati) vs MILENIAL (jempol)   #b -> MILENIAL telunjuk ke atas + skor 4 : 5
+  -->
+  <div id="stage"></div>
+  <script src="../lib/phaser.min.js"></script>
+  <script src="../src/sprites.js"></script>
+  <script src="../src/sprites-faces.js"></script>
+  <script>
+    const VAR = location.hash.slice(1) || 'a';
+    const FONT = '"Pixelify Sans", monospace', NUMFONT = '"Press Start 2P", monospace';
+    const PINK = '#ff77a8', LIME = '#a7f070', GOLD = '#ffcd75', INK = '#1a1c2c';
+
+    class Thumb extends Phaser.Scene {
+      constructor() { super('thumb'); }
+      preload() { this.load.image('bg', 'thumb-bg/genz-milenial.png'); }
+      // judul besar: huruf tebal, garis tepi gelap + bayangan
+      title(text, x, y, color, size = 92) {
+        const st = { fontFamily: NUMFONT, fontSize: `${size}px`, color: INK };
+        this.add.text(x + 8, y + 10, text, st).setOrigin(0.5).setStroke(INK, 22).setAlpha(0.7);
+        this.add.text(x, y, text, { ...st, color }).setOrigin(0.5).setStroke(INK, 18);
+      }
+      tag(text, x, y, angle, bg = '#e43b44', size = 26) {
+        this.add.text(x, y, text, { fontFamily: NUMFONT, fontSize: `${size}px`, color: '#ffffff', backgroundColor: bg, padding: { x: 14, y: 12 } }).setOrigin(0.5).setAngle(angle);
+      }
+      spark(x, y, angle, color = GOLD) {   // garis "kaget/semangat" di samping kepala
+        for (let i = -1; i <= 1; i++) this.add.rectangle(x + i * 26, y - Math.abs(i) * 10, 10, 40, Phaser.Display.Color.HexStringToColor(color).color).setAngle(angle + i * 28).setStrokeStyle(4, 0x1a1c2c);
+      }
+      create() {
+        buildTextures(this); buildFaceTextures(this); buildBustTextures(this);
+        // latar peta + rona tiap sisi
+        const bg = this.add.image(640, 360, 'bg').setDisplaySize(1280, 720);
+        const mask = (pts, color, a) => { const g = this.add.graphics(); g.fillStyle(color, a); g.fillPoints(pts.map(([x, y]) => new Phaser.Geom.Point(x, y)), true); return g; };
+        mask([[0, 0], [700, 0], [580, 720], [0, 720]], 0x3b1f5c, 0.6);        // kiri ungu = Pulau A (Gen Z), sesuai video
+        mask([[700, 0], [1280, 0], [1280, 720], [580, 720]], 0x0f5c5a, 0.6);   // kanan teal = Pulau B (milenial)
+        const d = this.add.graphics(); d.fillStyle(0xf4f4f4, 1); d.fillPoints([[690, 0], [710, 0], [590, 720], [570, 720]].map(([x, y]) => new Phaser.Geom.Point(x, y)), true);
+        // karakter
+        this.add.image(330, 724, 'bust_rafi_panic').setOrigin(0.5, 1).setScale(7.2);
+        this.add.image(965, 724, VAR === 'a' ? 'bust_bayu_grin' : 'bust_bayu_point').setOrigin(0.5, 1).setScale(7.2);
+        this.spark(130, 250, -30, GOLD);
+        // kilau percaya diri di samping senyum Bayu
+        const star = (x, y, r) => { const g = this.add.graphics(); g.fillStyle(0xffcd75, 1).lineStyle(5, 0x1a1c2c, 1);
+          const pts = [[0, -r], [r * 0.25, -r * 0.25], [r, 0], [r * 0.25, r * 0.25], [0, r], [-r * 0.25, r * 0.25], [-r, 0], [-r * 0.25, -r * 0.25]].map(([a, b]) => new Phaser.Geom.Point(x + a, y + b));
+          g.fillPoints(pts, true); g.strokePoints(pts, true); };
+        if (VAR === 'a') { star(1175, 300, 34); star(1215, 235, 18); } else { star(1100, 175, 28); star(1140, 135, 15); }
+        // judul
+        this.title('GEN Z', 320, 92, PINK);
+        this.title('MILENIAL', 960, 92, LIME, 68);
+        if (VAR === 'b') {   // twist skor: milenial menang tipis
+          this.add.text(640, 600, '4 : 5', { fontFamily: NUMFONT, fontSize: '58px', color: GOLD }).setOrigin(0.5).setStroke(INK, 14);
+          this.tag('MENANG TIPIS', 990, 672, -4, '#e43b44', 26);
+        } else this.tag('10 TAHUN', 640, 668, 0, '#e43b44', 30);
+        // VS belah ketupat oranye (identitas)
+        this.add.rectangle(640, 420, 150, 150, 0xef7d57).setAngle(45).setStrokeStyle(12, 0x1a1c2c);
+        this.add.rectangle(640, 420, 116, 116).setAngle(45).setStrokeStyle(5, 0xffffff);
+        this.add.text(644, 424, 'VS', { fontFamily: FONT, fontSize: '76px', color: '#ffffff' }).setOrigin(0.5).setStroke(INK, 12);
+      }
+    }
+    Promise.all([document.fonts.load('700 40px "Pixelify Sans"'), document.fonts.load('40px "Press Start 2P"')]).then(() => {
+      window.game = new Phaser.Game({ type: Phaser.CANVAS, parent: 'stage', width: 1280, height: 720, pixelArt: true, backgroundColor: '#000', scene: [Thumb], render: { preserveDrawingBuffer: true } });
+      setTimeout(() => { window.READY = true; }, 900);
+    });
+  </script>
+</body>
+</html>
