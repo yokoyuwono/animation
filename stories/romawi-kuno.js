@@ -53,6 +53,7 @@ const STORY = {
   title: 'Andaikan Terlempar ke Roma 50 M',
   audioDir: 'audio/romawi-kuno',
   sfx: true,
+  sfxDir: 'audio/romawi-kuno/sfx',   // musik khusus Roma ("Sunset in AD", dari pemilik) + salinan efek bersama
   captionStyle: 'keyword',
   chapters: [
     // ================= BAB 1 — MINGGU PERTAMA: BISU =================
