@@ -57,6 +57,7 @@
       <option value="tanpa-nasi">Andaikan Berhenti Makan Nasi Setahun</option>
       <option value="tanpa-koruptor">Andaikan Indonesia Tanpa Koruptor</option>
       <option value="genz-milenial">Andaikan Gen Z vs Milenial Terdampar</option>
+      <option value="romawi-kuno">Andaikan Terlempar ke Roma 50 M</option>
       <option value="layang-layang">Layang-Layang</option>
     </select>
     <select id="fmt" aria-label="Format">
@@ -78,11 +79,12 @@
   <script src="src/sprites-money.js"></script>
   <script src="src/sprites-politik.js"></script>
   <script src="src/sprites-map.js"></script>
+  <script src="src/sprites-romawi.js"></script>
   <script src="src/engine.js"></script>
   <script>
     // Pilihan lewat URL hash: #cerita--format--bab
     //   contoh: #motor-listrik--v--bab-2  (9:16, hanya bab 2)
-    const STORIES = ['motor-listrik', 'perang-dunia', 'paylater', 'wapres-kosong', 'mbg-berhenti', 'tanpa-gunung-api', 'ojol-libur', 'internet-mati', 'tanpa-nasi', 'tanpa-koruptor', 'genz-milenial', 'layang-layang'];
+    const STORIES = ['motor-listrik', 'perang-dunia', 'paylater', 'wapres-kosong', 'mbg-berhenti', 'tanpa-gunung-api', 'ojol-libur', 'internet-mati', 'tanpa-nasi', 'tanpa-koruptor', 'genz-milenial', 'romawi-kuno', 'layang-layang'];
     const [hStory, hFmt, hChap] = location.hash.slice(1).split('--');
     const wanted = hStory || new URLSearchParams(location.search).get('story');
     const storyName = STORIES.includes(wanted) ? wanted : STORIES[0];

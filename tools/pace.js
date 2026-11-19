@@ -1,5 +1,5 @@
 const fs = require('fs');
-const SPRITES = ['sprites.js', 'sprites-city.js', 'sprites-war.js', 'sprites-money.js', 'sprites-politik.js', 'sprites-map.js', 'sprites-faces.js'];
+const SPRITES = ['sprites.js', 'sprites-city.js', 'sprites-war.js', 'sprites-money.js', 'sprites-politik.js', 'sprites-map.js', 'sprites-romawi.js', 'sprites-faces.js'];
 const src = SPRITES.map(f => fs.readFileSync('src/' + f, 'utf8')).join(';\n') + ';\n' + fs.readFileSync(process.argv[2], 'utf8') + ';module.exports=STORY;';
 const m = { exports: {} }; new Function('module', src)(m); const STORY = m.exports;
 const VIS = ['camera','focus','card','chart','route','block','ping','blackout','swap','move','enter','label','badge','hook','title','restoreColor','emote','raise','shake','convert','glow','alpha','haze'];

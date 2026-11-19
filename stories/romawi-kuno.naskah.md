@@ -1,4 +1,4 @@
-# Naskah — Andaikan Kamu Terlempar ke Roma 50 Masehi: Bisa Bertahan Hidup? (draf 2 · jalur gladiator)
+# Naskah — Andaikan Kamu Terlempar ke Roma 50 Masehi: Bisa Bertahan Hidup? (draf 3 · jalur gladiator, tanpa kilas maju)
 
 > **Premis:** Dimas, 25 tahun, lulusan teknik, terbangun di Roma tahun 50 M (masa Kaisar Claudius). Hanya membawa ingatan; HP mati.
 > **Alur:** bisu → dunia serba manual & menakutkan → kelaparan → jadi gladiator sukarela demi uang cepat → menang memakai
@@ -8,21 +8,18 @@
 > Fiksi: Dimas, Bruno "Si Banteng", Lanista Varus, Kleon, Tita (penjual roti). Nyata: Claudius, amfiteater Statilius Taurus, retiarius, secutor.
 > Semua kalimat **BARU**. `[KATA KUNCI]` = teks layar; *kata* = kata berwarna. Hindari dialog/adegan khas film gladiator tertentu.
 
-## Hook — kilas maju (±12 dtk)
-1. Roma, lima puluh Masehi. Sepuluh ribu penonton di arena. **[ROMA · *50 M*]**
-2. Di tengahnya, pemuda kurus, hanya membawa jaring. **[HANYA *JARING*]**
-3. Lawannya raksasa berhelm besi. **[*RAKSASA* BERHELM]**
-4. Kalau kalah, kaisar ingin melihat wajahnya saat mati. **[KAISAR *MENONTON*]**
-5. Namanya Dimas. Tiga bulan lalu, dia masih di Bekasi. **[3 BULAN *SEBELUMNYA*]**
-6. Andaikan kamu terlempar ke Roma kuno. Bisa bertahan hidup? **[Judul]**
-
-## Bab 1 — Minggu pertama: bisu
-7. *(long)* Semua berawal di sebuah gang sempit kota Roma. / *(short)* Bangun tidur, kamu sudah di Roma kuno. Apa yang terjadi?
-8. Dimas terbangun di gang. HP-nya mati, tanpa sinyal. **[HP *MATI*]**
-9. Semua orang bicara Latin. Dia tak paham satu kata pun. **[BAHASA *LATIN*]**
-10. Dia mencoba bahasa Inggris. Orang-orang malah tertawa. **[*HELLO*?]**
-11. Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk. **[*BISU* 7 HARI]**
-12. Di kota sejuta orang, dia sendirian. *(punchline)* **[SENDIRIAN]**
+## Bab 1 — Minggu pertama: bisu  *(dibuka langsung, tanpa kilas maju · animasi draf: `stories/romawi-kuno.js`)*
+r-01. *(long)* Roma, tahun 50 Masehi. Salah satu kota terbesar di dunia. **[ROMA · *50 MASEHI*]** *(peta: Forum, Tiber, Circus Maximus, istana, amfiteater)*
+r-02. *(long)* Andaikan kamu terlempar ke sini. Bisa bertahan hidup? **[Judul: ANDAIKAN]**
+r-01s. *(short)* Bangun tidur, kamu sudah di Roma kuno. Apa yang terjadi? **[BANGUN DI *ROMA KUNO*?]**
+— kilat menyambar Subura (permukiman padat) —
+r-03. Dimas terbangun di gang sempit. HP-nya mati, tanpa sinyal. **[HP *MATI*]**
+r-04. Semua orang bicara Latin. Dia tak paham satu kata pun. **[BAHASA *LATIN*]** *(balon: "Salve! Quis es?" = Halo! Kamu siapa?)*
+r-05. Dia mencoba bahasa Inggris. Orang-orang malah tertawa. **["*HELLO*?"]** *(balon: "Ha ha! Barbarus!" = Orang asing!)*
+r-06. Wajar. Bahasa Inggris baru lahir ±400 tahun lagi. **[INGGRIS *BELUM ADA*]** *(kartu: Inggris Kuno muncul abad ke-5 M di Britania)*
+r-07. Seminggu penuh, Dimas hanya bisa menunjuk dan mengangguk. **[*BISU* 7 HARI]**
+r-08. Dia ingin roti, tapi tak punya satu koin pun. **[TANPA *SATU KOIN*]** *(balon tukang roti: "Pecunia?" = Uangnya?)*
+r-09. Di kota hampir sejuta orang, dia sendirian. *(punchline)* **[± *1 JUTA* ORANG · DIA *SENDIRIAN*]**
 
 ## Bab 2 — Dunia serba manual
 13. *(long)* Pelan-pelan, Dimas mulai memperhatikan kota ini. / *(short)* Roma kuno tanpa listrik dan mesin. Seperti apa hidupnya?
@@ -124,6 +121,9 @@ Opsi: (a) animasi dulu tanpa suara (draf), lalu pangkas ±15 kalimat sebelum VO;
 | Fakta di naskah | Sumber |
 |---|---|
 | Kaisar 41–54 M = Claudius | Suetonius, *Claudius* |
+| Bahasa Inggris Kuno muncul setelah pemukiman Anglo-Saxon di Britania, abad ke-5 M | *umum (sejarah bahasa Inggris) — cek sumber* |
+| Penduduk Roma ± 1 juta (abad ke-1; perkiraan, diperdebatkan 450 rb–1 jt+) | *perlu sumber akademik* |
+| Salve / Quis es? / Barbarus / Pecunia = Latin klasik | kamus Latin |
 | Budak ± sepertiga penduduk Italia (perkiraan) | Bradley; [Scheidel 2005](https://www.gwern.net/doc/history/2005-scheidel.pdf) |
 | Jatah gandum gratis (*frumentatio*) hanya untuk warga terdaftar | *umum diketahui — perlu sumber* |
 | Amfiteater batu pertama Roma: Statilius Taurus (29 SM), terbakar 64 M; Colosseum dibuka 80 M | [Wikipedia: Amphitheater of Statilius Taurus](https://en.wikipedia.org/wiki/Amphitheater_of_Statilius_Taurus) |
