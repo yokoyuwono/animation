@@ -308,6 +308,25 @@ function buildMapTextures(scene) {
     px(4, 3, '#1a1c2c', 22, 2); for (let y = 7; y < 18; y += 3) { px(4, y, '#5d3a1a', 3, 1); px(9, y, '#5d3a1a', 15, 1); }
   });
   mapCanvas(scene, 'daun_obat', 12, 10, (ctx, px) => { pxEllipse(px, 4, 4, 3, 2, '#38b764'); pxEllipse(px, 8, 5, 3, 2, '#5ccf7a'); px(5, 6, '#2f8a55', 1, 4); px(3, 3, '#a7f070'); });
+  // ---------- sumber daya alam pulau (tampak atas) + barang bawaan ----------
+  mapCanvas(scene, 'kelapa_top', 15, 15, (ctx, px) => {
+    px(3, 13, 'rgba(0,0,0,0.25)', 10, 2);
+    [[0, -1], [1, 0], [0, 1], [-1, 0], [0.7, 0.7], [-0.7, 0.7], [0.7, -0.7], [-0.7, -0.7]].forEach(([dx, dy], i) => { for (let r = 1; r < 7; r++) px(Math.round(7 + dx * r), Math.round(7 + dy * r), r > 4 ? '#2f8a55' : '#38b764', i % 2 ? 1 : 2, 1); });
+    px(6, 6, '#8b5a2b', 3, 3); px(8, 8, '#5d3a1a', 1, 1);
+  });
+  mapCanvas(scene, 'bambu_top', 14, 14, (ctx, px) => {
+    px(2, 12, 'rgba(0,0,0,0.25)', 11, 2); const r = mapRand(31);
+    for (let i = 0; i < 9; i++) { const x = 2 + Math.floor(r() * 10), y = 2 + Math.floor(r() * 9); px(x, y, '#a8b84a', 2, 2); px(x, y, '#5ccf7a', 1, 1); }
+    pxEllipse(px, 7, 7, 2, 2, '#c9c94a');
+  });
+  mapCanvas(scene, 'batu_top', 16, 11, (ctx, px) => { px(1, 10, 'rgba(0,0,0,0.3)', 15, 1); pxEllipse(px, 5, 6, 4, 3, '#8a8f99'); pxEllipse(px, 11, 5, 4, 3, '#a8a8a8'); pxEllipse(px, 8, 8, 3, 2, '#c2c3c7'); px(4, 4, '#e4e4e4', 2, 1); });
+  mapCanvas(scene, 'karang_top', 16, 10, (ctx, px) => { const c = ['#ff77a8', '#ef7d57', '#ffcd75', '#b13e53']; const r = mapRand(41); for (let i = 0; i < 14; i++) px(Math.floor(r() * 15), Math.floor(r() * 9), c[i % 4], 2, 1 + (i % 2)); });
+  ['0', '1'].forEach(f => mapCanvas(scene, 'ikan_top_' + f, 12, 6, (ctx, px) => { const o = f === '1' ? 1 : 0; [[1, 2], [7, 3 - o]].forEach(([x, y]) => { px(x, y, '#c2c3c7', 3, 1); px(x + 3, y, '#9fd4ff', 1, 1); px(x - 1, y - 1 + o, '#c2c3c7', 1, 1); }); }));
+  mapCanvas(scene, 'tanah_liat', 22, 12, (ctx, px) => { pxEllipse(px, 11, 6, 10, 5, '#8b4a2b'); pxEllipse(px, 11, 6, 7, 3, '#a0603c'); px(6, 5, '#c97a4a', 3, 1); px(13, 7, '#c97a4a', 4, 1); });
+  mapCanvas(scene, 'kayu', 10, 4, (ctx, px) => { px(0, 0, '#8b5a2b', 10, 4); px(0, 0, '#5d3a1a', 10, 1); px(9, 1, '#c9a46a', 1, 2); });
+  mapCanvas(scene, 'ikan', 9, 5, (ctx, px) => { px(1, 1, '#8a8f99', 6, 3); px(2, 1, '#c2c3c7', 4, 1); px(7, 0, '#8a8f99', 2, 5); px(2, 2, '#1a1c2c'); });
+  mapCanvas(scene, 'batu_kecil', 7, 5, (ctx, px) => { pxEllipse(px, 3, 2, 3, 2, '#a8a8a8'); px(2, 1, '#e4e4e4'); });
+  mapCanvas(scene, 'bambu_batang', 12, 3, (ctx, px) => { px(0, 0, '#a8b84a', 12, 3); px(4, 0, '#5d7a2b', 1, 3); px(8, 0, '#5d7a2b', 1, 3); });
   mapCanvas(scene, 'sabun', 10, 6, (ctx, px) => { px(0, 1, '#c9a46a', 10, 5); px(1, 0, '#f4e4c1', 8, 5); px(2, 1, '#ffffff', 3, 1); px(7, 0, '#9fd4ff', 2, 1); });
   mapCanvas(scene, 'tempayan', 14, 16, (ctx, px) => { px(1, 15, 'rgba(0,0,0,0.3)', 13, 1); pxEllipse(px, 7, 9, 6, 6, '#a0603c'); pxEllipse(px, 7, 9, 4, 5, '#c97a4a'); px(4, 1, '#8b4a2b', 7, 3); px(5, 2, '#41a6f6', 5, 1); px(3, 9, '#8b4a2b', 9, 1); });
   mapCanvas(scene, 'rumah_batu', 44, 34, (ctx, px) => {

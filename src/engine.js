@@ -29,6 +29,7 @@ const SKIES = {
   indoor: { bands: ['#2b2f45'], noGround: true, camBg: '#2b2f45', tiles: true },
   ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
   map:    { bands: ['#3fae5f'], noGround: true, camBg: '#2f9150' },
+  beach:  { bands: ['#5fcde4', '#74d4e8', '#8fdcec', '#a8e4f0', '#c4eef5'], sea: true, grass: '#e4d3a8', dirt: '#d9c08c', body: 'sun', bodyY: 18, clouds: true },
   deep:   { bands: ['#14365e', '#102d50', '#0c2442', '#091c35'], grass: '#c2a36b', dirt: '#9c7f4e', noHills: true, bubbles: true, camBg: '#091c35' },
 };
 
@@ -408,7 +409,12 @@ class Movie extends Phaser.Scene {
           f.fillRect(x, GROUND - h, 1, h);
         }
       };
-      if (!sky.noHills && !sc.noHills) {
+      if (sky.sea) {   // laut di cakrawala + ombak kecil (adegan pantai/pulau)
+        f.fillStyle = '#2f6fbf'; f.fillRect(0, GROUND - 18, SW, 18);
+        f.fillStyle = '#41a6f6'; f.fillRect(0, GROUND - 18, SW, 2);
+        f.fillStyle = '#9fd4ff'; for (let x = 0; x < SW; x += 9) f.fillRect(x + ((x / 9) % 4), GROUND - 14 + ((x * 7) % 10), 3, 1);
+        f.fillStyle = '#5a8f5f'; for (let x = 0; x < SW; x++) { const xx = x % W; const h = Math.max(0, Math.round(5 - Math.abs(xx - 60) / 8)); if (h) f.fillRect(x, GROUND - 18 - h, 1, h); }  // pulau jauh
+      } else if (!sky.noHills && !sc.noHills) {
         hills(sky.hillFar, 24, 6, 0.033, 0.08, 1);
         hills(sky.hillNear, 11, 4, 0.06, 0.15, 4);
       }
@@ -448,6 +454,7 @@ class Movie extends Phaser.Scene {
     if (sc.wires) [].concat(sc.wires[0] && Array.isArray(sc.wires[0][0]) ? sc.wires : [sc.wires]).forEach(w => this.drawWires(w, sc.wireColor));
     (sc.actors || []).forEach(a => this.spawnActor(a));
     this.walkers = [];
+    this.stayers = [];
     if (sc.walkers) this.spawnWalkers(sc.walkers);
     if (sc.map && !sc.noClouds) for (let i = 0; i < Math.ceil(SW / 90); i++) {
       const c = this.wobj(this.add.image((i * 90 + 30) * S, (14 + (i % 2) * 50) * S, 'cloud').setScale(S * 1.3).setDepth(30).setAlpha(0.85));
@@ -605,9 +612,37 @@ class Movie extends Phaser.Scene {
         this.walkers.push({ spr, sprite: sp, segs, seg, t, dir: Math.random() < 0.5 ? 1 : -1, speed: Phaser.Math.FloatBetween(5, 9), pause: Math.random() * 2, side: si, mode: 'road', walking: false });
       }
     });
+    // pekerja: { jobs: [[{ n, from: [x,y], to: [x,y], carry: 'kayu' }], [...]], stay: [[{ n, x, y, spread }], [...]] } (per sisi)
+    (this.split ? [0, 1] : [0]).forEach(si => {
+      const off = si * W, pool = pools[si], sc = S * (cfg.scale || 0.5);
+      ((cfg.jobs || [])[si] || []).forEach((j, ji) => {
+        for (let k = 0; k < j.n; k++) {
+          const sp = pool[(k + ji + si) % pool.length], t = Math.random();
+          const g = [j.from[0] + off, j.from[1], j.to[0] + off, j.to[1]];
+          const spr = this.wobj(this.add.sprite((g[0] + (g[2] - g[0]) * t) * S, (g[1] + (g[3] - g[1]) * t) * S, `${sp}_0`).setOrigin(0.5, 1).setScale(sc));
+          const carry = j.carry && this.textures.exists(j.carry) ? this.wobj(this.add.image(spr.x, spr.y, j.carry).setOrigin(0.5, 1).setScale(sc * (j.carryScale || 0.8))) : null;
+          this.walkers.push({ spr, sprite: sp, segs: [g], seg: 0, t, dir: Math.random() < 0.5 ? 1 : -1, speed: Phaser.Math.FloatBetween(4, 7), pause: Math.random(), side: si, mode: 'road', walking: false, job: true, carry });
+        }
+      });
+      ((cfg.stay || [])[si] || []).forEach((st, ji) => {
+        for (let k = 0; k < st.n; k++) {
+          const sp = pool[(k + ji * 2 + si) % pool.length]; makeToolFrames(this, sp);
+          const x = st.x + off + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 6), y = st.y + Phaser.Math.FloatBetween(-1, 1) * (st.spread ?? 6) * 0.5;
+          const idle = st.act === 'idle';   // idle = berkumpul/istirahat (menoleh sesekali), selain itu bekerja (mencangkul)
+          const spr = this.wobj(this.add.sprite(x * S, y * S, idle ? `${sp}_0` : `${sp}_hoe_0`).setOrigin(0.5, 1).setScale(sc).setDepth(4 + y / 200).setFlipX(idle ? x > (st.x + off) : Math.random() < 0.5));
+          this.stayers.push({ spr, sprite: sp, f: 0, idle, t: Math.random() * 2, every: idle ? Phaser.Math.FloatBetween(2, 4.5) : Phaser.Math.FloatBetween(0.35, 0.55) });
+        }
+      });
+    });
   }
 
   tickWalkers(dt) {
+    for (const p of this.stayers || []) {
+      if (!p.spr.active) continue;
+      p.t += dt; if (p.t < p.every) continue;
+      p.t = 0; p.f = 1 - p.f;
+      if (p.idle) p.spr.setFlipX(!p.spr.flipX); else p.spr.setTexture(`${p.sprite}_hoe_${p.f}`);
+    }
     for (const w of this.walkers || []) {
       const s = w.spr;
       if (!s.active || w.mode === 'gone' || w.mode === 'stay') continue;
@@ -636,13 +671,15 @@ class Movie extends Phaser.Scene {
           w.segs.forEach((g, i) => { if (i === w.seg) return; if (near(g[0], g[1])) opts.push([i, 0, 1]); else if (near(g[2], g[3])) opts.push([i, 1, -1]); });
           if (opts.length && Math.random() < 0.85) { const o = opts[Math.floor(Math.random() * opts.length)]; w.seg = o[0]; w.t = o[1]; w.dir = o[2]; }
           else w.dir = -w.dir;
-          if (Math.random() < 0.25) w.pause = Phaser.Math.FloatBetween(0.5, 2);
+          if (w.job) w.pause = Phaser.Math.FloatBetween(0.6, 1.6);   // mengambil / menaruh barang
+          else if (Math.random() < 0.25) w.pause = Phaser.Math.FloatBetween(0.5, 2);
         }
         const g = w.segs[w.seg];
         nx = g[0] + (g[2] - g[0]) * w.t; ny = g[1] + (g[3] - g[1]) * w.t + 1;
       }
       if (Math.abs(nx * S - s.x) > 0.01) s.setFlipX(nx * S < s.x);
       s.setPosition(nx * S, ny * S).setDepth(4 + ny / 200);
+      if (w.carry) w.carry.setPosition(s.x, s.y - s.displayHeight * 0.78).setDepth(s.depth + 0.001).setVisible(w.dir === 1 && s.visible);
       setWalk(true);
     }
   }
