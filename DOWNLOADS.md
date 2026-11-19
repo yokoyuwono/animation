@@ -101,6 +101,7 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 **Thumbnail**
 - [thumbnail_ojol-libur_ilustrasi-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_ilustrasi-a.png)
 - [thumbnail_ojol-libur_ilustrasi-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_ilustrasi-b.png)
+- [thumbnail_ojol-libur_nanobanana.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_nanobanana.png)
 - [thumbnail_ojol-libur_varian-a.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_varian-a.png)
 - [thumbnail_ojol-libur_varian-b.png](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/thumbnail_ojol-libur_varian-b.png)
 
@@ -110,6 +111,8 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 ## ojol-libur_ilustrasi-a.png
 
 ## ojol-libur_ilustrasi-b.png
+
+## ojol-libur_nanobanana.png
 
 ## paylater
 

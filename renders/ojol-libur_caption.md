@@ -5,7 +5,7 @@
 > potongan aplikasi maks 8% (Perpres 27/2026, berlaku 1 Juli 2026); pesan-antar ±57% omzet UMKM kuliner mitra (Alvara, data 2022).
 > Cek ulang angka & nomor Perpres ke sumber resmi sebelum unggah.
 
-## YouTube (video panjang · `ojol-libur_long_16x9.mp4` · thumbnail varian A atau B)
+## YouTube (video panjang · `ojol-libur_long_16x9.mp4` · thumbnail utama: `thumbnail_ojol-libur_nanobanana.png`)
 
 **Judul (pilih satu):**
 - Andaikan Ojol Libur Sebulan: Siapa yang Untung, Siapa yang Buntung?
