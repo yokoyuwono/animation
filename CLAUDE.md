@@ -97,3 +97,28 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
 - Halaman HP (artifact) dibatasi 512 file: audio Paylater sudah dilepas dari sana (videonya sudah dirender).
   Untuk cerita baru berikutnya, lepas audio cerita lama yang sudah dirender (`remove` di publish_files).
   Ide fantasi berikutnya: Borobudur dibangun hari ini · kampung Indonesia pindah ke Mars. Semua video sudah memakai gaya peta + alur antar-bab (paylater, wapres-kosong, mbg-berhenti, tanpa-gunung-api).
+
+## Pixel Movie Studio (halaman kerja pemilik, cabang `studio-dashboard`)
+Artifact privat **"Pixel Movie Studio"**: https://claude.ai/artifact/URB5LnMDqccNLebTYwgZp1 (slug `de06cd9a-dac5-4be8-a3e7-403a6e96c17e`).
+Terpisah dari pemutar "Pixel Movie". Rencana sistem: `docs/rencana-studio.md`.
+- **Isi:** Beranda (menunggu keputusan, jalur produksi), Video (cari/urut/saring/halaman, detail, Suara & musik `#s-<id>`),
+  Produksi (ide baru, antrian kerja), Jadwal (agenda posting, susun otomatis), Riwayat. Tombol Setujui/Ubah/Buat
+  mengirim komentar ke Claude (`comments` → `sendToClaude`), diawali tag: `[Setuju]`, `[Minta perubahan]`, `[Produksi]`,
+  `[Ide baru]`, `[Suara]`, `[Ubah ucapan]`, `[Musik]`, `[Efek]`, `[Jadwal]`, `[Terunggah]`, `[Batal jadwal]`.
+- **File:** `studio/index.html` (tampilan), `tools/dashboard.js` (kumpulkan data → `studio/data.json`, thumbnail kecil
+  `studio/thumbs/`, daftar file terbit `studio/publish-files.json`). Data manual yang diisi Claude:
+  `studio/manual.json` (menunggu keputusan, override tahap/catatan, ide, disembunyikan), `studio/jobs.json`
+  (antrian: status terkirim|dikerjakan|selesai|gagal), `studio/schedule.json` (jadwal: `{video,item:'long'|'short:<bab>',
+  platform:'youtube'|'shorts'|'tiktok'|'reels',at:'YYYY-MM-DDTHH:MM',status:'terjadwal'|'terunggah'|'gagal',link}`),
+  `studio/credits.json` (sisa kredit ElevenLabs; cek dengan `account_get_usage`, tidak memakai kredit).
+- **Memperbarui halaman (setiap pekerjaan selesai):**
+  1. Perbarui `studio/manual.json` / `jobs.json` / `schedule.json` / `credits.json` bila perlu.
+  2. `node tools/dashboard.js`
+  3. Terbitkan: `get_artifact` slug di atas → `publish_files` (mode patch, `base_version` = versi live) dengan
+     `index.html` + `data.json` + file baru dari `studio/publish-files.json` (maks 256 file per panggilan).
+     Audio pratinjau hanya untuk video di tahap Suara; lepas audio video yang sudah dirender lewat `remove`.
+  4. Commit & push ke cabang `studio-dashboard`.
+- **Komentar dari halaman** membangunkan sesi yang terakhir menerbitkan halaman: baca dengan `read_comments`, kerjakan,
+  balas dengan `reply_comment`, lalu perbarui halaman (langkah di atas). Pekerjaan yang memakai kredit hanya dijalankan
+  bila komentar menyebut "disetujui" dan perkiraan kredit.
+- Tema: putih hangat, oranye = aksi utama, ungu = perlu perhatian. Wajib: status muat, konfirmasi, dan pesan galat yang jelas.
