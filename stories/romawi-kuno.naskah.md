@@ -57,17 +57,18 @@ r-34. Syaratnya cuma satu: sumpah. **[SYARATNYA: *SUMPAH*]** *("Iura!" = Bersump
 r-35. Rela dibakar, dirantai, dicambuk, dan dibunuh pedang. **[DIBUNUH *PEDANG*]** *(ikon api·rantai·cambuk·pedang; Petronius, Satyricon 117)*
 r-36. Perut Dimas berbunyi. Dia mengangguk. *(punchline)* **[*SETUJU*]** *(stempel hijau SETUJU)*
 
-## Bab 5 — Sekolah gladiator & ilmu pertama: fisika
-39. *(long)* Malam itu, untuk pertama kalinya, Dimas makan kenyang. / *(short)* Orang modern masuk sekolah gladiator. Senjata apa yang dia pilih?
-40. Menunya bubur jelai dan kacang. Julukannya: pemakan jelai. **[*PEMAKAN JELAI*]** *(fakta: studi tulang Efesus 2014)*
-41. Minumannya? Air campur abu tanaman, untuk tulang. **[MINUM *ABU*]**
-42. Lanista Varus, pemilik sekolah, bertanya: senjata apa? **[PILIH *SENJATA*]**
-43. Dimas kurus. Pedang dan perisai berat bukan untuknya. **[TERLALU *BERAT*]**
-44. Dia memilih retiarius: jaring, trisula, tanpa helm. **[*RETIARIUS*]**
-45. Logika teknik: ringan berarti cepat, jangkauan jauh berarti aman. **[RINGAN = *CEPAT*]**
-46. Musuh abadi retiarius: secutor, berhelm bulat tertutup. **[LAWAN: *SECUTOR*]**
-47. Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak. **[HELM = *SESAK*]**
-48. Rencananya sederhana: jangan dilawan, bikin dia lelah. *(punchline)* **[PELUANG HIDUP *10%*]**
+## Bab 5 — Sekolah gladiator & ilmu pertama: fisika  *(animasi draf: `stories/romawi-kuno.js` · meteran PELUANG HIDUP mulai)*
+r-37. *(long)* Malam itu, untuk pertama kalinya, Dimas makan kenyang. **[MAKAN *KENYANG*]** *(peta malam → ludus; LAPAR turun)*
+r-37s. *(short)* Orang modern masuk sekolah gladiator. Pilih senjata apa? **[PILIH *SENJATA* APA?]**
+r-38. Menunya bubur jelai dan kacang. Julukannya: pemakan jelai. **[*PEMAKAN JELAI*]** *(label: hordearii)*
+r-39. Minumannya? Air campur abu tanaman, konon untuk tulang. **[MINUM *ABU*]** *(kartu: studi tulang Efesus 2014)*
+r-40. Lanista Varus, pemilik sekolah, bertanya: senjata apa? **[PILIH *SENJATA*]** *("Quae arma?" = Senjata apa?)*
+r-41. Dimas kurus. Pedang dan perisai berat bukan untuknya. **[TERLALU *BERAT*]**
+r-42. Dia memilih retiarius: jaring, trisula, tanpa helm. **[*RETIARIUS*]**
+r-43. Logika teknik: ringan = cepat, jangkauan jauh = aman. **[RINGAN = *CEPAT*]** *(ucapan: "ringan berarti cepat. Jangkauan jauh berarti aman.")*
+r-44. Musuh abadi retiarius: secutor, berhelm bulat tertutup. **[LAWAN: *SECUTOR*]**
+r-45. Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak. **[HELM = *SESAK*]** *(helm secutor besar)*
+r-46. Rencananya sederhana: jangan dilawan, bikin dia lelah. *(punchline)* **[PELUANG HIDUP *10%*]**
 
 ## Bab 6 — Ilmu kedua: analisis data
 49. *(long)* Tapi Dimas tahu, rencana tanpa data cuma tebakan. / *(short)* Cara orang modern mengalahkan gladiator: pakai data.

@@ -434,13 +434,27 @@ function buildRomawiTextures(scene) {
     // badan telanjang dada
     px(6, 6, K, 9, 7); px(7, 7, kulit, 7, 5); px(8, 8, kulitG, 1, 1); px(11, 8, kulitG, 1, 1); px(9, 10, kulitG, 3, 1);
     // helm
-    px(6, 0, K, 9, 7); px(7, 1, o.helm || bronze, 7, 5); px(7, 1, '#e0c070', 3, 1); px(6, 5, o.helm || bronze, 10, 1);   // pinggiran lebar
-    px(10, 3, K, 4, 2); px(11, 3, '#5a5f6e', 1, 1); px(13, 3, '#5a5f6e', 1, 1);                                           // kisi mata
+    if (o.tanpaHelm) {                                                    // retiarius: kepala terbuka (wajah terlihat)
+      px(7, -1, K, 7, 8); px(8, 0, kulit, 5, 6); px(7, -1, o.rambut || '#1a1c2c', 7, 2); px(7, 1, o.rambut || '#1a1c2c', 2, 3);
+      px(11, 2, K, 1, 1); px(13, 2, K, 1, 1); px(12, 4, kulitG, 2, 1);
+    } else if (o.helm === 'secutor') {                                    // secutor: helm bulat licin, 2 lubang mata kecil
+      px(7, -2, K, 7, 1); px(6, -1, K, 9, 8); px(7, -1, '#a9aebb', 7, 7); px(8, -2, '#a9aebb', 5, 1); px(8, 0, '#e8ecf2', 2, 2); px(9, -3, K, 3, 1);
+      px(12, 2, K, 1, 1); px(14, 2, K, 1, 1); px(6, 5, '#8b9bb4', 10, 1);
+    } else {
+      px(6, 0, K, 9, 7); px(7, 1, o.helm || bronze, 7, 5); px(7, 1, '#e0c070', 3, 1); px(6, 5, o.helm || bronze, 10, 1);   // pinggiran lebar
+      px(10, 3, K, 4, 2); px(11, 3, '#5a5f6e', 1, 1); px(13, 3, '#5a5f6e', 1, 1);                                           // kisi mata
+    }
     if (o.jambul === 'tinggi') { px(7, -2, K, 7, 2); px(8, -3, K, 5, 1); px(8, -2, o.bulu || '#b13e53', 5, 2); px(9, -3, o.bulu || '#b13e53', 3, 1); }
     if (o.jambul === 'griffin') { px(8, -2, bronzeG, 2, 2); px(10, -3, bronzeG, 3, 1); px(13, -2, bronzeG, 2, 2); px(15, -1, bronzeG, 1, 2); px(9, -2, '#e0c070', 1, 1); }
     // lengan senjata (dengan manica/pelindung lengan) + senjata
     const pedang = (x1, y1, x2, y2) => { const n = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)); for (let t = 0; t <= n; t++) px(Math.round(x1 + (x2 - x1) * t / n), Math.round(y1 + (y2 - y1) * t / n), besi); };
-    if (pose === 'serang') {
+    const kayu = (x1, y1, x2, y2) => { const n = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)); for (let t = 0; t <= n; t++) px(Math.round(x1 + (x2 - x1) * t / n), Math.round(y1 + (y2 - y1) * t / n), '#7a4a24'); };
+    if (o.senjata === 'trisula') {                                        // retiarius: trisula panjang + jaring
+      if (pose === 'serang') { kayu(2, 10, 18, 10); px(18, 8, besi, 1, 5); px(19, 8, besi, 3, 1); px(19, 10, besi, 3, 1); px(19, 12, besi, 3, 1); px(9, 9, K, 3, 3); }
+      else { kayu(3, 17, 17, 3); px(16, 0, besi, 1, 3); px(17, 2, besi, 3, 1); px(18, -1, besi, 1, 3); px(19, 0, besi, 2, 1); px(20, -1, besi, 1, 2); px(9, 9, K, 3, 3); }
+      if (o.jaring !== false && pose !== 'serang') for (let y = 9; y < 19; y += 2) for (let x = 1; x < 6; x += 2) { px(x, y, '#c9b48a'); px(x + 1, y + 1, '#8a7350'); }
+      if (o.galerus) { px(5, 5, K, 5, 3); px(6, 5, bronze, 3, 2); px(6, 5, '#e0c070', 2, 1); }
+    } else if (pose === 'serang') {
       px(10, 2, K, 3, 6); px(11, 3, '#ece4d0', 1, 4);                    // lengan terangkat
       if (o.senjata === 'sica') { pedang(12, 2, 17, -2); px(18, -1, besi); px(19, 0, besi); } else pedang(12, 2, 19, -3);
       px(11, 1, '#7a4a24', 2, 2);
@@ -451,10 +465,12 @@ function buildRomawiTextures(scene) {
     }
     // perisai di depan
     if (o.perisai === 'scutum') { px(14, 5, K, 7, 13); px(15, 6, o.warnaPerisai || '#b13e53', 5, 11); px(15, 6, '#d65a6e', 1, 11); px(17, 9, bronze, 2, 4); px(17, 10, '#e0c070', 1, 1); }
-    else { px(14, 7, K, 6, 7); px(15, 8, o.warnaPerisai || '#3b5dc9', 4, 5); px(16, 9, bronze, 2, 2); }
+    else if (o.perisai === 'parma') { px(14, 7, K, 6, 7); px(15, 8, o.warnaPerisai || '#3b5dc9', 4, 5); px(16, 9, bronze, 2, 2); }
   });
   [['murmillo', { jambul: 'tinggi', perisai: 'scutum', warnaPerisai: '#b13e53', bulu: '#e43b44' }],
-   ['thraex', { jambul: 'griffin', perisai: 'parma', warnaPerisai: '#3b5dc9', senjata: 'sica', greave2: true, kulit: '#c98e63' }]]
+   ['thraex', { jambul: 'griffin', perisai: 'parma', warnaPerisai: '#3b5dc9', senjata: 'sica', greave2: true, kulit: '#c98e63' }],
+   ['secutor', { helm: 'secutor', perisai: 'scutum', warnaPerisai: '#b5523b', kulit: '#c98e63' }],
+   ['dimas_ret', { tanpaHelm: true, senjata: 'trisula', perisai: 'none', galerus: true, kulit: '#f4c29a', rambut: '#1a1c2c' }]]
     .forEach(([n, o]) => { gladiator(`gl_${n}`, o, 'siaga'); gladiator(`gl_${n}_serang`, o, 'serang'); });
   // percikan benturan logam
   mapCanvas(scene, 'denting', 13, 13, (ctx, px) => {
@@ -534,6 +550,72 @@ function buildRomawiTextures(scene) {
   mapCanvas(scene, 'ikon_rantai', 16, 16, (ctx, px) => { for (let i = 0; i < 4; i++) { const x = 1 + i * 3, y = 1 + i * 3; px(x, y, '#8b9bb4', 5, 2); px(x, y + 3, '#8b9bb4', 5, 2); px(x, y, '#8b9bb4', 2, 5); px(x + 3, y, '#8b9bb4', 2, 5); px(x + 1, y + 1, '#c2c3c7', 1, 1); } });
   mapCanvas(scene, 'ikon_cambuk', 16, 16, (ctx, px) => { px(1, 11, '#5d3a1a', 5, 3); px(1, 11, '#8b5a2b', 5, 1); [[6, 11], [8, 10], [10, 8], [11, 6], [12, 4], [12, 2], [11, 1], [9, 1]].forEach(([x, y]) => px(x, y, '#3b2a1a', 2, 1)); px(8, 0, '#3b2a1a', 1, 2); });
   mapCanvas(scene, 'ikon_pedang', 16, 16, (ctx, px) => { for (let i = 0; i < 10; i++) px(4 + i, 11 - i, '#c2c3c7', 2, 2); px(13, 1, '#f4f4f4', 1, 1); px(2, 10, '#c9a24a', 5, 2); px(4, 8, '#c9a24a', 2, 5); px(1, 13, '#5d3a1a', 3, 2); });
+  // =====================================================================
+  //  BAB 5 — ludus (sekolah gladiator) & ilmu fisika
+  // =====================================================================
+  // ludus di peta (tampak atas): halaman pasir berpagar + deretan sel beratap genteng
+  mapCanvas(scene, 'ludus_peta', 34, 24, (ctx, px) => {
+    px(0, 0, RM.genteng2, 34, 24); px(1, 1, RM.genteng, 32, 22); for (let x = 2; x < 33; x += 3) px(x, 1, RM.gentengT, 1, 22);
+    px(5, 5, RM.marmer3, 24, 14); px(6, 6, RM.pasir, 22, 12); px(6, 6, '#d4bf86', 22, 1);
+    for (let x = 9; x < 27; x += 5) { px(x, 9, '#5d3a1a', 1, 2); px(x + 1, 13, '#1a1c2c', 1, 1); }   // tiang latihan (palus) + orang
+    px(15, 18, '#2b1d16', 4, 2);
+  });
+  // dinding dalam ludus: batu, pintu sel berjeruji, obor menyala
+  mapCanvas(scene, 'dinding_ludus', 192, 64, (ctx, px) => {
+    const rnd = mapRand(31); px(0, 0, '#7a705e', 192, 64);
+    for (let y = 0; y < 64; y += 6) for (let x = (y / 6) % 2 * 6; x < 192; x += 12) { px(x, y, '#8a8070', 11, 5); px(x, y, '#9c917a', 11, 1); }
+    for (let i = 0; i < 120; i++) px(Math.floor(rnd() * 190), Math.floor(rnd() * 62), '#6a604e', 2, 1);
+    for (let x = 10; x < 192; x += 46) { px(x, 26, '#1a1c2c', 22, 38); px(x + 1, 27, '#2b1d16', 20, 37); for (let k = x + 3; k < x + 21; k += 4) px(k, 27, '#5a5f6e', 1, 37); px(x + 1, 40, '#5a5f6e', 20, 1); px(x - 2, 24, '#9c917a', 26, 2); }
+    px(0, 60, '#5a4a3a', 192, 4);
+  });
+  [0, 1].forEach(f => mapCanvas(scene, `api_obor_${f}`, 6, 8, (ctx, px) => { px(1, f ? 1 : 0, '#e43b44', 4, 7 - (f ? 1 : 0)); px(2, f ? 2 : 1, '#ef7d57', 2, 5); px(2, f ? 4 : 3, '#ffcd75', 2, 3); px(f ? 0 : 5, 2, '#ef7d57', 1, 2); }));
+  anim('api_obor', 6);
+  mapCanvas(scene, 'gagang_obor', 4, 12, (ctx, px) => { px(1, 0, '#3b2a1a', 2, 12); px(0, 0, '#5a5f6e', 4, 2); });
+  // meja makan panjang + mangkuk bubur, kendi, cangkir
+  mapCanvas(scene, 'meja_makan', 70, 14, (ctx, px) => { px(0, 0, '#8b6a45', 70, 3); px(0, 0, '#a07c52', 70, 1); px(3, 3, '#6d5235', 3, 11); px(64, 3, '#6d5235', 3, 11); px(33, 3, '#6d5235', 3, 11); });
+  mapCanvas(scene, 'mangkuk_bubur', 9, 5, (ctx, px) => { px(1, 0, '#e8d9b0', 7, 2); px(2, 0, '#c9a86a', 2, 1); px(5, 1, '#8b5a2b', 1, 1); px(0, 1, '#7a4a24', 9, 2); px(1, 3, '#5d3a1a', 7, 1); px(2, 4, '#5d3a1a', 5, 1); });
+  [0, 1].forEach(f => mapCanvas(scene, `uap_${f}`, 8, 8, (ctx, px) => { const xs = f ? [2, 3, 2, 1] : [3, 2, 3, 4]; xs.forEach((x, i) => { px(x, i * 2, 'rgba(255,255,255,0.75)', 1, 2); px(x + 3, i * 2 + 1, 'rgba(255,255,255,0.55)', 1, 1); }); }));
+  anim('uap', 3);
+  mapCanvas(scene, 'cangkir_abu', 6, 7, (ctx, px) => { px(0, 0, '#5a5f6e', 6, 1); px(1, 1, '#9a9a8a', 4, 1); px(0, 1, '#b5683b', 1, 5); px(5, 1, '#b5683b', 1, 5); px(1, 2, '#b5683b', 4, 5); px(1, 2, '#cf8a55', 1, 4); });
+  // halaman ludus: pagar tiang + atap serambi di latar
+  mapCanvas(scene, 'serambi_ludus', 192, 50, (ctx, px) => {
+    px(0, 0, RM.genteng2, 192, 6); px(0, 0, RM.gentengT, 192, 2); for (let x = 0; x < 192; x += 4) px(x, 2, RM.genteng, 2, 4);
+    px(0, 6, '#d8cfba', 192, 3); px(0, 9, '#5a4a3a', 192, 41);
+    for (let x = 4; x < 192; x += 16) { px(x, 9, '#d8cfba', 4, 41); px(x, 9, '#ece6d6', 1, 41); px(x - 1, 9, '#bfb49c', 6, 2); }
+    for (let x = 12; x < 192; x += 32) { px(x, 22, '#2b1d16', 8, 28); }
+  });
+  // trainee memukul tiang latihan (palus) — 2 frame
+  [0, 1].forEach(f => mapCanvas(scene, `latih_${f}`, 26, 22, (ctx, px) => {
+    px(19, 2, '#5d3a1a', 4, 20); px(19, 2, '#7a4a24', 1, 20); px(18, 21, '#3b2a1a', 6, 1); px(19, 7, '#8a7350', 4, 1); px(19, 12, '#8a7350', 4, 1);   // palus
+    px(5, 14, '#1a1c2c', 3, 7); px(9, 14, '#1a1c2c', 3, 7); px(6, 14, '#c98e63', 1, 6); px(10, 14, '#c98e63', 1, 6);
+    px(4, 11, '#1a1c2c', 9, 4); px(5, 11, '#ece4d0', 7, 3); px(4, 5, '#1a1c2c', 9, 7); px(5, 6, '#c98e63', 7, 5);
+    px(5, 0, '#1a1c2c', 7, 6); px(6, 1, '#c98e63', 5, 4); px(5, 0, '#3b2a1a', 7, 2); px(9, 2, '#1a1c2c', 1, 1);
+    if (f) { for (let i = 0; i < 7; i++) px(11 + i, 6 + Math.floor(i / 3), '#a07c52', 1, 2); px(18, 7, '#ffcd75'); px(17, 5, '#ffcd75'); }   // rudis (pedang kayu) mengenai tiang
+    else { for (let i = 0; i < 6; i++) px(10 + Math.floor(i / 2), 4 - i, '#a07c52', 1, 2); }
+    px(1, 7, '#8a7350', 4, 7); px(1, 7, '#a08a68', 1, 7);   // perisai anyaman
+  }));
+  anim('latih', 4);
+  // rak senjata: scutum, parma, gladius, trisula, jaring, helm
+  mapCanvas(scene, 'rak_senjata', 56, 30, (ctx, px) => {
+    px(0, 4, '#5d3a1a', 56, 2); px(0, 18, '#5d3a1a', 56, 2); px(1, 4, '#3b2a1a', 2, 26); px(53, 4, '#3b2a1a', 2, 26);
+    px(4, 6, '#1a1c2c', 9, 16); px(5, 7, '#b13e53', 7, 14); px(8, 11, '#c9a24a', 2, 4);                    // scutum
+    pxEllipse(px, 19, 12, 4, 4, '#3b5dc9'); px(18, 11, '#c9a24a', 2, 2);                                      // parma
+    for (let k = 0; k < 3; k++) { px(26 + k * 3, 2, '#c2c3c7', 1, 14); px(25 + k * 3, 15, '#c9a24a', 3, 1); px(26 + k * 3, 16, '#5d3a1a', 1, 3); }   // gladius
+    px(37, 0, '#7a4a24', 1, 28); px(35, 0, '#c2c3c7', 5, 1); px(35, 0, '#c2c3c7', 1, 3); px(37, 0, '#c2c3c7', 1, 3); px(39, 0, '#c2c3c7', 1, 3);   // trisula
+    for (let y = 6; y < 17; y += 2) for (let x = 41; x < 47; x += 2) { px(x, y, '#c9b48a'); px(x + 1, y + 1, '#8a7350'); }   // jaring
+    pxEllipse(px, 50, 24, 3, 3, '#c9a24a'); px(48, 22, '#e0c070', 2, 1); pxEllipse(px, 9, 25, 3, 3, '#a9aebb');   // helm
+  });
+  // scutum berat (untuk dicoba Dimas)
+  mapCanvas(scene, 'scutum', 10, 16, (ctx, px) => { px(0, 0, '#1a1c2c', 10, 16); px(1, 1, '#b13e53', 8, 14); px(1, 1, '#d65a6e', 1, 14); px(4, 6, '#c9a24a', 2, 4); });
+  // helm secutor besar (zoom detail): telur licin, 2 lubang mata kecil, sirip
+  mapCanvas(scene, 'helm_secutor_besar', 44, 46, (ctx, px) => {
+    pxEllipse(px, 22, 24, 19, 21, '#1a1c2c'); pxEllipse(px, 22, 24, 18, 20, '#a9aebb'); pxEllipse(px, 18, 18, 11, 12, '#c2c7d2'); pxEllipse(px, 14, 12, 4, 5, '#eef1f6');
+    px(20, 2, '#1a1c2c', 4, 6); px(21, 2, '#8b9bb4', 2, 6);                                                    // sirip
+    pxEllipse(px, 16, 24, 2, 2, '#1a1c2c'); pxEllipse(px, 28, 24, 2, 2, '#1a1c2c'); px(15, 23, '#3d4258'); px(27, 23, '#3d4258');   // lubang mata kecil
+    px(4, 40, '#8b9bb4', 36, 3); px(4, 40, '#1a1c2c', 36, 1);                                                 // pelindung leher
+  });
+  [0, 1].forEach(f => mapCanvas(scene, `napas_${f}`, 12, 8, (ctx, px) => { const a = f ? 0.8 : 0.45; px(0, 3, `rgba(255,255,255,${a})`, f ? 8 : 5, 2); px(f ? 7 : 4, 1, `rgba(255,255,255,${a * 0.7})`, 4, 2); px(f ? 9 : 6, 5, `rgba(255,255,255,${a * 0.6})`, 3, 2); }));
+  anim('napas', 2);
 }
 
 // pasang ke mesin tanpa mengubah engine.js: dibungkus pada buildMapTextures

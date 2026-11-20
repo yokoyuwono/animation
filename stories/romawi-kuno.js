@@ -49,6 +49,18 @@ const SP = {
   'r-34':  ['Syaratnya cuma satu: sumpah.', 'Syaratnya cuma satu: sumpah.'],
   'r-35':  ['Rela dibakar, dirantai, dicambuk, dan dibunuh pedang.', 'Rela dibakar, dirantai, dicambuk, dan dibunuh pedang.'],
   'r-36':  ['Perut Dimas berbunyi. Dia mengangguk.', 'Perut Dimas berbunyi. Dia mengangguk.'],
+  // Bab 5 — sekolah gladiator & ilmu pertama: fisika
+  'r-37':  ['Malam itu, untuk pertama kalinya, Dimas makan kenyang.', 'Malam itu, untuk pertama kalinya, Dimas makan kenyang.'],
+  'r-37s': ['Orang modern masuk sekolah gladiator. Pilih senjata apa?', 'Orang modern masuk sekolah gladiator. Pilih senjata apa?'],
+  'r-38':  ['Menunya bubur jelai dan kacang. Julukannya: pemakan jelai.', 'Menunya bubur jelai dan kacang. Julukannya: pemakan jelai.'],
+  'r-39':  ['Minumannya? Air campur abu tanaman, konon untuk tulang.', 'Minumannya? Air campur abu tanaman, konon untuk tulang.'],
+  'r-40':  ['Lanista Varus, pemilik sekolah, bertanya: senjata apa?', 'Lanista Varus, pemilik sekolah, bertanya: senjata apa?'],
+  'r-41':  ['Dimas kurus. Pedang dan perisai berat bukan untuknya.', 'Dimas kurus. Pedang dan perisai berat bukan untuknya.'],
+  'r-42':  ['Dia memilih retiarius: jaring, trisula, tanpa helm.', 'Dia memilih retiarius: jaring, trisula, tanpa helm.'],
+  'r-43':  ['Logika teknik: ringan = cepat, jangkauan jauh = aman.', 'Logika teknik: ringan berarti cepat. Jangkauan jauh berarti aman.'],
+  'r-44':  ['Musuh abadi retiarius: secutor, berhelm bulat tertutup.', 'Musuh abadi retiarius: secutor, berhelm bulat tertutup.'],
+  'r-45':  ['Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak.', 'Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak.'],
+  'r-46':  ['Rencananya sederhana: jangan dilawan, bikin dia lelah.', 'Rencananya sederhana: jangan dilawan, bikin dia lelah.'],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -65,13 +77,13 @@ const ROMA = {
 };
 const SUBURA = { x: 150, y: 44 };            // gang tempat Dimas terbangun
 const WARGA_PETA = ['rm_tukang', 'rm_pedagang', 'rm_warga', 'rm_ibu', 'rm_budak', 'rm_pemuda', 'rm_gadis', 'rm_tua'];
-function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, meter, dimas = false, dimasSprite = 'dimas', jobs = [], extraProps = [] } = {}) {
+function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, meter, dimas = false, dimasSprite = 'dimas', dimasAt = { x: SUBURA.x, y: SUBURA.y + 1 }, jobs = [], extraProps = [] } = {}) {
   return {
     transition, sky: 'map', map: ROMA, noClouds: true, camera: c, clock, meter,
     props: [{ sprite: 'roma_peta', x: 96, y: 54, scale: 0.5, center: true, depth: 1 },
       { id: 'kilat', sprite: 'kilat', x: SUBURA.x, y: SUBURA.y + 1, scale: 0.4, depth: 20, hidden: true },
       { id: 'pin', sprite: 'roma_penanda', x: SUBURA.x, y: SUBURA.y - 3, scale: 0.8, depth: 20, hidden: true }, ...extraProps],
-    actors: dimas ? [{ id: 'dimasP', sprite: dimasSprite, x: SUBURA.x, y: SUBURA.y + 1, scale: 0.26, tag: 'DIMAS', tagColor: UNGU }] : [],
+    actors: dimas ? [{ id: 'dimasP', sprite: dimasSprite, x: dimasAt.x, y: dimasAt.y, scale: 0.26, tag: 'DIMAS', tagColor: UNGU }] : [],
     walkers: { n: 54 - jobs.reduce((t, j) => t + j.n, 0), sprites: WARGA_PETA, scale: 0.22, jobs: [jobs], stay: [[{ act: 'idle', n: 7, x: 112, y: 58, spread: 10 }, { act: 'idle', n: 4, x: 75, y: 23, spread: 4 }, { act: 'idle', n: 3, x: 92, y: 92, spread: 14 }]] },
     steps,
   };
@@ -82,6 +94,7 @@ const JALAN = [{ sprite: 'jalan_batu', x: 96, y: 108, depth: 2.5 }];
 const CAM_DEKAT = VERT ? { x: 96, y: 72, zoom: 1.3 } : { x: 96, y: 71, zoom: 1.4 };
 const r = (id, sprite, x, ex = {}) => ({ id, sprite, x, y: 94, ...ex });
 const LAPAR = (value, ex = {}) => ({ meter: 'LAPAR', value, color: MERAH, ...ex });
+const PELUANG = (value, ex = {}) => ({ meter: 'PELUANG HIDUP', value, color: '#38b764', text: `${Math.round(value * 100)}%`, ...ex });
 
 const STORY = {
   title: 'Andaikan Terlempar ke Roma 50 M',
@@ -608,6 +621,143 @@ const STORY = {
               { at: 'mengangguk', kw: '*SETUJU*', keepKw: true },
             ], { punch: true }),
             { together: [{ hide: 'i1', dur: 300 }, { hide: 'i2', dur: 300 }, { hide: 'i3', dur: 300 }, { hide: 'i4', dur: 300 }, { wait: 600 }] },
+          ],
+        },
+      ],
+    },
+    // ================= BAB 5 — LUDUS & ILMU PERTAMA: FISIKA =================
+    {
+      id: 'bab-5', title: 'Ludus & ilmu fisika',
+      scenes: [
+        // 1) Peta malam: dari amfiteater ke ludus (sekolah gladiator)
+        peta([
+          { tint: 0.35, color: '#29366f', dur: 10 },
+          { together: [{ camera: { x: 97, y: 22, zoom: 2.9 }, dur: 3600, ease: 'Sine.easeInOut' }, { move: 'dimasP', to: 97, dur: 3000 }, { raise: 'dimasP', to: 24, dur: 3000 },
+            { label: 'LUDUS · SEKOLAH GLADIATOR', x: 98, y: 13, bg: GELAP, size: 14, dur: 0 },
+            C('r-37', [{ at: 'pertama', emote: 'dimasP', icon: 'heart', dur: 1200 }, { at: 'kenyang', kw: 'MAKAN *KENYANG*' }, { at: 'kenyang', ...LAPAR(0.15, { text: 'KENYANG' }) }], { only: 'long' }),
+            C('r-37s', [{ at: 0, kw: 'PILIH *SENJATA* APA?' }, { at: 'senjata', sticker: 'shock', at_: [0.75, 0.3] }], { only: 'short' })] },
+          { clearLabels: true },
+        ], { transition: 'clouds', c: { x: 82, y: 28, zoom: 2.5 }, clock: 'HARI 15', meter: LAPAR(1, { text: 'KRITIS' }), dimas: true, dimasSprite: 'dimas_tunik', dimasAt: { x: 82, y: 29 },
+          extraProps: [{ sprite: 'ludus_peta', x: 98, y: 21, scale: 0.5, center: true, depth: 1.5 }] }),
+
+        // 2) Ruang makan ludus (malam): bubur jelai & minuman abu
+        {
+          transition: 'zoom', music: null, sky: 'night', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 15', meter: LAPAR(0.15, { text: 'KENYANG' }),
+          props: [...JALAN,
+            { sprite: 'dinding_ludus', x: 96, y: 94, depth: 2 },
+            { sprite: 'gagang_obor', x: 56, y: 66, depth: 3 }, { sprite: 'api_obor_0', anim: 'api_obor', x: 56, y: 56, depth: 3.1 },
+            { sprite: 'gagang_obor', x: 146, y: 66, depth: 3 }, { sprite: 'api_obor_0', anim: 'api_obor', x: 146, y: 56, depth: 3.1 },
+            { sprite: 'meja_makan', x: 96, y: 101, depth: 9 },
+            { id: 'b1', sprite: 'mangkuk_bubur', x: 72, y: 88, depth: 10 }, { id: 'b2', sprite: 'mangkuk_bubur', x: 86, y: 88, depth: 10 },
+            { id: 'b3', sprite: 'mangkuk_bubur', x: 104, y: 88, depth: 10, hidden: true }, { id: 'b4', sprite: 'mangkuk_bubur', x: 120, y: 88, depth: 10 },
+            { id: 'uap', sprite: 'uap_0', anim: 'uap', x: 104, y: 84, depth: 11, hidden: true },
+            { id: 'cangkir', sprite: 'cangkir_abu', x: 112, y: 88, depth: 10, hidden: true },
+          ],
+          actors: [
+            r('t1', 'rm_budak', 72, { depth: 7, face: 'right' }), r('t2', 'rm_tukang', 86, { depth: 7, face: 'right' }),
+            r('dimas', 'dimas_tunik', 104, { depth: 7, face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }), r('t3', 'rm_pemuda', 120, { depth: 7, face: 'left' }),
+          ],
+          steps: [
+            C('r-38', [
+              { at: 0, pop: 'b3' }, { at: 0, show: 'uap', dur: 300 },
+              { at: 'bubur', label: 'BUBUR JELAI + KACANG', x: 100, y: 68, bg: '#c98a45', size: 15, dur: 0 },
+              { at: 'bubur', jump: 'dimas', times: 3, height: 2 }, { at: 'kacang', jump: 't2', times: 2, height: 2 }, { at: 'kacang', emote: 'dimas', icon: 'heart', dur: 900 },
+              { at: 'julukannya', label: 'HORDEARII = PEMAKAN JELAI', x: 100, y: 56, bg: GELAP, size: 14, dur: 0 },
+              { at: 'pemakan', kw: '*PEMAKAN JELAI*' }, { at: 'pemakan', jump: 't1', times: 2, height: 2 },
+            ]),
+            { clearLabels: true },
+            C('r-39', [
+              { at: 'minumannya', pop: 'cangkir' }, { at: 'minumannya', emote: 'dimas', icon: 'question', dur: 800 },
+              { at: 'abu', label: 'AIR + ABU TANAMAN', x: 112, y: 70, bg: GELAP, size: 15, dur: 0 }, { at: 'abu', kw: 'MINUM *ABU*' },
+              { at: 'tanaman', emote: 'dimas', icon: 'sweat', dur: 1000 }, { at: 'tanaman', shake: 150 },
+              { at: 'tulang', card: 'Studi tulang gladiator', items: ['Efesus, Turki (2014):', 'banyak makan jelai & kacang', 'Kalsium tinggi, diduga', 'dari minuman abu tanaman'], x: 70, y: 58, place: 'left' },
+            ]),
+            { together: [{ clear: true }, { meter: false }] },
+          ],
+        },
+
+        // 3) Halaman ludus: latihan, rak senjata, memilih retiarius
+        {
+          transition: 'cut', music: 'arena', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 16',
+          props: [
+            { sprite: 'serambi_ludus', x: 96, y: 90, depth: 2 },
+            { sprite: 'pasir_arena', x: 96, y: 108, depth: 2.5 },
+            { sprite: 'latih_0', anim: 'latih', x: 34, y: 98, depth: 6 }, { sprite: 'latih_0', anim: 'latih', x: 166, y: 98, depth: 6, flip: true },
+            { id: 'rak', sprite: 'rak_senjata', x: 134, y: 96, depth: 5 },
+            { id: 'scutum', sprite: 'scutum', x: 112, y: 90, depth: 12, hidden: true },
+            { id: 'asap', sprite: 'puff', x: 104, y: 92, scale: 2.4, depth: 13, hidden: true },
+            { id: 'dimasR', sprite: 'gl_dimas_ret', x: 104, y: 97, scale: 0.75, depth: 10, hidden: true },
+          ],
+          actors: [
+            r('varus', 'rm_lanista', 76, { name: 'Varus', tag: 'LANISTA VARUS', tagColor: TEAL }),
+            r('dimas', 'dimas_tunik', 104, { face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-40', [
+              { at: 'pemilik', glow: 'varus', times: 1 },
+              { at: 'bertanya', say: 'varus', text: 'Quae arma?', dur: 1000 }, { at: 'bertanya', label: '(Senjata apa?)', x: 78, y: 58, bg: GELAP, size: 17, dur: 0 },
+              { at: 'senjata', kw: 'PILIH *SENJATA*' }, { at: 'senjata', face: 'dimas', dir: 'right' }, { at: 'senjata', glow: 'rak', times: 2 },
+            ]),
+            { clearLabels: true },
+            C('r-41', [
+              { at: 'kurus', emote: 'dimas', icon: 'sweat', dur: 900 },
+              { at: 'perisai', pop: 'scutum' }, { at: 'berat', encok: 'dimas', dur: 1200 }, { at: 'berat', raise: 'scutum', to: 98, dur: 400 }, { at: 'berat', shake: 200 },
+              { at: 'berat', kw: 'TERLALU *BERAT*' }, { at: 'untuknya', hide: 'scutum', dur: 300 },
+            ]),
+            C('r-42', [
+              { at: 'memilih', pop: 'asap' }, { at: 'memilih', hide: 'dimas', dur: 150 }, { at: 'memilih', show: 'dimasR', dur: 250 },
+              { at: 'retiarius', hide: 'asap', dur: 300 }, { at: 'retiarius', kw: '*RETIARIUS*' },
+              { at: 'jaring', label: 'JARING', x: 92, y: 92, bg: GELAP, size: 14, dur: 0 },
+              { at: 'trisula', label: 'TRISULA', x: 120, y: 72, bg: GELAP, size: 14, dur: 0 },
+              { at: 'helm', label: 'TANPA HELM', x: 104, y: 64, bg: MERAH, size: 14, dur: 0 },
+            ]),
+            { clearLabels: true },
+            C('r-43', [
+              { at: 'ringan', kw: 'RINGAN = *CEPAT*' }, { at: 'ringan', jump: 'dimasR', times: 2, height: 4 },
+              { at: 'cepat', card: 'Logika teknik', items: ['Ringan → gerak cepat', 'Trisula panjang → jangkauan jauh', 'Jarak jauh → lebih aman'], x: 70, y: 56, place: 'left' },
+              { at: 'jangkauan', kw: 'JAUH = *AMAN*' }, { at: 'aman', emote: 'varus', icon: 'question', dur: 1000 },
+            ]),
+            { clear: true },
+          ],
+        },
+
+        // 4) Lawan abadi: secutor & helmnya yang menyesakkan → PELUANG HIDUP 10%
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 16',
+          props: [
+            { sprite: 'serambi_ludus', x: 96, y: 90, depth: 2 },
+            { sprite: 'pasir_arena', x: 96, y: 108, depth: 2.5 },
+            { sprite: 'latih_0', anim: 'latih', x: 34, y: 98, depth: 6 },
+            { id: 'dimasR', sprite: 'gl_dimas_ret', x: VERT ? 84 : 76, y: 97, scale: 0.75, depth: 10 },
+            { id: 'sec', sprite: 'gl_secutor', x: 214, y: 97, scale: 0.75, depth: 10 },
+            { id: 'helmBesar', sprite: 'helm_secutor_besar', x: VERT ? 100 : 104, y: 92, scale: 0.9, depth: 25, hidden: true },
+            { id: 'napas', sprite: 'napas_0', anim: 'napas', x: VERT ? 116 : 120, y: 76, scale: 1.2, depth: 26, hidden: true },
+            { id: 'napas2', sprite: 'napas_0', anim: 'napas', x: 108, y: 84, depth: 26, hidden: true },
+          ],
+          actors: [],
+          steps: [
+            C('r-44', [
+              { at: 0, move: 'sec', to: VERT ? 114 : 126, dur: 1500 },
+              { at: 'secutor', label: 'SECUTOR', x: VERT ? 112 : 126, y: 70, bg: MERAH, size: 15, dur: 0 }, { at: 'secutor', kw: 'LAWAN: *SECUTOR*' },
+              { at: 'berhelm', label: 'HELM BULAT TERTUTUP', x: VERT ? 104 : 126, y: 62, bg: GELAP, size: 13, dur: 0 },
+            ]),
+            { clearLabels: true },
+            C('r-45', [
+              { at: 0, tint: 0.45, color: GELAP, dur: 500 }, { at: 0, pop: 'helmBesar' },
+              { at: 'lubang', label: 'LUBANG MATA KECIL', x: VERT ? 100 : 104, y: 44, bg: MERAH, size: 15, dur: 0 },
+              { at: 'udaranya', show: 'napas', dur: 300 }, { at: 'udaranya', label: 'UDARA SEDIKIT', x: VERT ? 100 : 104, y: 98, bg: GELAP, size: 15, dur: 0 },
+              { at: 'sesak', kw: 'HELM = *SESAK*' }, { at: 'sesak', shake: 200 },
+            ]),
+            { together: [{ clearLabels: true }, { hide: 'helmBesar', dur: 300 }, { hide: 'napas', dur: 300 }, { tint: 0, dur: 400 }] },
+            C('r-46', [
+              { at: 'sederhana', move: 'sec', to: VERT ? 104 : 96, dur: 1000 }, { at: 'sederhana', move: 'dimasR', to: VERT ? 78 : 54, dur: 900 },
+              { at: 'dilawan', label: 'JANGAN DILAWAN', x: VERT ? 84 : 60, y: 66, bg: GELAP, size: 14, dur: 0 },
+              { at: 'bikin', move: 'sec', to: VERT ? 92 : 76, dur: 900 }, { at: 'lelah', show: 'napas2', dur: 300 }, { at: 'bikin', move: 'napas2', to: VERT ? 84 : 68, dur: 10 },
+              { at: 'lelah', label: 'BIKIN LELAH', x: VERT ? 96 : 78, y: 58, bg: MERAH, size: 14, dur: 0 },
+              { at: 'lelah', ...PELUANG(0.1) }, { at: 'lelah', kw: 'PELUANG HIDUP *10%*', keepKw: true },
+              { at: 'lelah', label: 'angka ilustrasi', x: VERT ? 110 : 160, y: 30, bg: GELAP, size: 11, dur: 0 },
+            ], { punch: true }),
+            { wait: 600 },
           ],
         },
       ],
