@@ -55,6 +55,8 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   sri:   { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#257179', R: '#ef7d57', B: '#5d3a1a' } },  // ibu, jilbab teal, daster oranye
   dina:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#1a1c2c', R: '#41a6f6', B: '#29366f' } },  // seragam pabrik biru
   bimo:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#8a8f99' } },  // seragam SMA (putih-abu)
+  yoga:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#5d3a1a', R: '#3b5dc9', B: '#1a1c2c' } },  // penjual HP (kaos biru)
+  juragan:{ body: BOY_BODY, legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#ffcd75', B: '#5d3a1a' } },  // juragan kopi
 });
 
 function buildMapTextures(scene) {
@@ -557,4 +559,50 @@ function buildSpbuTextures(scene) {
     px(0, 20, '#5d606b', 30, 1); px(26, 12, '#29366f', 3, 8);
   });
   mapCanvas(scene, 'motor_top', 11, 8, (ctx, px) => { px(1, 7, 'rgba(0,0,0,0.3)', 10, 1); px(9, 3, '#1a1c2c', 2, 2); px(0, 3, '#1a1c2c', 2, 2); px(2, 2, '#5d3a1a', 7, 4); px(4, 1, '#7d8a4a', 3, 5); px(5, 2, '#8a8f99', 2, 3); });   // menghadap kanan
+}
+
+// ============================================================
+//  BAB 3–7 (seri rupiah-7000): pabrik garmen, kebun kopi, toko HP, umrah
+// ============================================================
+function buildRupiahExtraTextures(scene) {
+  mapCanvas(scene, 'mesin_jahit', 24, 18, (ctx, px) => {
+    px(0, 8, '#7a5a3c', 24, 3); px(2, 11, '#4a3222', 2, 7); px(20, 11, '#4a3222', 2, 7);            // meja
+    px(4, 2, '#1a1c2c', 15, 6); px(5, 3, '#e4e4e4', 13, 4); px(15, 3, '#e43b44', 2, 1);              // badan mesin
+    px(5, 1, '#1a1c2c', 3, 2); px(9, 7, '#8a8f99', 1, 2); px(11, 6, '#41a6f6', 6, 2);               // kain biru
+  });
+  mapCanvas(scene, 'tumpukan_kaus', 16, 12, (ctx, px) => {
+    ['#41a6f6', '#ef7d57', '#f4f4f4', '#38b764', '#ffcd75'].forEach((c, i) => { px(1, 10 - i * 2, '#1a1c2c', 14, 2); px(2, 10 - i * 2, c, 12, 2); });
+  });
+  mapCanvas(scene, 'kaus', 14, 13, (ctx, px) => {
+    px(0, 1, '#1a1c2c', 14, 5); px(3, 1, '#1a1c2c', 8, 12); px(1, 2, '#41a6f6', 12, 3); px(4, 2, '#41a6f6', 6, 10); px(5, 1, '#f4f4f4', 4, 1);
+  });
+  mapCanvas(scene, 'kontainer', 44, 20, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 44, 20); px(1, 1, '#e43b44', 42, 18); for (let x = 3; x < 42; x += 3) px(x, 2, '#b13e53', 1, 16); px(1, 1, '#ef7d57', 42, 1);
+  });
+  mapCanvas(scene, 'es_kopi', 10, 16, (ctx, px) => {
+    px(6, 0, '#1a1c2c', 1, 4); px(1, 3, '#1a1c2c', 8, 1);                                         // sedotan & tutup
+    px(1, 4, '#c2c3c7', 8, 12); px(2, 5, '#8b5a2b', 6, 4); px(2, 9, '#d9b38c', 6, 4); px(2, 13, '#f4e4c1', 6, 2);   // kopi, susu, gula aren
+    px(2, 5, '#a8784a', 1, 8);
+  });
+  mapCanvas(scene, 'karung_kopi', 14, 14, (ctx, px) => {
+    px(2, 2, '#1a1c2c', 10, 12); px(3, 3, '#c9a46a', 8, 10); px(4, 1, '#a8784a', 6, 2); px(5, 6, '#5d3a1a', 4, 4); px(6, 7, '#8b5a2b', 2, 2);
+  });
+  mapCanvas(scene, 'celengan', 16, 12, (ctx, px) => {
+    pxEllipse(px, 8, 6, 7, 5, '#1a1c2c'); pxEllipse(px, 8, 6, 6, 4, '#ff77a8'); px(14, 5, '#ff77a8', 2, 3); px(14, 6, '#b13e53'); px(15, 6, '#b13e53');
+    px(4, 10, '#1a1c2c', 2, 2); px(10, 10, '#1a1c2c', 2, 2); px(6, 1, '#1a1c2c', 4, 1); px(11, 4, '#1a1c2c'); px(3, 3, '#ffd9e6', 3, 1);
+  });
+  mapCanvas(scene, 'brosur_umrah', 14, 18, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 14, 18); px(1, 1, '#f4f4f4', 12, 16); px(1, 1, '#257179', 12, 5);
+    px(3, 3, '#f4f4f4', 8, 1); px(5, 2, '#f4f4f4', 3, 3);                                          // ikon pesawat
+    for (const y of [8, 10, 12]) px(2, y, '#8a8f99', 10, 1); px(2, 14, '#ffcd75', 7, 2);
+  });
+  mapCanvas(scene, 'pintu_tutup', 46, 34, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 46, 34); px(1, 1, '#8a8f99', 44, 33); for (let y = 2; y < 34; y += 3) px(1, y, '#5d606b', 44, 1);
+    px(19, 30, '#1a1c2c', 8, 2);
+  });
+  mapCanvas(scene, 'toko_hp', 60, 44, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 60, 10); px(1, 1, '#3b5dc9', 58, 8); px(4, 3, '#f4f4f4', 52, 4);              // papan nama
+    px(2, 10, '#c9b085', 56, 34); px(2, 10, '#a98f66', 56, 1); px(4, 14, '#9fd4ff', 52, 14); px(4, 14, '#c4eef5', 52, 2);   // dinding & kaca
+    for (let x = 8; x < 56; x += 9) { px(x, 18, '#1a1c2c', 4, 7); px(x + 1, 19, '#41a6f6', 2, 4); }   // HP dipajang
+  });
 }
