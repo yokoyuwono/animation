@@ -12,15 +12,15 @@ mengejar karena **penasaran/heboh** (seperti mengejar selebriti), bukan karena n
 - **Kapten Rani** — pelatih tim bola kota, ingin merekrut Dimas sebagai "pemain langka".
 - **Bu Darmi** — kepala Biro Jodoh Kota, punya daftar antre ribuan nama.
 - **Mbak Wulan** — wartawan TV kota, siaran langsung 24 jam.
-- **Laras** — barista kedai kopi pinggir kota, satu-satunya yang cuek.
+- **Ibu Dimas** — muncul di awal & penutup.
 
 ## Tempat pusat (peta)
 Alun-alun Negeri Sekar (peta tampak atas): balai kota, lab, stadion, biro jodoh, studio TV,
 kedai kopi Laras di pojok. Tiap bab dibuka dari alun-alun.
 
 ## Meteran berjalan (HUD `{ meter }`)
-"SENANG" Dimas: 10% → 100% → 40% → 5% → (akhir) 80%.
-Papan skor akhir bab: **Disukai** vs **Dikenal** (mis. 1.000 : 0 → akhirnya 1.000 : 1).
+"SENANG" Dimas: 10% → 100% → 40% → 0% → (pulang) LEGA 100%.
+Papan skor akhir bab: **Ditolak** vs **Dikejar** (10 : 0 → 10 : 1.000).
 
 ## Bab
 0. **Hook (±10 dtk, kilas maju):** Dimas berlari di alun-alun, dikejar ratusan warga + kamera TV.
@@ -38,11 +38,15 @@ Papan skor akhir bab: **Disukai** vs **Dikenal** (mis. 1.000 : 0 → akhirnya 1.
    puluhan juta tahun → "dunia tanpa jantan itu ada di alam". *Punchline:* "Aku dicari bukan karena ganteng… tapi karena langka."
 5. **Kencan Maraton.** Bu Darmi menjadwalkan 50 "ngopi kenalan" sehari; semua bertanya hal yang sama:
    "Kamu beneran pria?" Tak ada yang tanya hobinya. Meter turun 40%. *Punchline:* "Seratus kencan, nol yang kenal aku."
-6. **Dikejar Satu Kota.** Dimas kabur; kerumunan (`crowd goto`) mengejar seperti konser. Sembunyi di kedai Laras:
-   "Mau pesan apa?" — satu-satunya yang memperlakukannya biasa. Mereka ngobrol soal hobi. Meter naik.
-   *Punchline:* "Di kota penuh perempuan, yang kucari ternyata cuma satu orang yang mau ngobrol biasa."
-7. **Pulang.** Laras: "Kamu tak perlu dikejar seribu orang. Cukup dikenal satu." Dimas tertidur, bangun di kamarnya.
-   Ke kedai kopi dekat rumah, tidak "nembak", cuma ngobrol. Skor akhir Disukai 1.000 : Dikenal 1 → "yang 1 itu paling berharga."
+6. **Tidak Sanggup Lagi (klimaks).** Hari ke-7: jadwal penuh dari subuh sampai malam, kantong mata Dimas makin tebal.
+   Ia kabur; satu kota (`crowd goto`) mengejar sambil membawa kamera, bunga, formulir biro jodoh. Dimas terpojok di
+   menara jam alun-alun, siaran langsung Mbak Wulan menyorotnya — dan ia merengek: "Cukup! Aku mau pulang!
+   Aku kangen ditolak!" Meter SENANG 0%. *Punchline:* "Seminggu lalu aku memohon dikelilingi cewek. Sekarang aku memohon sendirian."
+7. **Permohonan Terakhir.** Bu Ratna menggelar sidang darurat; Dr. Sinta menemukan "pintu pulang": tidur dan berdoa
+   kebalikannya. Dimas berdoa sambil terisak: "Kembalikan aku ke dunia tempat aku ditolak!" Bangun di kamarnya,
+   ada notifikasi "Maaf ya, kita temenan aja" — Dimas malah tersenyum lega. Dunia normal ±101 : 100 terasa damai.
+   Papan akhir: Ditolak 10 · Dikejar 1.000 · Lega 100%. *Twist penutup:* Ibu memanggil, "Dimas! Tante-tante arisan mau
+   kenalan sama kamu!" — Dimas lari lagi. CTA.
 
 ## Fakta (lihat `satu-pria.riset.md`)
 Rasio jenis kelamin (BPS/OWID), partenogenesis komodo (Nature 2006), rotifer bdelloid. Angka cerita = ilustrasi.
