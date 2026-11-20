@@ -20,6 +20,26 @@ const SK = 1;        // aset sudah disamakan ke grid piksel mesin (tokoh tinggi 
 const tokoh = (id, sprite, x, y = 100, extra = {}) => ({ id, sprite, x, y, scale: SK, ...extra });
 const C = (caption, cues = [], extra = {}) => ({ caption, cues, ...extra });
 
+// ---------- perempatan sebagai kode (prop terpisah) ----------
+const perempatanNormal = dx => [
+  { sprite: 'ta_gedung_a', x: 22 + dx, y: 90, depth: 3 }, { sprite: 'ta_gedung_b', x: 172 + dx, y: 90, depth: 3 },
+  { sprite: 'ta_lampu', x: 74 + dx, y: 93, depth: 6 }, { sprite: 'ta_lampu_l', x: 124 + dx, y: 93, depth: 6 },
+  { sprite: 'ta_zebra', x: 99 + dx, y: 107, depth: 4 },
+  { id: 'Amobil1', sprite: 'ta_mobil_merah', x: 40 + dx, y: 107, depth: 11 },
+  { id: 'Amotor', sprite: 'ta_motor_a', x: 150 + dx, y: 104, depth: 10 },
+];
+const perempatanKacau = dx => [
+  { sprite: 'ta_gedung_a_rusak', x: 22 + dx, y: 90, depth: 3 }, { sprite: 'ta_gedung_b_rusak', x: 172 + dx, y: 90, depth: 3 },
+  { id: 'Blampu1', sprite: 'ta_lampu_bengkok', x: 72 + dx, y: 93, depth: 6 }, { sprite: 'ta_lampu_bengkok_l', x: 126 + dx, y: 93, depth: 6 },
+  { sprite: 'ta_retak_jalan', x: 100 + dx, y: 99, depth: 4 },
+  { sprite: 'ta_ambulans', x: 28 + dx, y: 103, depth: 9 },
+  { sprite: 'ta_mobil_hijau', x: 118 + dx, y: 100, depth: 8 }, { sprite: 'ta_mobil_ungu', x: 160 + dx, y: 101, depth: 8, flip: true },
+  { id: 'Bmobil1', sprite: 'ta_mobil_merah', x: 78 + dx, y: 105, depth: 10 },
+  { sprite: 'ta_mobil_biru', x: 52 + dx, y: 109, depth: 12, flip: true },
+  { sprite: 'ta_motor_b', x: 132 + dx, y: 108, depth: 12 }, { sprite: 'ta_motor_c', x: 100 + dx, y: 109, depth: 13, flip: true },
+  { sprite: 'ta_sampah', x: 66 + dx, y: 94, depth: 5 }, { sprite: 'ta_sampah', x: 160 + dx, y: 107, depth: 13 },
+];
+
 const STORY = {
   title: 'Andaikan Kamu Terlempar ke Dunia Tanpa Aturan',
   captionStyle: 'keyword',
@@ -30,20 +50,23 @@ const STORY = {
     {
       id: 'uji-gaya', title: 'Uji gaya: perempatan',
       scenes: [
-        // 2 — perempatan: normal vs tanpa aturan
+        // 2 — perempatan: normal vs tanpa aturan (latar digambar sebagai kode, src/sprites-aturan.js)
         {
-          sky: 'image', split: true, focus: 'right', captionTop: true,
-          bgImage: 'bg_perempatan_normal', bgImageB: 'bg_perempatan_kacau',
+          sky: 'day', road: true, noHills: true, noSun: true, split: true, focus: 'right', captionTop: true,
+          haze: [0, 0.22],
           tags: ['DUNIA NORMAL', 'TANPA ATURAN'], tagColors: ['#38b764', '#b13e53'], clock: 'HARI 1',
           camera: { x: 96, y: 56, zoom: 1 }, cameraB: { x: 192 + 96, y: 56, zoom: 1 },
-          actors: [tokoh('rakaA', 'raka', 56, 99), tokoh('rakaB', 'raka', 192 + 120, 104)],
+          props: [...perempatanNormal(0), ...perempatanKacau(192)],
+          actors: [tokoh('rakaA', 'raka', 88, 93, { depth: 8 }), tokoh('rakaB', 'raka', 192 + 150, 93, { depth: 8 })],
           steps: [
-            { together: [{ move: 'rakaB', to: 192 + 160, speed: 16 }, C('Raka terbangun di jalan yang sama.', [{ at: 'terbangun', kw: 'JALAN *YANG SAMA*' }])] },
-            { together: [{ swap: 'rakaB', to: 'raka_kaget_0', dur: 50 }, { emote: 'rakaB', icon: 'exclaim' },
-              C('Tapi lampu merahnya bengkok, mobil saling serobot.', [{ at: 'bengkok', kw: 'LAMPU MERAH *BENGKOK*' }, { at: 'serobot', shake: 300 }])] },
+            { together: [{ move: 'rakaB', to: 192 + 172, speed: 14 }, C('Raka terbangun di jalan yang sama.', [{ at: 'terbangun', kw: 'JALAN *YANG SAMA*' }])] },
+            { together: [{ swap: 'rakaB', to: 'raka_kaget_0', dur: 50 }, { emote: 'rakaB', icon: 'exclaim' }, { glow: 'Blampu1', times: 3 },
+              C('Tapi lampu merahnya bengkok, mobil saling serobot.', [{ at: 'bengkok', kw: 'LAMPU MERAH *BENGKOK*' },
+                { at: 'serobot', move: 'Bmobil1', to: 192 + 104, speed: 30 }, { at: 'serobot', shake: 300 }])] },
             { dialog: 'rakaB', face: 'face_raka_kaget', name: 'Raka', text: 'Kok nggak ada yang ditilang?', dur: 900 },
             { focus: 'both' },
-            C('Di dunia asalnya, orang masih menunggu lampu hijau.', [{ at: 'menunggu', kw: 'MENUNGGU *LAMPU HIJAU*' }, { at: 'menunggu', emote: 'rakaA', icon: 'note' }]),
+            { together: [{ move: 'Amobil1', to: 140, speed: 24 }, { move: 'Amotor', to: 200, speed: 30 },
+              C('Di dunia asalnya, orang masih menunggu lampu hijau.', [{ at: 'menunggu', kw: 'MENUNGGU *LAMPU HIJAU*' }, { at: 'menunggu', emote: 'rakaA', icon: 'note' }])] },
           ],
         },
       ],
