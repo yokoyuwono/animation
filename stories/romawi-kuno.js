@@ -61,6 +61,51 @@ const SP = {
   'r-44':  ['Musuh abadi retiarius: secutor, berhelm bulat tertutup.', 'Musuh abadi retiarius: secutor, berhelm bulat tertutup.'],
   'r-45':  ['Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak.', 'Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak.'],
   'r-46':  ['Rencananya sederhana: jangan dilawan, bikin dia lelah.', 'Rencananya sederhana: jangan dilawan, bikin dia lelah.'],
+  // Bab 6 — ilmu kedua: analisis data
+  'r-47':  ['Tapi Dimas tahu, rencana tanpa data cuma tebakan.', 'Tapi Dimas tahu, rencana tanpa data cuma tebakan.'],
+  'r-47s': ['Cara orang modern mengalahkan gladiator: pakai data.', 'Cara orang modern mengalahkan gladiator: pakai data.'],
+  'r-48':  ['Tiap hari, dia menonton gladiator lain berlatih.', 'Tiap hari, dia menonton gladiator lain berlatih.'],
+  'r-49':  ['Di papan lilin, dia mencatat seperti analis sepak bola.', 'Di papan lilin, dia mencatat seperti analis sepak bola.'],
+  'r-50':  ['Lawannya diumumkan: Bruno, si Banteng, juara 7 kali.', 'Lawannya diumumkan: Bruno, si Banteng, juara tujuh kali.'],
+  'r-51':  ['Catatan pertama: Bruno selalu menyerbu di awal.', 'Catatan pertama: Bruno selalu menyerbu di awal.'],
+  'r-52':  ['Catatan kedua: setelah 100 hitungan, tangannya turun.', 'Catatan kedua: setelah seratus hitungan, tangannya turun.'],
+  'r-53':  ['Catatan ketiga: dia selalu memutar ke kiri.', 'Catatan ketiga: dia selalu memutar ke kiri.'],
+  'r-54':  ['Lawan yang kuat ternyata bisa ditebak.', 'Lawan yang kuat ternyata bisa ditebak.'],
+  // Bab 7 — ilmu ketiga: penonton
+  'r-55':  ['Satu masalah lagi tersisa: bagaimana kalau dia kalah?', 'Satu masalah lagi tersisa: bagaimana kalau dia kalah?'],
+  'r-55s': ['Di arena Romawi, hidup-mati tidak ditentukan pemenang.', 'Di arena Romawi, hidup-mati tidak ditentukan pemenang.'],
+  'r-56':  ['Yang kalah boleh minta ampun. Penonton ikut memutuskan.', 'Yang kalah boleh minta ampun. Penonton ikut memutuskan.'],
+  'r-57':  ['Dan Claudius suka menyuruh retiarius yang jatuh dibunuh.', 'Dan Claudius suka menyuruh retiarius yang jatuh dibunuh.'],
+  'r-58':  ['Alasannya: dia ingin melihat wajah mereka saat mati.', 'Alasannya: dia ingin melihat wajah mereka saat mati.'],
+  'r-59':  ['Jadi Dimas butuh penonton di pihaknya. Seperti influencer.', 'Jadi Dimas butuh penonton di pihaknya. Seperti influencer.'],
+  'r-60':  ['Dia memberi dirinya julukan: Fulmen, si Petir.', 'Dia memberi dirinya julukan: Fulmen, si Petir.'],
+  'r-61':  ['Dia membuat salam khas, lalu mengajarkannya ke anak pasar.', 'Dia membuat salam khas, lalu mengajarkannya ke anak pasar.'],
+  'r-62':  ['Seminggu kemudian, anak-anak meneriakkan namanya di jalan.', 'Seminggu kemudian, anak-anak meneriakkan namanya di jalan.'],
+  'r-63':  ['Kalau kalah pun, penonton akan membelanya.', 'Kalau kalah pun, penonton akan membelanya.'],
+  // Bab 8 — duel
+  'r-64':  ['Hari pertandingan tiba.', 'Hari pertandingan tiba.'],
+  'r-64s': ['Pemuda kurus melawan juara 7 kali. Siapa menang?', 'Pemuda kurus melawan juara tujuh kali. Siapa menang?'],
+  'r-65':  ['Pintu arena terbuka. Ribuan orang bersorak.', 'Pintu arena terbuka. Ribuan orang bersorak.'],
+  'r-66':  ['Dimas memberi salam khasnya. Sebagian penonton membalas.', 'Dimas memberi salam khasnya. Sebagian penonton membalas.'],
+  'r-67':  ['Bruno menyerbu, persis seperti catatannya.', 'Bruno menyerbu, persis seperti catatannya.'],
+  'r-68':  ['Dimas mundur, memutar ke kanan. Selalu ke kanan.', 'Dimas mundur, memutar ke kanan. Selalu ke kanan.'],
+  'r-69':  ['Dia menghitung dalam hati. 50. 80.', 'Dia menghitung dalam hati. Lima puluh. Delapan puluh.'],
+  'r-70':  ['Di balik helm, Bruno mulai terengah.', 'Di balik helm, Bruno mulai terengah.'],
+  'r-71':  ['100. Tangan Bruno turun.', 'Seratus. Tangan Bruno turun.'],
+  'r-72':  ['Jaring dilempar. Bruno terjerat, lalu jatuh.', 'Jaring dilempar. Bruno terjerat, lalu jatuh.'],
+  'r-73':  ['Trisula Dimas di lehernya. Seluruh arena menunggu.', 'Trisula Dimas di lehernya. Seluruh arena menunggu.'],
+  'r-74':  ['Dimas tidak menusuk. Dia menoleh ke penonton.', 'Dimas tidak menusuk. Dia menoleh ke penonton.'],
+  'r-75':  ['Penonton berteriak: ampuni keduanya!', 'Penonton berteriak: ampuni keduanya!'],
+  'r-76':  ['Dua gladiator keluar hidup-hidup. Penonton puas.', 'Dua gladiator keluar hidup-hidup. Penonton puas.'],
+  'r-77':  ['Hadiah koin dilempar ke pasir. Malam itu, Dimas makan daging.', 'Hadiah koin dilempar ke pasir. Malam itu, Dimas makan daging.'],
+  // Penutup
+  'r-78':  ['Jadi, bisakah orang modern bertahan hidup di Roma kuno?', 'Jadi, bisakah orang modern bertahan hidup di Roma kuno?'],
+  'r-78s': ['Orang modern di Roma kuno, bisa bertahan hidup?', 'Orang modern di Roma kuno, bisa bertahan hidup?'],
+  'r-79':  ['Dimas bisa. Tapi bukan karena otot dari masa depan.', 'Dimas bisa. Tapi bukan karena otot dari masa depan.'],
+  'r-80':  ['Melainkan cara berpikir: data, fisika, dan membaca penonton.', 'Melainkan cara berpikir: data, fisika, dan membaca penonton.'],
+  'r-81':  ['Tapi sumpahnya masih mengikat. Duel berikutnya menunggu.', 'Tapi sumpahnya masih mengikat. Duel berikutnya menunggu.'],
+  'r-82':  ['Kalau kamu terlempar, ilmu apa yang kamu pakai? Tulis di komentar.', 'Kalau kamu terlempar, ilmu apa yang kamu pakai? Tulis di komentar.'],
+  'r-83':  ['Tag temanmu yang bakal langsung menyerah di arena!', 'Tag temanmu yang bakal langsung menyerah di arena!'],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -95,6 +140,23 @@ const CAM_DEKAT = VERT ? { x: 96, y: 72, zoom: 1.3 } : { x: 96, y: 71, zoom: 1.4
 const r = (id, sprite, x, ex = {}) => ({ id, sprite, x, y: 94, ...ex });
 const LAPAR = (value, ex = {}) => ({ meter: 'LAPAR', value, color: MERAH, ...ex });
 const PELUANG = (value, ex = {}) => ({ meter: 'PELUANG HIDUP', value, color: '#38b764', text: `${Math.round(value * 100)}%`, ...ex });
+
+
+// ---------- adegan bersama: halaman ludus & dalam arena ----------
+const HALAMAN = [{ sprite: 'serambi_ludus', x: 96, y: 90, depth: 2 }, { sprite: 'pasir_arena', x: 96, y: 108, depth: 2.5 }];
+const ARENA = [
+  { sprite: 'tribun_0', anim: 'tribun', x: 96, y: 88, depth: 2 },
+  { id: 'kaisar', sprite: 'kaisar_siluet', x: 96, y: 62, scale: 0.9, depth: 2.05 },
+  { sprite: 'velarium', x: 96, y: 26, depth: 2.1 },
+  { sprite: 'pasir_arena', x: 96, y: 108, depth: 2.5 },
+];
+const LUDUS_MALAM = [...[{ sprite: 'jalan_batu', x: 96, y: 108, depth: 2.5 }],
+  { sprite: 'dinding_ludus', x: 96, y: 94, depth: 2 },
+  { sprite: 'gagang_obor', x: 56, y: 66, depth: 3 }, { sprite: 'api_obor_0', anim: 'api_obor', x: 56, y: 56, depth: 3.1 },
+  { sprite: 'gagang_obor', x: 146, y: 66, depth: 3 }, { sprite: 'api_obor_0', anim: 'api_obor', x: 146, y: 56, depth: 3.1 }];
+const LUDUS_PETA = { x: 97, y: 24 };
+const X = v => VERT ? Math.round(96 + (v - 96) * 0.4) : v;   // 9:16: rapatkan posisi aksi ke tengah layar
+const petaLudus = { sprite: 'ludus_peta', x: 98, y: 21, scale: 0.5, center: true, depth: 1.5 };
 
 const STORY = {
   title: 'Andaikan Terlempar ke Roma 50 M',
@@ -766,6 +828,415 @@ const STORY = {
               { at: 'lelah', label: 'angka ilustrasi', x: VERT ? 110 : 160, y: 30, bg: GELAP, size: 11, dur: 0 },
             ], { punch: true, keepKw: true }),
             { wait: 600 },
+          ],
+        },
+      ],
+    },
+    // ================= BAB 6 — ILMU KEDUA: ANALISIS DATA =================
+    {
+      id: 'bab-6', title: 'Ilmu kedua: data',
+      scenes: [
+        // 1) Peta: bulan ke-2 di ludus
+        peta([
+          { together: [{ clock: 'BULAN 2' }, { camera: { x: 97, y: 23, zoom: 3 }, dur: 3800, ease: 'Sine.easeInOut' }, { pop: 'pin' },
+            C('r-47', [{ at: 'rencana', kw: 'TANPA DATA = *TEBAKAN*' }, { at: 'tahu', emote: 'dimasP', icon: 'question', dur: 1100 }], { only: 'long' }),
+            C('r-47s', [{ at: 0, kw: 'MENANG PAKAI *DATA*' }, { at: 'data', sticker: 'cool', at_: [0.75, 0.3] }], { only: 'short' })] },
+        ], { transition: 'clouds', c: { x: 97, y: 24, zoom: 2.2 }, clock: 'BULAN 1', meter: PELUANG(0.1), dimas: true, dimasSprite: 'dimas_tunik', dimasAt: LUDUS_PETA, extraProps: [petaLudus] }),
+
+        // 2) Halaman ludus pagi: menonton latihan & mencatat di papan lilin
+        {
+          transition: 'zoom', music: 'arena', sky: 'dawn', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: X(104) } : CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.1),
+          props: [...HALAMAN,
+            { sprite: 'latih_0', anim: 'latih', x: X(34), y: 98, depth: 6 },
+            { id: 'g1', sprite: 'gl_murmillo', x: X(112), y: 100, scale: 0.8, depth: 10 },
+            { id: 'g2', sprite: 'gl_thraex', x: X(150), y: 100, scale: 0.8, depth: 10, flip: true },
+            { id: 'denting', sprite: 'denting', x: X(131), y: 90, depth: 12, hidden: true },
+            { id: 'papan', sprite: 'papan_lilin', x: X(82), y: 90, scale: 1.2, depth: 12, hidden: true },
+          ],
+          actors: [ r('dimas', 'dimas_duduk', 74, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-48', [
+              { at: 0, move: 'g1', to: 124, dur: 900 }, { at: 0, move: 'g2', to: 140, dur: 900 },
+              { at: 'menonton', kw: '*MENGAMATI*' }, { at: 'menonton', emote: 'dimas', icon: 'question', dur: 900 },
+              { at: 'gladiator', swap: 'g1', to: 'gl_murmillo_serang' }, { at: 'gladiator', pop: 'denting' },
+              { at: 'berlatih', swap: 'g1', to: 'gl_murmillo' }, { at: 'berlatih', swap: 'g2', to: 'gl_thraex_serang' }, { at: 'berlatih', pop: 'denting' },
+            ]),
+            C('r-49', [
+              { at: 0, swap: 'g2', to: 'gl_thraex' }, { at: 0, hide: 'denting', dur: 100 },
+              { at: 'papan', pop: 'papan' }, { at: 'papan', label: 'PAPAN LILIN', x: X(82), y: 72, bg: '#c98a45', size: 14, dur: 0 },
+              { at: 'mencatat', kw: 'CATATAN *LAWAN*' }, { at: 'mencatat', emote: 'dimas', icon: 'note', dur: 1200 },
+              { at: 'analis', label: 'GAYA ANALIS OLAHRAGA', x: X(82), y: 62, bg: GELAP, size: 13, dur: 0 },
+              { at: 'analis', swap: 'g1', to: 'gl_murmillo_serang' }, { at: 'analis', pop: 'denting' }, { at: 'bola', jump: 'g2', times: 1, height: 3 },
+            ]),
+            { wait: 600 },
+            { clear: true },
+          ],
+        },
+
+        // 3) Pengumuman lawan: Bruno "si Banteng", 7 kemenangan
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: X(116) } : CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.1),
+          props: [...HALAMAN,
+            { id: 'dimasR', sprite: 'gl_dimas_ret', x: X(94), y: 97, scale: 0.75, depth: 10 },
+            { id: 'bruno', sprite: 'gl_bruno', x: X(214), y: 98, scale: 0.95, depth: 10 },
+            ...[0, 1, 2, 3, 4, 5, 6].map(i => ({ id: `p${i}`, sprite: 'palma', x: X(116) + i * 7, y: 68, depth: 14, hidden: true })),
+          ],
+          actors: [ r('varus', 'rm_lanista', 70, { name: 'Varus', tag: 'LANISTA VARUS', tagColor: TEAL }) ],
+          steps: [
+            C('r-50', [
+              { at: 0, say: 'varus', text: 'Bruno, Taurus!', dur: 1300, shout: true },
+              { at: 'bruno', move: 'bruno', to: 134, dur: 1300 }, { at: 'bruno', kw: 'BRUNO · *7× MENANG*' },
+              { at: 'banteng', label: 'BRUNO "SI BANTENG"', x: X(134), y: 50, bg: MERAH, size: 15, dur: 0 }, { at: 'banteng', shake: 200 },
+              ...[0, 1, 2, 3, 4, 5, 6].map(i => ({ at: i < 3 ? 'juara' : i < 5 ? 'tujuh' : 'kali', pop: `p${i}` })),
+              { at: 'juara', emote: 'dimasR', icon: 'sweat', dur: 1200 },
+            ]),
+            { together: [{ label: '7 DAUN PALMA = 7 KEMENANGAN', x: X(136), y: 40, bg: GELAP, size: 12, dur: 0 }, { wait: 1500 }] },
+            { clear: true },
+          ],
+        },
+
+        // 4) Mengamati Bruno: 3 catatan di papan lilin
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.1),
+          props: [...HALAMAN,
+            { id: 'bruno', sprite: 'gl_bruno', x: X(112), y: 98, scale: 0.95, depth: 10 },
+            { id: 'g1', sprite: 'gl_murmillo', x: X(160), y: 100, scale: 0.8, depth: 10, flip: true },
+            { id: 'denting', sprite: 'denting', x: X(152), y: 90, depth: 12, hidden: true },
+            { id: 'napas', sprite: 'napas_0', anim: 'napas', x: X(150), y: 80, depth: 13, hidden: true },
+            { id: 'panah', sprite: 'panah_kiri', x: X(128), y: 84, depth: 13, hidden: true },
+            { id: 'papanB', sprite: 'papan_lilin_besar', x: X(96), y: 70, scale: VERT ? 0.62 : 0.72, depth: 20, hidden: true },
+          ],
+          actors: [ r('dimas', 'dimas_duduk', 40, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-51', [
+              { at: 0, kw: 'SELALU *MENYERBU*' },
+              { at: 'bruno', swap: 'bruno', to: 'gl_bruno_serang' }, { at: 'bruno', move: 'bruno', to: 146, dur: 700 },
+              { at: 'menyerbu', pop: 'denting' }, { at: 'menyerbu', shake: 220 }, { at: 'menyerbu', jump: 'g1', times: 1, height: 4 },
+              { at: 'awal', pop: 'papanB' }, { at: 'pertama', emote: 'dimas', icon: 'note', dur: 900 },
+            ]),
+            { together: [{ label: '1. MENYERBU DI AWAL', x: X(96), y: 38, bg: '#4a3b28', size: 15, dur: 0 }, { hide: 'denting', dur: 100 }, { swap: 'bruno', to: 'gl_bruno' }, { wait: 900 }] },
+            C('r-52', [
+              { at: 0, kw: '± *100 HITUNGAN*' },
+              { at: 'setelah', label: '2. ±100 HITUNGAN: LENGAN TURUN', x: X(96), y: 48, bg: '#4a3b28', size: 15, dur: 0 },
+              { at: 'tangannya', show: 'napas', dur: 300 }, { at: 'tangannya', emote: 'bruno', icon: 'sweat', dur: 1100 },
+            ]),
+            C('r-53', [
+              { at: 0, kw: 'PUTAR *KIRI*' }, { at: 0, hide: 'napas', dur: 200 },
+              { at: 'ketiga', label: '3. SELALU PUTAR KE KIRI', x: X(96), y: 58, bg: '#4a3b28', size: 15, dur: 0 },
+              { at: 'memutar', pop: 'panah' }, { at: 'memutar', move: 'bruno', to: 118, dur: 900 },
+            ]),
+            { wait: 900 },
+            C('r-54', [
+              { at: 0, kw: 'PELUANG HIDUP *35%*' }, { at: 'ternyata', ...PELUANG(0.35) },
+              { at: 'ditebak', jump: 'dimas', times: 2, height: 2 }, { at: 'kuat', emote: 'dimas', icon: 'exclaim', dur: 900 },
+            ], { punch: true, keepKw: true }),
+            { wait: 500 },
+          ],
+        },
+      ],
+    },
+
+    // ================= BAB 7 — ILMU KETIGA: PENONTON =================
+    {
+      id: 'bab-7', title: 'Ilmu ketiga: penonton',
+      scenes: [
+        // 1) Peta: amfiteater — siapa yang memutuskan hidup-mati?
+        peta([
+          { together: [{ camera: { x: 76, y: 22, zoom: 2.8 }, dur: 4000, ease: 'Sine.easeInOut' }, { move: 'dimasP', to: 84, dur: 3000 }, { raise: 'dimasP', to: 28, dur: 3000 },
+            C('r-55', [{ at: 'satu', kw: 'KALAU *KALAH*?' }, { at: 'kalah', emote: 'dimasP', icon: 'sweat', dur: 1000 }], { only: 'long' }),
+            C('r-55s', [{ at: 0, kw: 'BUKAN *PEMENANG* YANG MENENTUKAN' }, { at: 'pemenang', sticker: 'sus', at_: [0.75, 0.3] }], { only: 'short' })] },
+        ], { transition: 'clouds', c: { x: 97, y: 24, zoom: 2.4 }, clock: 'BULAN 2', meter: PELUANG(0.35), dimas: true, dimasSprite: 'dimas_tunik', dimasAt: LUDUS_PETA, extraProps: [petaLudus] }),
+
+        // 2) Arena: missio (minta ampun), kaisar Claudius & retiarius tanpa helm
+        {
+          transition: 'zoom', music: 'arena', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.35),
+          props: [...ARENA,
+            { id: 'sec', sprite: 'gl_secutor', x: X(112), y: 102, depth: 10, flip: true },
+            { id: 'ret', sprite: 'ret_berlutut', x: X(86), y: 102, depth: 10 },
+          ],
+          actors: [],
+          steps: [
+            C('r-56', [
+              { at: 0, kw: '*AMPUN*?' }, { at: 'kalah', emote: 'ret', icon: 'exclaim', dur: 900 },
+              { at: 'ampun', label: 'JARI DIANGKAT = MINTA AMPUN', x: X(86), y: 74, bg: GELAP, size: 13, dur: 0 },
+              { at: 'penonton', camera: { x: X(96), y: 62, zoom: 1.6 }, dur: 1000 },
+            ]),
+            { together: [{ card: 'Missio (ampunan)', items: ['Yang kalah boleh minta ampun', 'Penyelenggara memutuskan,', 'sering mengikuti teriakan penonton'], x: X(96), y: 44 }, { wait: 4000 }] },
+            { clear: true },
+            C('r-57', [
+              { at: 0, camera: { x: X(96), y: 56, zoom: 3 }, dur: 1000 },
+              { at: 'claudius', glow: 'kaisar', times: 2 }, { at: 'claudius', kw: 'KAISAR *KEJAM*' },
+              { at: 'claudius', label: 'KAISAR CLAUDIUS', x: X(96), y: 44, bg: UNGU, size: 14, dur: 0 },
+              { at: 'dibunuh', shake: 250 }, { at: 'menyuruh', label: 'Suetonius, Claudius 34', x: X(96), y: 68, bg: GELAP, size: 11, dur: 0 },
+            ]),
+            { clearLabels: true },
+            C('r-58', [
+              { at: 0, camera: { x: X(88), y: 88, zoom: 3 }, dur: 1000 }, { at: 0, kw: 'TANPA HELM = *WAJAH TERLIHAT*' },
+              { at: 'wajah', label: 'TANPA HELM', x: X(86), y: 76, bg: MERAH, size: 14, dur: 0 }, { at: 'mati', emote: 'ret', icon: 'sweat', dur: 1000 },
+            ]),
+            { wait: 600 },
+            { clear: true },
+          ],
+        },
+
+        // 3) Malam di ludus: butuh penonton → julukan "Fulmen"
+        {
+          transition: 'cut', music: null, sky: 'night', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.35),
+          props: [...LUDUS_MALAM, { id: 'kilat', sprite: 'kilat', x: X(116), y: 94, depth: 14, hidden: true }],
+          actors: [ r('dimas', 'dimas_tunik', 96, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-59', [
+              { at: 0, emote: 'dimas', icon: 'question', dur: 1000 }, { at: 'butuh', kw: 'JADI *INFLUENCER*' },
+              { at: 'penonton', label: 'BUTUH FANS', x: X(96), y: 66, bg: GELAP, size: 15, dur: 0 },
+              { at: 'influencer', sticker: 'cool', at_: [0.72, 0.3] },
+            ]),
+            { clearLabels: true },
+            C('r-60', [
+              { at: 'julukan', kw: '*FULMEN* · SI PETIR' },
+              { at: 'fulmen', pop: 'kilat' }, { at: 'fulmen', restoreColor: true }, { at: 'fulmen', shake: 300 },
+              { at: 'fulmen', label: 'FULMEN = PETIR (LATIN)', x: X(96), y: 60, bg: EMAS, size: 15, dur: 0 },
+              { at: 'petir', swap: 'dimas', to: 'dimas_salam_0' }, { at: 'petir', jump: 'dimas', times: 1, height: 3 },
+            ]),
+            { wait: 600 },
+          ],
+        },
+
+        // 4) Pasar: salam khas diajarkan ke anak-anak
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: X(104) } : CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.35),
+          props: [...JALAN,
+            { sprite: 'insula_c', x: X(40), y: 88, depth: 3 }, { sprite: 'insula_a', x: X(156), y: 88, depth: 3 },
+            { sprite: 'siprus_samping', x: X(98), y: 60, depth: 2.2 }, { sprite: 'kuil_jauh', x: X(98), y: 87, scale: 0.6, depth: 2.3 },
+            { sprite: 'lapak_buah', x: X(150), y: 96, depth: 8 },
+          ],
+          actors: [
+            r('dimas', 'dimas_tunik', 86, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+            r('a1', 'rm_anak', 108, { face: 'left', scale: 0.75 }), r('a2', 'rm_anak2', 118, { face: 'left', scale: 0.75 }),
+          ],
+          steps: [
+            C('r-61', [
+              { at: 'salam', kw: 'SALAM *KHAS*' }, { at: 'salam', swap: 'dimas', to: 'dimas_salam_0' }, { at: 'salam', jump: 'dimas', times: 1, height: 3 },
+              { at: 'salam', label: 'SALAM "FULMEN"', x: X(86), y: 64, bg: EMAS, size: 14, dur: 0 },
+              { at: 'mengajarkannya', swap: 'dimas', to: 'dimas_tunik_0' },
+              { at: 'anak', swap: 'a1', to: 'rm_anak_salam_0' }, { at: 'anak', jump: 'a1', times: 2, height: 2 },
+              { at: 'pasar', swap: 'a2', to: 'rm_anak2_salam_0' }, { at: 'pasar', jump: 'a2', times: 2, height: 2 },
+            ]),
+            { wait: 600 },
+            { clearLabels: true },
+          ],
+        },
+
+        // 5) Seminggu kemudian: anak-anak meneriakkan "FUL-MEN!", coretan di dinding
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: X(100) } : CAM_DEKAT, clock: 'BULAN 2', meter: PELUANG(0.35),
+          props: [...JALAN,
+            { sprite: 'insula_b', x: X(36), y: 88, depth: 3 }, { sprite: 'insula_c', x: X(160), y: 88, depth: 3 },
+            { id: 'grafiti', sprite: 'grafiti_fulmen', x: X(98), y: 86, depth: 3.5, hidden: true },
+            { sprite: 'amfora', x: X(70), y: 89, depth: 4 },
+          ],
+          actors: [
+            r('a1', 'rm_anak_salam', -20, { scale: 0.75 }), r('a2', 'rm_anak2_salam', -32, { scale: 0.75 }),
+            r('a3', 'rm_anak', 220, { face: 'left', scale: 0.75 }), r('a4', 'rm_anak2', 232, { face: 'left', scale: 0.75 }),
+            r('dimas', 'dimas_tunik', 130, { face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-62', [
+              { at: 0, label: 'SEMINGGU KEMUDIAN', x: X(96), y: 40, bg: GELAP, size: 14, dur: 0 },
+              { at: 'anak-anak', kw: '"*FUL-MEN!*"' },
+              { at: 'anak-anak', enter: 'a1', from: 'left', to: 220, speed: 40 }, { at: 'anak-anak', enter: 'a2', from: 'left', to: 230, speed: 36 },
+              { at: 'meneriakkan', say: 'a1', text: 'FUL-MEN!', dur: 1200, shout: true },
+              { at: 'namanya', enter: 'a3', from: 'right', to: -20, speed: 38 }, { at: 'namanya', say: 'a3', text: 'FUL-MEN!', dur: 1100 },
+              { at: 'jalan', pop: 'grafiti' }, { at: 'jalan', emote: 'dimas', icon: 'heart', dur: 1100 },
+            ]),
+            { together: [{ label: 'CORETAN DINDING SEPERTI DI POMPEII', x: X(98), y: 56, bg: GELAP, size: 12, dur: 0 }, { enter: 'a4', from: 'right', to: -20, speed: 40 }, { wait: 1300 }] },
+            { clearLabels: true },
+            C('r-63', [
+              { at: 0, kw: 'PELUANG HIDUP *55%*' }, { at: 'penonton', ...PELUANG(0.55) },
+              { at: 'membelanya', swap: 'dimas', to: 'dimas_salam_0' }, { at: 'membelanya', jump: 'dimas', times: 1, height: 3 },
+            ], { punch: true, keepKw: true }),
+            { wait: 500 },
+          ],
+        },
+      ],
+    },
+
+    // ================= BAB 8 — DUEL =================
+    {
+      id: 'bab-8', title: 'Duel',
+      scenes: [
+        // 1) Peta: bulan ke-3, kota kembali mengalir ke amfiteater
+        peta([
+          { together: [{ clock: 'BULAN 3' }, { crowd: 'goto', x: 75, y: 24, spread: 9, frac: 0.85, rush: 1.6 }, { camera: { x: 80, y: 24, zoom: 2.6 }, dur: 3600, ease: 'Sine.easeInOut' },
+            { move: 'dimasP', to: 80, dur: 3000 }, { raise: 'dimasP', to: 28, dur: 3000 },
+            C('r-64', [{ at: 0, kw: 'HARI *PERTANDINGAN*' }], { only: 'long' }),
+            C('r-64s', [{ at: 0, kw: 'KURUS VS *JUARA 7×*' }, { at: 'menang', sticker: 'shock', at_: [0.75, 0.3] }], { only: 'short' })] },
+          { wait: 700 },
+        ], { transition: 'clouds', c: { x: 97, y: 24, zoom: 2.4 }, clock: 'BULAN 2', meter: PELUANG(0.55), dimas: true, dimasSprite: 'dimas_tunik', dimasAt: LUDUS_PETA, extraProps: [petaLudus] }),
+
+        // 2) Duel di arena
+        {
+          transition: 'zoom', music: 'arena', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 3', meter: PELUANG(0.55),
+          props: [...ARENA,
+            { sprite: 'gerbang_arena', x: X(14), y: 92, depth: 2.6 }, { sprite: 'gerbang_arena', x: X(178), y: 92, depth: 2.6 },
+            { id: 'dimasR', sprite: 'gl_dimas_ret', x: X(14), y: 102, depth: 10, hidden: true },
+            { id: 'bruno', sprite: 'gl_bruno', x: X(178), y: 102, scale: 1.1, depth: 10, flip: true, hidden: true },
+            { id: 'brunoT', sprite: 'bruno_terjerat', x: X(100), y: 103, scale: 1.1, depth: 10, hidden: true },
+            { id: 'jaring', sprite: 'jaring_terbang', x: X(80), y: 88, depth: 12, hidden: true },
+            { id: 'napas', sprite: 'napas_0', anim: 'napas', x: X(100), y: 80, scale: 1.2, depth: 13, hidden: true },
+            { id: 'panah', sprite: 'panah_kanan', x: X(70), y: 74, depth: 13, hidden: true },
+            { id: 'denting', sprite: 'denting', x: X(92), y: 88, depth: 12, hidden: true },
+            { id: 'k1', sprite: 'koin_serak', x: X(60), y: 104, depth: 9, hidden: true }, { id: 'k2', sprite: 'koin_serak', x: X(100), y: 106, depth: 9, hidden: true }, { id: 'k3', sprite: 'koin_serak', x: X(140), y: 104, depth: 9, hidden: true },
+          ],
+          actors: [],
+          steps: [
+            C('r-65', [
+              { at: 0, kw: '*ARENA*' }, { at: 0, show: 'dimasR', dur: 300 }, { at: 0, move: 'dimasR', to: 60, dur: 1500 },
+              { at: 0, show: 'bruno', dur: 300 }, { at: 0, move: 'bruno', to: 132, dur: 1500 },
+              { at: 'ribuan', label: 'RIBUAN PENONTON', x: X(150), y: 44, bg: GELAP, size: 14, dur: 0 }, { at: 'bersorak', shake: 200 },
+            ]),
+            { clearLabels: true },
+            C('r-66', [
+              { at: 'salam', jump: 'dimasR', times: 2, height: 4 }, { at: 'salam', kw: '"*FUL-MEN!*"' },
+              { at: 'sebagian', label: 'FUL-MEN!', x: X(40), y: 52, bg: EMAS, size: 14, dur: 0 },
+              { at: 'penonton', label: 'FUL-MEN!', x: X(150), y: 46, bg: EMAS, size: 14, dur: 0 },
+              { at: 'membalas', label: 'FUL-MEN!', x: X(70), y: 40, bg: EMAS, size: 14, dur: 0 },
+            ]),
+            { wait: 700 },
+            { clearLabels: true },
+            C('r-67', [
+              { at: 0, kw: 'BRUNO *MENYERBU*' }, { at: 0, swap: 'bruno', to: 'gl_bruno_serang' }, { at: 0, move: 'bruno', to: 78, dur: 1100 },
+              { at: 'menyerbu', raise: 'dimasR', to: 94, dur: 500 }, { at: 'menyerbu', move: 'dimasR', to: 96, dur: 700 },
+              { at: 'persis', label: 'CATATAN 1: BENAR', x: X(96), y: 60, bg: '#38b764', size: 14, dur: 0 },
+            ]),
+            { together: [{ face: 'bruno', dir: 'right' }, { face: 'dimasR', dir: 'left' }, { raise: 'dimasR', to: 102, dur: 400 }, { swap: 'bruno', to: 'gl_bruno' }, { wait: 400 }] },
+            { clearLabels: true },
+            C('r-68', [
+              { at: 0, kw: 'PUTAR *KANAN*' }, { at: 0, pop: 'panah' },
+              { at: 'mundur', move: 'dimasR', to: 124, dur: 900 }, { at: 'mundur', move: 'bruno', to: 100, dur: 1100 },
+              { at: 'selalu', raise: 'dimasR', to: 95, dur: 400 }, { at: 'selalu', move: 'dimasR', to: 150, dur: 900 },
+              { at: 'kanan.', label: 'BRUNO SELALU KE KIRI', x: X(110), y: 60, bg: GELAP, size: 13, dur: 0 },
+            ]),
+            { together: [{ hide: 'panah', dur: 200 }, { raise: 'dimasR', to: 102, dur: 300 }, { face: 'dimasR', dir: 'left' }, { wait: 300 }] },
+            { clearLabels: true },
+            C('r-69', [
+              { at: 'menghitung', kw: 'MENGHITUNG…' }, { at: 'menghitung', move: 'bruno', to: 128, dur: 1400 },
+              { at: 'hati', kw: '*50*…' }, { at: 'lima', move: 'dimasR', to: 160, dur: 700 },
+              { at: 'delapan', kw: '*50*… *80*…' }, { at: 'delapan', move: 'bruno', to: 140, dur: 900 },
+            ], { keepKw: true }),
+            { together: [{ face: 'dimasR', dir: 'left' }, { wait: 300 }] },
+            C('r-70', [
+              { at: 'helm', move: 'napas', to: 146, dur: 10 }, { at: 'helm', show: 'napas', dur: 300 },
+              { at: 'bruno', kw: 'BRUNO *TERENGAH*' }, { at: 'terengah', emote: 'bruno', icon: 'sweat', dur: 1200 },
+              { at: 0, camera: { x: X(146), y: 84, zoom: 2.2 }, dur: 900 },
+            ]),
+            C('r-71', [
+              { at: 0, kw: '*100*!' }, { at: 0, shake: 250 }, { at: 0, sfx: 'tick' },
+              { at: 'tangan', raise: 'bruno', to: 104, dur: 600 },
+              { at: 'tangan', label: 'TANGAN TURUN', x: X(146), y: 72, bg: MERAH, size: 14, dur: 0 },
+            ], { keepKw: true }),
+            { wait: 500 },
+            { together: [{ clearLabels: true }, { camera: CAM_DEKAT, dur: 700 }, { hide: 'napas', dur: 300 }] },
+            C('r-72', [
+              { at: 0, kw: '*TERJERAT*!' },
+              { at: 0, move: 'jaring', to: 150, dur: 10 }, { at: 0, raise: 'jaring', to: 80, dur: 10 }, { at: 0, show: 'jaring', dur: 100 },
+              { at: 'dilempar', move: 'jaring', to: 140, dur: 600 }, { at: 'dilempar', raise: 'jaring', to: 96, dur: 600 },
+              { at: 'terjerat', hide: 'bruno', dur: 100 }, { at: 'terjerat', move: 'brunoT', to: 138, dur: 10 }, { at: 'terjerat', show: 'brunoT', dur: 200 },
+              { at: 'terjerat', hide: 'jaring', dur: 200 }, { at: 'jatuh', shake: 350 },
+            ], { keepKw: true }),
+            C('r-73', [
+              { at: 0, move: 'dimasR', to: 158, dur: 500 }, { at: 'trisula', swap: 'dimasR', to: 'gl_dimas_ret_serang' },
+              { at: 'trisula', kw: 'TUNGGU…' },
+              { at: 'seluruh', tint: 0.45, color: GELAP, dur: 700 }, { at: 'seluruh', camera: { x: X(146), y: 88, zoom: 2.4 }, dur: 1200 },
+            ], { keepKw: true }),
+            C('r-74', [
+              { at: 'menusuk', swap: 'dimasR', to: 'gl_dimas_ret' }, { at: 0, kw: 'TIDAK *MENUSUK*' },
+              { at: 'menoleh', camera: { x: X(96), y: 58, zoom: 1.6 }, dur: 1000 }, { at: 'menoleh', face: 'dimasR', dir: 'right' },
+            ]),
+            C('r-75', [
+              { at: 0, tint: 0, dur: 400 }, { at: 0, kw: '*AMPUNI*!' },
+              { at: 0, label: 'AMPUNI!', x: X(44), y: 52, bg: '#38b764', size: 15, dur: 0 },
+              { at: 'berteriak', label: 'AMPUNI!', x: X(150), y: 44, bg: '#38b764', size: 15, dur: 0 },
+              { at: 'ampuni', label: 'AMPUNI!', x: X(96), y: 40, bg: '#38b764', size: 15, dur: 0 }, { at: 'ampuni', shake: 200 },
+            ]),
+            { together: [{ wait: 700 }, { glow: 'kaisar', times: 2 }] },
+            { together: [{ clearLabels: true }, { camera: CAM_DEKAT, dur: 700 }] },
+            C('r-76', [
+              { at: 0, hide: 'brunoT', dur: 200 }, { at: 0, swap: 'bruno', to: 'gl_bruno' }, { at: 0, move: 'bruno', to: 132, dur: 10 }, { at: 0, raise: 'bruno', to: 102, dur: 10 }, { at: 0, show: 'bruno', dur: 300 },
+              { at: 'gladiator', kw: 'KEDUANYA *HIDUP*' },
+              { at: 'keluar', move: 'dimasR', to: 14, dur: 1800 }, { at: 'keluar', move: 'bruno', to: 178, dur: 1800 },
+              { at: 'hidup-hidup', stamp: 'MISSIO', color: '#38b764', at_: [0.5, 0.34] },
+              { at: 'penonton', label: 'Banyak duel tidak berakhir mati', x: X(96), y: 60, bg: GELAP, size: 12, dur: 0 },
+            ]),
+            { wait: 500 },
+          ],
+        },
+
+        // 3) Malam di ludus: koin hadiah & daging → PELUANG HIDUP 100%
+        {
+          transition: 'cut', music: null, sky: 'night', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 3', meter: PELUANG(0.55),
+          props: [...LUDUS_MALAM,
+            { sprite: 'meja_makan', x: X(96), y: 101, depth: 9 },
+            { id: 'koin', sprite: 'koin_serak', x: X(82), y: 88, scale: 1.3, depth: 10, hidden: true },
+            { id: 'daging', sprite: 'daging', x: X(106), y: 88, scale: 1.3, depth: 10, hidden: true },
+            { id: 'uap', sprite: 'uap_0', anim: 'uap', x: X(106), y: 82, depth: 11, hidden: true },
+          ],
+          actors: [ r('t1', 'rm_budak', 74, { depth: 7, face: 'right' }), r('dimas', 'dimas_tunik', 104, { depth: 7, face: 'left', name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }), r('t2', 'rm_pemuda', 122, { depth: 7, face: 'left' }) ],
+          steps: [
+            C('r-77', [
+              { at: 0, kw: 'PELUANG HIDUP *100%*' },
+              { at: 'koin', pop: 'koin' }, { at: 'koin', sfx: 'kaching' },
+              { at: 'malam', pop: 'daging' }, { at: 'malam', show: 'uap', dur: 300 }, { at: 'daging', ...PELUANG(1) },
+              { at: 'makan', jump: 'dimas', times: 3, height: 2 }, { at: 'makan', emote: 'dimas', icon: 'heart', dur: 1200 },
+            ], { punch: true, keepKw: true }),
+            { together: [{ label: 'angka ilustrasi', x: X(160), y: 30, bg: GELAP, size: 11, dur: 0 }, { jump: 't1', times: 2, height: 2 }, { wait: 1200 }] },
+          ],
+        },
+      ],
+    },
+
+    // ================= PENUTUP =================
+    {
+      id: 'penutup', title: 'Penutup',
+      scenes: [
+        // 1) Peta senja: dari ludus, kamera menjauh ke seluruh Roma
+        peta([
+          { tint: 0.25, color: '#ef7d57', dur: 10 },
+          { together: [{ camera: { x: 96, y: 54, zoom: 1.05 }, dur: 5200, ease: 'Sine.easeInOut' },
+            C('r-78', [{ at: 0, kw: 'BISA *BERTAHAN HIDUP*?' }], { only: 'long' }),
+            C('r-78s', [{ at: 0, kw: 'BISA *BERTAHAN HIDUP*?' }, { at: 'hidup', sticker: 'sus', at_: [0.75, 0.3] }], { only: 'short' })] },
+          C('r-79', [{ at: 'tapi', kw: 'BUKAN *OTOT*' }, { at: 'dimas', emote: 'dimasP', icon: 'heart', dur: 1000 }]),
+        ], { transition: 'clouds', c: { x: 97, y: 24, zoom: 3 }, clock: 'BULAN 3', meter: PELUANG(1), dimas: true, dimasSprite: 'dimas_tunik', dimasAt: LUDUS_PETA, extraProps: [petaLudus] }),
+
+        // 2) Halaman ludus: tiga ilmu, kutipan, cliffhanger
+        {
+          transition: 'zoom', music: 'arena', sky: 'sunset', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'BULAN 3', meter: PELUANG(1),
+          props: [...HALAMAN,
+            { id: 'dimasR', sprite: 'gl_dimas_ret', x: X(96), y: 100, depth: 10 },
+            { id: 'i1', sprite: 'papan_lilin', x: VERT ? 80 : 60, y: 72, scale: 2.4, depth: 14, hidden: true },
+            { id: 'i2', sprite: 'helm_secutor_besar', x: X(96), y: 74, scale: 0.42, depth: 14, hidden: true },
+            { id: 'i3', sprite: 'palma', x: VERT ? 112 : 132, y: 74, scale: 1.4, depth: 14, hidden: true },
+            { id: 'lawan', sprite: 'gl_siluet', x: X(150), y: 102, scale: 1.7, depth: 9, hidden: true },
+          ],
+          actors: [],
+          steps: [
+            C('r-80', [
+              { at: 'melainkan', kw: 'DATA · FISIKA · *PENONTON*' },
+              { at: 'data', pop: 'i1' }, { at: 'data', label: 'DATA', x: VERT ? 80 : 60, y: 46, bg: GELAP, size: 14, dur: 0 },
+              { at: 'fisika', pop: 'i2' }, { at: 'fisika', label: 'FISIKA', x: X(96), y: 46, bg: GELAP, size: 14, dur: 0 },
+              { at: 'membaca', pop: 'i3' }, { at: 'membaca', label: 'PENONTON', x: VERT ? 112 : 132, y: 46, bg: GELAP, size: 14, dur: 0 },
+            ], { keepKw: true }),
+            { wait: 900 },
+            { together: [{ clear: true }, { hide: 'i1', dur: 200 }, { hide: 'i2', dur: 200 }, { hide: 'i3', dur: 200 }] },
+            { quote: 'Bukan otot, tapi cara berpikir.', sub: 'PELUANG HIDUP: 100% (ilustrasi)', dur: 2400 },
+            C('r-81', [
+              { at: 0, tint: 0.5, color: GELAP, dur: 800 }, { at: 'sumpahnya', kw: 'SUMPAH *MASIH MENGIKAT*' },
+              { at: 'duel', pop: 'lawan' }, { at: 'duel', shake: 300 }, { at: 'duel', kw: 'DUEL *BERIKUTNYA*…' },
+              { at: 'menunggu', emote: 'dimasR', icon: 'exclaim', dur: 1100 },
+            ], { keepKw: true }),
+            { wait: 600 },
+            C('r-82', [{ at: 0, kw: 'ILMU APA YANG *KAMU* PAKAI?' }, { at: 'komentar', sticker: 'smirk', at_: [0.75, 0.3] }], { only: 'long', keepKw: true }),
+            C('r-83', [{ at: 0, kw: 'TAG *TEMANMU*!' }, { at: 'menyerah', sticker: 'party', at_: [0.75, 0.3] }], { only: 'short', keepKw: true }),
+            { wait: 900 },
           ],
         },
       ],

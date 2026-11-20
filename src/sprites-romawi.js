@@ -19,6 +19,20 @@ const TUNIC_LEGS = [
   ['..KRRRRRRK..', '..KSK..KSK..', '..KTK..KTK..'],   // jalan A
   ['...KRRRRK...', '....KSSK....', '....KTTK....'],   // jalan B
 ];
+const SALAM_BODY = [
+  '....KKKK..K.',
+  '...KHHHHKKSK',
+  '..KHHHHHHKSK',
+  '..KSSSSSSKSK',
+  '..KSKSSKSKSK',
+  '..KSSSSSSKSK',
+  '...KSSSSKKSK',
+  '..KRRRRRRRSK',
+  '.KSRRRRRRRK.',
+  '.KSRRRRRRK..',
+  '..KBBBBBBK..',
+  '..KRRRRRRK..',
+];
 const TOGA_BODY = [...ROMA_HEAD,
   '..KWWWWWWK..',
   '.KSWwWWWWWK.',
@@ -57,6 +71,12 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   rm_lanista:  { body: [...ROMA_HEAD, '.KRRRRRRRRK.', 'KSRRRRRRRRSK', 'KSRRRRRRRRSK', '.KBBBBBBBBK.', '.KRRRRRRRRK.'],
                  legs: [['.KRRRRRRRRK.', '...KSKKSK...', '...KTKKTK...'], ['.KRRRRRRRRK.', '..KSK..KSK..', '..KTK..KTK..'], ['..KRRRRRRK..', '....KSSK....', '....KTTK....']],
                  colors: { H: '#8a8a8a', R: '#7a2a3a', B: '#c9a24a', T: '#3b2a1a' } },
+  // salam khas "Fulmen": kepalan tangan terangkat
+  dimas_salam: { body: SALAM_BODY, legs: TUNIC_LEGS, colors: { H: '#1a1c2c', R: '#a08a68', B: '#5d3a1a', T: '#5d3a1a' } },
+  rm_anak:     { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#5d3a1a', R: '#d9b36c', B: '#8b5a2b', T: '#5d3a1a' } },
+  rm_anak2:    { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#1a1c2c', R: '#7a8f5a', B: '#5d3a1a', T: '#5d3a1a' } },
+  rm_anak_salam:  { body: SALAM_BODY, legs: TUNIC_LEGS, colors: { H: '#5d3a1a', R: '#d9b36c', B: '#8b5a2b', T: '#5d3a1a' } },
+  rm_anak2_salam: { body: SALAM_BODY, legs: TUNIC_LEGS, colors: { H: '#1a1c2c', R: '#7a8f5a', B: '#5d3a1a', T: '#5d3a1a' } },
   dimas_tunik: { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#1a1c2c', R: '#a08a68', B: '#5d3a1a', T: '#5d3a1a' } },
   rm_tukang:   { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#5d3a1a', R: '#b5523b', B: '#5d3a1a', T: '#5d3a1a' } },   // tunik merah bata
   rm_pedagang: { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#c2c3c7', R: '#d9b36c', B: '#8b5a2b', T: '#5d3a1a' } },   // tunik kuning tanah
@@ -422,7 +442,7 @@ function buildRomawiTextures(scene) {
   // =====================================================================
   // gladiator (tampak samping, menghadap kanan). pose 'siaga' / 'serang'. 22×22
   const gladiator = (key, o, pose) => mapCanvas(scene, key, 22, 25, (ctx, px0) => {
-    const px = (x, y, c, w, h) => px0(x, y + 3, c, w, h);
+    const px = (x, y, c, w, h) => px0(x, y + 3, o.siluet && !/^rgba/.test(c) ? '#120d1c' : c, w, h);
     const K = '#1a1c2c', kulit = o.kulit || '#d9a273', kulitG = '#b07d52', bronze = '#c9a24a', bronzeG = '#8f6d2a', besi = '#c2c3c7';
     // kaki + pelindung betis + sandal
     px(7, 15, K, 3, 6); px(8, 15, kulit, 1, 5); px(11, 15, K, 3, 6); px(12, 15, kulit, 1, 5);
@@ -438,7 +458,7 @@ function buildRomawiTextures(scene) {
       px(7, -1, K, 7, 8); px(8, 0, kulit, 5, 6); px(7, -1, o.rambut || '#1a1c2c', 7, 2); px(7, 1, o.rambut || '#1a1c2c', 2, 3);
       px(11, 2, K, 1, 1); px(13, 2, K, 1, 1); px(12, 4, kulitG, 2, 1);
     } else if (o.helm === 'secutor') {                                    // secutor: helm bulat licin, 2 lubang mata kecil
-      px(7, -2, K, 7, 1); px(6, -1, K, 9, 8); px(7, -1, '#a9aebb', 7, 7); px(8, -2, '#a9aebb', 5, 1); px(8, 0, '#e8ecf2', 2, 2); px(9, -3, K, 3, 1);
+      const hw = o.helmWarna || '#a9aebb'; px(7, -2, K, 7, 1); px(6, -1, K, 9, 8); px(7, -1, hw, 7, 7); px(8, -2, hw, 5, 1); px(8, 0, '#e8ecf2', 2, 2); px(9, -3, K, 3, 1);
       px(12, 2, K, 1, 1); px(14, 2, K, 1, 1); px(6, 5, '#8b9bb4', 10, 1);
     } else {
       px(6, 0, K, 9, 7); px(7, 1, o.helm || bronze, 7, 5); px(7, 1, '#e0c070', 3, 1); px(6, 5, o.helm || bronze, 10, 1);   // pinggiran lebar
@@ -470,6 +490,9 @@ function buildRomawiTextures(scene) {
   [['murmillo', { jambul: 'tinggi', perisai: 'scutum', warnaPerisai: '#b13e53', bulu: '#e43b44' }],
    ['thraex', { jambul: 'griffin', perisai: 'parma', warnaPerisai: '#3b5dc9', senjata: 'sica', greave2: true, kulit: '#c98e63' }],
    ['secutor', { helm: 'secutor', perisai: 'scutum', warnaPerisai: '#b5523b', kulit: '#c98e63' }],
+   ['bruno', { helm: 'secutor', helmWarna: '#c9a24a', perisai: 'scutum', warnaPerisai: '#29366f', kulit: '#a8714a', sabuk: '#7a2a3a' }],
+   ['retiarius', { tanpaHelm: true, senjata: 'trisula', perisai: 'none', galerus: true, kulit: '#c98e63', rambut: '#8b5a2b' }],
+   ['siluet', { jambul: 'tinggi', perisai: 'scutum', siluet: true }],
    ['dimas_ret', { tanpaHelm: true, senjata: 'trisula', perisai: 'none', galerus: true, kulit: '#f4c29a', rambut: '#1a1c2c' }]]
     .forEach(([n, o]) => { gladiator(`gl_${n}`, o, 'siaga'); gladiator(`gl_${n}_serang`, o, 'serang'); });
   // percikan benturan logam
@@ -616,6 +639,56 @@ function buildRomawiTextures(scene) {
   });
   [0, 1].forEach(f => mapCanvas(scene, `napas_${f}`, 12, 8, (ctx, px) => { const a = f ? 0.8 : 0.45; px(0, 3, `rgba(255,255,255,${a})`, f ? 8 : 5, 2); px(f ? 7 : 4, 1, `rgba(255,255,255,${a * 0.7})`, 4, 2); px(f ? 9 : 6, 5, `rgba(255,255,255,${a * 0.6})`, 3, 2); }));
   anim('napas', 2);
+  // =====================================================================
+  //  BAB 6–8 + PENUTUP — data, penonton, duel
+  // =====================================================================
+  // daun palma (simbol kemenangan gladiator)
+  mapCanvas(scene, 'palma', 8, 14, (ctx, px) => { px(4, 3, '#5d3a1a', 1, 11); for (let i = 0; i < 5; i++) { px(1, 1 + i * 2, '#38b764', 3, 1); px(5, 1 + i * 2, '#38b764', 3, 1); px(2, 2 + i * 2, '#257179', 2, 1); px(5, 2 + i * 2, '#257179', 2, 1); } px(4, 0, '#38b764', 1, 2); });
+  // papan lilin kecil (dipegang) & besar (catatan analis)
+  mapCanvas(scene, 'papan_lilin', 9, 7, (ctx, px) => { px(0, 0, '#5d3a1a', 9, 7); px(1, 1, '#c9a24a', 7, 5); for (let y = 2; y < 6; y += 2) px(2, y, '#5d3a1a', 5, 1); });
+  mapCanvas(scene, 'papan_lilin_besar', 104, 62, (ctx, px) => {
+    px(0, 0, '#3b2a1a', 104, 62); px(2, 2, '#7a4a24', 100, 58); px(6, 6, '#2b2218', 92, 50); px(7, 7, '#4a3b28', 90, 48);
+    for (let i = 0; i < 40; i++) px(8 + (i * 37) % 88, 8 + (i * 13) % 46, '#5a4a32', 2, 1);   // goresan lilin
+    px(51, 0, '#3b2a1a', 2, 62);                                                              // lipatan diptych
+    for (let y = 2; y < 60; y += 12) { px(0, y, '#c9a24a', 2, 3); px(102, y, '#c9a24a', 2, 3); }
+  });
+  // panah memutar (arah gerak)
+  mapCanvas(scene, 'panah_kiri', 22, 14, (ctx, px) => { for (let a = 0; a <= 20; a++) { const t = Math.PI * a / 20; px(Math.round(11 + Math.cos(t) * 9), Math.round(11 - Math.sin(t) * 9), '#e43b44', 2, 2); } px(0, 7, '#e43b44', 5, 2); px(1, 9, '#e43b44', 3, 2); px(2, 11, '#e43b44', 1, 2); });
+  mapCanvas(scene, 'panah_kanan', 22, 14, (ctx, px) => { for (let a = 0; a <= 20; a++) { const t = Math.PI * a / 20; px(Math.round(11 + Math.cos(t) * 9), Math.round(11 - Math.sin(t) * 9), '#38b764', 2, 2); } px(17, 7, '#38b764', 5, 2); px(18, 9, '#38b764', 3, 2); px(19, 11, '#38b764', 1, 2); });
+  // kaisar Claudius di tribun kehormatan: siluet berjubah ungu + mahkota daun
+  mapCanvas(scene, 'kaisar_siluet', 10, 14, (ctx, px) => { px(2, 0, '#c9a24a', 6, 1); px(3, 1, '#1a1c2c', 4, 4); px(1, 5, '#5a2a5a', 8, 9); px(2, 5, '#7a3b8f', 6, 8); px(1, 1, '#38b764', 1, 2); px(7, 1, '#38b764', 1, 2); });
+  // retiarius kalah: berlutut, satu jari terangkat (minta ampun / missio)
+  mapCanvas(scene, 'ret_berlutut', 20, 17, (ctx, px) => {
+    const K = '#1a1c2c', kulit = '#c98e63';
+    px(6, 0, K, 7, 7); px(7, 1, kulit, 5, 5); px(6, 0, '#8b5a2b', 7, 2); px(10, 3, K, 1, 1); px(11, 5, '#9a6a45', 2, 1);   // kepala tanpa helm
+    px(5, 6, K, 9, 6); px(6, 7, kulit, 7, 4); px(3, 6, '#c9a24a', 4, 2);                                                  // badan + galerus
+    px(13, 1, K, 3, 7); px(14, 2, kulit, 1, 5); px(14, 0, K, 1, 2); px(14, 0, kulit, 1, 1);                               // lengan & jari terangkat
+    px(5, 11, K, 9, 3); px(6, 11, '#ece4d0', 7, 2); px(6, 11, '#c9a24a', 7, 1);                                           // cawat
+    px(4, 13, K, 10, 3); px(5, 14, kulit, 8, 1); px(12, 14, K, 3, 3); px(3, 15, K, 3, 2);                                 // kaki terlipat
+    px(0, 16, '#7a4a24', 20, 1);                                                                                          // trisula tergeletak
+  });
+  // jaring terbang & secutor terjerat (terbaring)
+  mapCanvas(scene, 'jaring_terbang', 18, 12, (ctx, px) => { for (let y = 0; y < 12; y += 2) for (let x = (y / 2) % 2; x < 18; x += 2) { px(x, y, '#d9c79a'); px(x + 1, y + 1, '#8a7350'); } px(0, 0, '#5d3a1a', 2, 2); px(16, 10, '#5d3a1a', 2, 2); });
+  mapCanvas(scene, 'bruno_terjerat', 30, 12, (ctx, px) => {
+    const K = '#1a1c2c', kulit = '#a8714a';
+    pxEllipse(px, 5, 6, 5, 4, K); pxEllipse(px, 5, 6, 4, 3, '#c9a24a'); px(3, 4, '#e0c070', 2, 1); px(7, 6, K, 1, 1);        // helm
+    px(9, 3, K, 10, 7); px(10, 4, kulit, 8, 5); px(18, 4, K, 4, 6); px(19, 5, '#ece4d0', 2, 4);                           // badan
+    px(22, 5, K, 8, 3); px(22, 6, kulit, 7, 1); px(22, 8, K, 8, 3); px(22, 9, '#c9a24a', 6, 1);                          // kaki
+    px(10, 0, K, 9, 3); px(11, 1, '#29366f', 7, 1);                                                                       // perisai jatuh
+    for (let y = 0; y < 12; y += 2) for (let x = (y / 2) % 2; x < 28; x += 3) px(x, y, 'rgba(217,199,154,0.95)');        // jaring menutupi
+  });
+  // koin hadiah berserakan, daging panggang
+  mapCanvas(scene, 'koin_serak', 30, 5, (ctx, px) => { [[0, 3], [5, 2], [9, 4], [14, 1], [18, 3], [23, 2], [27, 4]].forEach(([x, y]) => { px(x, y, '#c9a24a', 3, 1); px(x, y - 1, '#ffcd75', 2, 1); }); });
+  mapCanvas(scene, 'daging', 12, 7, (ctx, px) => { pxEllipse(px, 5, 3, 5, 3, '#8b3a2a'); px(2, 1, '#b5523b', 4, 2); px(9, 2, '#f4f4f4', 3, 2); px(11, 1, '#f4f4f4', 1, 4); px(0, 6, '#c2c3c7', 12, 1); });
+  // dinding bercoretan "FULMEN" + petir (grafiti seperti di Pompeii)
+  mapCanvas(scene, 'grafiti_fulmen', 60, 22, (ctx, px) => {
+    px(0, 0, '#e2c79a', 60, 22); px(0, 0, '#c9a979', 60, 1); for (let i = 0; i < 30; i++) px((i * 23) % 58, (i * 7) % 20, '#d6b98a', 2, 1);
+    const F = { F: ['111', '100', '110', '100', '100'], U: ['101', '101', '101', '101', '111'], L: ['100', '100', '100', '100', '111'], M: ['10001', '11011', '10101', '10001', '10001'], E: ['111', '100', '110', '100', '111'], N: ['1001', '1101', '1011', '1001', '1001'] };
+    let x = 4; 'FULMEN'.split('').forEach(ch => { F[ch].forEach((row, y) => row.split('').forEach((b, i) => b === '1' && px(x + i * 2, 5 + y * 2, '#b13e53', 2, 2))); x += F[ch][0].length * 2 + 2; });
+    [[51, 3], [49, 8], [53, 9], [50, 15]].forEach(([a, b], i, arr) => { if (i < arr.length - 1) { const [c, d] = arr[i + 1]; const n = Math.max(Math.abs(c - a), Math.abs(d - b)); for (let t = 0; t <= n; t++) px(Math.round(a + (c - a) * t / n), Math.round(b + (d - b) * t / n), '#c9a24a', 2, 1); } });
+  });
+  // gerbang arena (pintu kayu di dinding podium)
+  mapCanvas(scene, 'gerbang_arena', 22, 26, (ctx, px) => { px(0, 0, '#9c917a', 22, 26); px(1, 1, '#d8cfba', 20, 3); px(3, 4, '#2b1d16', 16, 22); px(3, 4, '#2b1d16', 16, 22); px(4, 5, '#5d3a1a', 14, 21); for (let x = 6; x < 18; x += 3) px(x, 5, '#3b2a1a', 1, 21); px(4, 12, '#5a5f6e', 14, 1); px(4, 20, '#5a5f6e', 14, 1); });
 }
 
 // pasang ke mesin tanpa mengubah engine.js: dibungkus pada buildMapTextures

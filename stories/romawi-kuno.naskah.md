@@ -70,50 +70,53 @@ r-44. Musuh abadi retiarius: secutor, berhelm bulat tertutup. **[LAWAN: *SECUTOR
 r-45. Lubang matanya kecil. Udaranya sedikit. Dia cepat sesak. **[HELM = *SESAK*]** *(helm secutor besar)*
 r-46. Rencananya sederhana: jangan dilawan, bikin dia lelah. *(punchline)* **[PELUANG HIDUP *10%*]**
 
-## Bab 6 — Ilmu kedua: analisis data
-49. *(long)* Tapi Dimas tahu, rencana tanpa data cuma tebakan. / *(short)* Cara orang modern mengalahkan gladiator: pakai data.
-50. Tiap hari, dia menonton gladiator lain berlatih. **[*MENGAMATI*]**
-51. Di papan lilin, dia mencatat seperti analis sepak bola. **[CATATAN *LAWAN*]**
-52. Lawannya diumumkan: Bruno, si Banteng, juara tujuh kali. **[BRUNO · *7× MENANG*]**
-53. Catatan pertama: Bruno selalu menyerbu di awal. **[SELALU *MENYERBU*]**
-54. Catatan kedua: setelah seratus hitungan, tangannya turun. **[± *100 HITUNGAN*]**
-55. Catatan ketiga: dia selalu memutar ke kiri. **[PUTAR *KIRI*]**
-56. Lawan yang kuat ternyata bisa ditebak. *(punchline)* **[PELUANG HIDUP *35%*]**
+## Bab 6 — Ilmu kedua: analisis data  *(animasi draf)*
+r-47. *(long)* Tapi Dimas tahu, rencana tanpa data cuma tebakan. **[TANPA DATA = *TEBAKAN*]**
+r-47s. *(short)* Cara orang modern mengalahkan gladiator: pakai data. **[MENANG PAKAI *DATA*]**
+r-48. Tiap hari, dia menonton gladiator lain berlatih. **[*MENGAMATI*]**
+r-49. Di papan lilin, dia mencatat seperti analis sepak bola. **[CATATAN *LAWAN*]**
+r-50. Lawannya diumumkan: Bruno, si Banteng, juara 7 kali. **[BRUNO · *7× MENANG*]** *(7 daun palma; Varus: "Bruno, Taurus!")*
+r-51. Catatan pertama: Bruno selalu menyerbu di awal. **[SELALU *MENYERBU*]** *(papan lilin besar, catatan 1)*
+r-52. Catatan kedua: setelah 100 hitungan, tangannya turun. **[± *100 HITUNGAN*]**
+r-53. Catatan ketiga: dia selalu memutar ke kiri. **[PUTAR *KIRI*]**
+r-54. Lawan yang kuat ternyata bisa ditebak. *(punchline)* **[PELUANG HIDUP *35%*]**
 
-## Bab 7 — Ilmu ketiga: penonton
-57. *(long)* Satu masalah lagi tersisa: bagaimana kalau dia kalah? / *(short)* Di arena Romawi, yang menentukan hidup-mati bukan pemenang.
-58. Yang kalah boleh minta ampun. Penontonlah yang ikut memutuskan. **[*AMPUN*?]**
-59. Dan Claudius suka menyuruh retiarius yang kalah dibunuh. **[*KAISAR* KEJAM]** *(fakta: Suetonius, Claudius 34 — cek)*
-60. Alasannya: dia ingin melihat wajah mereka, karena tanpa helm. **[TANPA *HELM*]**
-61. Jadi Dimas butuh penonton di pihaknya. Seperti influencer. **[JADI *INFLUENCER*]**
-62. Dia memberi dirinya julukan: Fulmen, si Petir. **[*FULMEN* · SI PETIR]**
-63. Dia membuat salam khas, lalu mengajarkannya ke anak pasar. **[SALAM *KHAS*]**
-64. Seminggu kemudian, anak-anak meneriakkan namanya di jalan. **["FUL-MEN!"]**
-65. Kalau kalah pun, penonton akan membelanya. *(punchline)* **[PELUANG HIDUP *55%*]**
+## Bab 7 — Ilmu ketiga: penonton  *(animasi draf)*
+r-55. *(long)* Satu masalah lagi tersisa: bagaimana kalau dia kalah? **[KALAU *KALAH*?]**
+r-55s. *(short)* Di arena Romawi, hidup-mati tidak ditentukan pemenang. **[BUKAN *PEMENANG* YANG MENENTUKAN]**
+r-56. Yang kalah boleh minta ampun. Penonton ikut memutuskan. **[*AMPUN*?]** *(retiarius berlutut, jari terangkat; kartu Missio)*
+r-57. Dan Claudius suka menyuruh retiarius yang jatuh dibunuh. **[KAISAR *KEJAM*]** *(Suetonius, Claudius 34)*
+r-58. Alasannya: dia ingin melihat wajah mereka saat mati. **[TANPA HELM = *WAJAH TERLIHAT*]**
+r-59. Jadi Dimas butuh penonton di pihaknya. Seperti influencer. **[JADI *INFLUENCER*]**
+r-60. Dia memberi dirinya julukan: Fulmen, si Petir. **[*FULMEN* · SI PETIR]**
+r-61. Dia membuat salam khas, lalu mengajarkannya ke anak pasar. **[SALAM *KHAS*]**
+r-62. Seminggu kemudian, anak-anak meneriakkan namanya di jalan. **["*FUL-MEN!*"]** *(coretan dinding seperti di Pompeii)*
+r-63. Kalau kalah pun, penonton akan membelanya. *(punchline)* **[PELUANG HIDUP *55%*]**
 
-## Bab 8 — Duel
-66. *(long)* Hari pertandingan tiba. / *(short)* Pemuda kurus melawan juara tujuh kali. Siapa menang?
-67. Pintu arena terbuka. Sepuluh ribu orang bersorak. **[*ARENA*]**
-68. Dimas memberi salam khasnya. Sebagian penonton membalas. **["FUL-MEN!"]**
-69. Bruno menyerbu, persis seperti catatannya. **[*MENYERBU*]**
-70. Dimas mundur, memutar ke kanan. Selalu ke kanan. **[PUTAR *KANAN*]**
-71. Dia menghitung dalam hati. Lima puluh. Delapan puluh. **[*50*… *80*…]**
-72. Di balik helm, Bruno mulai terengah. **[*TERENGAH*]**
-73. Seratus. Tangan Bruno turun. **[*100*]**
-74. Jaring dilempar. Bruno terjerat, lalu jatuh. **[*TERJERAT*!]**
-75. Trisula Dimas di lehernya. Seluruh arena menunggu. **[TUNGGU…]**
-76. Dimas tidak menusuk. Dia menoleh ke penonton. **[MENOLEH]**
-77. Penonton berteriak: ampuni keduanya! **[*AMPUNI*!]**
-78. Dua gladiator keluar hidup-hidup. Penonton puas. **[KEDUANYA *HIDUP*]** *(fakta: banyak duel tidak berakhir mati)*
-79. Hadiah koin dilempar ke pasir. Malam itu, Dimas makan daging. *(punchline)* **[PELUANG HIDUP *100%*]**
+## Bab 8 — Duel  *(animasi draf)*
+r-64. *(long)* Hari pertandingan tiba. **[HARI *PERTANDINGAN*]**
+r-64s. *(short)* Pemuda kurus melawan juara 7 kali. Siapa menang? **[KURUS VS *JUARA 7×*]**
+r-65. Pintu arena terbuka. Ribuan orang bersorak. **[*ARENA*]** *(diubah dari "sepuluh ribu": kapasitas amfiteater ini tidak diketahui)*
+r-66. Dimas memberi salam khasnya. Sebagian penonton membalas. **["*FUL-MEN!*"]**
+r-67. Bruno menyerbu, persis seperti catatannya. **[BRUNO *MENYERBU*]**
+r-68. Dimas mundur, memutar ke kanan. Selalu ke kanan. **[PUTAR *KANAN*]**
+r-69. Dia menghitung dalam hati. 50. 80. **[*50*… *80*…]**
+r-70. Di balik helm, Bruno mulai terengah. **[BRUNO *TERENGAH*]**
+r-71. 100. Tangan Bruno turun. **[*100*!]**
+r-72. Jaring dilempar. Bruno terjerat, lalu jatuh. **[*TERJERAT*!]**
+r-73. Trisula Dimas di lehernya. Seluruh arena menunggu. **[TUNGGU…]**
+r-74. Dimas tidak menusuk. Dia menoleh ke penonton. **[TIDAK *MENUSUK*]**
+r-75. Penonton berteriak: ampuni keduanya! **[*AMPUNI*!]**
+r-76. Dua gladiator keluar hidup-hidup. Penonton puas. **[KEDUANYA *HIDUP*]** *(stempel MISSIO; label: banyak duel tidak berakhir mati)*
+r-77. Hadiah koin dilempar ke pasir. Malam itu, Dimas makan daging. *(punchline)* **[PELUANG HIDUP *100%*]**
 
-## Penutup
-80. *(long)* Jadi, bisakah orang modern bertahan hidup di Roma kuno? / *(short)* Orang modern di Roma kuno, bisa bertahan hidup?
-81. Dimas bisa. Tapi bukan karena otot dari masa depan. **[BUKAN *OTOT*]**
-82. Melainkan cara berpikir: data, fisika, dan membaca penonton. **[DATA · FISIKA · *PENONTON*]**
-83. Tapi sumpahnya masih mengikat. Duel berikutnya sudah menunggu. **[DUEL *BERIKUTNYA*…]** *(cliffhanger → bagian 2)*
-84. *(long)* Kalau kamu terlempar, ilmu apa yang kamu pakai? Tulis di komentar.
-85. *(short)* Tag temanmu yang bakal langsung menyerah di arena!
+## Penutup  *(animasi draf)*
+r-78. *(long)* Jadi, bisakah orang modern bertahan hidup di Roma kuno? / r-78s. *(short)* Orang modern di Roma kuno, bisa bertahan hidup?
+r-79. Dimas bisa. Tapi bukan karena otot dari masa depan. **[BUKAN *OTOT*]**
+r-80. Melainkan cara berpikir: data, fisika, dan membaca penonton. **[DATA · FISIKA · *PENONTON*]** → kartu kutipan "Bukan otot, tapi cara berpikir."
+r-81. Tapi sumpahnya masih mengikat. Duel berikutnya menunggu. **[DUEL *BERIKUTNYA*…]** *(siluet lawan baru)*
+r-82. *(long)* Kalau kamu terlempar, ilmu apa yang kamu pakai? Tulis di komentar.
+r-83. *(short)* Tag temanmu yang bakal langsung menyerah di arena!
 
 ---
 **Meteran:** LAPAR (B1–B4) → PELUANG HIDUP 10% → 35% → 55% → 100% (B5–B8, ilustrasi).
@@ -137,6 +140,6 @@ Opsi: (a) animasi dulu tanpa suara (draf), lalu pangkas ±15 kalimat sebelum VO;
 | Isi sumpah: rela dibakar, dirantai, dicambuk, dibunuh pedang | Petronius, *Satyricon* 117 |
 | Gladiator makan jelai & kacang ("hordearii"), minum abu tanaman | [DigVentures (studi PLoS One 2014)](https://digventures.com/2014/10/breakfast-of-champions-roman-gladiators-ate-vegetarian-diet-washed-down-with-plant-ash/); [News-Medical](https://www.news-medical.net/news/20141021/Anthropological-study-sheds-light-on-the-eating-habits-of-Roman-gladiators.aspx) |
 | Retiarius (jaring, trisula, tanpa helm) vs secutor (helm bulat, lubang mata kecil, udara terbatas) | [Wikipedia: Secutor](https://en.wikipedia.org/wiki/Secutor); [TheCollector: helm gladiator](https://www.thecollector.com/gladiator-helmets-types-characteristics) |
-| Claudius menyuruh retiarius yang jatuh dibunuh agar melihat wajahnya | Suetonius, *Claudius* 34 — **wajib dicek teks aslinya** |
+| Claudius menyuruh gladiator yang jatuh dibunuh, terutama retiarius, agar bisa melihat wajah mereka saat mati | Suetonius, *Claudius* 34.1 (dicek) |
 | Gladiator kalah bisa minta ampun (*missio*); keputusan penyelenggara, dipengaruhi penonton; banyak duel tak berakhir mati | *perlu sumber akademik (mis. Ville; Carter)* |
 **Dramatisasi:** durasi latihan (±2 bulan), nama & rekor Bruno, julukan "Fulmen", "100 hitungan", "10.000 penonton", meteran peluang.
