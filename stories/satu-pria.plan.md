@@ -16,7 +16,7 @@ mengejar karena **penasaran/heboh** (seperti mengejar selebriti), bukan karena n
 
 ## Tempat pusat (peta)
 Alun-alun Negeri Sekar (peta tampak atas): balai kota, lab, stadion, biro jodoh, studio TV,
-kedai kopi Laras di pojok. Tiap bab dibuka dari alun-alun.
+menara jam di tengah. Tiap bab dibuka dari alun-alun.
 
 ## Meteran berjalan (HUD `{ meter }`)
 "SENANG" Dimas: 10% → 100% → 40% → 0% → (pulang) LEGA 100%.
