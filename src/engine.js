@@ -53,6 +53,7 @@ class Movie extends Phaser.Scene {
     if (typeof buildSpbuTextures === 'function') buildSpbuTextures(this);
     if (typeof buildRupiahExtraTextures === 'function') buildRupiahExtraTextures(this);
     if (typeof buildAturanTextures === 'function') buildAturanTextures(this);
+    if (typeof buildKitKotaTextures === 'function') buildKitKotaTextures(this);
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;

@@ -42,6 +42,18 @@ const perempatanKacau = dx => [
   { sprite: 'ta_sampah', x: 66 + dx, y: 94, depth: 5 }, { sprite: 'ta_sampah', x: 160 + dx, y: 107, depth: 13 },
 ];
 
+// ---------- adegan dari KIT KOTA (sprite kode hasil rekonstruksi, src/sprites-kit-kota.js) ----------
+const K = (sprite, x, y, extra = {}) => ({ sprite: 'kota_' + sprite, x, y, scale: HD, ...extra });
+const kotaKacau = dx => [
+  K('gedung_retak_a', 26 + dx, 92, { depth: 3 }), K('gedung_retak_b', 168 + dx, 92, { depth: 3 }),
+  K('pohon', 72 + dx, 93, { depth: 4 }), K('lampu_jalan', 120 + dx, 93, { depth: 4 }),
+  K('lampu_bengkok_merah', 92 + dx, 94, { depth: 5, id: 'lampu1' }), K('lampu_bengkok_mati', 146 + dx, 94, { depth: 5, flip: true }),
+  K('gerobak', 50 + dx, 95, { depth: 6 }), K('sampah', 140 + dx, 96, { depth: 6 }),
+  K('ambulans', 34 + dx, 104, { depth: 9 }), K('mobil_merah', 98 + dx, 103, { depth: 9, id: 'mobilMerah' }),
+  K('mobil_biru', 150 + dx, 106, { depth: 10, flip: true }), K('motor', 120 + dx, 108, { depth: 11, id: 'motor1' }),
+  K('palang', 176 + dx, 108, { depth: 12 }), K('cone', 186 + dx, 108, { depth: 12 }),
+];
+
 const STORY = {
   title: 'Andaikan Kamu Terlempar ke Dunia Tanpa Aturan',
   captionStyle: 'keyword',
@@ -52,6 +64,20 @@ const STORY = {
     {
       id: 'uji-gaya', title: 'Uji gaya: perempatan',
       scenes: [
+        // uji KIT KOTA: semua benda = sprite kode, bisa disusun ulang & digerakkan
+        {
+          sky: 'day', road: true, noHills: true, noSun: true, haze: 0.18, captionTop: true, clock: 'HARI 1',
+          camera: { x: 96, y: 54, zoom: 1 },
+          props: kotaKacau(0),
+          actors: [tokoh('raka', 'raka', -10, 104, { depth: 20 })],
+          steps: [
+            { together: [{ move: 'raka', to: 66, speed: 18 }, C('Raka berjalan di kota tanpa aturan.', [{ at: 'aturan', kw: 'KOTA *TANPA ATURAN*' }])] },
+            { together: [{ move: 'mobilMerah', to: 60, speed: 40 }, { move: 'motor1', to: 210, speed: 50 }, { glow: 'lampu1', times: 3 },
+              { swap: 'raka', to: 'raka_kaget_0', dur: 50 }, { emote: 'raka', icon: 'exclaim' },
+              C('Mobil menyerobot, motor melawan arah.', [{ at: 'menyerobot', kw: 'MOBIL *MENYEROBOT*' }, { at: 'melawan', kw: 'MOTOR *LAWAN ARAH*' }])] },
+            { dialog: 'raka', face: 'face_raka_kaget', name: 'Raka', text: 'Kok nggak ada yang ditilang?', dur: 1000 },
+          ],
+        },
         // perempatan: latar Nano Banana di grid 480x270
         {
           sky: 'image', split: true, focus: 'right', captionTop: true,
