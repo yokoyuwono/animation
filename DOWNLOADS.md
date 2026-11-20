@@ -150,6 +150,8 @@ Folder semua file: https://github.com/yokoyuwono/animation/tree/ccr-0cfe3368-giu
 - [perang-dunia_bab4-16x9.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/perang-dunia_bab4-16x9.mp4)
 - [perang-dunia_bab4-9x16.mp4](https://github.com/yokoyuwono/animation/raw/ccr-0cfe3368-giuo4e/renders/perang-dunia_bab4-9x16.mp4)
 
+## rupiah-7000_draf
+
 ## tanpa-gunung-api
 
 **Video panjang**
