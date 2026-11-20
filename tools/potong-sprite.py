@@ -1,5 +1,5 @@
 """Potong lembar sprite Nano Banana (latar magenta) jadi PNG transparan per frame.
-Pakai: python3 tools/potong-sprite.py <gambar> <folder-keluar> <nama baris1,..> [<nama baris2,..> ...]
+Pakai (nama* = kotak utuh, - = lewati): python3 tools/potong-sprite.py <gambar> <folder-keluar> <nama baris1,..> [<nama baris2,..> ...]
 Tiap baris lembar = deretan kotak magenta; tiap kotak = satu tokoh/benda; frame dipisah oleh kolom kosong."""
 import sys
 from PIL import Image
@@ -33,10 +33,12 @@ for bi, (y0, y1) in enumerate(bands):
     for ti, (x0, x1) in enumerate(tiles):
         nm = names[ti] if ti < len(names) else f'x{bi}_{ti}'
         if nm == '-': continue
+        whole = nm.endswith('*'); nm = nm.rstrip('*')   # nama* = satu kotak utuh jadi 1 gambar
         ty = np.where(mag[y0:y1, x0:x1].mean(1) > 0.05)[0]   # tinggi kotak sendiri (kotak bisa beda tinggi)
         T, M = a[y0 + ty[0]:y0 + ty[-1] + 1, x0:x1], mag[y0 + ty[0]:y0 + ty[-1] + 1, x0:x1]
         frames = merge(runs((~M).mean(0) > 0.01, 4), max(4, (x1 - x0) // 40))
         frames = [f for f in frames if f[1] - f[0] > (x1 - x0) // 12]
+        if whole: frames = [(frames[0][0], frames[-1][1])]
         for fi, (c0, c1) in enumerate(frames):
             sub, m = T[:, c0:c1], M[:, c0:c1]
             ys = np.where((~m).mean(1) > 0.01)[0]
