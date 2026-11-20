@@ -20,6 +20,20 @@ function loadStory(file) {
 }
 
 // Link unduhan dari DOWNLOADS.md: { topik: { long:[], short:[], thumb:[] } }
+// Kalimat VO yang belum/perlu dibuat (logika sama dengan tools/vo-lines.js --changed). Tidak memakai kredit.
+function voNeeded(st, id) {
+  if (!st) return null;
+  const out = [];
+  const walk = s => { if (s.together) s.together.forEach(walk); else if (s.vo) out.push({ id: s.vo, text: s.speak || s.caption || s.hook }); };
+  const all = [...(st.intro || []), ...(st.chapters || []).flatMap(c => c.scenes || []), ...(st.scenes || []), ...(st.outro || [])];
+  all.forEach(sc => (sc.steps || []).forEach(walk));
+  const dir = st.audioDir || path.join('audio', id);
+  const tf = path.join(dir, 'vo-text.json');
+  const saved = ex(tf) ? JSON.parse(fs.readFileSync(tf, 'utf8')) : {};
+  const need = out.filter(l => saved[l.id] !== l.text || !ex(path.join(dir, 'raw', `${l.id}.mp3`)));
+  return { total: out.length, lines: need.length, chars: need.reduce((s, l) => s + (l.text || '').length, 0) };
+}
+
 function parseDownloads() {
   const out = {}; if (!ex('DOWNLOADS.md')) return out;
   let topic = null, sec = null;
@@ -85,6 +99,7 @@ for (const f of fs.readdirSync('stories').filter(f => f.endsWith('.js'))) {
     play: { h: `${PLAYER}#${id}--h`, v: `${PLAYER}#${id}--v` },
     long: dl.long, shorts: dl.short.map(s => ({ ...s, chapter: s.name.replace(/^.*_short_/, '').replace('.mp4', '') })),
     chapters,
+    vo: voNeeded(st, id),
     naskah: ex(naskahP) ? fs.readFileSync(naskahP, 'utf8') : null,
     publish: ex(publishP) ? fs.readFileSync(publishP, 'utf8') : null,
   });
@@ -100,6 +115,7 @@ try {
   history = Object.entries(byDay).map(([date, items]) => ({ date, items }));
 } catch (e) {}
 
-const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history };
+const jobs = ex('studio/jobs.json') ? JSON.parse(fs.readFileSync('studio/jobs.json', 'utf8')) : [];
+const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history, jobs };
 fs.writeFileSync('studio/data.json', JSON.stringify(data));
 console.error(`studio/data.json: ${videos.length} video, ${data.pending.length} menunggu keputusan, ${history.length} hari riwayat`);

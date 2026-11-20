@@ -50,8 +50,8 @@ header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb
 .brand h1 { font-size: 1.45rem; }
 .brand h1 span { color: var(--teal); }
 .stamp { color: var(--muted); font-size: 0.8rem; }
-nav.tabs { display: flex; gap: 0.25rem; }
-nav.tabs a { font-family: var(--font-display); font-size: 1.05rem; color: var(--muted); text-decoration: none; padding: 0.45rem 0.8rem; border-bottom: 3px solid transparent; }
+nav.tabs { display: flex; gap: 0.1rem; overflow-x: auto; }
+nav.tabs a { font-family: var(--font-display); font-size: 1.05rem; color: var(--muted); text-decoration: none; padding: 0.45rem 0.6rem; white-space: nowrap; border-bottom: 3px solid transparent; }
 nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--orange); }
 main { max-width: 1080px; margin: 0 auto; padding: 1rem 16px 4rem; display: grid; gap: 1.5rem; }
 section { display: grid; gap: 0.75rem; }
@@ -153,6 +153,26 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
 .spin { width: 16px; height: 16px; border: 3px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: rot 0.7s linear infinite; display: inline-block; }
 @keyframes rot { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .skel, .spin { animation: none; } }
+/* produksi */
+.next { border-left: 6px solid var(--teal); display: grid; gap: 0.6rem; }
+.next .cost { font-size: 0.88rem; color: var(--muted); }
+.next .cost b { font-family: var(--font-num); font-size: 0.75rem; color: var(--orange); font-weight: 400; }
+.more { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.form { display: grid; gap: 0.6rem; }
+.form label { font-weight: 700; font-size: 0.9rem; }
+.form input, .form textarea, .form select { width: 100%; font: 1rem/1.4 var(--font-body); background: var(--bg); color: var(--ink); border: 2px solid var(--line); border-radius: 8px; padding: 0.6rem; min-height: 44px; }
+.form textarea { min-height: 90px; resize: vertical; }
+.form .hint { font-size: 0.82rem; color: var(--muted); }
+.form .bad { color: var(--bad); font-size: 0.88rem; }
+.jobs { display: grid; gap: 0.45rem; }
+.job { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.7rem; align-items: start; padding: 0.65rem 0.75rem; background: var(--panel); border: 2px solid var(--line); border-radius: 8px; }
+.job .dot { width: 12px; height: 12px; border-radius: 3px; margin-top: 0.35rem; grid-row: span 2; }
+.job .t { font-weight: 700; }
+.job .d { font-size: 0.85rem; color: var(--muted); }
+.st-terkirim .dot { background: var(--muted); } .st-dikerjakan .dot { background: var(--orange); animation: blink 1s steps(2) infinite; }
+.st-selesai .dot { background: var(--good); } .st-gagal .dot { background: var(--bad); } .st-gagal { border-color: var(--bad); }
+@keyframes blink { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .st-dikerjakan .dot { animation: none; } }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
@@ -166,6 +186,7 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
     <nav class="tabs" aria-label="Bagian">
       <a href="#beranda" data-tab="beranda">Beranda</a>
       <a href="#video" data-tab="video">Video</a>
+      <a href="#produksi" data-tab="produksi">Produksi</a>
       <a href="#riwayat" data-tab="riwayat">Riwayat</a>
     </nav>
   </div>
@@ -184,6 +205,7 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
   <form class="dlg" id="dlg-form" method="dialog">
     <h2 id="dlg-title">Judul</h2>
     <p id="dlg-text" class="muted" style="margin:0"></p>
+    <p id="dlg-warn" style="margin:0;color:var(--orange);font-weight:700" hidden></p>
     <label for="dlg-input" class="sr">Pesan untuk Claude</label>
     <textarea id="dlg-input" maxlength="1500" placeholder="Contoh: Bab 2, tokoh Pak Hasan terlalu kecil di layar terbelah."></textarea>
     <div class="count" id="dlg-count"></div>
@@ -261,6 +283,8 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
     dlgCtx = ctx;
     $('#dlg-title').textContent = ctx.title;
     $('#dlg-text').textContent = ctx.text;
+    $('#dlg-warn').textContent = ctx.warn || ''; $('#dlg-warn').hidden = !ctx.warn;
+    $('#dlg-input').placeholder = ctx.placeholder || 'Contoh: Bab 2, tokoh Pak Hasan terlalu kecil di layar terbelah.';
     $('#dlg-input').hidden = !ctx.input; $('#dlg-count').hidden = !ctx.input;
     $('#dlg-input').value = ctx.prefill || '';
     $('#dlg-ok').textContent = ctx.ok || 'Kirim';
@@ -282,12 +306,12 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
     e.preventDefault();
     const ctx = dlgCtx; if (!ctx) return;
     const note = $('#dlg-input').value.trim();
-    if (ctx.input && note.length < 3) { $('#dlg-msg').textContent = 'Tulis dulu apa yang perlu diubah (minimal 3 huruf).'; $('#dlg-msg').className = 'msg bad'; $('#dlg-input').focus(); return; }
+    if (ctx.input && !ctx.optional && note.length < 3) { $('#dlg-msg').textContent = 'Tulis dulu apa yang perlu diubah (minimal 3 huruf).'; $('#dlg-msg').className = 'msg bad'; $('#dlg-input').focus(); return; }
     const text = ctx.compose(note);
     setBusy(true);
     const res = await sendToClaude(ctx.anchorEl, text);
     setBusy(false);
-    if (res.ok) { dlg.close(); toast(res.msg); if (ctx.after) ctx.after(); }
+    if (res.ok) { dlg.close(); toast(res.msg); if (ctx.job) addLocalJob(ctx.job); if (ctx.after) ctx.after(); }
     else { $('#dlg-msg').textContent = res.msg; $('#dlg-msg').className = 'msg bad'; }
   });
 
@@ -326,6 +350,105 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
       title: 'Setujui?', input: false, ok: 'Ya, setujui', anchorEl: el,
       text: `${v ? v.title : p.video}: ${p.what}. Setelah disetujui: ${p.next}.`,
       compose: () => `[Setuju] ${p.video}: ${p.what} → lanjut: ${p.next}`,
+    });
+  }
+
+  /* ---------- pekerjaan (antrian) ---------- */
+  // Permintaan yang baru dikirim dari HP ini disimpan sementara di perangkat (tampil "Terkirim")
+  // sampai Claude mencatatnya di studio/jobs.json dan halaman diperbarui.
+  const LS = 'pms-local-jobs';
+  const readLocal = () => { try { return JSON.parse(localStorage.getItem(LS) || '[]'); } catch (e) { return []; } };
+  function addLocalJob(j) {
+    const list = readLocal(); list.unshift({ ...j, id: 'local-' + Date.now(), status: 'terkirim', at: new Date().toISOString().slice(0, 10) });
+    try { localStorage.setItem(LS, JSON.stringify(list.slice(0, 30))); } catch (e) {}
+    if (location.hash === '#produksi') viewProduksi();
+  }
+  function allJobs() {
+    const server = DATA.jobs || [];
+    const local = readLocal().filter(l => !server.some(s => s.video === l.video && s.action === l.action && s.at >= l.at));
+    return [...local, ...server];
+  }
+  const ST_LABEL = { terkirim: 'Terkirim', dikerjakan: 'Sedang dikerjakan', selesai: 'Selesai', gagal: 'Gagal' };
+  function jobHTML(j) {
+    const v = DATA.videos.find(x => x.id === j.video);
+    return `<div class="job st-${esc(j.status)}"><span class="dot" aria-hidden="true"></span>
+      <span class="t">${esc(j.action)}</span>
+      <span class="d">${v ? `<a href="#v-${esc(v.id)}">${esc(v.title)}</a>` : esc(j.video || 'Ide baru')} · ${esc(ST_LABEL[j.status] || j.status)} · ${tgl(j.at)}${j.result ? ' · ' + esc(j.result) : ''}${j.status === 'gagal' ? ' · <button type="button" class="btn-small" data-retry="' + esc(j.id) + '">Ulangi</button>' : ''}</span></div>`;
+  }
+
+  // Langkah berikutnya per tahap. credit = perkiraan kredit ElevenLabs (±1 kredit/huruf).
+  function nextAction(v) {
+    const vo = v.vo || { lines: 0, chars: 0 };
+    switch (v.stage) {
+      case 0: return { label: 'Buat naskah', desc: 'Claude riset fakta lalu menulis naskah draf + skema per bab untuk Anda review.', ask: 'Arah cerita, tokoh, atau hal yang wajib ada (boleh kosong).' };
+      case 1: return { label: 'Buat animasi (tanpa suara)', desc: 'Animasi dibuat dengan tempo perkiraan dan teks [draf]. Tidak memakai kredit suara.' };
+      case 2: return vo.lines
+        ? { label: 'Buat suara', desc: `${vo.lines} kalimat perlu suara Fikri, sisanya sudah ada.`, credit: vo.chars }
+        : { label: 'Buat suara', desc: 'Semua kalimat sudah bersuara. Lanjutkan ke render.', disabled: true };
+      case 3: return { label: 'Render semua', desc: 'Video panjang 16:9 + 9:16, semua short, thumbnail, dan paket unggah.' };
+      case 4: return { label: 'Siapkan caption & paket', desc: 'Judul, deskripsi + bab, tag, caption per short, hashtag tiap platform.' };
+      default: return null;
+    }
+  }
+  const MORE = {
+    2: ['Ubah animasi'], 3: ['Buat ulang suara kalimat tertentu', 'Ubah animasi'],
+    4: ['Render ulang', 'Buat thumbnail baru'], 5: ['Render ulang', 'Buat thumbnail baru', 'Tulis ulang caption'],
+  };
+  function runAction(v, label, el, extra = {}) {
+    const credit = extra.credit;
+    openDialog({
+      title: label, input: true, optional: true, ok: credit ? `Ya, pakai ±${credit} kredit` : 'Ya, kerjakan', anchorEl: el,
+      text: `${v.title}. ${extra.desc || ''}`.trim(),
+      warn: credit ? `Ini memakai kredit ElevenLabs: ±${credit} kredit (${(v.vo || {}).lines} kalimat).` : '',
+      placeholder: extra.ask || 'Catatan tambahan untuk Claude (boleh kosong).',
+      compose: note => `[Produksi] ${v.id}: ${label}${credit ? ` (perkiraan ±${credit} kredit, disetujui)` : ''}${note ? '\nCatatan: ' + note : ''}`,
+      job: { video: v.id, action: label },
+    });
+  }
+
+  function viewProduksi() {
+    const jobs = allJobs();
+    const active = jobs.filter(j => j.status === 'terkirim' || j.status === 'dikerjakan');
+    const done = jobs.filter(j => !(j.status === 'terkirim' || j.status === 'dikerjakan'));
+    app.innerHTML = `
+      <section aria-labelledby="h-ide" class="panel">
+        <h2 id="h-ide">Ide video baru</h2>
+        <form class="form" id="idea-form" novalidate>
+          <div><label for="idea-title">Judul / pertanyaan "Andaikan…"</label>
+          <input id="idea-title" maxlength="120" placeholder="Andaikan Borobudur dibangun hari ini" autocomplete="off"></div>
+          <div><label for="idea-note">Arah cerita (boleh kosong)</label>
+          <textarea id="idea-note" maxlength="1000" placeholder="Tokoh utama, perbandingan A vs B, twist yang diinginkan…"></textarea></div>
+          <div><label for="idea-step">Sampai tahap</label>
+          <select id="idea-step"><option value="naskah">Naskah dulu (saya review)</option><option value="animasi">Naskah + animasi tanpa suara</option></select>
+          <span class="hint">Suara tidak dibuat otomatis; selalu minta persetujuan dulu.</span></div>
+          <div class="bad" id="idea-err" role="alert"></div>
+          <div class="actions"><button type="submit" class="btn-primary">Kirim ide ke Claude</button></div>
+        </form>
+      </section>
+      <section aria-labelledby="h-run">
+        <div class="sec-head"><h2 id="h-run">Sedang berjalan</h2><span class="muted">${active.length}</span></div>
+        <div class="jobs">${active.length ? active.map(jobHTML).join('') : '<div class="panel state"><span class="big">Tidak ada pekerjaan berjalan</span><span class="muted">Kirim ide baru, atau buka video lalu tekan langkah berikutnya.</span></div>'}</div>
+      </section>
+      <section aria-labelledby="h-done">
+        <h2 id="h-done">Selesai</h2>
+        <div class="jobs">${done.length ? done.map(jobHTML).join('') : '<div class="panel state"><span class="muted">Belum ada.</span></div>'}</div>
+      </section>
+      <section aria-labelledby="h-ready">
+        <div class="sec-head"><h2 id="h-ready">Siap dilanjutkan</h2><span class="muted">tekan untuk tahap berikutnya</span></div>
+        <div class="rows">${DATA.videos.filter(v => v.stage < 5).map(v => { const n = nextAction(v); return `<div class="row"><span><a href="#v-${esc(v.id)}">${esc(v.title)}</a> <span class="pill s${v.stage}" style="margin-left:.3rem">${esc(stageName(v.stage))}</span></span>${n && !n.disabled ? `<button type="button" class="btn-small btn-primary" data-run="${esc(v.id)}">${esc(n.label)}</button>` : ''}</div>`; }).join('')}</div>
+      </section>`;
+    $('#idea-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const title = $('#idea-title').value.trim(), note = $('#idea-note').value.trim(), step = $('#idea-step').value;
+      if (title.length < 5) { $('#idea-err').textContent = 'Isi judul ide dulu (minimal 5 huruf).'; $('#idea-title').focus(); return; }
+      $('#idea-err').textContent = '';
+      openDialog({
+        title: 'Kirim ide ini?', input: false, ok: 'Ya, kirim', anchorEl: $('#idea-form'),
+        text: `"${title}" → ${step === 'naskah' ? 'Claude menulis naskah draf untuk Anda review.' : 'Claude menulis naskah lalu animasi tanpa suara.'}`,
+        compose: () => `[Ide baru] ${title}\nSampai: ${step}${note ? '\nArah: ' + note : ''}`,
+        job: { video: '', action: `Ide baru: ${title}` },
+        after: () => { $('#idea-title').value = ''; $('#idea-note').value = ''; },
+      });
     });
   }
 
@@ -416,6 +539,12 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
             ${v.play ? `<a class="btn btn-primary" href="${esc(v.play.h)}" target="_blank" rel="noopener">▶ Putar 16:9</a><a class="btn" href="${esc(v.play.v)}" target="_blank" rel="noopener">▶ 9:16</a>` : ''}
             <button type="button" class="btn-warn" data-change="${esc(v.id)}">Minta perubahan</button>
           </div>
+          ${(() => { const n = nextAction(v); if (!n) return '<div class="panel next"><b>Siap unggah ✓</b><span class="muted">Semua tahap selesai.</span></div>'; return `<div class="panel next" id="next-panel">
+            <div><span class="muted" style="font-size:.8rem">LANGKAH BERIKUTNYA</span><br><b style="font-family:var(--font-display);font-size:1.15rem">${esc(n.label)}</b></div>
+            <span class="cost">${esc(n.desc)}${n.credit ? ` Perkiraan: <b>±${n.credit}</b> kredit.` : ''}</span>
+            <div class="actions"><button type="button" class="btn-primary" data-run="${esc(v.id)}" ${n.disabled ? 'disabled' : ''}>${esc(n.label)}</button></div>
+          </div>`; })()}
+          ${(MORE[v.stage] || []).length ? `<div class="more" aria-label="Aksi lain">${MORE[v.stage].map(m => `<button type="button" class="btn-small" data-more="${esc(m)}" data-vid="${esc(v.id)}">${esc(m)}</button>`).join('')}</div>` : ''}
           ${pend.map(([p, k]) => `<div class="panel pend"><div class="pend-title"><b>Menunggu keputusan</b><span class="muted">${esc(p.what)}</span></div><div class="actions"><button type="button" class="btn-small btn-primary" data-approve="${k}">Setujui</button></div></div>`).join('')}
         </div>
       </div>
@@ -446,6 +575,7 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
     if (h.startsWith('v-')) viewDetail(h.slice(2));
     else if (h === 'video') viewList();
     else if (h === 'riwayat') viewHistory();
+    else if (h === 'produksi') viewProduksi();
     else viewHome();
     window.scrollTo(0, 0);
   }
@@ -460,6 +590,9 @@ dialog::backdrop { background: rgb(10 6 24 / 0.7); }
     else if (b.dataset.approve != null) { const p = DATA.pending[+b.dataset.approve]; approve(vById(p.video), p, b.closest('.pend') || b); }
     else if (b.dataset.changePend != null) { const p = DATA.pending[+b.dataset.changePend]; askChange(vById(p.video) || { id: p.video, title: p.video }, p.what, b.closest('.pend')); }
     else if (b.dataset.change != null) { askChange(vById(b.dataset.change), b.dataset.where || '', b.closest('.row') || b.closest('.detail-top') || b); }
+    else if (b.dataset.run != null) { const v = vById(b.dataset.run), n = nextAction(v); if (n && !n.disabled) runAction(v, n.label, b.closest('.panel, .row') || b, n); }
+    else if (b.dataset.more != null) { const v = vById(b.dataset.vid); runAction(v, b.dataset.more, b, { desc: 'Tulis apa yang perlu dikerjakan.', ask: 'Contoh: Bab 3 saja, kalimat i-12 diucapkan lebih pelan.' }); }
+    else if (b.dataset.retry != null) { const j = allJobs().find(x => x.id === b.dataset.retry), v = j && vById(j.video); if (v) runAction(v, j.action, b); }
     else if (b.dataset.thumb != null) {
       const id = location.hash.slice(3), v = vById(id), i = +b.dataset.thumb;
       $('#thumbbox').innerHTML = thumbHTML(v, i, true);
