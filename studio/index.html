@@ -222,6 +222,27 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
 .preview { display: grid; gap: 0.3rem; max-height: 320px; overflow: auto; border: 2px dashed var(--line); border-radius: 8px; padding: 0.5rem; }
 .preview div { display: flex; gap: 0.5rem; font-size: 0.88rem; align-items: baseline; flex-wrap: wrap; }
 .preview b { font-family: var(--font-num); font-size: 0.65rem; color: var(--accent-text); }
+/* cari, urut & halaman */
+.toolbar { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; }
+.toolbar input, .toolbar select { font: 1rem var(--font-body); background: var(--panel); color: var(--ink); border: 2px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem; min-height: 44px; width: 100%; }
+.toolbar input:focus-visible, .toolbar select:focus-visible { outline: 3px solid var(--second); outline-offset: 1px; }
+.search { position: relative; }
+.search button { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); min-height: 36px; padding: 0.2rem 0.6rem; border: 0; background: none; color: var(--muted); }
+.pager { display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; padding-top: 0.3rem; }
+.pager button { min-width: 40px; justify-content: center; padding: 0.3rem 0.4rem; }
+@media (max-width: 400px) { .pager { gap: 0.2rem; } .pager button { min-width: 36px; } }
+.pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.pager .info { width: 100%; text-align: center; font-size: 0.82rem; color: var(--muted); }
+.pager .gap { color: var(--muted); padding: 0 0.2rem; }
+.grid.compact { grid-template-columns: 1fr; gap: 0.5rem; }
+.grid.compact .card { grid-template-columns: 120px 1fr; grid-template-rows: auto; align-items: center; }
+.grid.compact .thumb .ph { font-size: 0.7rem; padding: 0.3rem; }
+.grid.compact .card-body { padding: 0.5rem 0.7rem; gap: 0.3rem; }
+.grid.compact .card-body h3 { font-size: 0.95rem; }
+.grid.compact .steps, .grid.compact .note { display: none; }
+.viewtoggle { display: flex; gap: 0.3rem; }
+.viewtoggle button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent-text); }
+mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: inherit; border-radius: 2px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
@@ -403,6 +424,35 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
     });
   }
 
+  /* ---------- cari, saring, halaman (dipakai semua daftar) ---------- */
+  const PAGE = {};                       // halaman aktif per daftar
+  const norm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const matches = (q, ...fields) => !q || norm(q).split(/\s+/).filter(Boolean).every(w => fields.some(f => norm(f).includes(w)));
+  const hl = (text, q) => { const t = esc(text); if (!q) return t; let out = t; norm(q).split(/\s+/).filter(w => w.length > 1).forEach(w => { out = out.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>'); }); return out; };
+  function paginate(key, list, size) {
+    const pages = Math.max(1, Math.ceil(list.length / size));
+    const cur = Math.min(Math.max(1, PAGE[key] || 1), pages); PAGE[key] = cur;
+    return { items: list.slice((cur - 1) * size, cur * size), cur, pages, from: list.length ? (cur - 1) * size + 1 : 0, to: Math.min(cur * size, list.length), total: list.length };
+  }
+  function pagerHTML(key, pg, unit) {
+    if (pg.pages <= 1) return pg.total ? `<div class="pager"><span class="info">${pg.total} ${unit}</span></div>` : '';
+    const nums = []; for (let i = 1; i <= pg.pages; i++) if (i === 1 || i === pg.pages || Math.abs(i - pg.cur) <= 1) nums.push(i); else if (nums[nums.length - 1] !== '…') nums.push('…');
+    return `<nav class="pager" aria-label="Halaman ${unit}">
+      <button type="button" class="btn-small" data-pg="${key}" data-to="${pg.cur - 1}" ${pg.cur === 1 ? 'disabled' : ''} aria-label="Sebelumnya">‹</button>
+      ${nums.map(n => n === '…' ? '<span class="gap">…</span>' : `<button type="button" class="btn-small" data-pg="${key}" data-to="${n}" ${n === pg.cur ? 'aria-current="page"' : ''}>${n}</button>`).join('')}
+      <button type="button" class="btn-small" data-pg="${key}" data-to="${pg.cur + 1}" ${pg.cur === pg.pages ? 'disabled' : ''} aria-label="Berikutnya">›</button>
+      <span class="info">${pg.from}–${pg.to} dari ${pg.total} ${unit}</span></nav>`;
+  }
+  // kotak cari: hanya hasil yang digambar ulang, supaya ketikan tidak hilang
+  function searchBox(id, val, ph) {
+    return `<div class="search"><label for="${id}" class="sr">Cari</label><input id="${id}" type="search" value="${esc(val)}" placeholder="${esc(ph)}" autocomplete="off" enterkeyhint="search">${val ? `<button type="button" data-clear="${id}" aria-label="Hapus pencarian">✕</button>` : ''}</div>`;
+  }
+  let typeT;
+  function onSearch(id, fn) {
+    const el = $('#' + id); if (!el) return;
+    el.addEventListener('input', () => { clearTimeout(typeT); typeT = setTimeout(() => fn(el.value), 200); });
+  }
+
   /* ---------- pekerjaan (antrian) ---------- */
   // Permintaan yang baru dikirim dari HP ini disimpan sementara di perangkat (tampil "Terkirim")
   // sampai Claude mencatatnya di studio/jobs.json dan halaman diperbarui.
@@ -481,11 +531,11 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       </section>
       <section aria-labelledby="h-done">
         <h2 id="h-done">Selesai</h2>
-        <div class="jobs">${done.length ? done.map(jobHTML).join('') : '<div class="panel state"><span class="muted">Belum ada.</span></div>'}</div>
+        <div class="jobs">${done.length ? (() => { const pg = paginate('jobs', done, 10); return pg.items.map(jobHTML).join('') + pagerHTML('jobs', pg, 'pekerjaan'); })() : '<div class="panel state"><span class="muted">Belum ada.</span></div>'}</div>
       </section>
       <section aria-labelledby="h-ready">
         <div class="sec-head"><h2 id="h-ready">Siap dilanjutkan</h2><span class="muted">tekan untuk tahap berikutnya</span></div>
-        <div class="rows">${DATA.videos.filter(v => v.stage < 5).map(v => { const n = nextAction(v); return `<div class="row"><span><a href="#v-${esc(v.id)}">${esc(v.title)}</a> <span class="pill s${v.stage}" style="margin-left:.3rem">${esc(stageName(v.stage))}</span></span>${n && !n.disabled ? (n.href ? `<a class="btn btn-small btn-primary" href="${esc(n.href)}">${esc(n.label)}</a>` : `<button type="button" class="btn-small btn-primary" data-run="${esc(v.id)}">${esc(n.label)}</button>`) : ''}</div>`; }).join('')}</div>
+        <div class="rows">${(() => { const pg = paginate('ready', DATA.videos.filter(v => v.stage < 5), 8); return pg.items.map(v => { const n = nextAction(v); return `<div class="row"><span><a href="#v-${esc(v.id)}">${esc(v.title)}</a> <span class="pill s${v.stage}" style="margin-left:.3rem">${esc(stageName(v.stage))}</span></span>${n && !n.disabled ? (n.href ? `<a class="btn btn-small btn-primary" href="${esc(n.href)}">${esc(n.label)}</a>` : `<button type="button" class="btn-small btn-primary" data-run="${esc(v.id)}">${esc(n.label)}</button>`) : ''}</div>`; }).join('') + pagerHTML('ready', pg, 'video'); })()}</div>
       </section>`;
     $('#idea-form').addEventListener('submit', e => {
       e.preventDefault();
@@ -530,15 +580,16 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   }
 
   /* ---------- suara & musik ---------- */
-  let voFilter = 'semua'; const picked = new Set(); let pickedFor = null;
+  let voFilter = 'semua', voBab = '', voq = ''; const picked = new Set(); let pickedFor = null;
   const lineCost = l => (l.speak || l.screen).length;
   function viewSuara(id) {
     const v = vById(id);
     if (!v || !(v.lines || []).length) { app.innerHTML = `<div class="panel state err"><span class="big">Belum ada kalimat suara untuk video ini</span><a class="btn" href="#v-${esc(id)}">Kembali</a></div>`; return; }
-    if (pickedFor !== id) { picked.clear(); pickedFor = id; }
+    if (pickedFor !== id) { picked.clear(); pickedFor = id; voBab = ''; voq = ''; }
     const L = v.lines;
     const cnt = { semua: L.length, perlu: L.filter(l => l.status !== 'ada').length, ada: L.filter(l => l.status === 'ada').length };
-    const shown = L.filter(l => voFilter === 'semua' || (voFilter === 'perlu' ? l.status !== 'ada' : l.status === 'ada'));
+    const allGroups = [...new Set(L.map(l => l.group))];
+    const shown = L.filter(l => (voFilter === 'semua' || (voFilter === 'perlu' ? l.status !== 'ada' : l.status === 'ada')) && (!voBab || l.group === voBab) && matches(voq, l.id, l.screen, l.speak));
     const groups = [...new Set(shown.map(l => l.group))];
     const ST = { ada: 'Sudah ada', baru: 'Baru', berubah: 'Teks berubah' };
     app.innerHTML = `
@@ -553,6 +604,9 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       </section>
       <section aria-labelledby="h-lines">
         <div class="sec-head"><h2 id="h-lines">Kalimat narasi</h2><span class="muted">${cnt.ada}/${cnt.semua} bersuara</span></div>
+        <div class="toolbar">${searchBox('voq', voq, 'Cari kalimat atau kode (r-03)')}
+          <label for="vobab" class="sr">Bab</label>
+          <select id="vobab"><option value="">Semua bab</option>${allGroups.map(g => `<option value="${esc(g)}" ${g === voBab ? 'selected' : ''}>${esc(g.length > 26 ? g.slice(0, 25) + '…' : g)}</option>`).join('')}</select></div>
         <div class="filters" role="group" aria-label="Saring kalimat">
           ${[['semua', 'Semua'], ['perlu', 'Perlu dibuat'], ['ada', 'Sudah ada']].map(([k, t]) => `<button type="button" class="chip" data-vofilter="${k}" aria-pressed="${voFilter === k}">${t} (${cnt[k]})</button>`).join('')}
         </div>
@@ -561,7 +615,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
             <input type="checkbox" id="cb-${esc(l.id)}" data-pick="${esc(l.id)}" ${picked.has(l.id) ? 'checked' : ''} aria-label="Pilih ${esc(l.id)}">
             <label for="cb-${esc(l.id)}" style="display:grid;gap:.15rem;cursor:pointer">
               <span class="lid">${esc(l.id)}${l.only ? ' · khusus ' + esc(l.only) : ''}</span>
-              <span>${esc(l.screen)}</span>
+              <span>${hl(l.screen, voq)}</span>
               ${l.speak ? `<span class="say">Diucapkan: ${esc(l.speak)}</span>` : ''}
             </label>
             <span class="side">
@@ -583,6 +637,8 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
         </div>
       </section>
       <div class="dockbar" id="dock"></div>`;
+    $('#vobab').addEventListener('change', e => { voBab = e.target.value; stopAudio(); viewSuara(v.id); });
+    onSearch('voq', val => { voq = val; viewSuara(v.id); const el = $('#voq'); if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); } });
     renderDock(v);
   }
   function renderDock(v) {
@@ -659,7 +715,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   const pad = n => String(n).padStart(2, '0');
   const isoDay = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   const today = () => isoDay(new Date());
-  let pfFilter = 'semua';
+  let pfFilter = 'semua', jrange = '30';
   function allPosts() {
     const server = DATA.schedule || [];
     const local = readLP().filter(l => !server.some(s => s.video === l.video && s.item === l.item && s.platform === l.platform && s.at === l.at));
@@ -699,8 +755,14 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
     COPIES.length = 0;
     const posts = allPosts();
     const t = today();
-    const shown = posts.filter(p => (pfFilter === 'semua' || p.platform === pfFilter) && (p.at.slice(0, 10) >= t || p.status !== 'terunggah'));
-    const days = [...new Set(shown.map(p => p.at.slice(0, 10)))];
+    const endD = new Date(); endD.setDate(endD.getDate() + (+jrange || 0)); const end = isoDay(endD);
+    const shown = posts.filter(p => (pfFilter === 'semua' || p.platform === pfFilter) && (
+      jrange === 'done' ? p.status === 'terunggah'
+      : jrange === 'all' ? (p.at.slice(0, 10) >= t || p.status !== 'terunggah')
+      : (p.at.slice(0, 10) <= end && (p.at.slice(0, 10) >= t || p.status !== 'terunggah'))));
+    if (jrange === 'done') shown.reverse();
+    const pgJ = paginate('jadwal', shown, 10);
+    const days = [...new Set(pgJ.items.map(p => p.at.slice(0, 10)))];
     const rv = readyVideos();
     const opt = rv.map(v => `<option value="${esc(v.id)}">${esc(v.title)}</option>`).join('');
     const d0 = new Date(); d0.setDate(d0.getDate() + 1);
@@ -711,14 +773,16 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
           <b>Mode sekarang: pengingat + paket unggah</b>
           <span class="muted" style="font-size:.9rem">Di hari posting, buka kartu di bawah → Salin caption → Unduh video → unggah di aplikasinya → Tandai sudah diunggah. Unggah otomatis aktif setelah web sendiri jadi dan akun YouTube/TikTok/Instagram disambungkan.</span>
         </div>
+        <div class="toolbar" style="grid-template-columns:1fr"><label for="jrange" class="sr">Rentang</label>
+          <select id="jrange"><option value="7">7 hari ke depan</option><option value="30">30 hari ke depan</option><option value="all">Semua yang akan datang</option><option value="done">Sudah diunggah</option></select></div>
         <div class="filters" role="group" aria-label="Saring platform">
           ${[['semua', 'Semua'], ...Object.entries(PF)].map(([k, n]) => `<button type="button" class="chip" data-pffilter="${k}" aria-pressed="${pfFilter === k}">${esc(n)}</button>`).join('')}
         </div>
         <div class="agenda">${days.length ? days.map(d => {
           const dt = new Date(d + 'T00:00');
           return `<div class="agday" style="display:grid;gap:.4rem"><h3>${HARI[dt.getDay()]}, ${tgl(d)}${d === t ? '<span class="today">HARI INI</span>' : ''}</h3>
-            ${shown.filter(p => p.at.startsWith(d)).map(p => postHTML(p, posts.indexOf(p))).join('')}</div>`;
-        }).join('') : `<div class="panel state"><span class="big">Belum ada jadwal</span><span class="muted">Pakai "Susun otomatis" untuk menjadwalkan semua short sebuah video sekaligus.</span></div>`}</div>
+            ${pgJ.items.filter(p => p.at.startsWith(d)).map(p => postHTML(p, posts.indexOf(p))).join('')}</div>`;
+        }).join('') + pagerHTML('jadwal', pgJ, 'posting') : `<div class="panel state"><span class="big">Belum ada jadwal</span><span class="muted">Pakai "Susun otomatis" untuk menjadwalkan semua short sebuah video sekaligus.</span></div>`}</div>
       </section>
 
       <section aria-labelledby="h-auto" class="panel">
@@ -755,6 +819,8 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
           <div class="actions"><button type="submit" class="btn-primary">Jadwalkan</button></div>
         </form>
       </section>`;
+    $('#jrange').value = jrange;
+    $('#jrange').addEventListener('change', e => { jrange = e.target.value; PAGE.jadwal = 1; viewJadwal(); });
     if (!rv.length) { $('#auto-form').innerHTML = $('#one-form').innerHTML = '<span class="muted">Belum ada video yang siap diunggah (perlu render + paket unggah).</span>'; return; }
     wireAuto(); wireOne();
   }
@@ -830,7 +896,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   }
   function jadwalClick(b) {
     const posts = allPosts();
-    if (b.dataset.pffilter) { pfFilter = b.dataset.pffilter; viewJadwal(); return true; }
+    if (b.dataset.pffilter) { pfFilter = b.dataset.pffilter; PAGE.jadwal = 1; viewJadwal(); return true; }
     if (b.dataset.posted != null) {
       const p = posts[+b.dataset.posted], v = vById(p.video);
       openDialog({
@@ -873,7 +939,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
         <h3>${esc(v.title)}</h3>
         ${steps(v.stage)}
         <div class="meta"><span class="pill s${v.stage}">${esc(stageName(v.stage))}</span><span>${tgl(v.updated)}</span>${isPending(v.id) ? '<span class="flag">● perlu keputusan</span>' : ''}</div>
-        ${v.note ? `<div class="meta">${esc(v.note)}</div>` : ''}
+        ${v.note ? `<div class="meta note">${esc(v.note)}</div>` : ''}
       </div></a>`;
   }
 
@@ -905,17 +971,39 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       </section>`;
   }
 
+  let vq = '', vsort = 'baru', vmode = matchMedia('(max-width: 600px)').matches ? 'ringkas' : 'kartu';
+  try { vsort = localStorage.getItem('pms-vsort') || 'baru'; vmode = localStorage.getItem('pms-vmode') || vmode; } catch (e) {}
   function viewList() {
-    const list = DATA.videos.filter(v => filter === 'semua' || String(v.stage) === filter);
     app.innerHTML = `
       <section aria-labelledby="h-list">
-        <div class="sec-head"><h2 id="h-list">Semua video</h2><span class="muted">${list.length} dari ${DATA.videos.length}</span></div>
+        <div class="sec-head"><h2 id="h-list">Semua video</h2><span class="viewtoggle" role="group" aria-label="Tampilan">
+          <button type="button" class="btn-small" data-vmode="ringkas" aria-pressed="${vmode === 'ringkas'}">☰ Ringkas</button>
+          <button type="button" class="btn-small" data-vmode="kartu" aria-pressed="${vmode === 'kartu'}">▦ Kartu</button></span></div>
+        <span class="muted" id="list-count" style="font-size:.85rem"></span>
+        <div class="toolbar">${searchBox('vq', vq, 'Cari judul, misalnya "nasi"')}
+          <label for="vsort" class="sr">Urutkan</label>
+          <select id="vsort"><option value="baru">Terbaru</option><option value="lama">Terlama</option><option value="az">Judul A–Z</option><option value="tahap">Tahap</option></select></div>
         <div class="filters" role="group" aria-label="Saring status">
           <button type="button" class="chip" data-filter="semua" aria-pressed="${filter === 'semua'}">Semua</button>
-          ${DATA.stages.map((s, i) => `<button type="button" class="chip" data-filter="${i}" aria-pressed="${filter === String(i)}">${esc(s)}</button>`).join('')}
+          ${DATA.stages.map((st, i) => `<button type="button" class="chip" data-filter="${i}" aria-pressed="${filter === String(i)}">${esc(st)} (${DATA.videos.filter(v => v.stage === i).length})</button>`).join('')}
+          <button type="button" class="chip" data-filter="pending" aria-pressed="${filter === 'pending'}">Perlu keputusan</button>
         </div>
-        ${list.length ? `<div class="grid">${list.map(card).join('')}</div>` : `<div class="panel state"><span class="big">Belum ada video di tahap ini</span><button type="button" data-filter="semua">Tampilkan semua</button></div>`}
+        <div id="list-res"></div>
       </section>`;
+    $('#vsort').value = vsort;
+    $('#vsort').addEventListener('change', e => { vsort = e.target.value; try { localStorage.setItem('pms-vsort', vsort); } catch (er) {} PAGE.video = 1; renderVideoResults(); });
+    onSearch('vq', val => { vq = val; PAGE.video = 1; renderVideoResults(); });
+    renderVideoResults();
+  }
+  function renderVideoResults() {
+    let list = DATA.videos.filter(v => (filter === 'semua' || (filter === 'pending' ? isPending(v.id) : String(v.stage) === filter)) && matches(vq, v.title, v.id, v.note));
+    const by = { baru: (a, b) => (b.updated || '').localeCompare(a.updated || ''), lama: (a, b) => (a.updated || '9').localeCompare(b.updated || '9'), az: (a, b) => a.title.localeCompare(b.title, 'id'), tahap: (a, b) => a.stage - b.stage || a.title.localeCompare(b.title, 'id') };
+    list = list.slice().sort(by[vsort] || by.baru);
+    const pg = paginate('video', list, 12);
+    $('#list-count').textContent = `${list.length} dari ${DATA.videos.length} video`;
+    $('#list-res').innerHTML = list.length
+      ? `<div class="grid ${vmode === 'ringkas' ? 'compact' : ''}">${pg.items.map(card).join('')}</div>${pagerHTML('video', pg, 'video')}`
+      : `<div class="panel state"><span class="big">Tidak ada video yang cocok</span><span class="muted">${vq ? `Tidak ada judul berisi "${esc(vq)}"` : 'Belum ada video di tahap ini'}.</span><button type="button" data-resetlist="1">Hapus pencarian & saringan</button></div>`;
   }
 
   function viewDetail(id) {
@@ -965,10 +1053,21 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       ${!v.long.length && !v.chapters.length && !v.naskah ? '<div class="panel state"><span class="big">Masih ide</span><span class="muted">Belum ada naskah atau animasi untuk topik ini.</span></div>' : ''}`;
   }
 
+  let hq = '';
   function viewHistory() {
-    app.innerHTML = `<section aria-labelledby="h-his"><h2 id="h-his">Riwayat</h2>
-      ${DATA.history.length ? DATA.history.map(d => `<div class="panel day"><h3>${tgl(d.date)}</h3><ul>${d.items.map(s => `<li>${esc(s)}</li>`).join('')}</ul></div>`).join('') : '<div class="panel state"><span class="big">Belum ada riwayat</span></div>'}
-    </section>`;
+    app.innerHTML = `<section aria-labelledby="h-his"><div class="sec-head"><h2 id="h-his">Riwayat</h2><span class="muted" id="his-count"></span></div>
+      <div class="toolbar" style="grid-template-columns:1fr">${searchBox('hq', hq, 'Cari pekerjaan, misalnya "thumbnail"')}</div>
+      <div id="his-res" style="display:grid;gap:.75rem"></div></section>`;
+    onSearch('hq', val => { hq = val; PAGE.his = 1; renderHistory(); });
+    renderHistory();
+  }
+  function renderHistory() {
+    const days = DATA.history.map(d => ({ date: d.date, items: d.items.filter(t => matches(hq, t)) })).filter(d => d.items.length);
+    const pg = paginate('his', days, 7);
+    $('#his-count').textContent = `${days.reduce((a, d) => a + d.items.length, 0)} catatan`;
+    $('#his-res').innerHTML = days.length
+      ? pg.items.map(d => `<div class="panel day"><h3>${tgl(d.date)}</h3><ul>${d.items.map(t => `<li>${hl(t, hq)}</li>`).join('')}</ul></div>`).join('') + pagerHTML('his', pg, 'hari')
+      : `<div class="panel state"><span class="big">${hq ? 'Tidak ada yang cocok' : 'Belum ada riwayat'}</span>${hq ? '<button type="button" data-clear="hq">Hapus pencarian</button>' : ''}</div>`;
   }
 
   function route() {
@@ -992,11 +1091,26 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   app.addEventListener('click', e => {
     const b = e.target.closest('button, a'); if (!b) return;
     if (b.classList.contains('play') && b.dataset.src) { togglePlay(b); return; }
+    if (b.dataset.pg) {
+      PAGE[b.dataset.pg] = +b.dataset.to;
+      const R = { video: renderVideoResults, his: renderHistory, jobs: viewProduksi, ready: viewProduksi, jadwal: viewJadwal };
+      (R[b.dataset.pg] || route)();
+      const head = b.closest('section') || app; head.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      return;
+    }
+    if (b.dataset.clear) {
+      const id = b.dataset.clear; const el = $('#' + id);
+      if (id === 'vq') { vq = ''; PAGE.video = 1; viewList(); } else if (id === 'hq') { hq = ''; PAGE.his = 1; viewHistory(); } else if (id === 'voq') { voq = ''; viewSuara(location.hash.slice(3)); }
+      const n = $('#' + id); if (n) n.focus();
+      return;
+    }
+    if (b.dataset.vmode) { vmode = b.dataset.vmode; try { localStorage.setItem('pms-vmode', vmode); } catch (er) {} document.querySelectorAll('[data-vmode]').forEach(x => x.setAttribute('aria-pressed', x.dataset.vmode === vmode)); renderVideoResults(); return; }
+    if (b.dataset.resetlist) { vq = ''; filter = 'semua'; PAGE.video = 1; viewList(); return; }
     if (location.hash === '#jadwal' && b.tagName === 'BUTTON' && jadwalClick(b)) return;
     if (location.hash.startsWith('#s-') && b.tagName === 'BUTTON') { const v = vById(location.hash.slice(3)); if (v && suaraClick(b, v)) return; }
     if (b.dataset.copy != null) copyText(COPIES[+b.dataset.copy], b);
-    else if (b.dataset.filter != null) { filter = b.dataset.filter; viewList(); }
-    else if (b.dataset.gotoFilter != null) { filter = b.dataset.gotoFilter; }
+    else if (b.dataset.filter != null) { filter = b.dataset.filter; PAGE.video = 1; viewList(); }
+    else if (b.dataset.gotoFilter != null) { filter = b.dataset.gotoFilter; PAGE.video = 1; }
     else if (b.dataset.approve != null) { const p = DATA.pending[+b.dataset.approve]; approve(vById(p.video), p, b.closest('.pend') || b); }
     else if (b.dataset.changePend != null) { const p = DATA.pending[+b.dataset.changePend]; askChange(vById(p.video) || { id: p.video, title: p.video }, p.what, b.closest('.pend')); }
     else if (b.dataset.change != null) { askChange(vById(b.dataset.change), b.dataset.where || '', b.closest('.row') || b.closest('.detail-top') || b); }
