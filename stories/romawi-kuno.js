@@ -182,6 +182,7 @@ const STORY = {
               { at: 'lahir', card: 'Bahasa Inggris', items: ['Bahasa Inggris Kuno muncul', 'abad ke-5 M, di Britania', 'Tahun 50 M: belum ada'], x: 96, y: 60, place: 'left' },
               { at: 'lagi', enter: 'rm3', from: 'left', to: 60 },
             ], { punch: true }),
+            { wait: 1600 },   // beri waktu membaca kartu
             { clear: true },
           ],
         },
@@ -284,6 +285,7 @@ const STORY = {
               { at: 'sepertiga', card: 'Budak di Italia', items: ['± sepertiga penduduk', '(perkiraan sejarawan)', 'Tanpa hak, bisa dijual'], x: 98, y: 60, place: 'left' },
               { at: 'budak', emote: 'dimas', icon: 'exclaim', dur: 1000 },
             ]),
+            { wait: 1000 },   // beri waktu membaca kartu
             { clear: true },
             C('r-14', [
               { at: 0, card: 'Tangga sosial Roma', items: ['1. Kaisar', '2. Senator & bangsawan', '3. Warga Roma', '4. Mantan budak', '5. Budak'], x: 98, y: 60, place: 'left' },
@@ -424,8 +426,9 @@ const STORY = {
               { at: 'gratis', jump: 'q1', times: 1, height: 3 },
               { at: 'tapi', move: 'dimas', to: 81, dur: 1100 },
               { at: 'khusus', kw: 'KHUSUS *WARGA TERDAFTAR*' },
-              { at: 'terdaftar', card: 'Jatah gandum Roma', items: ['± 200.000 penerima', 'Hanya warga Roma terdaftar', 'Orang asing: tidak dapat'], x: 120, y: 60, place: 'left' },
+              { at: 'gratis', card: 'Jatah gandum Roma', items: ['± 200.000 penerima', 'Hanya warga Roma terdaftar', 'Orang asing: tidak dapat'], x: 120, y: 60, place: 'left' },
             ]),
+            { wait: 1600 },   // beri waktu membaca kartu
             { clear: true },
             C('r-24', [
               { at: 0, exit: 'q1', to: 'right' }, { at: 0, exit: 'q2', to: 'right' }, { at: 0, exit: 'q3', to: 'right' },
@@ -531,10 +534,11 @@ const STORY = {
               { at: 0, hide: 'w1', dur: 300 }, { at: 0, enter: 'w3', from: 'left', to: 96, speed: 30 }, { at: 0, enter: 'w4', from: 'right', to: 96, speed: 32 },
               { at: 'colosseum', pop: 'ikon' }, { at: 'colosseum', label: 'COLOSSEUM', x: VERT ? 110 : 140, y: 34, bg: GELAP, size: 15, dur: 0 },
               { at: 'belum', pop: 'silang' }, { at: 'belum', sfx: 'buzz', vol: 0.6 }, { at: 'belum', kw: 'COLOSSEUM *BELUM ADA*' }, { at: 'belum', hide: 'w2', dur: 300 },
-              { at: 'dibangun', card: 'Amfiteater di Roma', items: ['Ini: amfiteater batu pertama', '(Statilius Taurus, 29 SM)', 'Colosseum: dibangun ±70 M', 'Dibuka tahun 80 M'], x: 70, y: 60, place: 'left' },
+              { at: 'dibangun', card: 'Amfiteater di Roma', items: ['Ini: amfiteater batu pertama', '(Statilius Taurus, 29 SM)', 'Colosseum: dibangun ±70 M', 'Dibuka tahun 80 M'], x: 96, y: 66, place: 'left' },
               { at: 'dibangun', enter: 'w5', from: 'left', to: 96, speed: 26 }, { at: 'tahun', hide: 'w3', dur: 300 }, { at: 'tahun', enter: 'w6', from: 'right', to: 96, speed: 30 },
               { at: 'lagi', hide: 'w4', dur: 300 },
             ]),
+            { wait: 1600 },   // beri waktu membaca kartu
             { clear: true },
             { together: [{ move: 'dimas', to: 96, dur: 1300 }, { hide: 'ikon', dur: 300 }, { hide: 'silang', dur: 300 }] },
           ],
@@ -596,8 +600,9 @@ const STORY = {
               { at: 'langsung', say: 'lanista', text: 'Pecunia statim!', dur: 1000 }, { at: 'langsung', label: '(Uang langsung!)', x: 124, y: 49, bg: GELAP, size: 17, dur: 0 },
               { at: 'uang', pop: 'k1' }, { at: 'uang', kw: 'UANG *MUKA*' }, { at: 'muka', pop: 'k2' }, { at: 'muka', pop: 'k3' }, { at: 'muka', sfx: 'kaching' },
               { at: 'muka', emote: 'dimas', icon: 'heart', dur: 1000 },
-              { at: 'muka', card: 'Auctoratus', items: ['Orang merdeka yang', 'menjual diri jadi gladiator', 'Bayaran diterima saat bersumpah'], x: 60, y: 60, place: 'left' },
+              { at: 'langsung', card: 'Auctoratus', items: ['Orang merdeka yang', 'menjual diri jadi gladiator', 'Bayaran diterima saat bersumpah'], x: 120, y: 70, place: 'left' },
             ]),
+            { wait: 1600 },   // beri waktu membaca kartu
             { together: [{ clear: true }, { move: 'k1', to: 106, dur: 500 }, { move: 'k2', to: 106, dur: 600 }, { move: 'k3', to: 106, dur: 700 }] },
             { together: [{ hide: 'k1', dur: 200 }, { hide: 'k2', dur: 200 }, { hide: 'k3', dur: 200 }, { sfx: 'coin', vol: 0.7 }] },
             // sumpah: layar menggelap, kamera mendekat
@@ -670,8 +675,9 @@ const STORY = {
               { at: 'minumannya', pop: 'cangkir' }, { at: 'minumannya', emote: 'dimas', icon: 'question', dur: 800 },
               { at: 'abu', label: 'AIR + ABU TANAMAN', x: 112, y: 70, bg: GELAP, size: 15, dur: 0 }, { at: 'abu', kw: 'MINUM *ABU*' },
               { at: 'tanaman', emote: 'dimas', icon: 'sweat', dur: 1000 }, { at: 'tanaman', shake: 150 },
-              { at: 'tulang', card: 'Studi tulang gladiator', items: ['Efesus, Turki (2014):', 'banyak makan jelai & kacang', 'Kalsium tinggi, diduga', 'dari minuman abu tanaman'], x: 70, y: 58, place: 'left' },
+              { at: 'abu', card: 'Studi tulang gladiator', items: ['Efesus, Turki (2014):', 'banyak makan jelai & kacang', 'Kalsium tinggi, diduga', 'dari minuman abu tanaman'], x: 110, y: 64, place: 'left' },
             ]),
+            { wait: 1600 },   // beri waktu membaca kartu
             { together: [{ clear: true }, { meter: false }] },
           ],
         },
@@ -714,9 +720,10 @@ const STORY = {
             { clearLabels: true },
             C('r-43', [
               { at: 'ringan', kw: 'RINGAN = *CEPAT*' }, { at: 'ringan', jump: 'dimasR', times: 2, height: 4 },
-              { at: 'cepat', card: 'Logika teknik', items: ['Ringan → gerak cepat', 'Trisula panjang → jangkauan jauh', 'Jarak jauh → lebih aman'], x: 70, y: 56, place: 'left' },
+              { at: 'ringan', card: 'Logika teknik', items: ['Ringan → gerak cepat', 'Trisula panjang → jangkauan jauh', 'Jarak jauh → lebih aman'], x: 104, y: 70, place: 'left' },
               { at: 'jangkauan', kw: 'JAUH = *AMAN*' }, { at: 'aman', emote: 'varus', icon: 'question', dur: 1000 },
             ]),
+            { wait: 1600 },   // beri waktu membaca kartu
             { clear: true },
           ],
         },
