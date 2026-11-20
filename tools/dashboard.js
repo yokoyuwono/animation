@@ -85,6 +85,31 @@ function thumbs(id) {
   });
 }
 
+// Bahan unggah dari stories/<id>.publish.md: judul & deskripsi YouTube, caption per short, hashtag per platform.
+function parsePublish(txt, id, dl) {
+  if (!txt) return null;
+  const sec = name => { const m = txt.split(/^## /m).find(x => x.startsWith(name)); return m || ''; };
+  const yt = sec('YouTube (');
+  const titleM = yt.match(/\*\*Judul[^\n]*\n((?:- .*\n?)+)/);
+  const descM = yt.match(/\*\*Deskripsi[^\n]*\n```\n?([\s\S]*?)```/);
+  const tagsM = yt.match(/\n(#[^\n`]+)\s*$/m);
+  const sh = sec('YouTube Shorts');
+  const caps = {};
+  for (const m of sh.matchAll(/^\|\s*`([^`]+)`\s*\|\s*(.+?)\s*\|\s*$/gm)) caps[m[1].replace(/^.*_short_/, '').replace('.mp4', '')] = m[2];
+  const tag = k => { const m = sh.match(new RegExp(`- ${k}:\\s*\`([^\`]+)\``)); return m ? m[1] : ''; };
+  const pin = (sh.match(/\*\*Komentar sematan[^*]*\*\*\s*(.+)/) || [])[1] || '';
+  const items = [];
+  const long = dl.long.find(l => /16x9/.test(l.name));
+  if (long) items.push({ key: 'long', label: 'Video panjang 16:9', file: long.url, platforms: ['youtube'],
+    title: titleM ? titleM[1].split('\n')[0].replace(/^- /, '').trim() : '', caption: descM ? descM[1].trim() : '', tags: { youtube: tagsM ? tagsM[1].trim() : '' } });
+  for (const s of dl.short) {
+    const k = s.name.replace(/^.*_short_/, '').replace('.mp4', '');
+    items.push({ key: 'short:' + k, label: 'Short ' + k, file: s.url, platforms: ['shorts', 'tiktok', 'reels'],
+      caption: caps[k] || '', tags: { shorts: tag('Shorts'), tiktok: tag('TikTok'), reels: tag('Reels') } });
+  }
+  return { items, pin };
+}
+
 const STAGES = ['Ide', 'Naskah', 'Animasi', 'Suara', 'Render', 'Siap unggah'];
 const downloads = parseDownloads();
 const manual = ex('studio/manual.json') ? JSON.parse(fs.readFileSync('studio/manual.json', 'utf8')) : {};
@@ -119,6 +144,7 @@ for (const f of fs.readdirSync('stories').filter(f => f.endsWith('.js'))) {
     chapters,
     ...(() => { const vl = voLines(st, id, (ov.stage != null ? STAGES.indexOf(ov.stage) : stage) === 3); return vl ? { vo: vl.summary, lines: vl.lines } : { vo: null, lines: [] }; })(),
     music: st && st.sfx ? true : false,
+    upload: parsePublish(ex(publishP) ? fs.readFileSync(publishP, 'utf8') : null, id, dl),
     naskah: ex(naskahP) ? fs.readFileSync(naskahP, 'utf8') : null,
     publish: ex(publishP) ? fs.readFileSync(publishP, 'utf8') : null,
   });
@@ -141,8 +167,9 @@ const sfx = ex(SFX_DIR) ? fs.readdirSync(SFX_DIR).filter(f => f.endsWith('.mp3')
 }) : [];
 const credits = ex('studio/credits.json') ? JSON.parse(fs.readFileSync('studio/credits.json', 'utf8')) : null;
 const voice = { name: 'Fikri - Warm & Steady Storyteller', model: 'eleven_v4', speed: 1.2, generations: 1 };
+const schedule = ex('studio/schedule.json') ? JSON.parse(fs.readFileSync('studio/schedule.json', 'utf8')) : [];
 const jobs = ex('studio/jobs.json') ? JSON.parse(fs.readFileSync('studio/jobs.json', 'utf8')) : [];
-const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history, jobs, sfx, credits, voice };
+const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history, jobs, sfx, credits, voice, schedule };
 fs.writeFileSync('studio/data.json', JSON.stringify(data));
 // Daftar file untuk diterbitkan (publish_files): halaman + data + thumbnail + audio pratinjau
 const thumbFiles = fs.readdirSync('studio/thumbs').map(f => ({ as: `thumbs/${f}`, path: path.resolve('studio/thumbs', f) }));

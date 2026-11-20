@@ -53,6 +53,7 @@ header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb
 .stamp { color: var(--muted); font-size: 0.8rem; }
 nav.tabs { display: flex; gap: 0.1rem; overflow-x: auto; }
 nav.tabs a { font-family: var(--font-display); font-size: 1.05rem; color: var(--muted); text-decoration: none; padding: 0.45rem 0.6rem; white-space: nowrap; border-bottom: 3px solid transparent; }
+@media (max-width: 440px) { nav.tabs a { font-size: 0.92rem; padding: 0.45rem 0.42rem; } }
 nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--second); }
 main { max-width: 1080px; margin: 0 auto; padding: 1rem 16px 4rem; display: grid; gap: 1.5rem; }
 section { display: grid; gap: 0.75rem; }
@@ -201,6 +202,26 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; align-items: start; }
 @media (max-width: 560px) { .two { grid-template-columns: 1fr; } }
 .sfx { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+/* jadwal */
+.pf { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 4px; color: #fff; }
+.pf-youtube { background: #c8372d; } .pf-shorts { background: #e0573f; } .pf-tiktok { background: #221b30; } .pf-reels { background: var(--second); }
+.agenda { display: grid; gap: 0.8rem; }
+.agday h3 { font-family: var(--font-display); font-size: 1.05rem; display: flex; gap: 0.5rem; align-items: baseline; }
+.agday h3 .today { font-size: 0.75rem; color: var(--accent-ink); background: var(--accent); padding: 0.05rem 0.45rem; border-radius: 4px; }
+.post { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.8rem; padding: 0.7rem 0.75rem; background: var(--panel); border: 2px solid var(--line); border-radius: 8px; }
+.post .time { font-family: var(--font-num); font-size: 0.72rem; color: var(--accent-text); padding-top: 0.2rem; }
+.post .cap { font-size: 0.88rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.post .actions { grid-column: 1 / -1; }
+.post.done { opacity: 0.7; } .post.fail { border-color: var(--bad); }
+.st-diminta { color: var(--muted); } .st-terjadwal { color: var(--accent-text); } .st-terunggah { color: var(--good); } .st-gagal { color: var(--bad); }
+.checks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.checks label { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 400; padding: 0.4rem 0.7rem; border: 2px solid var(--line); border-radius: 8px; min-height: 44px; cursor: pointer; }
+.checks input { width: 20px; height: 20px; accent-color: var(--accent); }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.form .warn { color: var(--second); font-size: 0.88rem; font-weight: 700; }
+.preview { display: grid; gap: 0.3rem; max-height: 320px; overflow: auto; border: 2px dashed var(--line); border-radius: 8px; padding: 0.5rem; }
+.preview div { display: flex; gap: 0.5rem; font-size: 0.88rem; align-items: baseline; flex-wrap: wrap; }
+.preview b { font-family: var(--font-num); font-size: 0.65rem; color: var(--accent-text); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
@@ -215,6 +236,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       <a href="#beranda" data-tab="beranda">Beranda</a>
       <a href="#video" data-tab="video">Video</a>
       <a href="#produksi" data-tab="produksi">Produksi</a>
+      <a href="#jadwal" data-tab="jadwal">Jadwal</a>
       <a href="#riwayat" data-tab="riwayat">Riwayat</a>
     </nav>
   </div>
@@ -628,6 +650,211 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
     return false;
   }
 
+  /* ---------- jadwal posting ---------- */
+  const PF = { youtube: 'YouTube', shorts: 'YT Shorts', tiktok: 'TikTok', reels: 'Reels' };
+  const HARI = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const LSP = 'pms-local-posts';
+  const readLP = () => { try { return JSON.parse(localStorage.getItem(LSP) || '[]'); } catch (e) { return []; } };
+  const writeLP = l => { try { localStorage.setItem(LSP, JSON.stringify(l.slice(0, 200))); } catch (e) {} };
+  const pad = n => String(n).padStart(2, '0');
+  const isoDay = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const today = () => isoDay(new Date());
+  let pfFilter = 'semua';
+  function allPosts() {
+    const server = DATA.schedule || [];
+    const local = readLP().filter(l => !server.some(s => s.video === l.video && s.item === l.item && s.platform === l.platform && s.at === l.at));
+    return [...server, ...local].sort((a, b) => a.at.localeCompare(b.at));
+  }
+  const itemOf = (v, key) => v && v.upload && v.upload.items.find(i => i.key === key);
+  function itemLabel(v, key) {
+    if (key === 'long') return 'Video panjang';
+    const k = key.replace('short:', ''), c = (v.chapters || []).find(c => c.id === k);
+    return 'Short · ' + (c ? c.title : k);
+  }
+  function captionFor(v, key, pf) {
+    const it = itemOf(v, key); if (!it) return '';
+    if (key === 'long') return [it.title, '', it.caption, '', it.tags.youtube].join('\n').trim();
+    return [it.caption, '', it.tags[pf] || ''].join('\n').trim();
+  }
+  function postHTML(p, k) {
+    const v = vById(p.video); const cap = captionFor(v, p.item, p.platform);
+    const it = itemOf(v, p.item);
+    const ck = COPIES.push(cap) - 1;
+    const st = p.status || 'terjadwal';
+    return `<div class="post ${st === 'terunggah' ? 'done' : ''} ${st === 'gagal' ? 'fail' : ''}" data-post="${k}">
+      <span class="time">${esc(p.at.slice(11, 16))}</span>
+      <span style="display:grid;gap:.25rem"><span><span class="pf pf-${esc(p.platform)}">${esc(PF[p.platform] || p.platform)}</span> <b>${esc(v ? v.title : p.video)}</b></span>
+        <span class="muted" style="font-size:.85rem">${esc(itemLabel(v || {}, p.item))} · <span class="st-${esc(st)}">${esc({ diminta: 'Diminta (menunggu Claude)', terjadwal: 'Terjadwal', terunggah: 'Sudah diunggah', gagal: 'Gagal' }[st] || st)}</span></span>
+        ${cap ? `<span class="cap">${esc(cap)}</span>` : '<span class="cap" style="color:var(--bad)">Caption belum ada di paket unggah.</span>'}</span>
+      <div class="actions">
+        ${cap ? `<button type="button" class="btn-small btn-primary" data-copy="${ck}">Salin caption</button>` : ''}
+        ${it && it.file ? `<a class="btn btn-small" href="${esc(it.file)}" target="_blank" rel="noopener">Unduh video</a>` : ''}
+        ${st !== 'terunggah' ? `<button type="button" class="btn-small" data-posted="${k}">Tandai sudah diunggah</button>` : (p.link ? `<a class="btn btn-small" href="${esc(p.link)}" target="_blank" rel="noopener">Lihat postingan</a>` : '')}
+        ${st !== 'terunggah' ? `<button type="button" class="btn-small btn-warn" data-unpost="${k}">Batalkan</button>` : ''}
+      </div></div>`;
+  }
+  const readyVideos = () => DATA.videos.filter(v => v.upload && v.upload.items.length);
+
+  function viewJadwal() {
+    COPIES.length = 0;
+    const posts = allPosts();
+    const t = today();
+    const shown = posts.filter(p => (pfFilter === 'semua' || p.platform === pfFilter) && (p.at.slice(0, 10) >= t || p.status !== 'terunggah'));
+    const days = [...new Set(shown.map(p => p.at.slice(0, 10)))];
+    const rv = readyVideos();
+    const opt = rv.map(v => `<option value="${esc(v.id)}">${esc(v.title)}</option>`).join('');
+    const d0 = new Date(); d0.setDate(d0.getDate() + 1);
+    app.innerHTML = `
+      <section aria-labelledby="h-jad">
+        <div class="sec-head"><h2 id="h-jad">Jadwal posting</h2><span class="muted">${posts.filter(p => p.status !== 'terunggah').length} akan datang</span></div>
+        <div class="panel" style="display:grid;gap:.4rem;border-left:6px solid var(--second)">
+          <b>Mode sekarang: pengingat + paket unggah</b>
+          <span class="muted" style="font-size:.9rem">Di hari posting, buka kartu di bawah → Salin caption → Unduh video → unggah di aplikasinya → Tandai sudah diunggah. Unggah otomatis aktif setelah web sendiri jadi dan akun YouTube/TikTok/Instagram disambungkan.</span>
+        </div>
+        <div class="filters" role="group" aria-label="Saring platform">
+          ${[['semua', 'Semua'], ...Object.entries(PF)].map(([k, n]) => `<button type="button" class="chip" data-pffilter="${k}" aria-pressed="${pfFilter === k}">${esc(n)}</button>`).join('')}
+        </div>
+        <div class="agenda">${days.length ? days.map(d => {
+          const dt = new Date(d + 'T00:00');
+          return `<div class="agday" style="display:grid;gap:.4rem"><h3>${HARI[dt.getDay()]}, ${tgl(d)}${d === t ? '<span class="today">HARI INI</span>' : ''}</h3>
+            ${shown.filter(p => p.at.startsWith(d)).map(p => postHTML(p, posts.indexOf(p))).join('')}</div>`;
+        }).join('') : `<div class="panel state"><span class="big">Belum ada jadwal</span><span class="muted">Pakai "Susun otomatis" untuk menjadwalkan semua short sebuah video sekaligus.</span></div>`}</div>
+      </section>
+
+      <section aria-labelledby="h-auto" class="panel">
+        <h2 id="h-auto">Susun otomatis</h2>
+        <form class="form" id="auto-form" novalidate>
+          <div><label for="au-video">Video</label><select id="au-video">${opt}</select></div>
+          <div class="row2">
+            <div><label for="au-date">Mulai tanggal</label><input type="date" id="au-date" value="${isoDay(d0)}" min="${t}"></div>
+            <div><label for="au-time">Jam (WIB)</label><input type="time" id="au-time" value="19:00"></div>
+          </div>
+          <div><label for="au-every">Jarak antar-short</label>
+            <select id="au-every"><option value="1">Setiap hari</option><option value="2">Selang 1 hari</option><option value="0.5">2× sehari (jam di atas + 12.00)</option></select></div>
+          <div><span style="font-weight:700;font-size:.9rem">Platform short</span>
+            <div class="checks">${['shorts', 'tiktok', 'reels'].map(k => `<label><input type="checkbox" name="au-pf" value="${k}" checked> ${PF[k]}</label>`).join('')}</div></div>
+          <label class="checks" style="font-weight:400"><span><input type="checkbox" id="au-long" checked> Video panjang ke YouTube di hari pertama</span></label>
+          <div class="bad" id="au-err" role="alert"></div>
+          <div class="warn" id="au-warn"></div>
+          <div class="preview" id="au-prev" aria-live="polite"></div>
+          <div class="actions"><button type="submit" class="btn-primary" id="au-send">Kirim jadwal</button></div>
+        </form>
+      </section>
+
+      <section aria-labelledby="h-one" class="panel">
+        <h2 id="h-one">Tambah satu posting</h2>
+        <form class="form" id="one-form" novalidate>
+          <div><label for="on-video">Video</label><select id="on-video">${opt}</select></div>
+          <div><label for="on-item">Isi</label><select id="on-item"></select></div>
+          <div><span style="font-weight:700;font-size:.9rem">Platform</span><div class="checks" id="on-pf"></div></div>
+          <div class="row2">
+            <div><label for="on-date">Tanggal</label><input type="date" id="on-date" value="${isoDay(d0)}" min="${t}"></div>
+            <div><label for="on-time">Jam (WIB)</label><input type="time" id="on-time" value="19:00"></div>
+          </div>
+          <div class="bad" id="on-err" role="alert"></div>
+          <div class="actions"><button type="submit" class="btn-primary">Jadwalkan</button></div>
+        </form>
+      </section>`;
+    if (!rv.length) { $('#auto-form').innerHTML = $('#one-form').innerHTML = '<span class="muted">Belum ada video yang siap diunggah (perlu render + paket unggah).</span>'; return; }
+    wireAuto(); wireOne();
+  }
+
+  // Rencana dari form susun otomatis → daftar posting
+  function autoPlan() {
+    const v = vById($('#au-video').value), date = $('#au-date').value, time = $('#au-time').value, every = +$('#au-every').value;
+    const pfs = [...document.querySelectorAll('input[name=au-pf]:checked')].map(x => x.value), withLong = $('#au-long').checked;
+    const err = !date ? 'Pilih tanggal mulai.' : date < today() ? 'Tanggal mulai sudah lewat. Pilih hari ini atau sesudahnya.' : !/^\d\d:\d\d$/.test(time) ? 'Isi jam dengan benar (contoh 19:00).' : !pfs.length && !withLong ? 'Pilih minimal satu platform.' : '';
+    if (err) return { err };
+    const shorts = v.upload.items.filter(i => i.key.startsWith('short:'));
+    const list = [], start = new Date(date + 'T' + time);
+    if (withLong && itemOf(v, 'long')) list.push({ video: v.id, item: 'long', platform: 'youtube', at: `${date}T${time}` });
+    shorts.forEach((it, i) => {
+      let d = new Date(start);
+      if (every === 0.5) { d.setDate(d.getDate() + Math.floor((i + (withLong ? 1 : 0)) / 2)); if ((i + (withLong ? 1 : 0)) % 2 === 1) d.setHours(12, 0); else d.setHours(+time.slice(0, 2), +time.slice(3)); if ((i + (withLong ? 1 : 0)) % 2 === 1) d.setDate(d.getDate() + 1); }
+      else d.setDate(d.getDate() + (i + (withLong ? 1 : 0)) * every);
+      const at = `${isoDay(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      pfs.forEach(pf => list.push({ video: v.id, item: it.key, platform: pf, at }));
+    });
+    return { v, list };
+  }
+  const clash = list => { const ex = allPosts().filter(p => p.status !== 'terunggah'); return list.filter(n => ex.some(p => p.platform === n.platform && p.at === n.at)); };
+  function wireAuto() {
+    const upd = () => {
+      const r = autoPlan();
+      $('#au-err').textContent = r.err || ''; $('#au-send').disabled = !!r.err;
+      if (r.err) { $('#au-prev').innerHTML = ''; $('#au-warn').textContent = ''; return; }
+      const c = clash(r.list);
+      $('#au-warn').textContent = c.length ? `${c.length} posting bentrok dengan jadwal lain di jam & platform yang sama. Tetap boleh dikirim, atau ubah jam.` : '';
+      $('#au-prev').innerHTML = `<span class="muted" style="font-size:.85rem">Pratinjau: ${r.list.length} posting</span>` + r.list.map(p => `<div><b>${tgl(p.at)} ${p.at.slice(11)}</b><span class="pf pf-${p.platform}">${PF[p.platform]}</span><span>${esc(itemLabel(r.v, p.item))}</span></div>`).join('');
+    };
+    $('#auto-form').addEventListener('input', upd); $('#auto-form').addEventListener('change', upd); upd();
+    $('#auto-form').addEventListener('submit', e => {
+      e.preventDefault(); const r = autoPlan(); if (r.err) return;
+      const last = r.list[r.list.length - 1];
+      openDialog({
+        title: `Kirim ${r.list.length} jadwal?`, input: false, ok: 'Ya, jadwalkan', anchorEl: $('#auto-form'),
+        text: `${r.v.title}: ${tgl(r.list[0].at)} sampai ${tgl(last.at)}. Claude mencatat jadwal ini; di hari posting Anda unggah memakai caption & video dari kartu jadwal.`,
+        compose: () => `[Jadwal] ${r.v.id}: ${r.list.length} posting\n` + r.list.map(p => `${p.at} ${p.platform} ${p.item}`).join('\n'),
+        after: () => { writeLP([...r.list.map(p => ({ ...p, status: 'diminta' })), ...readLP()]); viewJadwal(); },
+      });
+    });
+  }
+  function wireOne() {
+    const fill = () => {
+      const v = vById($('#on-video').value);
+      $('#on-item').innerHTML = v.upload.items.map(i => `<option value="${esc(i.key)}">${esc(itemLabel(v, i.key))}</option>`).join('');
+      fillPf();
+    };
+    const fillPf = () => {
+      const v = vById($('#on-video').value), it = itemOf(v, $('#on-item').value);
+      $('#on-pf').innerHTML = it.platforms.map(k => `<label><input type="checkbox" name="on-pf" value="${k}" checked> ${PF[k]}</label>`).join('');
+    };
+    $('#on-video').addEventListener('change', fill); $('#on-item').addEventListener('change', fillPf); fill();
+    $('#one-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const v = vById($('#on-video').value), item = $('#on-item').value, date = $('#on-date').value, time = $('#on-time').value;
+      const pfs = [...document.querySelectorAll('input[name=on-pf]:checked')].map(x => x.value);
+      const now = new Date(), when = new Date(`${date}T${time}`);
+      const err = !date || !time ? 'Isi tanggal dan jam.' : when < now ? 'Waktu itu sudah lewat. Pilih waktu yang akan datang.' : !pfs.length ? 'Pilih minimal satu platform.' : '';
+      $('#on-err').textContent = err; if (err) return;
+      const list = pfs.map(pf => ({ video: v.id, item, platform: pf, at: `${date}T${time}` }));
+      const c = clash(list);
+      openDialog({
+        title: 'Jadwalkan posting ini?', input: false, ok: 'Ya, jadwalkan', anchorEl: $('#one-form'),
+        text: `${v.title} · ${itemLabel(v, item)} → ${pfs.map(p => PF[p]).join(', ')} pada ${tgl(date)} ${time} WIB.`,
+        warn: c.length ? 'Sudah ada posting lain di jam & platform yang sama.' : '',
+        compose: () => `[Jadwal] ${v.id}: ${list.length} posting\n` + list.map(p => `${p.at} ${p.platform} ${p.item}`).join('\n'),
+        after: () => { writeLP([...list.map(p => ({ ...p, status: 'diminta' })), ...readLP()]); viewJadwal(); },
+      });
+    });
+  }
+  function jadwalClick(b) {
+    const posts = allPosts();
+    if (b.dataset.pffilter) { pfFilter = b.dataset.pffilter; viewJadwal(); return true; }
+    if (b.dataset.posted != null) {
+      const p = posts[+b.dataset.posted], v = vById(p.video);
+      openDialog({
+        title: 'Sudah diunggah?', input: true, optional: true, ok: 'Ya, sudah', anchorEl: b.closest('.post'),
+        text: `${v ? v.title : p.video} · ${itemLabel(v || {}, p.item)} di ${PF[p.platform]}. Tempel link postingan (boleh kosong).`,
+        placeholder: 'https://…',
+        compose: note => `[Terunggah] ${p.video} ${p.item} ${p.platform} ${p.at}${note ? '\nLink: ' + note : ''}`,
+        after: () => { const l = readLP(); const i = l.findIndex(x => x.video === p.video && x.item === p.item && x.platform === p.platform && x.at === p.at); if (i >= 0) { l[i].status = 'terunggah'; writeLP(l); } viewJadwal(); },
+      });
+      return true;
+    }
+    if (b.dataset.unpost != null) {
+      const p = posts[+b.dataset.unpost], v = vById(p.video);
+      openDialog({
+        title: 'Batalkan jadwal ini?', input: false, ok: 'Ya, batalkan', anchorEl: b.closest('.post'),
+        text: `${v ? v.title : p.video} · ${itemLabel(v || {}, p.item)} di ${PF[p.platform]}, ${tgl(p.at)} ${p.at.slice(11)}.`,
+        compose: () => `[Batal jadwal] ${p.video} ${p.item} ${p.platform} ${p.at}`,
+        after: () => { writeLP(readLP().filter(x => !(x.video === p.video && x.item === p.item && x.platform === p.platform && x.at === p.at))); viewJadwal(); },
+      });
+      return true;
+    }
+    return false;
+  }
+
   /* ---------- tampilan ---------- */
   const vById = id => DATA.videos.find(v => v.id === id);
   const stageName = i => DATA.stages[i] || '—';
@@ -755,6 +982,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
     else if (h === 'video') viewList();
     else if (h === 'riwayat') viewHistory();
     else if (h === 'produksi') viewProduksi();
+    else if (h === 'jadwal') viewJadwal();
     else viewHome();
     window.scrollTo(0, 0);
   }
@@ -764,6 +992,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   app.addEventListener('click', e => {
     const b = e.target.closest('button, a'); if (!b) return;
     if (b.classList.contains('play') && b.dataset.src) { togglePlay(b); return; }
+    if (location.hash === '#jadwal' && b.tagName === 'BUTTON' && jadwalClick(b)) return;
     if (location.hash.startsWith('#s-') && b.tagName === 'BUTTON') { const v = vById(location.hash.slice(3)); if (v && suaraClick(b, v)) return; }
     if (b.dataset.copy != null) copyText(COPIES[+b.dataset.copy], b);
     else if (b.dataset.filter != null) { filter = b.dataset.filter; viewList(); }
