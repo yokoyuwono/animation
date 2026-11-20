@@ -406,6 +406,8 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
   });
 
   async function sendToClaude(anchorEl, text, meta = {}) {
+    const dup = (REQS || []).find(r => r.text === text && (r.status === 'terkirim' || r.status === 'dikerjakan'));
+    if (dup) return { ok: false, msg: `Permintaan yang sama sudah ada di antrian (#${dup.id}, status ${dup.status}). Tidak dikirim ulang.` };
     const id = newReqId();
     // 1) simpan ke kotak permintaan
     let saved = false, saveErr = null;
@@ -427,7 +429,10 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
       } catch (err) { code = err && err.code; }
     }
     if (saved && sent) return { ok: true, saved, msg: 'Terkirim ke Claude ✓ Status bisa dilihat di tab Produksi.' };
-    if (saved) return { ok: true, saved, warn: true, msg: 'Tersimpan di antrian ✓ Claude belum dibangunkan; buka chat Claude dan tulis "cek antrian Studio".' };
+    if (saved) {
+      const why = code ? `galat ${code}` : can === 'no_session' ? 'chat Claude sedang sibuk/tidak aktif' : can === 'writers_only' ? 'akun ini tidak bisa memanggil Claude' : 'panggilan Claude tidak tersedia di tampilan ini';
+      return { ok: true, saved, warn: true, msg: `Tersimpan di antrian ✓ Claude belum terpanggil (${why}). Tidak perlu tekan ulang; Claude membacanya saat chat aktif.` };
+    }
     if (sent) return { ok: true, saved, msg: can === 'available' ? 'Terkirim ke Claude.' : 'Komentar tersimpan. Claude membacanya saat dibuka lagi.' };
     if (!db && !comments) return { ok: false, msg: 'Pengiriman hanya jalan di halaman ini di claude.ai. Buka lewat tautan artifact, lalu coba lagi. Pesan masih ada di kotak.' };
     const M = {
