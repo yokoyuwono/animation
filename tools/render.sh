@@ -24,7 +24,7 @@ else
   trap 'rm -rf "$TMP"' EXIT
 fi
 
-mp4() { ffmpeg -v error -y -i "$1" -c:v libx264 -preset medium -crf 21 -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k -movflags +faststart "$2"; echo "-> $2 ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$2") detik)"; }
+mp4() { ffmpeg -v error -y -i "$1" -vf "scale=iw*2:ih*2:flags=neighbor" -c:v libx264 -preset medium -crf 18 -tune animation -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k -movflags +faststart "$2"; echo "-> $2 ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$2") detik)"; }
 rec() { # hash out.mp4 w h
   node tools/record.js "$1" "$TMP/rec.webm" "$3" "$4" | grep -v '^audio'
   mp4 "$TMP/rec.webm" "$2"
