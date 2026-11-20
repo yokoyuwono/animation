@@ -348,6 +348,24 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
   // Kemampuan "comments" dari claude.ai: tersedia hanya di halaman artifact. Di luar itu tombol tetap ada tapi menjelaskan caranya.
   if (window.claude && claude.use) claude.use('comments').then(c => { comments = c; }).catch(() => { comments = null; });
 
+  // Kotak permintaan (db "requests"): isi pesan disimpan di sini agar pasti terbaca Claude,
+  // lalu Claude memperbarui statusnya (dikerjakan/selesai/gagal + hasil). Tampil langsung di tab Produksi.
+  let db = null, REQS = null, reqNote = '';
+  if (window.claude && claude.use) claude.use('db').then(d => { db = d; if (d) subscribeRequests(); }).catch(() => { db = null; });
+  function subscribeRequests() {
+    const t = setTimeout(() => { reqNote = 'Status antrian belum bisa dimuat; mungkin sudah usang.'; if (location.hash === '#produksi') viewProduksi(); }, 10000);
+    try {
+      db.collection('requests').orderBy('at', 'desc').limit(200).onSnapshot(snap => {
+        if (!snap.metadata.fromCache) { clearTimeout(t); reqNote = ''; }
+        REQS = snap.docs.map(d => d.data());
+        if (location.hash === '#produksi' || location.hash === '#beranda' || location.hash === '') route();
+      }, err => { clearTimeout(t); reqNote = 'Status antrian tidak bisa dimuat (' + (err && err.code) + ').'; if (location.hash === '#produksi') viewProduksi(); });
+    } catch (e) { clearTimeout(t); }
+  }
+  const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej({ code: 'timeout' }), ms))]);
+  const newReqId = () => { const d = new Date(); return `r-${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}-${pad2(d.getHours())}${pad2(d.getMinutes())}${pad2(d.getSeconds())}-${Math.random().toString(36).slice(2, 6)}`; };
+  function pad2(n) { return String(n).padStart(2, '0'); }
+
   const dlg = $('#dlg');
   let dlgCtx = null;
   function openDialog(ctx) {
@@ -380,34 +398,51 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
     if (ctx.input && !ctx.optional && note.length < 3) { $('#dlg-msg').textContent = 'Tulis dulu apa yang perlu diubah (minimal 3 huruf).'; $('#dlg-msg').className = 'msg bad'; $('#dlg-input').focus(); return; }
     const text = ctx.compose(note);
     setBusy(true);
-    const res = await sendToClaude(ctx.anchorEl, text);
+    const meta = ctx.job || { video: ctx.video || '', action: text.split('\n')[0].slice(0, 120) };
+    const res = await sendToClaude(ctx.anchorEl, text, meta);
     setBusy(false);
-    if (res.ok) { dlg.close(); toast(res.msg); if (ctx.job) addLocalJob(ctx.job); if (ctx.after) ctx.after(); }
+    if (res.ok) { dlg.close(); toast(res.msg, res.warn); if (ctx.job && !res.saved) addLocalJob(ctx.job); if (ctx.after) ctx.after(); }
     else { $('#dlg-msg').textContent = res.msg; $('#dlg-msg').className = 'msg bad'; }
   });
 
-  async function sendToClaude(anchorEl, text) {
-    if (!comments) return { ok: false, msg: 'Fitur komentar hanya jalan di halaman ini di claude.ai. Buka halaman lewat tautan artifact, lalu coba lagi. Pesan Anda masih tersimpan di kotak.' };
-    try {
-      const can = comments.canSendToClaude ? await comments.canSendToClaude() : 'off';
-      const anchor = await comments.anchorFor(anchorEl);
-      if (can === 'available') { await comments.sendToClaude({ anchor, text }); return { ok: true, msg: 'Terkirim ke Claude. Balasan muncul di utas komentar.' }; }
-      await comments.create({ anchor, text });
-      const why = can === 'no_session' ? 'Claude sedang tidak aktif' : 'kirim ke Claude belum tersedia di sini';
-      return { ok: true, msg: `Komentar tersimpan (${why}). Claude membacanya saat dibuka lagi.` };
-    } catch (err) {
-      const code = err && err.code;
-      const M = {
-        consent_required: 'Belum diizinkan. Tekan Kirim lagi lalu pilih Izinkan pada pertanyaan yang muncul.',
-        forbidden: 'Komentar dari halaman ini dimatikan. Aktifkan lagi dari panel komentar claude.ai.',
-        rate_limited: 'Terlalu cepat. Tunggu sebentar lalu kirim lagi.',
-        claude_unavailable: 'Claude tidak bisa dihubungi sekarang. Tidak ada yang terkirim; coba lagi nanti.',
-        unavailable: 'Layanan komentar sedang gangguan. Coba sekali lagi sebentar lagi.',
-        invalid: 'Pesan tidak bisa dikirim (terlalu panjang atau berisi karakter aneh).',
-      };
-      return { ok: false, msg: (M[code] || 'Terjadi galat saat mengirim. Pesan masih ada di kotak; coba lagi.') + (code ? ` [${code}]` : '') };
+  async function sendToClaude(anchorEl, text, meta = {}) {
+    const id = newReqId();
+    // 1) simpan ke kotak permintaan
+    let saved = false, saveErr = null;
+    if (db) {
+      try {
+        await withTimeout(db.collection('requests').doc(id).set({ id, text, video: meta.video || '', action: meta.action || '', status: 'terkirim', at: new Date().toISOString() }), 10000);
+        saved = true;
+      } catch (e) { saveErr = e && e.code; }
     }
+    // 2) bangunkan Claude lewat komentar (menyebut nomor permintaan)
+    let sent = false, code = null, can = 'off';
+    if (comments) {
+      try {
+        can = comments.canSendToClaude ? await comments.canSendToClaude() : 'off';
+        const anchor = await comments.anchorFor(anchorEl);
+        const body = (saved ? `Permintaan #${id}\n` : '') + text;
+        if (can === 'available') { await comments.sendToClaude({ anchor, text: body }); sent = true; }
+        else if (!saved) { await comments.create({ anchor, text: body }); sent = true; }
+      } catch (err) { code = err && err.code; }
+    }
+    if (saved && sent) return { ok: true, saved, msg: 'Terkirim ke Claude ✓ Status bisa dilihat di tab Produksi.' };
+    if (saved) return { ok: true, saved, warn: true, msg: 'Tersimpan di antrian ✓ Claude belum dibangunkan; buka chat Claude dan tulis "cek antrian Studio".' };
+    if (sent) return { ok: true, saved, msg: can === 'available' ? 'Terkirim ke Claude.' : 'Komentar tersimpan. Claude membacanya saat dibuka lagi.' };
+    if (!db && !comments) return { ok: false, msg: 'Pengiriman hanya jalan di halaman ini di claude.ai. Buka lewat tautan artifact, lalu coba lagi. Pesan masih ada di kotak.' };
+    const M = {
+      consent_required: 'Belum diizinkan. Tekan Kirim lagi lalu pilih Izinkan pada pertanyaan yang muncul.',
+      forbidden: 'Komentar dari halaman ini dimatikan. Aktifkan lagi dari panel komentar claude.ai.',
+      rate_limited: 'Terlalu cepat. Tunggu sebentar lalu kirim lagi.',
+      claude_unavailable: 'Claude tidak bisa dihubungi sekarang. Coba lagi nanti.',
+      unavailable: 'Layanan sedang gangguan. Coba sekali lagi sebentar lagi.',
+      invalid: 'Pesan tidak bisa dikirim (terlalu panjang atau berisi karakter aneh).',
+      timeout: 'Koneksi terlalu lama. Periksa internet lalu coba lagi.',
+    };
+    const c = code || saveErr;
+    return { ok: false, msg: (M[c] || 'Gagal mengirim. Pesan masih ada di kotak; coba lagi.') + (c ? ` [${c}]` : '') };
   }
+
 
   function askChange(v, where, el) {
     openDialog({
@@ -464,7 +499,8 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
     if (location.hash === '#produksi') viewProduksi();
   }
   function allJobs() {
-    const server = DATA.jobs || [];
+    const fromDb = (REQS || []).map(r => ({ id: r.id, video: r.video, action: r.action || (r.text || '').split('\n')[0], status: r.status || 'terkirim', at: (r.at || '').slice(0, 10), result: r.result || '' }));
+    const server = [...fromDb, ...(DATA.jobs || [])];
     const local = readLocal().filter(l => !server.some(s => s.video === l.video && s.action === l.action && s.at >= l.at));
     return [...local, ...server];
   }
@@ -527,6 +563,7 @@ mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: in
       </section>
       <section aria-labelledby="h-run">
         <div class="sec-head"><h2 id="h-run">Sedang berjalan</h2><span class="muted">${active.length}</span></div>
+        ${reqNote ? `<div class="muted" role="status" style="font-size:.85rem;color:var(--second)">${esc(reqNote)}</div>` : ''}${db && REQS === null && !reqNote ? '<div class="skel" style="height:56px"></div>' : ''}
         <div class="jobs">${active.length ? active.map(jobHTML).join('') : '<div class="panel state"><span class="big">Tidak ada pekerjaan berjalan</span><span class="muted">Kirim ide baru, atau buka video lalu tekan langkah berikutnya.</span></div>'}</div>
       </section>
       <section aria-labelledby="h-done">

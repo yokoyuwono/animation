@@ -118,6 +118,10 @@ Terpisah dari pemutar "Pixel Movie". Rencana sistem: `docs/rencana-studio.md`.
      `index.html` + `data.json` + file baru dari `studio/publish-files.json` (maks 256 file per panggilan).
      Audio pratinjau hanya untuk video di tahap Suara; lepas audio video yang sudah dirender lewat `remove`.
   4. Commit & push ke cabang `studio-dashboard`.
+- **Kotak permintaan:** setiap tombol menyimpan pesan ke db artifact koleksi `requests` (`{id,text,video,action,status,at,result}`)
+  lalu mengirim komentar "Permintaan #<id>" untuk membangunkan Claude. Baca dengan `db_list`/`db_query` (slug di atas,
+  `requests` status `terkirim`) — komentar dari tombol halaman tidak terbaca `read_comments`. Perbarui status lewat
+  `db_write` (`dikerjakan` → `selesai`/`gagal` + `result`); tampil langsung di tab Produksi.
 - **Komentar dari halaman** membangunkan sesi yang terakhir menerbitkan halaman: baca dengan `read_comments`, kerjakan,
   balas dengan `reply_comment`, lalu perbarui halaman (langkah di atas). Pekerjaan yang memakai kredit hanya dijalankan
   bila komentar menyebut "disetujui" dan perkiraan kredit.
