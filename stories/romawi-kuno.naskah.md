@@ -45,16 +45,17 @@ r-25. Dia memungut sisa buah di pasar. Diusir pedagang. **[*DIUSIR*]** *(pedagan
 r-26. Hari ke-14, kakinya gemetar. Pandangannya kabur. **[KAKI *GEMETAR*]** *(LAPAR 92%, layar gelap)*
 r-27. Dia butuh uang. Cepat. Tanpa syarat. *(punchline, hitam-putih)* **[UANG CEPAT · *TANPA SYARAT*]** *(LAPAR: KRITIS)*
 
-## Bab 4 — Arena
-30. *(long)* Hari itu, seluruh kota berjalan ke satu arah. / *(short)* Kelaparan di Roma kuno, ada satu jalan pintas yang mengerikan.
-31. Dimas ikut arus ke sebuah amfiteater batu. **[AMFITEATER]**
-32. Colosseum? Belum ada. Baru dibangun dua puluh tahun lagi. **[COLOSSEUM *BELUM ADA*]**
-33. Di arena, gladiator bertarung. Kebanyakan budak dan tawanan. **[GLADIATOR]**
-34. Tapi seorang petugas berteriak: siapa pun boleh mendaftar. **[*RELAWAN* BOLEH]**
-35. Relawan langsung dapat uang muka. **[UANG *MUKA*]** *(fakta: auctoratus)*
-36. Syaratnya cuma satu: sumpah. **[SYARATNYA: *SUMPAH*]**
-37. Rela dibakar, dirantai, dicambuk, dan dibunuh pedang. **[*SUMPAH* GLADIATOR]** *(fakta: Petronius, Satyricon)*
-38. Perut Dimas berbunyi. Dia mengangguk. *(punchline)* **[*SETUJU*]**
+## Bab 4 — Arena  *(animasi draf: `stories/romawi-kuno.js` · musik "Arena of Iron" mulai di dalam arena)*
+r-28. *(long)* Hari itu, seluruh kota berjalan ke satu arah. **[SEMUA KE *SATU ARAH*]** *(peta: arus warga ke amfiteater)*
+r-28s. *(short)* Kelaparan di Roma kuno? Ada satu jalan pintas yang mengerikan. **[JALAN PINTAS *MENGERIKAN*]**
+r-29. Dimas ikut arus ke sebuah amfiteater batu. **[AMFITEATER *BATU*]** *(label: Amfiteater Statilius Taurus)*
+r-30. Colosseum? Belum ada. Baru dibangun ±20 tahun lagi. **[COLOSSEUM *BELUM ADA*]** *(ikon Colosseum disilang; kartu: dibangun ±70 M, dibuka 80 M)*
+r-31. Di arena, gladiator bertarung. Kebanyakan budak dan tawanan. **[KEBANYAKAN *BUDAK* & *TAWANAN*]** *(duel murmillo vs thraex, tribun bersorak)*
+r-32. Tapi seorang pria berteriak: siapa pun boleh mendaftar. **[*RELAWAN* BOLEH DAFTAR]** *(Lanista Varus: "Quis pugnare vult?" = Siapa mau bertarung?)*
+r-33. Relawan langsung dapat uang muka. **[UANG *MUKA*]** *("Pecunia statim!" = Uang langsung!; kartu auctoratus)*
+r-34. Syaratnya cuma satu: sumpah. **[SYARATNYA: *SUMPAH*]** *("Iura!" = Bersumpahlah!)*
+r-35. Rela dibakar, dirantai, dicambuk, dan dibunuh pedang. **[DIBUNUH *PEDANG*]** *(ikon api·rantai·cambuk·pedang; Petronius, Satyricon 117)*
+r-36. Perut Dimas berbunyi. Dia mengangguk. *(punchline)* **[*SETUJU*]** *(stempel hijau SETUJU)*
 
 ## Bab 5 — Sekolah gladiator & ilmu pertama: fisika
 39. *(long)* Malam itu, untuk pertama kalinya, Dimas makan kenyang. / *(short)* Orang modern masuk sekolah gladiator. Senjata apa yang dia pilih?

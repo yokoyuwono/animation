@@ -38,6 +38,17 @@ const SP = {
   'r-25':  ['Dia memungut sisa buah di pasar. Diusir pedagang.', 'Dia memungut sisa buah di pasar. Diusir pedagang.'],
   'r-26':  ['Hari ke-14, kakinya gemetar. Pandangannya kabur.', 'Hari keempat belas, kakinya gemetar. Pandangannya kabur.'],
   'r-27':  ['Dia butuh uang. Cepat. Tanpa syarat.', 'Dia butuh uang. Cepat. Tanpa syarat.'],
+  // Bab 4 — arena
+  'r-28':  ['Hari itu, seluruh kota berjalan ke satu arah.', 'Hari itu, seluruh kota berjalan ke satu arah.'],
+  'r-28s': ['Kelaparan di Roma kuno? Ada satu jalan pintas yang mengerikan.', 'Kelaparan di Roma kuno? Ada satu jalan pintas yang mengerikan.'],
+  'r-29':  ['Dimas ikut arus ke sebuah amfiteater batu.', 'Dimas ikut arus ke sebuah amfiteater batu.'],
+  'r-30':  ['Colosseum? Belum ada. Baru dibangun ±20 tahun lagi.', 'Colosseum? Belum ada. Baru dibangun sekitar dua puluh tahun lagi.'],
+  'r-31':  ['Di arena, gladiator bertarung. Kebanyakan budak dan tawanan.', 'Di arena, gladiator bertarung. Kebanyakan budak dan tawanan.'],
+  'r-32':  ['Tapi seorang pria berteriak: siapa pun boleh mendaftar.', 'Tapi seorang pria berteriak: siapa pun boleh mendaftar.'],
+  'r-33':  ['Relawan langsung dapat uang muka.', 'Relawan langsung dapat uang muka.'],
+  'r-34':  ['Syaratnya cuma satu: sumpah.', 'Syaratnya cuma satu: sumpah.'],
+  'r-35':  ['Rela dibakar, dirantai, dicambuk, dan dibunuh pedang.', 'Rela dibakar, dirantai, dicambuk, dan dibunuh pedang.'],
+  'r-36':  ['Perut Dimas berbunyi. Dia mengangguk.', 'Perut Dimas berbunyi. Dia mengangguk.'],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -54,9 +65,9 @@ const ROMA = {
 };
 const SUBURA = { x: 150, y: 44 };            // gang tempat Dimas terbangun
 const WARGA_PETA = ['rm_tukang', 'rm_pedagang', 'rm_warga', 'rm_ibu', 'rm_budak', 'rm_pemuda', 'rm_gadis', 'rm_tua'];
-function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, dimas = false, dimasSprite = 'dimas', jobs = [], extraProps = [] } = {}) {
+function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clock, meter, dimas = false, dimasSprite = 'dimas', jobs = [], extraProps = [] } = {}) {
   return {
-    transition, sky: 'map', map: ROMA, noClouds: true, camera: c, clock,
+    transition, sky: 'map', map: ROMA, noClouds: true, camera: c, clock, meter,
     props: [{ sprite: 'roma_peta', x: 96, y: 54, scale: 0.5, center: true, depth: 1 },
       { id: 'kilat', sprite: 'kilat', x: SUBURA.x, y: SUBURA.y + 1, scale: 0.4, depth: 20, hidden: true },
       { id: 'pin', sprite: 'roma_penanda', x: SUBURA.x, y: SUBURA.y - 3, scale: 0.8, depth: 20, hidden: true }, ...extraProps],
@@ -464,6 +475,139 @@ const STORY = {
               { at: 'syarat', kw: 'UANG CEPAT · *TANPA SYARAT*', keepKw: true },
             ], { punch: true })] },
             { mono: false },
+          ],
+        },
+      ],
+    },
+    // ================= BAB 4 — ARENA =================
+    {
+      id: 'bab-4', title: 'Arena',
+      scenes: [
+        // 1) Peta: seluruh kota mengalir ke amfiteater; Dimas ikut arus
+        peta([
+          { together: [{ camera: { x: 112, y: 36, zoom: 1.6 }, dur: 4200, ease: 'Sine.easeInOut' }, { crowd: 'goto', x: 75, y: 24, spread: 9, frac: 0.8, rush: 1.5 },
+            C('r-28', [{ at: 'kota', emote: 'dimasP', icon: 'question', dur: 1000 }, { at: 'satu', kw: 'SEMUA KE *SATU ARAH*' }], { only: 'long' }),
+            C('r-28s', [{ at: 0, kw: 'JALAN PINTAS *MENGERIKAN*' }, { at: 'mengerikan', sticker: 'shock', at_: [0.75, 0.3] }], { only: 'short' })] },
+          C('r-29', [
+            { at: 0, move: 'dimasP', to: 82, dur: 3400 }, { at: 0, raise: 'dimasP', to: 29, dur: 3400 },
+            { at: 0, camera: { x: 80, y: 26, zoom: 2.5 }, dur: 3200 },
+            { at: 'amfiteater', label: 'AMFITEATER STATILIUS TAURUS', x: 75, y: 11, bg: GELAP, size: 14, dur: 0 },
+            { at: 'amfiteater', kw: 'AMFITEATER *BATU*' },
+          ]),
+          { clearLabels: true },
+        ], { transition: 'clouds', c: { x: SUBURA.x, y: SUBURA.y, zoom: 2.6 }, clock: 'HARI 15', meter: LAPAR(1, { text: 'KRITIS' }), dimas: true, dimasSprite: 'dimas_tunik' }),
+
+        // 2) Fasad amfiteater: warga antre masuk; Colosseum belum ada
+        {
+          transition: 'zoom', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 15', meter: LAPAR(1, { text: 'KRITIS' }),
+          props: [...JALAN,
+            { sprite: 'pinus_samping', x: 6, y: 62, depth: 2.2 }, { sprite: 'siprus_samping', x: 186, y: 60, depth: 2.2 },
+            { sprite: 'amfiteater_luar', x: 96, y: 92, scale: 0.72, depth: 3 },
+            { sprite: 'amfora', x: 40, y: 89, depth: 4 }, { sprite: 'amfora', x: 150, y: 89, depth: 4, flip: true },
+            { id: 'ikon', sprite: 'colosseum_ikon', x: VERT ? 110 : 140, y: 66, depth: 20, hidden: true },
+            { id: 'silang', sprite: 'tanda_x', x: VERT ? 110 : 140, y: 67, scale: 0.85, depth: 21, hidden: true },
+          ],
+          actors: [
+            r('w1', 'rm_warga', -20), r('w2', 'rm_tukang', 220, { face: 'left' }), r('w3', 'rm_ibu', -30), r('w4', 'rm_pemuda', 230, { face: 'left' }),
+            r('w5', 'rm_tua', -40), r('w6', 'rm_gadis', 240, { face: 'left' }),
+            r('dimas', 'dimas_tunik', -25, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            { together: [{ enter: 'w1', from: 'left', to: 96, speed: 34 }, { enter: 'w2', from: 'right', to: 96, speed: 30 }, { enter: 'dimas', from: 'left', to: 66, speed: 34 }, { wait: 900 }] },
+            C('r-30', [
+              { at: 0, hide: 'w1', dur: 300 }, { at: 0, enter: 'w3', from: 'left', to: 96, speed: 30 }, { at: 0, enter: 'w4', from: 'right', to: 96, speed: 32 },
+              { at: 'colosseum', pop: 'ikon' }, { at: 'colosseum', label: 'COLOSSEUM', x: VERT ? 110 : 140, y: 34, bg: GELAP, size: 15, dur: 0 },
+              { at: 'belum', pop: 'silang' }, { at: 'belum', sfx: 'buzz', vol: 0.6 }, { at: 'belum', kw: 'COLOSSEUM *BELUM ADA*' }, { at: 'belum', hide: 'w2', dur: 300 },
+              { at: 'dibangun', card: 'Amfiteater di Roma', items: ['Ini: amfiteater batu pertama', '(Statilius Taurus, 29 SM)', 'Colosseum: dibangun ±70 M', 'Dibuka tahun 80 M'], x: 70, y: 60, place: 'left' },
+              { at: 'dibangun', enter: 'w5', from: 'left', to: 96, speed: 26 }, { at: 'tahun', hide: 'w3', dur: 300 }, { at: 'tahun', enter: 'w6', from: 'right', to: 96, speed: 30 },
+              { at: 'lagi', hide: 'w4', dur: 300 },
+            ]),
+            { clear: true },
+            { together: [{ move: 'dimas', to: 96, dur: 1300 }, { hide: 'ikon', dur: 300 }, { hide: 'silang', dur: 300 }] },
+          ],
+        },
+
+        // 3) Di dalam arena: tribun bersorak, duel murmillo vs thraex (musik arena)
+        {
+          transition: 'zoom', music: 'arena', sky: 'day', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 15', meter: LAPAR(1, { text: 'KRITIS' }),
+          props: [
+            { sprite: 'tribun_0', anim: 'tribun', x: 96, y: 88, depth: 2 },
+            { sprite: 'velarium', x: 96, y: 26, depth: 2.1 },
+            { sprite: 'pasir_arena', x: 96, y: 108, depth: 2.5 },
+            { id: 'g1', sprite: 'gl_murmillo', x: 62, y: 102, scale: 1.25, depth: 10 },
+            { id: 'g2', sprite: 'gl_thraex', x: 132, y: 102, scale: 1.25, depth: 10, flip: true },
+            { id: 'denting', sprite: 'denting', x: 97, y: 88, scale: 1.2, depth: 12, hidden: true },
+          ],
+          actors: [ r('dimas', 'dimas_tunik', 150, { y: 75, scale: 0.6, name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-31', [
+              { at: 0, move: 'g1', to: 86, dur: 1000 }, { at: 0, move: 'g2', to: 108, dur: 1000 },
+              { at: 'gladiator', swap: 'g1', to: 'gl_murmillo_serang' }, { at: 'gladiator', pop: 'denting' }, { at: 'gladiator', shake: 180 }, { at: 'gladiator', kw: 'GLADIATOR' },
+              { at: 'bertarung', swap: 'g1', to: 'gl_murmillo' }, { at: 'bertarung', swap: 'g2', to: 'gl_thraex_serang' }, { at: 'bertarung', pop: 'denting' }, { at: 'bertarung', jump: 'g1', times: 1, height: 3 },
+              { at: 'kebanyakan', swap: 'g2', to: 'gl_thraex' }, { at: 'kebanyakan', hide: 'denting', dur: 100 }, { at: 'kebanyakan', emote: 'dimas', icon: 'exclaim', dur: 900 },
+              { at: 'budak', label: 'BUDAK', x: 84, y: 74, bg: GELAP, size: 15, dur: 0 }, { at: 'tawanan', label: 'TAWANAN PERANG', x: 112, y: 66, bg: MERAH, size: 15, dur: 0 },
+              { at: 'kebanyakan', kw: 'KEBANYAKAN *BUDAK* & *TAWANAN*' },
+            ]),
+            { together: [{ swap: 'g2', to: 'gl_thraex_serang' }, { pop: 'denting' }, { shake: 200 }, { jump: 'g1', times: 1, height: 4 }] },
+            { together: [{ swap: 'g2', to: 'gl_thraex' }, { swap: 'g1', to: 'gl_murmillo_serang' }, { pop: 'denting' }, { jump: 'g2', times: 1, height: 4 }, { wait: 500 }] },
+            { clear: true },
+          ],
+        },
+
+        // 4) Di gerbang: lanista merekrut relawan — uang muka, lalu sumpah
+        {
+          transition: 'cut', sky: 'sunset', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: 108 } : CAM_DEKAT, clock: 'HARI 15', meter: LAPAR(1, { text: 'KRITIS' }),
+          props: [...JALAN,
+            { sprite: 'amfiteater_luar', x: 96, y: 92, scale: 0.72, depth: 3 },
+            { sprite: 'obor', x: 136, y: 90, depth: 4 }, { sprite: 'obor', x: 76, y: 90, depth: 4 },
+            { sprite: 'meja_rekrut', x: 124, y: 96, depth: 8 },
+            { id: 'k1', sprite: 'koin', x: 118, y: 86, scale: 1.4, depth: 13, hidden: true }, { id: 'k2', sprite: 'koin', x: 122, y: 85, scale: 1.4, depth: 13, hidden: true }, { id: 'k3', sprite: 'koin', x: 126, y: 86, scale: 1.4, depth: 13, hidden: true },
+            { id: 'i1', sprite: 'ikon_api', x: 84, y: 76, scale: 0.7, depth: 20, hidden: true }, { id: 'i2', sprite: 'ikon_rantai', x: 95, y: 76, scale: 0.7, depth: 20, hidden: true },
+            { id: 'i3', sprite: 'ikon_cambuk', x: 84, y: 88, scale: 0.7, depth: 20, hidden: true }, { id: 'i4', sprite: 'ikon_pedang', x: 95, y: 88, scale: 0.7, depth: 20, hidden: true },
+          ],
+          actors: [
+            r('lanista', 'rm_lanista', 128, { y: 90, depth: 7, face: 'left', name: 'Varus', tag: 'LANISTA VARUS', tagColor: TEAL }),
+            r('calon', 'rm_pemuda', 100, { face: 'right' }), r('calon2', 'rm_tukang', 88, { face: 'right' }),
+            r('dimas', 'dimas_tunik', 62, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-32', [
+              { at: 'pria', say: 'lanista', text: 'Quis pugnare vult?', dur: 1300, shout: true },
+              { at: 'pria', label: '(Siapa mau bertarung?)', x: 124, y: 49, bg: GELAP, size: 17, dur: 0 },
+              { at: 'siapa', jump: 'lanista', times: 1, height: 3 }, { at: 'siapa', exit: 'calon', to: 'left', speed: 45 }, { at: 'siapa', exit: 'calon2', to: 'left', speed: 40 },
+              { at: 'mendaftar', kw: '*RELAWAN* BOLEH DAFTAR' }, { at: 'mendaftar', emote: 'dimas', icon: 'exclaim', dur: 900 },
+            ]),
+            { clearLabels: true },
+            C('r-33', [
+              { at: 0, move: 'dimas', to: 104, dur: 1100 },
+              { at: 'langsung', say: 'lanista', text: 'Pecunia statim!', dur: 1000 }, { at: 'langsung', label: '(Uang langsung!)', x: 124, y: 49, bg: GELAP, size: 17, dur: 0 },
+              { at: 'uang', pop: 'k1' }, { at: 'uang', kw: 'UANG *MUKA*' }, { at: 'muka', pop: 'k2' }, { at: 'muka', pop: 'k3' }, { at: 'muka', sfx: 'kaching' },
+              { at: 'muka', emote: 'dimas', icon: 'heart', dur: 1000 },
+              { at: 'muka', card: 'Auctoratus', items: ['Orang merdeka yang', 'menjual diri jadi gladiator', 'Bayaran diterima saat bersumpah'], x: 60, y: 60, place: 'left' },
+            ]),
+            { together: [{ clear: true }, { move: 'k1', to: 106, dur: 500 }, { move: 'k2', to: 106, dur: 600 }, { move: 'k3', to: 106, dur: 700 }] },
+            { together: [{ hide: 'k1', dur: 200 }, { hide: 'k2', dur: 200 }, { hide: 'k3', dur: 200 }, { sfx: 'coin', vol: 0.7 }] },
+            // sumpah: layar menggelap, kamera mendekat
+            C('r-34', [
+              { at: 0, tint: 0.5, color: GELAP, dur: 900 }, { at: 0, camera: VERT ? { x: 100, y: 80, zoom: 2 } : { x: 108, y: 80, zoom: 2.3 }, dur: 1200 },
+              { at: 'syaratnya', say: 'lanista', text: 'Iura!', dur: 900, shout: true }, { at: 'syaratnya', label: '(Bersumpahlah!)', x: 128, y: 64, bg: MERAH, size: 16, dur: 0 },
+              { at: 'sumpah', kw: 'SYARATNYA: *SUMPAH*' }, { at: 'sumpah', jump: 'dimas', times: 1, height: 2 },
+            ]),
+            { clearLabels: true },
+            C('r-35', [
+              { at: 'dibakar', pop: 'i1' }, { at: 'dibakar', kw: '*DIBAKAR*' },
+              { at: 'dirantai', pop: 'i2' }, { at: 'dirantai', kw: 'DIBAKAR · *DIRANTAI*' },
+              { at: 'dicambuk', pop: 'i3' }, { at: 'dicambuk', kw: 'DIRANTAI · *DICAMBUK*' },
+              { at: 'dibunuh', pop: 'i4' }, { at: 'pedang', kw: 'DIBUNUH *PEDANG*' }, { at: 'pedang', shake: 300 }, { at: 'pedang', emote: 'dimas', icon: 'sweat', dur: 1200 },
+              { at: 'dibakar', label: 'Isi sumpah gladiator (Petronius, Satyricon)', x: 106, y: 100, bg: GELAP, size: 12, dur: 0 },
+            ]),
+            { clearLabels: true },
+            C('r-36', [
+              { at: 'perut', label: 'KRUUUK...', x: 104, y: 78, bg: MERAH, size: 16, dur: 0 }, { at: 'berbunyi', shake: 220 },
+              { at: 'mengangguk', jump: 'dimas', times: 2, height: 2 }, { at: 'mengangguk', stamp: 'SETUJU', color: '#38b764', at_: [0.5, 0.34] },
+              { at: 'mengangguk', kw: '*SETUJU*', keepKw: true },
+            ], { punch: true }),
+            { together: [{ hide: 'i1', dur: 300 }, { hide: 'i2', dur: 300 }, { hide: 'i3', dur: 300 }, { hide: 'i4', dur: 300 }, { wait: 600 }] },
           ],
         },
       ],
