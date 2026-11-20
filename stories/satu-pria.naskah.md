@@ -6,7 +6,7 @@
 > Ramah keluarga: warga mengejar karena heboh/penasaran (seperti fans), tanpa romansa fisik.
 
 ## Bab 1 — Hook (kilas maju)
-1. Ini Dimas. Dua puluh lima tahun. Sedang lari sekuat tenaga. **[DIMAS *KABUR*]**
+1. Ini Dimas. Hari ketujuh di dunia lain. Ia lari sekuat tenaga. **[HARI *7* · DIMAS *KABUR*]**
 2. Di belakangnya, seribu orang mengejar. Bawa kamera dan bunga. **[DIKEJAR *1.000*]** *(ilustrasi)*
 3. «Seminggu lalu aku berdoa ingin dikelilingi cewek.»
 4. «Sekarang… aku menyesal.» **[*MENYESAL*]**
@@ -15,11 +15,11 @@
 ## Bab 2 — Ditolak 10 kali
 6. *(jembatan)* Mundur seminggu. Dimas masih di dunia kita.
 7. Dimas pegawai gudang. Baik, rajin, tapi jomblo menahun. **[JOMBLO *25 TAHUN*]**
-8. Tahun ini ia sudah nembak sepuluh kali. **[*0* – 10]**
+8. Tahun ini ia sudah nembak cewek sepuluh kali. **[*0* – 10]**
 9. «Kamu kayak abangku sendiri.» Tolakan pertama. **[*1*]**
 10. «Aku lagi fokus skripsi.» Padahal sudah wisuda. **[*2*]**
 11. «Aku nyari yang tinggi.» Dimas jinjit pun tetap kalah. **[*3*]**
-12. Tolakan keempat sampai kesepuluh, datang lebih cepat. **[*10*]**
+12. Sisanya? Ada yang cuma balas: «Wkwk.» **[*10*]**
 13. Padahal, di Indonesia, pria dan wanita hampir seimbang. **[±*101 : 100*]**
 14. Secara statistik, jodoh Dimas itu ada.
 15. Malam itu Dimas galau. Ia berdoa sebelum tidur.
@@ -27,11 +27,11 @@
 17. Doanya dikabulkan. Terlalu harfiah. *(punchline)* · *skor: DITOLAK 10 · DIKEJAR 0*
 
 ## Bab 3 — Bangun di Negeri Sekar
-18. *(jembatan)* Dimas membuka mata. Kamarnya hilang.
+18. *(jembatan)* Dimas membuka mata. Kamarnya hilang. **[HARI *1*]**
 19. Ia terbaring di alun-alun kota yang asing. **[NEGERI *SEKAR*]**
 20. Montir, pilot, polisi, kuli bangunan. Semuanya perempuan. **[100% *PEREMPUAN*]**
 21. Nenek penjual sayur pun menatapnya, heran.
-22. Dimas tersenyum lebar. «Ini surga!» **[SENANG *60%*]**
+22. Dimas tersenyum lebar. «Doaku terkabul!» **[SENANG *60%*]**
 23. Lalu, hening. Semua mata menoleh ke arahnya.
 24. Sirene kota berbunyi. **[PRIA *TERDETEKSI!*]**
 25. Negeri ini sudah tiga ratus tahun tanpa pria. *(ilustrasi)* **[*300* TAHUN]**
@@ -47,7 +47,7 @@
 33. Ternyata jadi artis itu kerja keras. *(punchline)* · *skor: DIKEJAR 200*
 
 ## Bab 5 — Diperebutkan
-34. *(jembatan)* Hari ketiga, pintu kamar hotel Dimas diketuk. Berkali-kali.
+34. *(jembatan)* Hari ketiga **[HARI *3*]**, pintu kamar hotel Dimas diketuk. Berkali-kali.
 35. Dr. Sinta dari lab: «Kami ingin meneliti kromosom Y-mu!» **[LAB]**
 36. Kapten Rani dari stadion: «Main untuk tim kami!» **[TIM *BOLA*]**
 37. Museum kota: «Bisa jadi pameran sehari?» **[*MUSEUM*]**
@@ -55,46 +55,59 @@
 39. Wali kota, Bu Ratna, sampai harus membuat undian jadwal. **[UNDIAN *JADWAL*]**
 40. Dr. Sinta tidak heran negerinya bertahan tanpa pria.
 41. Di alam, komodo betina bisa menetaskan telur tanpa jantan. **[KOMODO *2006*]**
-42. Rotifer, hewan mikro, semuanya betina. Puluhan juta tahun. **[ROTIFER *100% BETINA*]**
-43. Jadi Dimas dicari bukan karena ganteng. Tapi karena langka. *(punchline)* · *skor: DIKEJAR 500*
+42. Lucunya, anak komodo itu jantan semua. **[ANAKNYA *JANTAN*]**
+43. Rotifer, hewan mikro, semuanya betina. Puluhan juta tahun. **[ROTIFER *100% BETINA*]**
+44. Jadi Dimas dicari bukan karena ganteng. Tapi karena langka. *(punchline)* · *skor: DIKEJAR 500*
 
 ## Bab 6 — Kencan maraton
-44. *(jembatan)* Undian keluar. Jadwal Dimas: biro jodoh Bu Darmi.
-45. Lima puluh kali ngopi kenalan. Dalam sehari. **[*50* KENCAN/HARI]**
-46. Pertanyaan pertama selalu sama. «Kamu beneran pria?»
-47. Pertanyaan kedua: «Boleh foto?» **[*CEKREK*]**
-48. Tidak ada yang bertanya hobinya apa. **[HOBI? *—*]**
-49. Kopi kelima puluh, Dimas mulai gemetar. **[SENANG *40%*]**
-50. Seratus kencan, nol yang benar-benar kenal dia. *(punchline)* · *skor: DIKEJAR 800*
+45. *(jembatan)* Undian keluar. Jadwal Dimas: biro jodoh Bu Darmi.
+46. Lima puluh kali ngopi kenalan. Dalam sehari. **[*50* KENCAN/HARI]**
+47. Pertanyaan pertama selalu sama. «Kamu beneran pria?»
+48. Pertanyaan kedua: «Boleh foto?» **[*CEKREK*]**
+49. Tidak ada yang bertanya hobinya apa. **[HOBI? *—*]**
+50. Kopi kelima puluh, Dimas mulai gemetar. **[SENANG *40%*]**
+51. Dua hari, seratus kencan. Nol yang benar-benar kenal dia. *(punchline)* · *skor: DIKEJAR 800*
 
 ## Bab 7 — Tidak sanggup lagi (klimaks)
-51. *(jembatan)* Hari ketujuh. Jadwal Dimas penuh dari subuh sampai malam. **[HARI *7*]**
-52. Kantong matanya makin tebal. Senyumnya hilang. **[SENANG *10%*]**
-53. Pagi itu Dimas kabur lewat jendela.
-54. Satu kota mengejar. Kamera, bunga, formulir biro jodoh. **[DIKEJAR *1.000*]**
-55. Dimas terpojok di puncak menara jam. **[*TERPOJOK*]**
-56. Kamera Mbak Wulan menyorot wajahnya. Satu negeri menonton.
-57. «Cukup! Aku mau pulang!» **[MAU *PULANG!*]**
-58. «Aku kangen ditolak!» **[SENANG *0%*]**
-59. Seminggu lalu ia memohon dikelilingi cewek.
-60. Sekarang ia memohon… sendirian. *(punchline)* · *skor: DIKEJAR 1.000*
+52. *(jembatan)* Hari ketujuh. Jadwal Dimas penuh dari subuh sampai malam. **[HARI *7*]**
+53. Kantong matanya makin tebal. Senyumnya hilang. **[SENANG *10%*]**
+54. Makan dikerumuni. Tidur pun jendelanya diketuk.
+55. Pagi itu Dimas kabur lewat jendela.
+56. Satu kota mengejar. Kamera, bunga, formulir biro jodoh. **[DIKEJAR *1.000*]**
+57. Dimas terpojok di puncak menara jam. **[*TERPOJOK*]**
+58. Kamera Mbak Wulan menyorot wajahnya. Satu negeri menonton.
+59. «Cukup! Aku mau pulang!» **[MAU *PULANG!*]**
+60. «Aku kangen ditolak!» **[SENANG *0%*]**
+61. Seminggu lalu ia memohon dikelilingi cewek.
+62. Sekarang ia memohon… sendirian. *(punchline)* · *skor: DIKEJAR 1.000*
 
 ## Bab 8 — Permohonan terakhir
-61. *(jembatan)* Malam itu, Bu Ratna menggelar sidang darurat di balai kota.
-62. Dr. Sinta punya teori. Pintu pulang ada di doa yang sama. **[*PINTU PULANG*]**
-63. «Tidurlah. Lalu minta kebalikannya.»
-64. Dimas berbaring di alun-alun, terisak. **[DOA *TERAKHIR*]**
-65. «Kembalikan aku ke dunia tempat aku ditolak…»
-66. Pagi. Dimas membuka mata. Kamarnya kembali. **[DUNIA *NORMAL*]**
-67. HP berbunyi. «Maaf ya, kita temenan aja.» **[NOTIF]**
-68. Dan Dimas… tersenyum lega. **[LEGA *100%*]**
-69. Dunia yang seimbang ternyata bukan hukuman. **[±*101 : 100*]**
-70. Lalu terdengar suara Ibu dari ruang tamu.
-71. «Dimas! Tante-tante arisan mau kenalan sama kamu!» **[*ARISAN!*]**
-72. Dimas lari lagi. *(punchline)* · *skor akhir: DITOLAK 10 · DIKEJAR 1.000*
-73. Kalau kamu jadi Dimas, berapa hari kamu bertahan? Tulis di komentar. **[CTA]**
+63. *(jembatan)* Malam itu, Bu Ratna menggelar sidang darurat di balai kota.
+64. Dr. Sinta punya teori. Pintu pulang ada di doa yang sama. **[*PINTU PULANG*]**
+65. «Tidurlah. Lalu minta kebalikannya.»
+66. Dimas berbaring di alun-alun, terisak. **[DOA *TERAKHIR*]**
+67. «Kembalikan aku ke dunia tempat aku ditolak…»
+68. Pagi. Dimas membuka mata. Kamarnya kembali. **[DUNIA *NORMAL*]**
+69. HP berbunyi. «Maaf ya, kita temenan aja.» **[NOTIF]**
+70. Dan Dimas… tersenyum lega. **[LEGA *100%*]**
+71. Dunia yang seimbang ternyata bukan hukuman. **[±*101 : 100*]**
+72. Lalu terdengar suara Ibu dari ruang tamu.
+73. «Dimas! Tante-tante arisan mau kenalan sama kamu!» **[*ARISAN!*]**
+74. Dimas lari lagi. *(punchline)* · *skor akhir: DITOLAK 10 · DIKEJAR 1.000*
+75. Kalau kamu jadi Dimas, berapa hari kamu bertahan? Tulis di komentar. **[CTA]**
 
 ---
+**Pembuka khusus short (`only: 'short'`, ganti kalimat jembatan):**
+- Bab 2: "Cowok ini ditolak sepuluh kali dalam setahun."
+- Bab 3: "Bayangkan kamu bangun, dan hanya kamu pria di dunia."
+- Bab 4: "Satu-satunya pria di dunia. Hari pertama, jadi artis."
+- Bab 5: "Satu-satunya pria di dunia. Semua lembaga berebut dia."
+- Bab 6: "Satu-satunya pria di dunia. Lima puluh kencan sehari."
+- Bab 7: "Seminggu jadi satu-satunya pria. Ini akhirnya."
+- Bab 8: "Cara pulang dari dunia tanpa pria."
+
+**Catatan ucapan (`speak`):** "kromosom Y" → "kromosom ye"; "Wkwk" → "wekawekawek"; "TTD" → "tanda tangan".
+
 **Catatan short:** tiap bab bisa berdiri sendiri; pembuka short memakai kalimat hook singkat + judul,
 penutup memakai punchline bab + CTA. Angka 300 tahun, 2.000 TTD, 3.000 antre, 50 kencan, 1.000 pengejar = ilustrasi.
 Fakta nyata: rasio ±101:100 (BPS 2024), komodo partenogenesis (Nature 2006), rotifer bdelloid — sumber di `satu-pria.riset.md`.
