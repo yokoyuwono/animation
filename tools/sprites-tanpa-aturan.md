@@ -119,3 +119,20 @@ apartment block and hospital bottom-right, kampung alleys and a small river alon
 
 ---
 **Prioritas kalau mau coba sedikit dulu:** C1, F1, L2a, L2b, M1, M2, P2 → cukup untuk menguji 1 bab (perempatan) dengan gaya baru.
+
+---
+
+## Prompt per bagian (versi 2 — pakai gambar gaya hasil Nano Banana sebelumnya)
+Lampirkan **2 gambar**: (1) gambar gaya hasil Nano Banana sebelumnya, (2) acuan isi bagian itu `assets/tanpa-aturan/acuan-<bagian>.png`.
+Rasio 16:9, resolusi setinggi mungkin, unduh **PNG**. Simpan hasil: `assets/tanpa-aturan/bagian-<n>.png`.
+
+Awalan semua prompt:
+> Redraw the second image in exactly the art style of the first image (same pixel art style, shading and palette).
+> Keep the same layout, grid positions, number of items and content as the second image. Large crisp pixels, high resolution.
+> Background behind every item must be flat pure magenta #FF00FF with no texture or gradient. No text, no labels, no letters anywhere.
+
+1. **Tokoh** (`acuan-1-tokoh.png`): "17 Indonesian characters, each shown in 3 poses side by side (standing, walking A, walking B), facing right, plus 6 extra poses of the light-blue-shirt young man. Keep every character's clothing colors as in the second image. The two older women wear a hijab."
+2. **Wajah** (`acuan-2-wajah.png`): "8 large expressive face portraits, chest up. 1–4: same young man with short black hair and light blue shirt (puzzled, shocked, scared, relieved). 5–6: the same older woman in a grey hijab (wary, crying while smiling). 7: young woman, mustard top, annoyed. 8: gang boss with red bandana, smirk."
+3. **Latar** (`acuan-3-latar.png`): "16 side-view background scenes in a 4x4 grid, no people. Keep each scene's content. Row 3: scene 1 is a tilted cracked apartment block on an empty city lot (no jungle), scene 3 is a hospital lobby turned into an auction with a wooden podium, gavel and rope barrier."
+4. **Peta** (`acuan-4-peta.png`): "3 top-down city maps with identical layout: orderly, lawless (traffic jam at the crossroad, trash piles, dirty river, road blocked by a gate), recovering."
+5. **Benda** (`acuan-5-benda.png`): "21 separate objects, each on its own magenta tile, same order and shapes as the second image. The banknote must be fictional, not a real currency."
