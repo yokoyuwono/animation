@@ -30,6 +30,7 @@ const SKIES = {
   rumah:  { bands: ['#b59c72'], noGround: true, camBg: '#2a2030', room: true },   // ruang makan malam: dinding hangat, lis kayu, lantai tegel
   ocean:  { bands: ['#2f6fbf', '#2c69b8', '#2a64b0', '#285fa8'], noGround: true, waves: true, camBg: '#2a64b0' },
   map:    { bands: ['#3fae5f'], noGround: true, camBg: '#2f9150' },
+  image:  { bands: ['#1a1c2c'], noGround: true, camBg: '#1a1c2c' },   // latar dari bgImage
   beach:  { bands: ['#5fcde4', '#74d4e8', '#8fdcec', '#a8e4f0', '#c4eef5'], sea: true, grass: '#e4d3a8', dirt: '#d9c08c', body: 'sun', bodyY: 18, clouds: true },
   deep:   { bands: ['#14365e', '#102d50', '#0c2442', '#091c35'], grass: '#c2a36b', dirt: '#9c7f4e', noHills: true, bubbles: true, camBg: '#091c35' },
 };
@@ -85,7 +86,34 @@ class Movie extends Phaser.Scene {
     this.curtain = this.uobj(this.add.rectangle(0, 0, this.GW, this.GH, 0x000000, 1).setOrigin(0).setDepth(1000), true);
 
     this.sound.stopAll();
-    this.loadVoiceOver().then(() => this.playStory(this.run));
+    this.loadImages().then(() => this.loadVoiceOver()).then(() => this.playStory(this.run));
+  }
+
+  // ---------- gambar PNG luar (mis. hasil Nano Banana) ----------
+  // STORY.images = { kunci: 'path.png' }. Tokoh: kunci <nama>_0/_1/_2 -> animasi <nama>_walk otomatis.
+  // Gambar besar: kecilkan lewat `scale` aktor/prop (mis. 0.16). Latar: adegan `bgImage` / `bgImageB` (sisi kanan).
+  loadImages() {
+    const imgs = STORY.images || {};
+    this.imgLoaded = this.imgLoaded || new Set();
+    const keys = Object.keys(imgs).filter(k => !this.imgLoaded.has(k));
+    if (!keys.length) return Promise.resolve();
+    keys.forEach(k => {   // gambar luar menggantikan sprite bawaan dengan nama sama (mis. raka_0)
+      if (this.textures.exists(k)) this.textures.remove(k);
+      const n = k.replace(/_\d$/, '');
+      if (n !== k && this.anims.exists(`${n}_walk`)) this.anims.remove(`${n}_walk`);
+      this.load.image(k, imgs[k]); this.imgLoaded.add(k);
+    });
+    return new Promise(res => {
+      this.load.once('complete', () => {
+        keys.forEach(k => this.textures.exists(k) && this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR));
+        new Set(keys.filter(k => /_0$/.test(k)).map(k => k.slice(0, -2))).forEach(n => {
+          const fr = [1, 0, 2, 0].filter(i => this.textures.exists(`${n}_${i}`));
+          if (!this.anims.exists(`${n}_walk`) && fr.length > 1) this.anims.create({ key: `${n}_walk`, frames: fr.map(i => ({ key: `${n}_${i}` })), frameRate: 8, repeat: -1 });
+        });
+        res();
+      });
+      this.load.start();
+    });
   }
 
   // ---------- voice over ----------
@@ -390,6 +418,10 @@ class Movie extends Phaser.Scene {
     }
     tex.refresh();
     this.wobj(this.add.image(0, 0, 'bg').setOrigin(0).setScale(S).setDepth(0));
+    [sc.bgImage, this.split && sc.bgImageB].forEach((k, i) => {   // latar gambar penuh (PNG luar)
+      if (!k || !this.textures.exists(k)) return;
+      this.wobj(this.add.image((i ? W : 0) * S, 0, k).setOrigin(0).setDisplaySize((this.split ? W : SW) * S, H * S).setDepth(0.5));
+    });
     if (sky.bubbles) {
       for (let i = 0; i < 18; i++) {
         const b = this.wobj(this.add.rectangle(Phaser.Math.Between(0, SW) * S, H * S, S, S, 0x9fd4ff, 0.7).setDepth(1));
