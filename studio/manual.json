@@ -1,0 +1,19 @@
+{
+  "pending": [
+    { "video": "tanpa-koruptor", "what": "Review animasi + suara", "next": "Setuju → render, thumbnail, caption" },
+    { "video": "tanpa-nasi", "what": "Review animasi + suara", "next": "Setuju → render, thumbnail, caption" },
+    { "video": "rupiah-7000", "what": "Review animasi Bab 1 (draf, belum bersuara)", "next": "Setuju → lanjut bab berikutnya" },
+    { "video": "genz-milenial", "what": "Pilih thumbnail utama", "next": "Ilustrasi A/B atau buat versi Nano Banana" }
+  ],
+  "overrides": {
+    "tanpa-koruptor": { "note": "VO + animasi jadi, menunggu review" },
+    "tanpa-nasi": { "note": "VO + animasi jadi, menunggu review" },
+    "rupiah-7000": { "stage": "Animasi", "note": "Naskah draf 1, animasi Bab 1" }
+  },
+  "ideas": [
+    { "id": "romawi-kuno", "title": "Romawi Kuno", "note": "Dikerjakan di chat lain (cabang romawi-kuno)" },
+    { "id": "borobudur-hari-ini", "title": "Andaikan Borobudur Dibangun Hari Ini", "note": "Ide" },
+    { "id": "kampung-mars", "title": "Andaikan Kampung Indonesia Pindah ke Mars", "note": "Ide" }
+  ],
+  "hidden": ["layang-layang"]
+}

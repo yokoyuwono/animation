@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel Movie Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Press+Start+2P&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Satu dunia visual: malam ungu ala layar pixel, teal = aksi, oranye = perlu perhatian. Kolom tunggal di HP, kisi di layar lebar. */
+  --bg: #1b1530;
+  --panel: #251d40;
+  --panel-2: #2f2652;
+  --line: #3d3366;
+  --ink: #f1ecff;
+  --muted: #a99fcc;
+  --teal: #2ed3b7;
+  --teal-ink: #08332c;
+  --orange: #ff9a3d;
+  --good: #7be07b;
+  --bad: #ff6b6b;
+  --font-display: "Pixelify Sans", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "Press Start 2P", ui-monospace, monospace;
+  --r: 10px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body { font: 16px/1.5 var(--font-body); min-height: 100%; }
+a { color: var(--teal); }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; text-wrap: balance; margin: 0; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+button, .btn { font: 700 0.95rem var(--font-body); cursor: pointer; border-radius: 8px; border: 2px solid var(--line); background: var(--panel-2); color: var(--ink); padding: 0.55rem 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
+button:hover, .btn:hover { border-color: var(--teal); }
+button:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+button[disabled] { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: var(--teal); border-color: var(--teal); color: var(--teal-ink); }
+.btn-warn { background: transparent; border-color: var(--orange); color: var(--orange); }
+.btn-small { min-height: 36px; padding: 0.35rem 0.7rem; font-size: 0.85rem; }
+
+/* kerangka */
+header.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 2px solid var(--line); }
+.top-inner { max-width: 1080px; margin: 0 auto; padding: 0.7rem 16px 0; display: grid; gap: 0.5rem; }
+.brand { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+.brand h1 { font-size: 1.45rem; }
+.brand h1 span { color: var(--teal); }
+.stamp { color: var(--muted); font-size: 0.8rem; }
+nav.tabs { display: flex; gap: 0.25rem; }
+nav.tabs a { font-family: var(--font-display); font-size: 1.05rem; color: var(--muted); text-decoration: none; padding: 0.45rem 0.8rem; border-bottom: 3px solid transparent; }
+nav.tabs a[aria-current="page"] { color: var(--ink); border-color: var(--orange); }
+main { max-width: 1080px; margin: 0 auto; padding: 1rem 16px 4rem; display: grid; gap: 1.5rem; }
+section { display: grid; gap: 0.75rem; }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.muted { color: var(--muted); }
+.panel { background: var(--panel); border: 2px solid var(--line); border-radius: var(--r); padding: 0.9rem; }
+
+/* menunggu keputusan */
+.pending { display: grid; gap: 0.6rem; }
+.pend { border-left: 6px solid var(--orange); display: grid; gap: 0.5rem; }
+.pend-title { display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+.pend-title b { font-family: var(--font-display); font-size: 1.1rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* jalur produksi */
+.pipeline { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.4rem; }
+.pipe { background: var(--panel); border: 2px solid var(--line); border-radius: 8px; padding: 0.55rem 0.4rem; text-align: center; color: var(--ink); text-decoration: none; display: grid; gap: 0.3rem; }
+.pipe .n { font-family: var(--font-num); font-size: 1rem; font-variant-numeric: tabular-nums; }
+.pipe .l { font-size: 0.72rem; color: var(--muted); line-height: 1.2; }
+.pipe.ready { border-color: var(--good); }
+@media (max-width: 420px) { .pipeline { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* kartu video */
+.filters { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.25rem; }
+.chip { flex: none; border-radius: 999px; min-height: 36px; padding: 0.3rem 0.8rem; font-size: 0.85rem; }
+.chip[aria-pressed="true"] { background: var(--teal); color: var(--teal-ink); border-color: var(--teal); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.8rem; }
+.card { background: var(--panel); border: 2px solid var(--line); border-radius: var(--r); overflow: hidden; color: var(--ink); text-decoration: none; display: grid; grid-template-rows: auto 1fr; }
+.card:hover { border-color: var(--teal); }
+.thumb { aspect-ratio: 16 / 9; background: var(--panel-2); position: relative; overflow: hidden; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; image-rendering: auto; }
+.thumb .ph { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 1rem; font-family: var(--font-display); font-size: 1.15rem; color: var(--muted);
+  background: repeating-linear-gradient(45deg, var(--panel-2) 0 12px, var(--panel) 12px 24px); }
+.thumb .ph[hidden] { display: none; }
+.card-body { padding: 0.7rem 0.8rem 0.8rem; display: grid; gap: 0.45rem; align-content: start; }
+.card-body h3 { font-size: 1.05rem; }
+.meta { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; font-size: 0.82rem; color: var(--muted); }
+.pill { display: inline-block; font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 999px; border: 2px solid currentColor; }
+.s0 { color: var(--muted); } .s1, .s2 { color: #b9a7ff; } .s3 { color: #6fc3ff; } .s4 { color: var(--teal); } .s5 { color: var(--good); }
+.steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
+.steps i { height: 6px; border-radius: 2px; background: var(--line); }
+.steps i.on { background: var(--teal); }
+.steps i.done-all { background: var(--good); }
+.flag { color: var(--orange); font-weight: 700; font-size: 0.82rem; }
+
+/* detail */
+.back { justify-self: start; }
+.detail-top { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 760px) { .detail-top { grid-template-columns: 1fr; } }
+.variants { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.variants button { min-height: 32px; padding: 0.2rem 0.6rem; font-size: 0.78rem; }
+.variants button[aria-pressed="true"] { border-color: var(--orange); color: var(--orange); }
+.stage-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.stage-track div { font-size: 0.68rem; text-align: center; color: var(--muted); display: grid; gap: 4px; }
+.stage-track div::before { content: ""; height: 8px; border-radius: 2px; background: var(--line); }
+.stage-track div.on { color: var(--ink); }
+.stage-track div.on::before { background: var(--teal); }
+.stage-track div.cur { color: var(--orange); font-weight: 700; }
+.stage-track div.cur::before { background: var(--orange); }
+.rows { display: grid; gap: 0.4rem; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; background: var(--panel); border: 2px solid var(--line); border-radius: 8px; flex-wrap: wrap; }
+.row .num { font-family: var(--font-num); font-size: 0.7rem; color: var(--orange); margin-right: 0.5rem; }
+details.box { background: var(--panel); border: 2px solid var(--line); border-radius: var(--r); }
+details.box > summary { cursor: pointer; padding: 0.8rem 0.9rem; font-family: var(--font-display); font-size: 1.1rem; list-style: none; display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; min-height: 44px; }
+details.box > summary::after { content: "+"; font-family: var(--font-num); font-size: 0.8rem; color: var(--teal); }
+details.box[open] > summary::after { content: "−"; }
+.md { padding: 0 0.9rem 0.9rem; max-width: 72ch; overflow-wrap: anywhere; }
+.md h4 { font-family: var(--font-display); font-size: 1.05rem; margin: 1rem 0 0.3rem; color: var(--teal); }
+.md p, .md ul { margin: 0.4rem 0; }
+.md ul { padding-left: 1.2rem; }
+.md blockquote { margin: 0.5rem 0; padding: 0.4rem 0.7rem; border-left: 4px solid var(--orange); color: var(--muted); }
+.md code { background: var(--panel-2); padding: 0.05rem 0.3rem; border-radius: 4px; font-size: 0.88em; }
+.copyblock { position: relative; margin: 0.5rem 0; }
+.copyblock pre { margin: 0; white-space: pre-wrap; background: var(--bg); border: 2px dashed var(--line); border-radius: 8px; padding: 0.8rem; padding-top: 2.6rem; font: 0.88rem/1.5 var(--font-body); overflow-x: auto; }
+.copyblock button { position: absolute; top: 0.4rem; right: 0.4rem; }
+
+/* riwayat */
+.day { display: grid; gap: 0.35rem; }
+.day h3 { font-family: var(--font-num); font-size: 0.8rem; color: var(--orange); font-weight: 400; }
+.day ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.25rem; }
+
+/* status muat / galat */
+.skel { background: linear-gradient(90deg, var(--panel) 0%, var(--panel-2) 50%, var(--panel) 100%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; border-radius: var(--r); }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.state { text-align: center; padding: 2rem 1rem; display: grid; gap: 0.8rem; justify-items: center; }
+.state .big { font-family: var(--font-display); font-size: 1.3rem; }
+.err { border-color: var(--bad); }
+
+/* dialog & toast */
+dialog { border: 2px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--ink); padding: 0; width: min(520px, calc(100vw - 32px)); }
+dialog::backdrop { background: rgb(10 6 24 / 0.7); }
+.dlg { padding: 1rem; display: grid; gap: 0.8rem; }
+.dlg textarea { width: 100%; min-height: 120px; resize: vertical; font: 1rem/1.4 var(--font-body); background: var(--bg); color: var(--ink); border: 2px solid var(--line); border-radius: 8px; padding: 0.6rem; }
+.dlg .count { font-size: 0.8rem; color: var(--muted); text-align: right; }
+.dlg .msg { font-size: 0.9rem; }
+.dlg .msg.bad { color: var(--bad); }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-weight: 700; padding: 0.7rem 1rem; border-radius: 8px; z-index: 20; max-width: calc(100vw - 32px); box-shadow: 0 6px 20px rgb(0 0 0 / 0.4); }
+.toast.bad { background: var(--bad); color: #fff; }
+.spin { width: 16px; height: 16px; border: 3px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: rot 0.7s linear infinite; display: inline-block; }
+@keyframes rot { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .skel, .spin { animation: none; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <h1>Pixel Movie <span>Studio</span></h1>
+      <span class="stamp" id="stamp">Memuat data…</span>
+    </div>
+    <nav class="tabs" aria-label="Bagian">
+      <a href="#beranda" data-tab="beranda">Beranda</a>
+      <a href="#video" data-tab="video">Video</a>
+      <a href="#riwayat" data-tab="riwayat">Riwayat</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app" aria-live="polite">
+  <!-- keadaan memuat: tampil sampai data.json siap -->
+  <section aria-label="Memuat">
+    <div class="skel" style="height:110px"></div>
+    <div class="skel" style="height:70px"></div>
+    <div class="grid"><div class="skel" style="height:230px"></div><div class="skel" style="height:230px"></div><div class="skel" style="height:230px"></div></div>
+  </section>
+</main>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <form class="dlg" id="dlg-form" method="dialog">
+    <h2 id="dlg-title">Judul</h2>
+    <p id="dlg-text" class="muted" style="margin:0"></p>
+    <label for="dlg-input" class="sr">Pesan untuk Claude</label>
+    <textarea id="dlg-input" maxlength="1500" placeholder="Contoh: Bab 2, tokoh Pak Hasan terlalu kecil di layar terbelah."></textarea>
+    <div class="count" id="dlg-count"></div>
+    <div class="msg" id="dlg-msg" role="status"></div>
+    <div class="actions" style="justify-content:flex-end">
+      <button type="button" id="dlg-cancel">Batal</button>
+      <button type="submit" class="btn-primary" id="dlg-ok">Kirim</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const app = $('#app');
+  let DATA = null, filter = 'semua', comments = null;
+
+  /* ---------- tanggal ---------- */
+  const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  const tgl = d => { if (!d) return '—'; const [y, m, dd] = d.slice(0, 10).split('-'); return `${+dd} ${BULAN[+m - 1]} ${y}`; };
+
+  /* ---------- toast ---------- */
+  let toastT;
+  function toast(msg, bad) {
+    let t = $('.toast'); if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg; t.classList.toggle('bad', !!bad); t.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, bad ? 5000 : 2500);
+  }
+
+  /* ---------- salin ---------- */
+  async function copyText(text, btn) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('Tersalin ✓');
+      if (btn) { const o = btn.textContent; btn.textContent = 'Tersalin ✓'; setTimeout(() => { btn.textContent = o; }, 1600); }
+    } catch (e) {
+      // cadangan: pilih teksnya supaya bisa disalin manual
+      const pre = btn && btn.closest('.copyblock') && btn.closest('.copyblock').querySelector('pre');
+      if (pre) { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      toast('Gagal menyalin otomatis. Teks sudah dipilih, tekan lama lalu Salin.', true);
+    }
+  }
+
+  /* ---------- markdown kecil (naskah & caption) ---------- */
+  const COPIES = [];
+  function md(src) {
+    const lines = String(src).split('\n'); let out = '', list = false, i = 0;
+    const inline = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+    const endList = () => { if (list) { out += '</ul>'; list = false; } };
+    while (i < lines.length) {
+      const l = lines[i];
+      if (/^```/.test(l)) {
+        endList(); const buf = []; i++;
+        while (i < lines.length && !/^```/.test(lines[i])) buf.push(lines[i++]);
+        const k = COPIES.push(buf.join('\n')) - 1;
+        out += `<div class="copyblock"><button type="button" class="btn-small btn-primary" data-copy="${k}">Salin</button><pre>${esc(buf.join('\n'))}</pre></div>`;
+      } else if (/^#{1,6} /.test(l)) { endList(); out += `<h4>${inline(l.replace(/^#+ /, ''))}</h4>`; }
+      else if (/^> ?/.test(l)) { endList(); out += `<blockquote>${inline(l.replace(/^> ?/, ''))}</blockquote>`; }
+      else if (/^\s*[-*] /.test(l)) { if (!list) { out += '<ul>'; list = true; } out += `<li>${inline(l.replace(/^\s*[-*] /, ''))}</li>`; }
+      else if (l.trim() === '') endList();
+      else { endList(); out += `<p>${inline(l)}</p>`; }
+      i++;
+    }
+    endList(); return out;
+  }
+
+  /* ---------- komentar ke Claude ---------- */
+  // Kemampuan "comments" dari claude.ai: tersedia hanya di halaman artifact. Di luar itu tombol tetap ada tapi menjelaskan caranya.
+  if (window.claude && claude.use) claude.use('comments').then(c => { comments = c; }).catch(() => { comments = null; });
+
+  const dlg = $('#dlg');
+  let dlgCtx = null;
+  function openDialog(ctx) {
+    dlgCtx = ctx;
+    $('#dlg-title').textContent = ctx.title;
+    $('#dlg-text').textContent = ctx.text;
+    $('#dlg-input').hidden = !ctx.input; $('#dlg-count').hidden = !ctx.input;
+    $('#dlg-input').value = ctx.prefill || '';
+    $('#dlg-ok').textContent = ctx.ok || 'Kirim';
+    $('#dlg-msg').textContent = ''; $('#dlg-msg').className = 'msg';
+    setBusy(false); updateCount();
+    try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); }
+    (ctx.input ? $('#dlg-input') : $('#dlg-ok')).focus();
+  }
+  function setBusy(b) {
+    $('#dlg-ok').disabled = b; $('#dlg-cancel').disabled = b; $('#dlg-input').disabled = b;
+    $('#dlg-ok').innerHTML = b ? '<span class="spin" aria-hidden="true"></span> Mengirim…' : esc(dlgCtx ? dlgCtx.ok || 'Kirim' : 'Kirim');
+  }
+  function updateCount() { const n = $('#dlg-input').value.length; $('#dlg-count').textContent = `${n} / 1500`; }
+  $('#dlg-input').addEventListener('input', updateCount);
+  $('#dlg-cancel').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('cancel', e => { if ($('#dlg-ok').disabled) e.preventDefault(); });
+
+  $('#dlg-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const ctx = dlgCtx; if (!ctx) return;
+    const note = $('#dlg-input').value.trim();
+    if (ctx.input && note.length < 3) { $('#dlg-msg').textContent = 'Tulis dulu apa yang perlu diubah (minimal 3 huruf).'; $('#dlg-msg').className = 'msg bad'; $('#dlg-input').focus(); return; }
+    const text = ctx.compose(note);
+    setBusy(true);
+    const res = await sendToClaude(ctx.anchorEl, text);
+    setBusy(false);
+    if (res.ok) { dlg.close(); toast(res.msg); if (ctx.after) ctx.after(); }
+    else { $('#dlg-msg').textContent = res.msg; $('#dlg-msg').className = 'msg bad'; }
+  });
+
+  async function sendToClaude(anchorEl, text) {
+    if (!comments) return { ok: false, msg: 'Fitur komentar hanya jalan di halaman ini di claude.ai. Buka halaman lewat tautan artifact, lalu coba lagi. Pesan Anda masih tersimpan di kotak.' };
+    try {
+      const can = comments.canSendToClaude ? await comments.canSendToClaude() : 'off';
+      const anchor = await comments.anchorFor(anchorEl);
+      if (can === 'available') { await comments.sendToClaude({ anchor, text }); return { ok: true, msg: 'Terkirim ke Claude. Balasan muncul di utas komentar.' }; }
+      await comments.create({ anchor, text });
+      const why = can === 'no_session' ? 'Claude sedang tidak aktif' : 'kirim ke Claude belum tersedia di sini';
+      return { ok: true, msg: `Komentar tersimpan (${why}). Claude membacanya saat dibuka lagi.` };
+    } catch (err) {
+      const code = err && err.code;
+      const M = {
+        consent_required: 'Belum diizinkan. Tekan Kirim lagi lalu pilih Izinkan pada pertanyaan yang muncul.',
+        forbidden: 'Komentar dari halaman ini dimatikan. Aktifkan lagi dari panel komentar claude.ai.',
+        rate_limited: 'Terlalu cepat. Tunggu sebentar lalu kirim lagi.',
+        claude_unavailable: 'Claude tidak bisa dihubungi sekarang. Tidak ada yang terkirim; coba lagi nanti.',
+        unavailable: 'Layanan komentar sedang gangguan. Coba sekali lagi sebentar lagi.',
+        invalid: 'Pesan tidak bisa dikirim (terlalu panjang atau berisi karakter aneh).',
+      };
+      return { ok: false, msg: (M[code] || 'Terjadi galat saat mengirim. Pesan masih ada di kotak; coba lagi.') + (code ? ` [${code}]` : '') };
+    }
+  }
+
+  function askChange(v, where, el) {
+    openDialog({
+      title: 'Minta perubahan', input: true, ok: 'Kirim ke Claude', anchorEl: el,
+      text: `${v.title}${where ? ' · ' + where : ''}. Tulis apa yang perlu diubah; Claude memperbaiki lalu halaman ini diperbarui.`,
+      compose: note => `[Minta perubahan] ${v.id}${where ? ' / ' + where : ''}\n${note}`,
+    });
+  }
+  function approve(v, p, el) {
+    openDialog({
+      title: 'Setujui?', input: false, ok: 'Ya, setujui', anchorEl: el,
+      text: `${v ? v.title : p.video}: ${p.what}. Setelah disetujui: ${p.next}.`,
+      compose: () => `[Setuju] ${p.video}: ${p.what} → lanjut: ${p.next}`,
+    });
+  }
+
+  /* ---------- tampilan ---------- */
+  const vById = id => DATA.videos.find(v => v.id === id);
+  const stageName = i => DATA.stages[i] || '—';
+  const steps = s => `<div class="steps" aria-hidden="true">${DATA.stages.map((_, i) => `<i class="${i <= s ? (s === 5 ? 'done-all' : 'on') : ''}"></i>`).join('')}</div>`;
+  const thumbHTML = (v, idx = 0, eager) => {
+    const t = v.thumbs[idx];
+    const ph = `<div class="ph">${esc(v.title)}</div>`;
+    return `<div class="thumb">${ph}${t ? `<img src="${esc(t.src)}" alt="Thumbnail ${esc(v.title)} (${esc(t.label)})" ${eager ? '' : 'loading="lazy"'} onload="this.previousElementSibling.hidden=true" onerror="this.remove()">` : ''}</div>`;
+  };
+  const isPending = id => DATA.pending.some(p => p.video === id);
+
+  function card(v) {
+    return `<a class="card" href="#v-${esc(v.id)}">
+      ${thumbHTML(v)}
+      <div class="card-body">
+        <h3>${esc(v.title)}</h3>
+        ${steps(v.stage)}
+        <div class="meta"><span class="pill s${v.stage}">${esc(stageName(v.stage))}</span><span>${tgl(v.updated)}</span>${isPending(v.id) ? '<span class="flag">● perlu keputusan</span>' : ''}</div>
+        ${v.note ? `<div class="meta">${esc(v.note)}</div>` : ''}
+      </div></a>`;
+  }
+
+  function viewHome() {
+    const counts = DATA.stages.map((_, i) => DATA.videos.filter(v => v.stage === i).length);
+    const recent = DATA.videos.filter(v => v.stage > 0).slice(0, 3);
+    app.innerHTML = `
+      <section aria-labelledby="h-pend">
+        <div class="sec-head"><h2 id="h-pend">Menunggu keputusan Anda</h2><span class="muted">${DATA.pending.length} hal</span></div>
+        <div class="pending">${DATA.pending.length ? DATA.pending.map((p, k) => {
+          const v = vById(p.video);
+          return `<div class="panel pend" data-pend="${k}">
+            <div class="pend-title"><b>${esc(v ? v.title : p.video)}</b><span class="muted">${esc(p.what)}</span></div>
+            <div class="muted" style="font-size:.9rem">Berikutnya: ${esc(p.next)}</div>
+            <div class="actions">
+              ${v ? `<a class="btn btn-small" href="#v-${esc(v.id)}">Lihat</a>` : ''}
+              <button type="button" class="btn-small btn-primary" data-approve="${k}">Setujui</button>
+              <button type="button" class="btn-small btn-warn" data-change-pend="${k}">Minta perubahan</button>
+            </div></div>`;
+        }).join('') : '<div class="panel state"><span class="big">Tidak ada yang menunggu ✓</span><span class="muted">Semua keputusan sudah diambil.</span></div>'}</div>
+      </section>
+      <section aria-labelledby="h-pipe">
+        <h2 id="h-pipe">Jalur produksi</h2>
+        <div class="pipeline">${DATA.stages.map((s, i) => `<a class="pipe ${i === 5 ? 'ready' : ''}" href="#video" data-goto-filter="${i}"><span class="n">${counts[i]}</span><span class="l">${esc(s)}</span></a>`).join('')}</div>
+      </section>
+      <section aria-labelledby="h-recent">
+        <div class="sec-head"><h2 id="h-recent">Terakhir dikerjakan</h2><a href="#video">Semua video →</a></div>
+        <div class="grid">${recent.map(card).join('')}</div>
+      </section>`;
+  }
+
+  function viewList() {
+    const list = DATA.videos.filter(v => filter === 'semua' || String(v.stage) === filter);
+    app.innerHTML = `
+      <section aria-labelledby="h-list">
+        <div class="sec-head"><h2 id="h-list">Semua video</h2><span class="muted">${list.length} dari ${DATA.videos.length}</span></div>
+        <div class="filters" role="group" aria-label="Saring status">
+          <button type="button" class="chip" data-filter="semua" aria-pressed="${filter === 'semua'}">Semua</button>
+          ${DATA.stages.map((s, i) => `<button type="button" class="chip" data-filter="${i}" aria-pressed="${filter === String(i)}">${esc(s)}</button>`).join('')}
+        </div>
+        ${list.length ? `<div class="grid">${list.map(card).join('')}</div>` : `<div class="panel state"><span class="big">Belum ada video di tahap ini</span><button type="button" data-filter="semua">Tampilkan semua</button></div>`}
+      </section>`;
+  }
+
+  function viewDetail(id) {
+    const v = vById(id);
+    if (!v) { app.innerHTML = `<div class="panel state err"><span class="big">Video "${esc(id)}" tidak ditemukan</span><span class="muted">Mungkin namanya berubah atau sudah dihapus.</span><a class="btn" href="#video">Kembali ke daftar</a></div>`; return; }
+    COPIES.length = 0;
+    const pend = DATA.pending.map((p, k) => [p, k]).filter(([p]) => p.video === v.id);
+    const shortFor = c => c.short;
+    const extraShorts = v.shorts.filter(s => !v.chapters.some(c => c.short === s.url));
+    app.innerHTML = `
+      <a class="btn btn-small back" href="#video">← Daftar video</a>
+      <div class="detail-top">
+        <div style="display:grid;gap:.5rem" id="thumbwrap">
+          <div id="thumbbox">${thumbHTML(v, 0, true)}</div>
+          ${v.thumbs.length > 1 ? `<div class="variants" role="group" aria-label="Varian thumbnail">${v.thumbs.map((t, i) => `<button type="button" data-thumb="${i}" aria-pressed="${i === 0}">${esc(t.label)}${i === 0 ? ' · utama' : ''}</button>`).join('')}</div>` : ''}
+          ${!v.thumbs.length && v.stage > 0 ? '<span class="muted" style="font-size:.85rem">Belum ada thumbnail.</span>' : ''}
+        </div>
+        <div style="display:grid;gap:.8rem">
+          <h2 style="font-size:1.6rem">${esc(v.title)}</h2>
+          <div class="stage-track" aria-label="Tahap: ${esc(stageName(v.stage))}">${DATA.stages.map((s, i) => `<div class="${i < v.stage || v.stage === 5 ? 'on' : ''} ${i === v.stage && v.stage < 5 ? 'cur' : ''}">${esc(s)}</div>`).join('')}</div>
+          <div class="meta"><span class="pill s${v.stage}">${esc(stageName(v.stage))}</span><span>Terakhir: ${tgl(v.updated)}</span></div>
+          ${v.note ? `<p class="muted" style="margin:0">${esc(v.note)}</p>` : ''}
+          <div class="actions">
+            ${v.play ? `<a class="btn btn-primary" href="${esc(v.play.h)}" target="_blank" rel="noopener">▶ Putar 16:9</a><a class="btn" href="${esc(v.play.v)}" target="_blank" rel="noopener">▶ 9:16</a>` : ''}
+            <button type="button" class="btn-warn" data-change="${esc(v.id)}">Minta perubahan</button>
+          </div>
+          ${pend.map(([p, k]) => `<div class="panel pend"><div class="pend-title"><b>Menunggu keputusan</b><span class="muted">${esc(p.what)}</span></div><div class="actions"><button type="button" class="btn-small btn-primary" data-approve="${k}">Setujui</button></div></div>`).join('')}
+        </div>
+      </div>
+
+      ${v.long.length ? `<section aria-labelledby="h-long"><h2 id="h-long">Video panjang</h2><div class="rows">${v.long.map(l => `<div class="row"><span>${esc(l.name.includes('9x16') ? 'Vertikal 9:16' : 'Horizontal 16:9')}</span><a class="btn btn-small" href="${esc(l.url)}" target="_blank" rel="noopener">Unduh MP4</a></div>`).join('')}</div></section>` : ''}
+
+      ${v.chapters.length ? `<section aria-labelledby="h-bab"><div class="sec-head"><h2 id="h-bab">Bab & short</h2><span class="muted">${v.chapters.length} bab · ${v.shorts.length} short</span></div><div class="rows">${v.chapters.map((c, i) => `
+        <div class="row" data-bab="${esc(c.id)}"><span><span class="num">${String(i + 1).padStart(2, '0')}</span>${esc(c.title)}</span>
+          <span class="actions"><a class="btn btn-small" href="${esc(c.play)}" target="_blank" rel="noopener">▶ Putar</a>${shortFor(c) ? `<a class="btn btn-small" href="${esc(c.short)}" target="_blank" rel="noopener">Unduh short</a>` : ''}<button type="button" class="btn-small btn-warn" data-change="${esc(v.id)}" data-where="Bab ${i + 1}: ${esc(c.title)}">Ubah</button></span></div>`).join('')}
+        ${extraShorts.map(s => `<div class="row"><span>${esc(s.name)}</span><a class="btn btn-small" href="${esc(s.url)}" target="_blank" rel="noopener">Unduh short</a></div>`).join('')}</div></section>` : ''}
+
+      ${v.publish ? `<details class="box" open><summary>Caption & hashtag</summary><div class="md">${md(v.publish)}</div></details>` : ''}
+      ${v.naskah ? `<details class="box"><summary>Naskah</summary><div class="md"><div class="actions" style="margin:.2rem 0 .6rem"><button type="button" class="btn-small" data-copy="${COPIES.push(v.naskah) - 1}">Salin seluruh naskah</button></div>${md(v.naskah)}</div></details>` : ''}
+      ${!v.long.length && !v.chapters.length && !v.naskah ? '<div class="panel state"><span class="big">Masih ide</span><span class="muted">Belum ada naskah atau animasi untuk topik ini.</span></div>' : ''}`;
+  }
+
+  function viewHistory() {
+    app.innerHTML = `<section aria-labelledby="h-his"><h2 id="h-his">Riwayat</h2>
+      ${DATA.history.length ? DATA.history.map(d => `<div class="panel day"><h3>${tgl(d.date)}</h3><ul>${d.items.map(s => `<li>${esc(s)}</li>`).join('')}</ul></div>`).join('') : '<div class="panel state"><span class="big">Belum ada riwayat</span></div>'}
+    </section>`;
+  }
+
+  function route() {
+    if (!DATA) return;
+    const h = location.hash.replace('#', '') || 'beranda';
+    const tab = h.startsWith('v-') ? 'video' : h;
+    document.querySelectorAll('nav.tabs a').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+    if (h.startsWith('v-')) viewDetail(h.slice(2));
+    else if (h === 'video') viewList();
+    else if (h === 'riwayat') viewHistory();
+    else viewHome();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- klik ---------- */
+  app.addEventListener('click', e => {
+    const b = e.target.closest('button, a'); if (!b) return;
+    if (b.dataset.copy != null) copyText(COPIES[+b.dataset.copy], b);
+    else if (b.dataset.filter != null) { filter = b.dataset.filter; viewList(); }
+    else if (b.dataset.gotoFilter != null) { filter = b.dataset.gotoFilter; }
+    else if (b.dataset.approve != null) { const p = DATA.pending[+b.dataset.approve]; approve(vById(p.video), p, b.closest('.pend') || b); }
+    else if (b.dataset.changePend != null) { const p = DATA.pending[+b.dataset.changePend]; askChange(vById(p.video) || { id: p.video, title: p.video }, p.what, b.closest('.pend')); }
+    else if (b.dataset.change != null) { askChange(vById(b.dataset.change), b.dataset.where || '', b.closest('.row') || b.closest('.detail-top') || b); }
+    else if (b.dataset.thumb != null) {
+      const id = location.hash.slice(3), v = vById(id), i = +b.dataset.thumb;
+      $('#thumbbox').innerHTML = thumbHTML(v, i, true);
+      document.querySelectorAll('[data-thumb]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    }
+  });
+
+  /* ---------- muat data ---------- */
+  async function load() {
+    $('#stamp').textContent = 'Memuat data…';
+    const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 15000);
+    try {
+      const r = await fetch('data.json', { cache: 'no-store', signal: ctl.signal });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d = await r.json();
+      if (!d || !Array.isArray(d.videos)) throw new Error('format data tidak dikenal');
+      DATA = d;
+      const g = new Date(d.generated);
+      $('#stamp').textContent = `Diperbarui ${g.getDate()} ${BULAN[g.getMonth()]} ${g.getFullYear()}, ${String(g.getHours()).padStart(2, '0')}.${String(g.getMinutes()).padStart(2, '0')}`;
+      route();
+    } catch (err) {
+      $('#stamp').textContent = 'Data gagal dimuat';
+      app.innerHTML = `<div class="panel state err" role="alert"><span class="big">Data studio gagal dimuat</span>
+        <span class="muted">${err.name === 'AbortError' ? 'Koneksi terlalu lama (lebih dari 15 detik).' : 'Penyebab: ' + esc(err.message)}. Periksa koneksi internet lalu coba lagi.</span>
+        <button type="button" class="btn-primary" id="retry">Coba lagi</button></div>`;
+      $('#retry').addEventListener('click', load);
+    } finally { clearTimeout(to); }
+  }
+  load();
+})();
+</script>
+</body>
+</html>
