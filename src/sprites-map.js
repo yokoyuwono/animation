@@ -517,3 +517,44 @@ function buildRumahTextures(scene) {
     for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) px(1 + c * 2, 4 + r * 2, '#8a8f99');
   });
 }
+
+// ============================================================
+//  POM BENSIN & JALAN (seri rupiah-7000) — tampak samping + peta
+// ============================================================
+function buildSpbuTextures(scene) {
+  // kanopi SPBU: atap putih bergaris merah, tiang abu, lampu bawah
+  mapCanvas(scene, 'spbu_kanopi', 92, 40, (ctx, px) => {
+    px(0, 0, '#1a1c2c', 92, 9); px(1, 1, '#f4f4f4', 90, 7); px(1, 4, '#e43b44', 90, 2); px(1, 7, '#c2c3c7', 90, 1);
+    px(2, 9, '#8a8f99', 88, 2); for (let x = 8; x < 88; x += 12) px(x, 9, '#fff3b0', 4, 1);
+    for (const x of [10, 44, 78]) { px(x, 11, '#1a1c2c', 5, 29); px(x + 1, 11, '#c2c3c7', 3, 29); px(x + 1, 30, '#e43b44', 3, 2); }
+    px(0, 38, '#5d606b', 92, 2);
+  });
+  // pompa bensin: badan putih-merah, layar angka, selang
+  mapCanvas(scene, 'pompa_bensin', 12, 22, (ctx, px) => {
+    px(1, 0, '#1a1c2c', 10, 22); px(2, 1, '#f4f4f4', 8, 20); px(2, 1, '#e43b44', 8, 4);
+    px(3, 7, '#1a1c2c', 6, 4); px(4, 8, '#a7f070', 4, 1); px(4, 9, '#a7f070', 2, 1);
+    px(3, 13, '#5d606b', 2, 5); px(0, 13, '#1a1c2c', 2, 1); px(0, 13, '#1a1c2c', 1, 6); px(7, 13, '#8a8f99', 2, 2);
+    px(1, 20, '#8a8f99', 10, 2);
+  });
+  // papan harga tinggi (angka diisi label di layar)
+  mapCanvas(scene, 'papan_harga', 26, 50, (ctx, px) => {
+    px(11, 30, '#5d606b', 4, 20); px(0, 0, '#1a1c2c', 26, 32); px(1, 1, '#e43b44', 24, 6); px(4, 3, '#f4f4f4', 18, 2);
+    px(1, 7, '#29366f', 24, 24); for (const y of [10, 17, 24]) { px(3, y, '#f4f4f4', 8, 4); px(13, y, '#1a1c2c', 10, 4); px(14, y + 1, '#ffcd75', 8, 2); }
+  });
+  // angkot biru (tampak samping)
+  mapCanvas(scene, 'angkot', 40, 20, (ctx, px) => {
+    px(1, 2, '#1a1c2c', 38, 14); px(2, 3, '#3b5dc9', 36, 12); px(2, 3, '#41a6f6', 36, 2);
+    for (let x = 5; x < 30; x += 7) px(x, 6, '#9fd4ff', 5, 4); px(31, 6, '#9fd4ff', 6, 4); px(2, 12, '#ffcd75', 36, 1);
+    px(36, 10, '#fff3b0', 2, 2); px(0, 13, '#1a1c2c', 2, 2);
+    for (const x of [6, 28]) { pxEllipse(px, x + 3, 16, 3, 3, '#1a1c2c'); px(x + 2, 15, '#8a8f99', 2, 2); }
+  });
+  // motor Pak Harun (rider kaos zaitun, helm abu) dari pola MOTOR (sprites-city.js)
+  if (typeof MOTOR !== 'undefined') pxTexture(scene, 'motor_harun', MOTOR, { ...PALETTE, H: '#8a8f99', R: '#7d8a4a', B: '#333c57', M: '#5d3a1a', E: '#566c86', L: '#5d3a1a' });
+  // peta: SPBU dari atas, motor dari atas, pabrik
+  mapCanvas(scene, 'spbu_top', 30, 22, (ctx, px) => {
+    px(1, 21, 'rgba(0,0,0,0.25)', 29, 1); px(0, 0, '#1a1c2c', 30, 12); px(1, 1, '#f4f4f4', 28, 10); px(1, 5, '#e43b44', 28, 2);
+    for (const x of [5, 13, 21]) { px(x, 12, '#c2c3c7', 3, 8); px(x, 13, '#e43b44', 3, 2); }
+    px(0, 20, '#5d606b', 30, 1); px(26, 12, '#29366f', 3, 8);
+  });
+  mapCanvas(scene, 'motor_top', 11, 8, (ctx, px) => { px(1, 7, 'rgba(0,0,0,0.3)', 10, 1); px(9, 3, '#1a1c2c', 2, 2); px(0, 3, '#1a1c2c', 2, 2); px(2, 2, '#5d3a1a', 7, 4); px(4, 1, '#7d8a4a', 3, 5); px(5, 2, '#8a8f99', 2, 3); });   // menghadap kanan
+}
