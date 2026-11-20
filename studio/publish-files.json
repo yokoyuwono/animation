@@ -1,0 +1,586 @@
+[
+ {
+  "as": "index.html",
+  "path": "/home/user/animation/studio/index.html"
+ },
+ {
+  "as": "data.json",
+  "path": "/home/user/animation/studio/data.json"
+ },
+ {
+  "as": "thumbs/thumbnail_genz-milenial_ilustrasi-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_genz-milenial_ilustrasi-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_genz-milenial_ilustrasi-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_genz-milenial_ilustrasi-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_genz-milenial_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_genz-milenial_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_genz-milenial_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_genz-milenial_varian-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_internet-mati_nanobanana.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_internet-mati_nanobanana.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_internet-mati_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_internet-mati_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_internet-mati_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_internet-mati_varian-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_mbg-berhenti_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_mbg-berhenti_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_ojol-libur_ilustrasi-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_ojol-libur_ilustrasi-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_ojol-libur_ilustrasi-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_ojol-libur_ilustrasi-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_ojol-libur_nanobanana.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_ojol-libur_nanobanana.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_ojol-libur_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_ojol-libur_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_ojol-libur_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_ojol-libur_varian-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_paylater_16x9.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_paylater_16x9.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_paylater_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_paylater_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_paylater_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_paylater_varian-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_tanpa-gunung-api_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_tanpa-gunung-api_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_tanpa-gunung-api_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_tanpa-gunung-api_varian-b.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_wapres-kosong_varian-a.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_wapres-kosong_varian-a.jpg"
+ },
+ {
+  "as": "thumbs/thumbnail_wapres-kosong_varian-b.jpg",
+  "path": "/home/user/animation/studio/thumbs/thumbnail_wapres-kosong_varian-b.jpg"
+ },
+ {
+  "as": "audio/perang-dunia/b4-01.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-01.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-02.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-02.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-03.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-03.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-04.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-04.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-05.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-05.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-06.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-06.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-07.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-07.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-08.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-08.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-09.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-09.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-10.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-10.mp3"
+ },
+ {
+  "as": "audio/perang-dunia/b4-11.mp3",
+  "path": "/home/user/animation/audio/perang-dunia/b4-11.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-01.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-01.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-02.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-02.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-03.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-03.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-04.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-04.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-05.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-05.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-06.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-06.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-07.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-07.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-07s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-07s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-08.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-08.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-09.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-09.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-10.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-10.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-11.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-11.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-12.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-12.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-12s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-12s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-13.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-13.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-14.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-14.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-15.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-15.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-16.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-16.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-17.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-17.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-18.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-18.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-19.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-19.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-19s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-19s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-20.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-20.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-21.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-21.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-22.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-22.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-23.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-23.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-24.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-24.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-24s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-24s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-25.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-25.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-26.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-26.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-27.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-27.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-28.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-28.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-29.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-29.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-30.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-30.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-30s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-30s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-31.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-31.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-32.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-32.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-33.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-33.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-34.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-34.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-35.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-35.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-36.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-36.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-36s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-36s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-37.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-37.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-38.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-38.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-39.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-39.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-40.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-40.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-41.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-41.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-42.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-42.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-42s.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-42s.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-43.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-43.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-44.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-44.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-45.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-45.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-46.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-46.mp3"
+ },
+ {
+  "as": "audio/tanpa-koruptor/k-47.mp3",
+  "path": "/home/user/animation/audio/tanpa-koruptor/k-47.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-01.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-01.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-02.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-02.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-03.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-03.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-04.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-04.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-05.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-05.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-06.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-06.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-07.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-07.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-08.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-08.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-09.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-09.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-10.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-10.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-11.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-11.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-12.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-12.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-13.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-13.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-14.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-14.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-15.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-15.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-16.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-16.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-17.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-17.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-18.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-18.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-19.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-19.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-20.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-20.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-21.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-21.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-22.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-22.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-23.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-23.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-24.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-24.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-25.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-25.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-26.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-26.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-27.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-27.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-28.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-28.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-29.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-29.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-30.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-30.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-31.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-31.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-32.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-32.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-33.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-33.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-34.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-34.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-35.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-35.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-36.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-36.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-37.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-37.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-38.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-38.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-39.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-39.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-40.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-40.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-41.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-41.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-42.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-42.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-43.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-43.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-44.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-44.mp3"
+ },
+ {
+  "as": "audio/tanpa-nasi/n-45.mp3",
+  "path": "/home/user/animation/audio/tanpa-nasi/n-45.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/buzz.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/buzz.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/coin.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/coin.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/gunting.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/gunting.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/jangkrik.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/jangkrik.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/kaching.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/kaching.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/music.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/music.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/notif.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/notif.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/ombak.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/ombak.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/pop.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/pop.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/scratch.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/scratch.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/stamp.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/stamp.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/success.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/success.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/tetes.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/tetes.mp3"
+ },
+ {
+  "as": "audio/_shared/sfx/tick.mp3",
+  "path": "/home/user/animation/audio/_shared/sfx/tick.mp3"
+ }
+]

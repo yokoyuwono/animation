@@ -175,6 +175,32 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
 .st-selesai .dot { background: var(--good); } .st-gagal .dot { background: var(--bad); } .st-gagal { border-color: var(--bad); }
 @keyframes blink { 50% { opacity: 0.3; } }
 @media (prefers-reduced-motion: reduce) { .st-dikerjakan .dot { animation: none; } }
+/* suara & musik */
+.meter { display: grid; gap: 0.35rem; }
+.meter .bar { height: 10px; border-radius: 3px; background: var(--panel-2); overflow: hidden; }
+.meter .bar i { display: block; height: 100%; background: var(--accent); }
+.meter.low .bar i { background: var(--bad); }
+.meter .big { font-family: var(--font-num); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.kv { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-size: 0.88rem; color: var(--muted); }
+.kv b { color: var(--ink); }
+.grp { font-family: var(--font-display); font-size: 1.05rem; margin-top: 0.4rem; }
+.line { display: grid; grid-template-columns: auto 1fr auto; gap: 0.3rem 0.7rem; align-items: start; padding: 0.65rem 0.7rem; background: var(--panel); border: 2px solid var(--line); border-radius: 8px; }
+.line.sel { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--panel)); }
+.line input[type=checkbox] { width: 22px; height: 22px; margin: 0.15rem 0 0; accent-color: var(--accent); }
+.line .lid { font-family: var(--font-num); font-size: 0.6rem; color: var(--muted); }
+.line .say { font-size: 0.85rem; color: var(--second); }
+.line .side { display: grid; gap: 0.3rem; justify-items: end; }
+.line .tools { grid-column: 2 / -1; display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+.st-ada { color: var(--good); } .st-baru { color: var(--accent-text); } .st-berubah { color: var(--second); }
+.play { min-width: 44px; justify-content: center; }
+.play[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.dockbar { position: sticky; bottom: 0; z-index: 4; background: var(--panel); border: 2px solid var(--accent); border-radius: 12px; padding: 0.7rem 0.8rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; flex-wrap: wrap; box-shadow: 0 -4px 16px rgb(34 27 48 / 0.1); }
+.dockbar .sum { font-size: 0.9rem; }
+.dockbar .sum b { font-family: var(--font-num); font-size: 0.75rem; }
+.dockbar .warnline { color: var(--bad); font-size: 0.85rem; font-weight: 700; width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; align-items: start; }
+@media (max-width: 560px) { .two { grid-template-columns: 1fr; } }
+.sfx { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
@@ -385,7 +411,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       case 0: return { label: 'Buat naskah', desc: 'Claude riset fakta lalu menulis naskah draf + skema per bab untuk Anda review.', ask: 'Arah cerita, tokoh, atau hal yang wajib ada (boleh kosong).' };
       case 1: return { label: 'Buat animasi (tanpa suara)', desc: 'Animasi dibuat dengan tempo perkiraan dan teks [draf]. Tidak memakai kredit suara.' };
       case 2: return vo.lines
-        ? { label: 'Buat suara', desc: `${vo.lines} kalimat perlu suara Fikri, sisanya sudah ada.`, credit: vo.chars }
+        ? { label: 'Pilih kalimat & buat suara', desc: `${vo.lines} kalimat perlu suara Fikri (±${vo.chars} kredit jika semua).`, href: `#s-${v.id}` }
         : { label: 'Buat suara', desc: 'Semua kalimat sudah bersuara. Lanjutkan ke render.', disabled: true };
       case 3: return { label: 'Render semua', desc: 'Video panjang 16:9 + 9:16, semua short, thumbnail, dan paket unggah.' };
       case 4: return { label: 'Siapkan caption & paket', desc: 'Judul, deskripsi + bab, tag, caption per short, hashtag tiap platform.' };
@@ -437,7 +463,7 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       </section>
       <section aria-labelledby="h-ready">
         <div class="sec-head"><h2 id="h-ready">Siap dilanjutkan</h2><span class="muted">tekan untuk tahap berikutnya</span></div>
-        <div class="rows">${DATA.videos.filter(v => v.stage < 5).map(v => { const n = nextAction(v); return `<div class="row"><span><a href="#v-${esc(v.id)}">${esc(v.title)}</a> <span class="pill s${v.stage}" style="margin-left:.3rem">${esc(stageName(v.stage))}</span></span>${n && !n.disabled ? `<button type="button" class="btn-small btn-primary" data-run="${esc(v.id)}">${esc(n.label)}</button>` : ''}</div>`; }).join('')}</div>
+        <div class="rows">${DATA.videos.filter(v => v.stage < 5).map(v => { const n = nextAction(v); return `<div class="row"><span><a href="#v-${esc(v.id)}">${esc(v.title)}</a> <span class="pill s${v.stage}" style="margin-left:.3rem">${esc(stageName(v.stage))}</span></span>${n && !n.disabled ? (n.href ? `<a class="btn btn-small btn-primary" href="${esc(n.href)}">${esc(n.label)}</a>` : `<button type="button" class="btn-small btn-primary" data-run="${esc(v.id)}">${esc(n.label)}</button>`) : ''}</div>`; }).join('')}</div>
       </section>`;
     $('#idea-form').addEventListener('submit', e => {
       e.preventDefault();
@@ -452,6 +478,154 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
         after: () => { $('#idea-title').value = ''; $('#idea-note').value = ''; },
       });
     });
+  }
+
+  /* ---------- pemutar audio (satu untuk semua tombol) ---------- */
+  const player = new Audio(); let playingBtn = null;
+  const lbl = (btn, sym) => sym + (btn.dataset.label ? ' ' + esc(btn.dataset.label) : '');
+  function stopAudio() { player.pause(); if (playingBtn) { playingBtn.setAttribute('aria-pressed', 'false'); playingBtn.innerHTML = lbl(playingBtn, '▶'); playingBtn.disabled = false; } playingBtn = null; }
+  player.addEventListener('ended', stopAudio);
+  player.addEventListener('playing', () => { if (playingBtn) { playingBtn.innerHTML = lbl(playingBtn, '■'); playingBtn.disabled = false; } });
+  player.addEventListener('error', () => { if (playingBtn) toast('Audio gagal diputar. File belum ada di halaman ini atau koneksi terputus.', true); stopAudio(); });
+  function togglePlay(btn) {
+    if (playingBtn === btn) return stopAudio();
+    stopAudio(); playingBtn = btn;
+    btn.setAttribute('aria-pressed', 'true'); btn.innerHTML = '<span class="spin" aria-hidden="true"></span>'; btn.disabled = true;
+    player.src = btn.dataset.src;
+    player.play().catch(err => { if (err && err.name === 'AbortError') return; toast('Browser menolak memutar audio. Tekan sekali lagi.', true); stopAudio(); });
+  }
+
+  /* ---------- kredit ---------- */
+  const fmt = n => Number(n || 0).toLocaleString('id-ID');
+  const creditsLeft = () => DATA.credits ? DATA.credits.limit - DATA.credits.used : null;
+  function creditMeter() {
+    const c = DATA.credits; if (!c) return '<span class="muted">Sisa kredit belum dicatat.</span>';
+    const left = c.limit - c.used, pct = Math.max(0, Math.min(100, left / c.limit * 100));
+    return `<div class="meter ${pct < 10 ? 'low' : ''}"><div class="kv"><span>Sisa kredit ElevenLabs</span><span>reset ${tgl(c.reset)}</span></div>
+      <span class="big">${fmt(left)} <span class="muted" style="font-family:var(--font-body);font-size:.85rem">dari ${fmt(c.limit)}</span></span>
+      <div class="bar" role="img" aria-label="Sisa ${Math.round(pct)} persen"><i style="width:${pct}%"></i></div>
+      <span class="muted" style="font-size:.78rem">Dicek ${tgl(c.checked)} · paket ${esc(c.tier || '')}</span></div>`;
+  }
+
+  /* ---------- suara & musik ---------- */
+  let voFilter = 'semua'; const picked = new Set(); let pickedFor = null;
+  const lineCost = l => (l.speak || l.screen).length;
+  function viewSuara(id) {
+    const v = vById(id);
+    if (!v || !(v.lines || []).length) { app.innerHTML = `<div class="panel state err"><span class="big">Belum ada kalimat suara untuk video ini</span><a class="btn" href="#v-${esc(id)}">Kembali</a></div>`; return; }
+    if (pickedFor !== id) { picked.clear(); pickedFor = id; }
+    const L = v.lines;
+    const cnt = { semua: L.length, perlu: L.filter(l => l.status !== 'ada').length, ada: L.filter(l => l.status === 'ada').length };
+    const shown = L.filter(l => voFilter === 'semua' || (voFilter === 'perlu' ? l.status !== 'ada' : l.status === 'ada'));
+    const groups = [...new Set(shown.map(l => l.group))];
+    const ST = { ada: 'Sudah ada', baru: 'Baru', berubah: 'Teks berubah' };
+    app.innerHTML = `
+      <a class="btn btn-small back" href="#v-${esc(v.id)}">← ${esc(v.title)}</a>
+      <section aria-labelledby="h-suara"><h2 id="h-suara">Suara & musik</h2>
+        <div class="two">
+          <div class="panel">${creditMeter()}</div>
+          <div class="panel" style="display:grid;gap:.35rem"><span class="muted" style="font-size:.8rem">SUARA NARATOR</span>
+            <b>${esc(DATA.voice.name)}</b>
+            <div class="kv"><span>Model <b>${esc(DATA.voice.model)}</b></span><span>Kecepatan <b>${String(DATA.voice.speed).replace('.', ',')}×</b></span><span><b>${DATA.voice.generations}</b> generasi (hemat)</span></div></div>
+        </div>
+      </section>
+      <section aria-labelledby="h-lines">
+        <div class="sec-head"><h2 id="h-lines">Kalimat narasi</h2><span class="muted">${cnt.ada}/${cnt.semua} bersuara</span></div>
+        <div class="filters" role="group" aria-label="Saring kalimat">
+          ${[['semua', 'Semua'], ['perlu', 'Perlu dibuat'], ['ada', 'Sudah ada']].map(([k, t]) => `<button type="button" class="chip" data-vofilter="${k}" aria-pressed="${voFilter === k}">${t} (${cnt[k]})</button>`).join('')}
+        </div>
+        ${shown.length ? groups.map(g => `<div class="grp">${esc(g)}</div><div class="rows">${shown.filter(l => l.group === g).map(l => `
+          <div class="line ${picked.has(l.id) ? 'sel' : ''}" data-line="${esc(l.id)}">
+            <input type="checkbox" id="cb-${esc(l.id)}" data-pick="${esc(l.id)}" ${picked.has(l.id) ? 'checked' : ''} aria-label="Pilih ${esc(l.id)}">
+            <label for="cb-${esc(l.id)}" style="display:grid;gap:.15rem;cursor:pointer">
+              <span class="lid">${esc(l.id)}${l.only ? ' · khusus ' + esc(l.only) : ''}</span>
+              <span>${esc(l.screen)}</span>
+              ${l.speak ? `<span class="say">Diucapkan: ${esc(l.speak)}</span>` : ''}
+            </label>
+            <span class="side">
+              ${l.audio ? `<button type="button" class="btn-small play" data-src="${esc(l.audio)}" aria-pressed="false" aria-label="Putar ${esc(l.id)}">▶</button>` : ''}
+            </span>
+            <div class="tools"><span class="pill st-${l.status}">${ST[l.status]}</span>
+              <span class="muted" style="font-size:.8rem">${l.dur ? l.dur.toFixed(1).replace('.', ',') + ' dtk · ' : ''}${lineCost(l)} huruf</span>
+              <button type="button" class="btn-small btn-warn" data-respeak="${esc(l.id)}">Ubah ucapan</button></div>
+          </div>`).join('')}</div>`).join('') : '<div class="panel state"><span class="big">Tidak ada kalimat di saringan ini</span></div>'}
+      </section>
+      <section aria-labelledby="h-musik">
+        <h2 id="h-musik">Musik & efek</h2>
+        <div class="panel" style="display:grid;gap:.7rem">
+          ${v.music ? '' : '<span class="muted">Video ini belum memakai musik & efek bersama.</span>'}
+          ${DATA.sfx.filter(x => x.name === 'music').map(m => `<div class="row" style="border:0;padding:0;background:none"><span><b>Musik latar</b> <span class="muted">· chiptune ceria, mengecil saat narasi</span></span><button type="button" class="btn-small play" data-src="${esc(m.src)}" aria-pressed="false" aria-label="Putar musik">▶</button></div>`).join('')}
+          <div><span class="muted" style="font-size:.85rem">Efek suara (ketuk untuk dengar)</span>
+          <div class="sfx">${DATA.sfx.filter(x => x.name !== 'music').map(x => `<button type="button" class="btn-small play" data-src="${esc(x.src)}" aria-pressed="false" data-label="${esc(x.name)}">▶ ${esc(x.name)}</button>`).join('')}</div></div>
+          <div class="actions"><button type="button" class="btn-warn" data-newmusic="${esc(v.id)}">Ganti musik</button><button type="button" class="btn-warn" data-newsfx="${esc(v.id)}">Buat efek baru</button></div>
+        </div>
+      </section>
+      <div class="dockbar" id="dock"></div>`;
+    renderDock(v);
+  }
+  function renderDock(v) {
+    const sel = v.lines.filter(l => picked.has(l.id));
+    const cost = sel.reduce((a, l) => a + lineCost(l), 0), left = creditsLeft();
+    const over = left != null && cost > left;
+    const need = v.lines.filter(l => l.status !== 'ada');
+    $('#dock').innerHTML = `<span class="sum">${sel.length ? `<b>${sel.length}</b> kalimat · ±<b>${fmt(cost)}</b> kredit${left != null ? ` · sisa setelahnya ${fmt(left - cost)}` : ''}` : 'Pilih kalimat yang mau dibuat suaranya.'}</span>
+      <span class="actions">
+        ${need.length ? `<button type="button" class="btn-small" data-pickneed="1">Pilih yang perlu (${need.length})</button>` : ''}
+        ${sel.length ? '<button type="button" class="btn-small" data-pickclear="1">Kosongkan</button>' : ''}
+        <button type="button" class="btn-primary" data-makevo="1" ${!sel.length || over ? 'disabled' : ''}>Buat suara</button></span>
+      ${over ? `<span class="warnline">Kredit tidak cukup: butuh ±${fmt(cost)}, sisa ${fmt(left)}. Kurangi pilihan atau tunggu reset ${tgl(DATA.credits.reset)}.</span>` : ''}`;
+  }
+  function suaraClick(b, v) {
+    if (b.dataset.vofilter) { voFilter = b.dataset.vofilter; stopAudio(); viewSuara(v.id); return true; }
+    if (b.dataset.pickneed) { v.lines.filter(l => l.status !== 'ada').forEach(l => picked.add(l.id)); viewSuara(v.id); return true; }
+    if (b.dataset.pickclear) { picked.clear(); viewSuara(v.id); return true; }
+    if (b.dataset.makevo) {
+      const sel = v.lines.filter(l => picked.has(l.id)), cost = sel.reduce((a, l) => a + lineCost(l), 0);
+      openDialog({
+        title: `Buat suara ${sel.length} kalimat?`, input: true, optional: true, ok: `Ya, pakai ±${fmt(cost)} kredit`, anchorEl: $('#dock'),
+        text: `${v.title}: ${sel.map(l => l.id).join(', ')}. Suara Fikri, ${DATA.voice.model}, lalu dipercepat ${String(DATA.voice.speed).replace('.', ',')}×.`,
+        warn: `Memakai kredit ElevenLabs ±${fmt(cost)}${creditsLeft() != null ? ` (sisa jadi ±${fmt(creditsLeft() - cost)})` : ''}.`,
+        placeholder: 'Catatan intonasi (boleh kosong). Contoh: r-03 lebih pelan dan sedih.',
+        compose: note => `[Suara] ${v.id}: buat suara ${sel.length} kalimat (±${cost} kredit, disetujui)\nKalimat: ${sel.map(l => l.id).join(', ')}${note ? '\nCatatan: ' + note : ''}`,
+        job: { video: v.id, action: `Buat suara ${sel.length} kalimat` },
+        after: () => { picked.clear(); viewSuara(v.id); },
+      });
+      return true;
+    }
+    if (b.dataset.respeak) {
+      const l = v.lines.find(x => x.id === b.dataset.respeak);
+      openDialog({
+        title: `Ubah ucapan ${l.id}`, input: true, ok: 'Kirim ke Claude', anchorEl: b.closest('.line'), prefill: l.speak || l.screen,
+        text: `Tulis ulang cara kalimat ini diucapkan (angka & singkatan ditulis seperti dibaca). Teks layar tetap: "${l.screen}"`,
+        warn: `Suara kalimat ini dibuat ulang: ±${fmt(lineCost(l))} kredit.`,
+        compose: note => `[Ubah ucapan] ${v.id} / ${l.id}\nUcapan baru: ${note}\nLalu buat ulang suaranya (±${note.length} kredit, disetujui).`,
+        job: { video: v.id, action: `Ubah ucapan ${l.id}` },
+      });
+      return true;
+    }
+    if (b.dataset.newmusic) {
+      openDialog({
+        title: 'Ganti musik latar', input: true, ok: 'Kirim ke Claude', anchorEl: b,
+        text: `${v.title}. Jelaskan suasana musik yang diinginkan; musik baru dibuat ±120 detik dan diputar berulang.`,
+        warn: `Membuat musik memakai ±900 kredit ElevenLabs${creditsLeft() != null && creditsLeft() < 900 ? ' — sisa kredit Anda tidak cukup sekarang' : ''}.`,
+        placeholder: 'Contoh: chiptune tegang tapi lucu, tempo sedang, tanpa vokal.',
+        compose: note => `[Musik] ${v.id}: buat musik baru (±900 kredit, disetujui)\nSuasana: ${note}`,
+        job: { video: v.id, action: 'Ganti musik latar' },
+      });
+      return true;
+    }
+    if (b.dataset.newsfx) {
+      openDialog({
+        title: 'Buat efek suara baru', input: true, ok: 'Kirim ke Claude', anchorEl: b,
+        text: 'Efek baru masuk pustaka bersama dan bisa dipakai di semua video.',
+        warn: 'Memakai ±17 kredit per efek.',
+        placeholder: 'Contoh: suara pintu warung berderit, pendek.',
+        compose: note => `[Efek] ${v.id}: buat efek suara baru (±17 kredit, disetujui)\nEfek: ${note}`,
+        job: { video: v.id, action: 'Buat efek suara baru' },
+      });
+      return true;
+    }
+    return false;
   }
 
   /* ---------- tampilan ---------- */
@@ -539,12 +713,13 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
           ${v.note ? `<p class="muted" style="margin:0">${esc(v.note)}</p>` : ''}
           <div class="actions">
             ${v.play ? `<a class="btn btn-primary" href="${esc(v.play.h)}" target="_blank" rel="noopener">▶ Putar 16:9</a><a class="btn" href="${esc(v.play.v)}" target="_blank" rel="noopener">▶ 9:16</a>` : ''}
+            ${(v.lines || []).length ? `<a class="btn" href="#s-${esc(v.id)}">🎙 Suara & musik</a>` : ''}
             <button type="button" class="btn-warn" data-change="${esc(v.id)}">Minta perubahan</button>
           </div>
           ${(() => { const n = nextAction(v); if (!n) return '<div class="panel next"><b>Siap unggah ✓</b><span class="muted">Semua tahap selesai.</span></div>'; return `<div class="panel next" id="next-panel">
             <div><span class="muted" style="font-size:.8rem">LANGKAH BERIKUTNYA</span><br><b style="font-family:var(--font-display);font-size:1.15rem">${esc(n.label)}</b></div>
             <span class="cost">${esc(n.desc)}${n.credit ? ` Perkiraan: <b>±${n.credit}</b> kredit.` : ''}</span>
-            <div class="actions"><button type="button" class="btn-primary" data-run="${esc(v.id)}" ${n.disabled ? 'disabled' : ''}>${esc(n.label)}</button></div>
+            <div class="actions">${n.href ? `<a class="btn btn-primary" href="${esc(n.href)}">${esc(n.label)} →</a>` : `<button type="button" class="btn-primary" data-run="${esc(v.id)}" ${n.disabled ? 'disabled' : ''}>${esc(n.label)}</button>`}</div>
           </div>`; })()}
           ${(MORE[v.stage] || []).length ? `<div class="more" aria-label="Aksi lain">${MORE[v.stage].map(m => `<button type="button" class="btn-small" data-more="${esc(m)}" data-vid="${esc(v.id)}">${esc(m)}</button>`).join('')}</div>` : ''}
           ${pend.map(([p, k]) => `<div class="panel pend"><div class="pend-title"><b>Menunggu keputusan</b><span class="muted">${esc(p.what)}</span></div><div class="actions"><button type="button" class="btn-small btn-primary" data-approve="${k}">Setujui</button></div></div>`).join('')}
@@ -572,9 +747,11 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   function route() {
     if (!DATA) return;
     const h = location.hash.replace('#', '') || 'beranda';
-    const tab = h.startsWith('v-') ? 'video' : h;
+    const tab = h.startsWith('v-') || h.startsWith('s-') ? 'video' : h;
+    stopAudio();
     document.querySelectorAll('nav.tabs a').forEach(a => a.dataset.tab === tab ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
     if (h.startsWith('v-')) viewDetail(h.slice(2));
+    else if (h.startsWith('s-')) viewSuara(h.slice(2));
     else if (h === 'video') viewList();
     else if (h === 'riwayat') viewHistory();
     else if (h === 'produksi') viewProduksi();
@@ -586,6 +763,8 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
   /* ---------- klik ---------- */
   app.addEventListener('click', e => {
     const b = e.target.closest('button, a'); if (!b) return;
+    if (b.classList.contains('play') && b.dataset.src) { togglePlay(b); return; }
+    if (location.hash.startsWith('#s-') && b.tagName === 'BUTTON') { const v = vById(location.hash.slice(3)); if (v && suaraClick(b, v)) return; }
     if (b.dataset.copy != null) copyText(COPIES[+b.dataset.copy], b);
     else if (b.dataset.filter != null) { filter = b.dataset.filter; viewList(); }
     else if (b.dataset.gotoFilter != null) { filter = b.dataset.gotoFilter; }
@@ -600,6 +779,14 @@ dialog::backdrop { background: rgb(34 27 48 / 0.45); }
       $('#thumbbox').innerHTML = thumbHTML(v, i, true);
       document.querySelectorAll('[data-thumb]').forEach(x => x.setAttribute('aria-pressed', x === b));
     }
+  });
+
+  app.addEventListener('change', e => {
+    const cb = e.target.closest('[data-pick]'); if (!cb) return;
+    const v = vById(location.hash.slice(3)); if (!v) return;
+    cb.checked ? picked.add(cb.dataset.pick) : picked.delete(cb.dataset.pick);
+    cb.closest('.line').classList.toggle('sel', cb.checked);
+    renderDock(v);
   });
 
   /* ---------- muat data ---------- */

@@ -20,18 +20,36 @@ function loadStory(file) {
 }
 
 // Link unduhan dari DOWNLOADS.md: { topik: { long:[], short:[], thumb:[] } }
-// Kalimat VO yang belum/perlu dibuat (logika sama dengan tools/vo-lines.js --changed). Tidak memakai kredit.
-function voNeeded(st, id) {
+// Daftar kalimat VO per bab + status (logika sama dengan tools/vo-lines.js --changed). Tidak memakai kredit.
+// Audio ikut diterbitkan ke halaman Studio hanya untuk video yang masih di tahap Suara (belum dirender), agar file tetap sedikit.
+const PUBLISH = [];   // file tambahan untuk publish_files: { as, path }
+function voLines(st, id, withAudio) {
   if (!st) return null;
-  const out = [];
-  const walk = s => { if (s.together) s.together.forEach(walk); else if (s.vo) out.push({ id: s.vo, text: s.speak || s.caption || s.hook }); };
-  const all = [...(st.intro || []), ...(st.chapters || []).flatMap(c => c.scenes || []), ...(st.scenes || []), ...(st.outro || [])];
-  all.forEach(sc => (sc.steps || []).forEach(walk));
   const dir = st.audioDir || path.join('audio', id);
   const tf = path.join(dir, 'vo-text.json');
   const saved = ex(tf) ? JSON.parse(fs.readFileSync(tf, 'utf8')) : {};
-  const need = out.filter(l => saved[l.id] !== l.text || !ex(path.join(dir, 'raw', `${l.id}.mp3`)));
-  return { total: out.length, lines: need.length, chars: need.reduce((s, l) => s + (l.text || '').length, 0) };
+  const man = ex(path.join(dir, 'manifest.json')) ? JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')) : {};
+  const lines = [];
+  const walk = (s, group, only) => {
+    if (s.together) return s.together.forEach(x => walk(x, group, s.only || only));
+    if (!s.vo) return;
+    const speak = s.speak || s.caption || s.hook || '';
+    const screen = s.caption || s.hook || speak;
+    const hasRaw = ex(path.join(dir, 'raw', `${s.vo}.mp3`));
+    const status = !hasRaw ? 'baru' : (saved[s.vo] != null && saved[s.vo] !== speak) ? 'berubah' : 'ada';
+    const file = path.join(dir, `${s.vo}.mp3`);
+    let audio = null;
+    if (withAudio && status !== 'baru' && ex(file)) { audio = `audio/${id}/${s.vo}.mp3`; PUBLISH.push({ as: audio, path: path.resolve(file) }); }
+    lines.push({ id: s.vo, group, screen, speak: speak !== screen ? speak : null, only: s.only || only || null, status, dur: man[s.vo] || null, audio });
+  };
+  const scenes = (list, group) => (list || []).forEach(sc => (sc.steps || []).forEach(x => walk(x, group, sc.only)));
+  scenes(st.intro, 'Pembuka');
+  (st.chapters || []).forEach((c, i) => scenes(c.scenes, `Bab ${i + 1}: ${c.title || c.id}`));
+  scenes(st.scenes, 'Adegan');
+  scenes(st.outro, 'Penutup');
+  const seen = new Set(); const uniq = lines.filter(l => !seen.has(l.id) && seen.add(l.id));
+  const need = uniq.filter(l => l.status !== 'ada');
+  return { lines: uniq, summary: { total: uniq.length, lines: need.length, chars: need.reduce((a, l) => a + (l.speak || l.screen).length, 0) } };
 }
 
 function parseDownloads() {
@@ -99,7 +117,8 @@ for (const f of fs.readdirSync('stories').filter(f => f.endsWith('.js'))) {
     play: { h: `${PLAYER}#${id}--h`, v: `${PLAYER}#${id}--v` },
     long: dl.long, shorts: dl.short.map(s => ({ ...s, chapter: s.name.replace(/^.*_short_/, '').replace('.mp4', '') })),
     chapters,
-    vo: voNeeded(st, id),
+    ...(() => { const vl = voLines(st, id, (ov.stage != null ? STAGES.indexOf(ov.stage) : stage) === 3); return vl ? { vo: vl.summary, lines: vl.lines } : { vo: null, lines: [] }; })(),
+    music: st && st.sfx ? true : false,
     naskah: ex(naskahP) ? fs.readFileSync(naskahP, 'utf8') : null,
     publish: ex(publishP) ? fs.readFileSync(publishP, 'utf8') : null,
   });
@@ -115,7 +134,20 @@ try {
   history = Object.entries(byDay).map(([date, items]) => ({ date, items }));
 } catch (e) {}
 
+// Pustaka musik & efek bersama
+const SFX_DIR = 'audio/_shared/sfx';
+const sfx = ex(SFX_DIR) ? fs.readdirSync(SFX_DIR).filter(f => f.endsWith('.mp3')).map(f => {
+  const as = `${SFX_DIR}/${f}`; PUBLISH.push({ as, path: path.resolve(as) }); return { name: f.replace('.mp3', ''), src: as };
+}) : [];
+const credits = ex('studio/credits.json') ? JSON.parse(fs.readFileSync('studio/credits.json', 'utf8')) : null;
+const voice = { name: 'Fikri - Warm & Steady Storyteller', model: 'eleven_v4', speed: 1.2, generations: 1 };
 const jobs = ex('studio/jobs.json') ? JSON.parse(fs.readFileSync('studio/jobs.json', 'utf8')) : [];
-const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history, jobs };
+const data = { generated: new Date().toISOString(), stages: STAGES, player: PLAYER, pending: manual.pending || [], videos, history, jobs, sfx, credits, voice };
 fs.writeFileSync('studio/data.json', JSON.stringify(data));
+// Daftar file untuk diterbitkan (publish_files): halaman + data + thumbnail + audio pratinjau
+const thumbFiles = fs.readdirSync('studio/thumbs').map(f => ({ as: `thumbs/${f}`, path: path.resolve('studio/thumbs', f) }));
+fs.writeFileSync('studio/publish-files.json', JSON.stringify([
+  { as: 'index.html', path: path.resolve('studio/index.html') }, { as: 'data.json', path: path.resolve('studio/data.json') },
+  ...thumbFiles, ...PUBLISH], null, 1));
+console.error(`studio/publish-files.json: ${2 + thumbFiles.length + PUBLISH.length} file`);
 console.error(`studio/data.json: ${videos.length} video, ${data.pending.length} menunggu keputusan, ${history.length} hari riwayat`);
