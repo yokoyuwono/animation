@@ -42,16 +42,24 @@ const perempatanKacau = dx => [
   { sprite: 'ta_sampah', x: 66 + dx, y: 94, depth: 5 }, { sprite: 'ta_sampah', x: 160 + dx, y: 107, depth: 13 },
 ];
 
-// ---------- adegan dari KIT KOTA (sprite kode hasil rekonstruksi, src/sprites-kit-kota.js) ----------
-const K = (sprite, x, y, extra = {}) => ({ sprite: 'kota_' + sprite, x, y, scale: HD, ...extra });
+// ---------- adegan dari KIT (sprite kode hasil rekonstruksi: src/sprites-kit-kota.js & src/sprites-kit-normal.js) ----------
+const KS = HD;   // 1 piksel kit = 0,4 unit (grid 480x270); tokoh 37 px sepadan dengan penggaris kit
+const KP = (sprite, x, y, extra = {}) => ({ sprite, x, y, scale: KS, ...extra });
+const kotaNormal = dx => [
+  KP('normal_ruko', 26 + dx, 92, { depth: 3 }), KP('normal_gedung_kantor', 168 + dx, 92, { depth: 3 }),
+  KP('normal_pohon', 70 + dx, 93, { depth: 4 }), KP('normal_lampu_jalan', 124 + dx, 93, { depth: 4 }),
+  KP('normal_lampu_merah', 98 + dx, 94, { depth: 5, id: 'Alampu' }), KP('normal_halte', 146 + dx, 94, { depth: 4 }),
+  KP('normal_pot_bunga', 52 + dx, 94, { depth: 6 }), KP('normal_tong_sampah', 112 + dx, 94, { depth: 6 }),
+  KP('normal_mobil_merah', 40 + dx, 104, { depth: 9, id: 'Amobil' }), KP('normal_motor', 20 + dx, 108, { depth: 11, id: 'Amotor' }),
+];
 const kotaKacau = dx => [
-  K('gedung_retak_a', 26 + dx, 92, { depth: 3 }), K('gedung_retak_b', 168 + dx, 92, { depth: 3 }),
-  K('pohon', 72 + dx, 93, { depth: 4 }), K('lampu_jalan', 120 + dx, 93, { depth: 4 }),
-  K('lampu_bengkok_merah', 92 + dx, 94, { depth: 5, id: 'lampu1' }), K('lampu_bengkok_mati', 146 + dx, 94, { depth: 5, flip: true }),
-  K('gerobak', 50 + dx, 95, { depth: 6 }), K('sampah', 140 + dx, 96, { depth: 6 }),
-  K('ambulans', 34 + dx, 104, { depth: 9 }), K('mobil_merah', 98 + dx, 103, { depth: 9, id: 'mobilMerah' }),
-  K('mobil_biru', 150 + dx, 106, { depth: 10, flip: true }), K('motor', 120 + dx, 108, { depth: 11, id: 'motor1' }),
-  K('palang', 176 + dx, 108, { depth: 12 }), K('cone', 186 + dx, 108, { depth: 12 }),
+  KP('kota_gedung_retak_a', 26 + dx, 92, { depth: 3 }), KP('kota_gedung_retak_b', 168 + dx, 92, { depth: 3 }),
+  KP('kota_pohon', 70 + dx, 93, { depth: 4 }), KP('kota_lampu_jalan', 124 + dx, 93, { depth: 4 }),
+  KP('kota_lampu_bengkok_merah', 98 + dx, 94, { depth: 5, id: 'Blampu' }), KP('kota_sampah', 146 + dx, 96, { depth: 6 }),
+  KP('kota_gerobak', 50 + dx, 95, { depth: 6 }),
+  KP('kota_ambulans', 30 + dx, 104, { depth: 9 }), KP('kota_mobil_merah', 104 + dx, 103, { depth: 9, id: 'Bmobil' }),
+  KP('kota_mobil_biru', 150 + dx, 106, { depth: 10, flip: true }), KP('kota_motor', 126 + dx, 108, { depth: 11, id: 'Bmotor', flip: true }),
+  KP('kota_palang', 178 + dx, 108, { depth: 12 }), KP('kota_cone', 188 + dx, 108, { depth: 12 }),
 ];
 
 const STORY = {
@@ -64,34 +72,24 @@ const STORY = {
     {
       id: 'uji-gaya', title: 'Uji gaya: perempatan',
       scenes: [
-        // uji KIT KOTA: semua benda = sprite kode, bisa disusun ulang & digerakkan
+        // dunia normal vs tanpa aturan — semua benda dari kit kode
         {
-          sky: 'day', road: true, noHills: true, noSun: true, haze: 0.18, captionTop: true, clock: 'HARI 1',
-          camera: { x: 96, y: 54, zoom: 1 },
-          props: kotaKacau(0),
-          actors: [tokoh('raka', 'raka', -10, 104, { depth: 20 })],
-          steps: [
-            { together: [{ move: 'raka', to: 66, speed: 18 }, C('Raka berjalan di kota tanpa aturan.', [{ at: 'aturan', kw: 'KOTA *TANPA ATURAN*' }])] },
-            { together: [{ move: 'mobilMerah', to: 60, speed: 40 }, { move: 'motor1', to: 210, speed: 50 }, { glow: 'lampu1', times: 3 },
-              { swap: 'raka', to: 'raka_kaget_0', dur: 50 }, { emote: 'raka', icon: 'exclaim' },
-              C('Mobil menyerobot, motor melawan arah.', [{ at: 'menyerobot', kw: 'MOBIL *MENYEROBOT*' }, { at: 'melawan', kw: 'MOTOR *LAWAN ARAH*' }])] },
-            { dialog: 'raka', face: 'face_raka_kaget', name: 'Raka', text: 'Kok nggak ada yang ditilang?', dur: 1000 },
-          ],
-        },
-        // perempatan: latar Nano Banana di grid 480x270
-        {
-          sky: 'image', split: true, focus: 'right', captionTop: true,
-          bgImage: 'bg_perempatan_normal', bgImageB: 'bg_perempatan_kacau',
-          tags: ['DUNIA NORMAL', 'TANPA ATURAN'], tagColors: ['#38b764', '#b13e53'], clock: 'HARI 1',
+          sky: 'day', road: true, noHills: true, noSun: true, split: true, focus: 'right', captionTop: true,
+          haze: [0, 0.2], tags: ['DUNIA NORMAL', 'TANPA ATURAN'], tagColors: ['#38b764', '#b13e53'], clock: 'HARI 1',
           camera: { x: 96, y: 54, zoom: 1 }, cameraB: { x: 192 + 96, y: 54, zoom: 1 },
-          actors: [tokoh('rakaA', 'raka', 92, 102, { depth: 20 }), tokoh('rakaB', 'raka', 192 + 160, 107, { depth: 20 })],
+          props: [...kotaNormal(0), ...kotaKacau(192)],
+          actors: [tokoh('rakaA', 'raka', 104, 96, { depth: 20 }), tokoh('rakaB', 'raka', 192 + 60, 96, { depth: 20 })],
           steps: [
-            { together: [{ move: 'rakaB', to: 192 + 178, speed: 12 }, C('Raka terbangun di jalan yang sama.', [{ at: 'terbangun', kw: 'JALAN *YANG SAMA*' }])] },
-            { together: [{ swap: 'rakaB', to: 'raka_kaget_0', dur: 50 }, { emote: 'rakaB', icon: 'exclaim' },
-              C('Tapi lampu merahnya bengkok, mobil saling serobot.', [{ at: 'bengkok', kw: 'LAMPU MERAH *BENGKOK*' }, { at: 'serobot', shake: 300 }])] },
+            { together: [{ move: 'rakaB', to: 192 + 84, speed: 10 }, C('Raka terbangun di jalan yang sama.', [{ at: 'terbangun', kw: 'JALAN *YANG SAMA*' }])] },
+            { together: [{ swap: 'rakaB', to: 'raka_kaget_0', dur: 50 }, { emote: 'rakaB', icon: 'exclaim' }, { glow: 'Blampu', times: 3 },
+              C('Lampu merahnya bengkok. Mobil menyerobot, motor melawan arah.', [{ at: 'bengkok', kw: 'LAMPU *BENGKOK*' },
+                { at: 'menyerobot', move: 'Bmobil', to: 192 + 60, speed: 40 }, { at: 'melawan', move: 'Bmotor', to: 192 + 20, speed: 45 }, { at: 'melawan', shake: 250 }])] },
             { dialog: 'rakaB', face: 'face_raka_kaget', name: 'Raka', text: 'Kok nggak ada yang ditilang?', dur: 900 },
+            { focus: 'left' },
+            { together: [{ move: 'Amobil', to: 66, speed: 22 }, { move: 'Amotor', to: 38, speed: 22 }, { emote: 'rakaA', icon: 'note' },
+              C('Di dunia asalnya, mobil berhenti saat lampu merah.', [{ at: 'berhenti', kw: 'BERHENTI *SAAT MERAH*' }])] },
             { focus: 'both' },
-            C('Di dunia asalnya, orang masih menunggu lampu hijau.', [{ at: 'menunggu', kw: 'MENUNGGU *LAMPU HIJAU*' }, { at: 'menunggu', emote: 'rakaA', icon: 'note' }]),
+            C('Aturan kecil, tapi bedanya besar.', [{ at: 'bedanya', kw: 'BEDANYA *BESAR*' }], { punch: true }),
           ],
         },
       ],
