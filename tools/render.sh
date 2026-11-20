@@ -12,6 +12,11 @@ cd "$(dirname "$0")/.."
 story="${1:?nama cerita, mis. paylater}"
 what="${2:-long}"
 PORT="${PORT:-8123}"; export PORT
+
+# cek dulu: teks layar yang tampil terlalu cepat untuk dibaca (lewati dengan FORCE=1)
+if ! node tools/readcheck.js "stories/$story.js"; then
+  [ "${FORCE:-0}" = 1 ] || { echo "Render dibatalkan: perbaiki teks di atas dulu (atau FORCE=1 tools/render.sh ...)."; exit 1; }
+fi
 TMP="$(mktemp -d)"
 
 # server lokal (dimatikan otomatis di akhir)

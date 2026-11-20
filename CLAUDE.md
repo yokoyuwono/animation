@@ -52,7 +52,8 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
    di environment cloud "animation").
 5. `tools/process-vo.sh audio/<nama> 1.2` → audio jadi + `manifest.json`; lalu `node tools/vo-lines.js stories/<nama>.js --save`.
    Catatan: lewat connector ElevenLabs, `eleven_flash_v2_5` ternyata dihitung SAMA dengan `eleven_v4` (±1 kredit/huruf) → selalu pakai `eleven_v4`.
-6. Cek: `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
+6. Cek: `node tools/readcheck.js stories/<nama>.js` (WAJIB: teks/kartu/label tidak boleh tampil terlalu cepat; otomatis dijalankan `render.sh`),
+   `node tools/pace.js stories/<nama>.js` (jeda visual) dan `node tools/preview-frames.js <out-dir> <hash> 1000 600 2000`.
 7. Render semua untuk satu topik: `tools/produce.sh <nama>` (long 16:9+9:16, semua short, thumbnail jika ada
    `tools/thumbnail-<nama>.html`). Per bagian: `tools/render.sh <nama> long|shorts|<bab-id>`.
 8. Caption & hashtag: tulis `stories/<nama>.publish.md` (judul, deskripsi + bab, tag, caption per short,
