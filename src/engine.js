@@ -105,7 +105,7 @@ class Movie extends Phaser.Scene {
     });
     return new Promise(res => {
       this.load.once('complete', () => {
-        keys.forEach(k => this.textures.exists(k) && this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR));
+        if (STORY.imageSmooth) keys.forEach(k => this.textures.exists(k) && this.textures.get(k).setFilter(Phaser.Textures.FilterMode.LINEAR));   // default: piksel tajam
         new Set(keys.filter(k => /_0$/.test(k)).map(k => k.slice(0, -2))).forEach(n => {
           const fr = [1, 0, 2, 0].filter(i => this.textures.exists(`${n}_${i}`));
           if (!this.anims.exists(`${n}_walk`) && fr.length > 1) this.anims.create({ key: `${n}_walk`, frames: fr.map(i => ({ key: `${n}_${i}` })), frameRate: 8, repeat: -1 });
