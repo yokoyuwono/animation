@@ -50,6 +50,9 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
                   ['..KBK..KBK..', '.KBK....KBK.', '.KWK....KWK.'],
                   ['...KBKKBK...', '...KBKKBK...', '...KWWWWK...']],
                  colors: { H: '#1a1c2c', R: '#8b9bb4', B: '#29366f' } },
+  // Dimas duduk mengemis: tunik, tangan terulur ke kanan, kaki bersila
+  dimas_duduk: { body: [...ROMA_HEAD, '..KRRRRRRK..', '.KSRRRRRRKSS', '..KBBBBBBK..'], legs: Array(3).fill(['.KRRRRRRRRK.', 'KSSSSKSSSSTK', '.KKKKKKKKKK.']),
+                 colors: { H: '#1a1c2c', R: '#a08a68', B: '#5d3a1a', T: '#5d3a1a' } },
   dimas_tunik: { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#1a1c2c', R: '#a08a68', B: '#5d3a1a', T: '#5d3a1a' } },
   rm_tukang:   { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#5d3a1a', R: '#b5523b', B: '#5d3a1a', T: '#5d3a1a' } },   // tunik merah bata
   rm_pedagang: { body: TUNIC_BODY, legs: TUNIC_LEGS, colors: { H: '#c2c3c7', R: '#d9b36c', B: '#8b5a2b', T: '#5d3a1a' } },   // tunik kuning tanah
@@ -378,6 +381,38 @@ function buildRomawiTextures(scene) {
   });
   // tikar lusuh
   mapCanvas(scene, 'tikar', 22, 2, (ctx, px) => { px(0, 0, '#8a7350', 22, 2); for (let x = 1; x < 22; x += 3) px(x, 0, '#6d5a3c', 1, 2); });
+  // =====================================================================
+  //  BAB 3 — kelaparan: mengemis, gandum gratis khusus warga, lapak buah
+  // =====================================================================
+  // mangkuk kayu kosong untuk mengemis
+  mapCanvas(scene, 'mangkuk', 6, 3, (ctx, px) => { px(0, 0, '#5d3a1a', 6, 1); px(1, 1, '#7a4a24', 4, 1); px(2, 2, '#5d3a1a', 2, 1); px(1, 0, '#3b2a1a', 4, 1); });
+  // karung gandum
+  mapCanvas(scene, 'karung_gandum', 10, 11, (ctx, px) => {
+    px(3, 0, '#8a7350', 4, 2); px(4, 0, '#d9b36c', 2, 1);
+    pxEllipse(px, 5, 7, 5, 4, '#b59a6a'); px(1, 5, '#cbb284', 2, 4); px(0, 10, 'rgba(0,0,0,0.25)', 10, 1); px(4, 2, '#6d5a3c', 2, 1);
+  });
+  // meja pembagian gandum: tumpukan gandum, takaran modius (ember kayu berkaki), daftar nama (papan lilin)
+  mapCanvas(scene, 'meja_gandum', 44, 20, (ctx, px) => {
+    pxEllipse(px, 12, 7, 9, 4, '#d9b36c'); px(5, 6, '#e8c98a', 8, 1); for (let i = 0; i < 12; i++) px(5 + (i * 7) % 15, 5 + (i * 3) % 5, '#b8943f');   // tumpukan gandum
+    px(25, 2, '#5d3a1a', 9, 9); px(26, 3, '#7a4a24', 7, 7); px(26, 3, '#d9b36c', 7, 1); px(25, 5, '#c9a24a', 9, 1); px(25, 8, '#c9a24a', 9, 1);   // modius berpita perunggu
+    px(36, 7, '#5d3a1a', 7, 4); px(37, 8, '#c9a24a', 5, 2); for (let x = 37; x < 42; x += 2) px(x, 8, '#5d3a1a');   // papan lilin daftar warga
+    px(0, 10, '#8b6a45', 44, 2); px(0, 10, '#a07c52', 44, 1); px(2, 12, '#6d5235', 3, 8); px(39, 12, '#6d5235', 3, 8); px(5, 13, '#6d5235', 34, 1);
+  });
+  // lapak buah: atap kain belang, keranjang ara, anggur, apel, delima
+  mapCanvas(scene, 'lapak_buah', 42, 32, (ctx, px) => {
+    for (let x = 0; x < 42; x++) px(x, 0, (Math.floor(x / 6) % 2) ? '#b5523b' : '#ece4d0', 1, 4);   // atap kain
+    for (let x = 0; x < 42; x += 6) px(x + 1, 4, (Math.floor(x / 6) % 2) ? '#93402e' : '#cfc6b0', 4, 1);
+    px(1, 4, RM.kayuT, 2, 28); px(39, 4, RM.kayuT, 2, 28);
+    px(0, 21, '#8b6a45', 42, 2); px(0, 21, '#a07c52', 42, 1); px(3, 23, '#6d5235', 3, 9); px(36, 23, '#6d5235', 3, 9);
+    const kranjang = (x, c1, c2) => { px(x, 17, '#8a6a3a', 9, 4); px(x, 17, '#a8844c', 9, 1); for (let i = 0; i < 6; i++) px(x + 1 + (i % 3) * 3, 14 + Math.floor(i / 3) * 2, i % 2 ? c1 : c2, 2, 2); };
+    kranjang(4, '#6a3d6e', '#8a5a8f');      // ara
+    kranjang(16, '#b13e53', '#e43b44');     // apel
+    kranjang(28, '#c9a24a', '#e0b85a');     // pir
+    px(10, 8, '#38b764', 1, 3); pxEllipse(px, 11, 12, 2, 2, '#7a3b8f'); px(10, 11, '#9a5bb0', 1, 1);   // anggur tergantung
+    px(33, 8, RM.kayuT, 1, 2); pxEllipse(px, 33, 11, 2, 2, '#c0392b');                                  // delima tergantung
+  });
+  // buah jatuh / sisa di tanah
+  mapCanvas(scene, 'buah_jatuh', 8, 3, (ctx, px) => { px(0, 1, '#8a5a8f', 2, 2); px(3, 0, '#b13e53', 3, 3); px(4, 0, '#e86a73', 1, 1); px(6, 2, '#6d5a3c', 2, 1); });
 }
 
 // pasang ke mesin tanpa mengubah engine.js: dibungkus pada buildMapTextures

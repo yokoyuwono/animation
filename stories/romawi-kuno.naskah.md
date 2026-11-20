@@ -34,15 +34,16 @@ r-17. Lalu dia melihat selokan terbuka, lalat, dan orang demam. **[SELOKAN · LA
 r-18. Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik. **[TANPA *ANTIBIOTIK* · TANPA *RUMAH SAKIT UMUM*]** *(label: antibiotik 1928)*
 r-19. Di sini, sakit perut saja bisa membunuh. *(punchline, hitam-putih)* **[SAKIT PERUT = *BISA MEMBUNUH*]**
 
-## Bab 3 — Kelaparan
-22. *(long)* Tapi yang paling cepat membunuhnya bukan penyakit. / *(short)* Tanpa uang di Roma kuno, bisakah kamu dapat makan?
-23. Hari kesepuluh, perutnya benar-benar kosong. **[LAPAR ▓▓▓░]**
-24. Dimas mengemis di depan toko roti. Tak ada yang memberi. **[*MENGEMIS*]**
-25. Roma membagi gandum gratis, tapi hanya untuk warga terdaftar. **[GANDUM GRATIS: *WARGA SAJA*]**
-26. Orang asing seperti Dimas tidak termasuk. **[*BUKAN* WARGA]**
-27. Dia memungut sisa buah di pasar. Diusir pedagang. **[*DIUSIR*]**
-28. Hari keempat belas, kakinya gemetar. Pandangannya kabur. **[LAPAR ▓▓▓▓]**
-29. Dia butuh uang. Cepat. Tanpa syarat. *(punchline)* **[UANG *CEPAT*]**
+## Bab 3 — Kelaparan  *(animasi draf: `stories/romawi-kuno.js` · meteran LAPAR mulai tampil)*
+r-20. *(long)* Tapi yang paling cepat membunuhnya bukan penyakit. **[BUKAN *PENYAKIT*]**
+r-20s. *(short)* Tanpa uang di Roma kuno, bisakah kamu dapat makan? **[TANPA *UANG*?]**
+r-21. Hari ke-10, perutnya benar-benar kosong. **[PERUT *KOSONG*]** *(meteran LAPAR 60%)*
+r-22. Dimas mengemis di depan toko roti. Tak ada yang memberi. **[*MENGEMIS*]** *(balon: "Panem... quaeso?" = Roti... tolong?)*
+r-23. Roma membagi gandum gratis, tapi khusus warga terdaftar. **[KHUSUS *WARGA TERDAFTAR*]** *(kartu: ±200.000 penerima)*
+r-24. Orang asing seperti Dimas tidak termasuk. **[*BUKAN* WARGA]** *(petugas: "Civis Romanus?" = Warga Roma? → stempel DITOLAK)*
+r-25. Dia memungut sisa buah di pasar. Diusir pedagang. **[*DIUSIR*]** *(pedagang: "Fur! Abi!" = Pencuri! Pergi!)*
+r-26. Hari ke-14, kakinya gemetar. Pandangannya kabur. **[KAKI *GEMETAR*]** *(LAPAR 92%, layar gelap)*
+r-27. Dia butuh uang. Cepat. Tanpa syarat. *(punchline, hitam-putih)* **[UANG CEPAT · *TANPA SYARAT*]** *(LAPAR: KRITIS)*
 
 ## Bab 4 — Arena
 30. *(long)* Hari itu, seluruh kota berjalan ke satu arah. / *(short)* Kelaparan di Roma kuno, ada satu jalan pintas yang mengerikan.
@@ -128,7 +129,7 @@ Opsi: (a) animasi dulu tanpa suara (draf), lalu pangkas ±15 kalimat sebelum VO;
 | Penduduk Roma ± 1 juta (abad ke-1; perkiraan, diperdebatkan 450 rb–1 jt+) | *perlu sumber akademik* |
 | Salve / Quis es? / Barbarus / Pecunia = Latin klasik | kamus Latin |
 | Budak ± sepertiga penduduk Italia (perkiraan) | Bradley; [Scheidel 2005](https://www.gwern.net/doc/history/2005-scheidel.pdf) |
-| Jatah gandum gratis (*frumentatio*) hanya untuk warga terdaftar | *umum diketahui — perlu sumber* |
+| Jatah gandum gratis (*frumentatio*) hanya untuk warga laki-laki terdaftar; dibatasi ±200.000 penerima sejak Augustus | Cassius Dio 55.10; Suetonius, *Augustus* 40–42 — cek ulang |
 | Amfiteater batu pertama Roma: Statilius Taurus (29 SM), terbakar 64 M; Colosseum dibuka 80 M | [Wikipedia: Amphitheater of Statilius Taurus](https://en.wikipedia.org/wiki/Amphitheater_of_Statilius_Taurus) |
 | Relawan gladiator (*auctorati*) orang merdeka, dapat uang muka saat bersumpah | [Wikipedia: Auctorati](https://en.wikipedia.org/wiki/Auctorati); [Cambridge SCP](https://www.na5.cambridgescp.com/weblink/286) |
 | Isi sumpah: rela dibakar, dirantai, dicambuk, dibunuh pedang | Petronius, *Satyricon* 117 |

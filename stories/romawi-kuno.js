@@ -28,6 +28,16 @@ const SP = {
   'r-17':  ['Lalu dia melihat selokan terbuka, lalat, dan orang demam.', 'Lalu dia melihat selokan terbuka, lalat, dan orang demam.'],
   'r-18':  ['Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik.', 'Tak ada antibiotik, tak ada rumah sakit umum. Dimas panik.'],
   'r-19':  ['Di sini, sakit perut saja bisa membunuh.', 'Di sini, sakit perut saja bisa membunuh.'],
+  // Bab 3 — kelaparan
+  'r-20':  ['Tapi yang paling cepat membunuhnya bukan penyakit.', 'Tapi yang paling cepat membunuhnya bukan penyakit.'],
+  'r-20s': ['Tanpa uang di Roma kuno, bisakah kamu dapat makan?', 'Tanpa uang di Roma kuno, bisakah kamu dapat makan?'],
+  'r-21':  ['Hari ke-10, perutnya benar-benar kosong.', 'Hari kesepuluh, perutnya benar-benar kosong.'],
+  'r-22':  ['Dimas mengemis di depan toko roti. Tak ada yang memberi.', 'Dimas mengemis di depan toko roti. Tak ada yang memberi.'],
+  'r-23':  ['Roma membagi gandum gratis, tapi khusus warga terdaftar.', 'Roma membagi gandum gratis, tapi khusus warga terdaftar.'],
+  'r-24':  ['Orang asing seperti Dimas tidak termasuk.', 'Orang asing seperti Dimas tidak termasuk.'],
+  'r-25':  ['Dia memungut sisa buah di pasar. Diusir pedagang.', 'Dia memungut sisa buah di pasar. Diusir pedagang.'],
+  'r-26':  ['Hari ke-14, kakinya gemetar. Pandangannya kabur.', 'Hari keempat belas, kakinya gemetar. Pandangannya kabur.'],
+  'r-27':  ['Dia butuh uang. Cepat. Tanpa syarat.', 'Dia butuh uang. Cepat. Tanpa syarat.'],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -60,6 +70,7 @@ function peta(steps, { c = { x: 96, y: 54, zoom: 1 }, transition = 'clouds', clo
 const JALAN = [{ sprite: 'jalan_batu', x: 96, y: 108, depth: 2.5 }];
 const CAM_DEKAT = VERT ? { x: 96, y: 72, zoom: 1.3 } : { x: 96, y: 71, zoom: 1.4 };
 const r = (id, sprite, x, ex = {}) => ({ id, sprite, x, y: 94, ...ex });
+const LAPAR = (value, ex = {}) => ({ meter: 'LAPAR', value, color: MERAH, ...ex });
 
 const STORY = {
   title: 'Andaikan Terlempar ke Roma 50 M',
@@ -322,6 +333,136 @@ const STORY = {
             ]),
             { clearLabels: true },
             { together: [{ mono: true }, C('r-19', [{ at: 'sakit perut', kw: 'SAKIT PERUT = *BISA MEMBUNUH*', keepKw: true }, { at: 'membunuh', sticker: 'dizzy', at_: [0.72, 0.3] }], { punch: true })] },
+            { mono: false },
+          ],
+        },
+      ],
+    },
+    // ================= BAB 3 — KELAPARAN =================
+    {
+      id: 'bab-3', title: 'Kelaparan',
+      scenes: [
+        // 1) Peta: hari ke-10, meteran LAPAR muncul
+        peta([
+          { together: [{ pop: 'pin' }, { camera: { x: SUBURA.x - 6, y: SUBURA.y + 2, zoom: 2.1 }, dur: 4000, ease: 'Sine.easeInOut' },
+            C('r-20', [{ at: 'bukan', kw: 'BUKAN *PENYAKIT*' }, { at: 'membunuhnya', emote: 'dimasP', icon: 'sweat', dur: 1000 }], { only: 'long' }),
+            C('r-20s', [{ at: 0, kw: 'TANPA *UANG*?' }, { at: 'makan', sticker: 'shock', at_: [0.75, 0.3] }], { only: 'short' })] },
+          C('r-21', [{ at: 'kesepuluh', ...LAPAR(0.6) }, { at: 'perutnya', emote: 'dimasP', icon: 'sweat', dur: 1200 },
+            { at: 'kosong', kw: 'PERUT *KOSONG*' }, { at: 'kosong', shake: 200 }]),
+        ], { transition: 'clouds', c: { x: SUBURA.x, y: SUBURA.y, zoom: 2.8 }, clock: 'HARI 10', dimas: true, dimasSprite: 'dimas_tunik' }),
+
+        // 2) Depan toko roti: mengemis, semua lewat begitu saja
+        {
+          transition: 'zoom', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: 70 } : CAM_DEKAT, clock: 'HARI 10', meter: LAPAR(0.6),
+          props: [...JALAN,
+            { sprite: 'siprus_samping', x: 92, y: 58, depth: 2.2 }, { sprite: 'kuil_jauh', x: 102, y: 87, scale: 0.6, depth: 2.3 },
+            { sprite: 'insula_c', x: 44, y: 88, depth: 3 }, { sprite: 'insula_a', x: 150, y: 88, depth: 3 },
+            { id: 'meja', sprite: 'meja_roti', x: 52, y: 96, depth: 8 },
+            { id: 'mangkuk', sprite: 'mangkuk', x: 88, y: 95, scale: 1.3, depth: 10 },
+            { sprite: 'amfora', x: 160, y: 89, depth: 4 },
+          ],
+          actors: [
+            r('tukang', 'rm_pedagang', 52, { y: 90, depth: 7, face: 'right', name: 'Tukang roti', tag: 'TUKANG ROTI', tagColor: TEAL }),
+            r('dimas', 'dimas_duduk', 80, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+            r('lw1', 'rm_warga', 230, { face: 'left' }), r('lw2', 'rm_ibu', -30), r('lw3', 'rm_tua', 240, { face: 'left' }),
+          ],
+          steps: [
+            C('r-22', [
+              { at: 0, kw: '*MENGEMIS*' }, { at: 0, enter: 'lw1', from: 'right', to: -20, speed: 24 },
+              { at: 'mengemis', say: 'dimas', text: 'Panem... quaeso?', dur: 1200 },
+              { at: 'mengemis', label: '(Roti... tolong?)', x: 84, y: 62, bg: GELAP, size: 17, dur: 0 },
+              { at: 'roti', enter: 'lw2', from: 'left', to: 230, speed: 22 },
+              { at: 'tak ada', kw: 'TAK ADA YANG *MEMBERI*' }, { at: 'tak ada', enter: 'lw3', from: 'right', to: -20, speed: 20 },
+              { at: 'memberi', emote: 'dimas', icon: 'sweat', dur: 1400 },
+            ]),
+            { clearLabels: true },
+          ],
+        },
+
+        // 3) Pembagian gandum gratis: hanya warga terdaftar
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: 112 } : CAM_DEKAT, clock: 'HARI 12', meter: LAPAR(0.7),
+          props: [...JALAN,
+            { sprite: 'kuil_jauh', x: 112, y: 87, scale: 0.9, depth: 2.3 }, { sprite: 'pinus_samping', x: 72, y: 60, depth: 2.2 },
+            { sprite: 'insula_b', x: 30, y: 88, depth: 3 }, { sprite: 'insula_c', x: 172, y: 88, depth: 3 },
+            { sprite: 'meja_gandum', x: 132, y: 96, depth: 8 },
+            { sprite: 'karung_gandum', x: 152, y: 95, depth: 9 }, { sprite: 'karung_gandum', x: 160, y: 95, depth: 9, flip: true },
+          ],
+          actors: [
+            r('petugas', 'rm_warga', 136, { y: 89, depth: 7, face: 'left', name: 'Petugas' }),
+            r('q1', 'rm_tua', 114), r('q2', 'rm_pemuda', 103), r('q3', 'rm_tukang', 92),
+            r('dimas', 'dimas_tunik', 50, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-23', [
+              { at: 0, kw: 'GANDUM *GRATIS*' },
+              { at: 'gandum', label: 'GANDUM GRATIS', x: 132, y: 72, bg: '#c98a45', size: 16, dur: 0 },
+              { at: 'gratis', jump: 'q1', times: 1, height: 3 },
+              { at: 'tapi', move: 'dimas', to: 81, dur: 1100 },
+              { at: 'khusus', kw: 'KHUSUS *WARGA TERDAFTAR*' },
+              { at: 'terdaftar', card: 'Jatah gandum Roma', items: ['± 200.000 penerima', 'Hanya warga Roma terdaftar', 'Orang asing: tidak dapat'], x: 120, y: 60, place: 'left' },
+            ]),
+            { clear: true },
+            C('r-24', [
+              { at: 0, exit: 'q1', to: 'right' }, { at: 0, exit: 'q2', to: 'right' }, { at: 0, exit: 'q3', to: 'right' },
+              { at: 0, move: 'dimas', to: 114, dur: 1000 },
+              { at: 'dimas', say: 'petugas', text: 'Civis Romanus?', dur: 1000 },
+              { at: 'dimas', label: '(Warga Roma?)', x: 134, y: 62, bg: GELAP, size: 17, dur: 0 },
+              { at: 'tidak', kw: '*BUKAN* WARGA' }, { at: 'termasuk', stamp: 'DITOLAK', at_: [0.5, 0.36] },
+            ]),
+            { clearLabels: true },
+            { together: [{ emote: 'dimas', icon: 'sweat', dur: 900 }, { move: 'dimas', to: 60, dur: 1000 }] },
+          ],
+        },
+
+        // 4) Pasar buah: memungut sisa, diusir
+        {
+          transition: 'cut', sky: 'day', noHills: true, fit: FITW, camera: VERT ? { ...CAM_DEKAT, x: 118 } : CAM_DEKAT, clock: 'HARI 13', meter: LAPAR(0.8),
+          props: [...JALAN,
+            { sprite: 'siprus_samping', x: 96, y: 60, depth: 2.2 }, { sprite: 'kuil_jauh', x: 84, y: 87, scale: 0.6, depth: 2.3 },
+            { sprite: 'insula_a', x: 36, y: 88, depth: 3 }, { sprite: 'insula_b', x: 168, y: 88, depth: 3 },
+            { sprite: 'lapak_buah', x: 132, y: 96, depth: 8 },
+            { id: 'buah', sprite: 'buah_jatuh', x: 108, y: 96, scale: 1.3, depth: 10 },
+            { sprite: 'amfora', x: 72, y: 89, depth: 4 },
+          ],
+          actors: [
+            r('pedagang', 'rm_pedagang', 134, { y: 89, depth: 7, face: 'left', name: 'Pedagang', tag: 'PEDAGANG BUAH', tagColor: TEAL }),
+            r('dimas', 'dimas_tunik', 70, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }),
+          ],
+          steps: [
+            C('r-25', [
+              { at: 0, move: 'dimas', to: 102, dur: 1300 },
+              { at: 'sisa', kw: '*SISA* BUAH' }, { at: 'buah', hide: 'buah', dur: 200 }, { at: 'buah', emote: 'dimas', icon: 'heart', dur: 700 },
+              { at: 'diusir', say: 'pedagang', text: 'Fur! Abi!', dur: 1000, shout: true },
+              { at: 'diusir', label: '(Pencuri! Pergi!)', x: 126, y: 52, bg: MERAH, size: 17, dur: 0 },
+              { at: 'diusir', jump: 'pedagang', times: 2, height: 3 }, { at: 'diusir', kw: '*DIUSIR*' },
+              { at: 'pedagang', emote: 'dimas', icon: 'exclaim', dur: 700 },
+            ]),
+            { clearLabels: true },
+            { together: [{ face: 'dimas', dir: 'left' }, { exit: 'dimas', to: 'left', speed: 60 }] },
+          ],
+        },
+
+        // 5) Gang senja: hari ke-14, gemetar, pandangan kabur → butuh uang cepat
+        {
+          transition: 'cut', sky: 'sunset', noHills: true, fit: FITW, camera: CAM_DEKAT, clock: 'HARI 13', meter: LAPAR(0.8),
+          props: [...JALAN,
+            { sprite: 'insula_b', x: 42, y: 88, depth: 3 }, { sprite: 'insula_c', x: 154, y: 88, depth: 3 },
+            { sprite: 'pinus_samping', x: 100, y: 60, depth: 2.2 },
+            { sprite: 'amfora', x: 76, y: 89, depth: 4 }, { sprite: 'amfora', x: 122, y: 89, depth: 4, flip: true },
+          ],
+          actors: [ r('dimas', 'dimas_tunik', 98, { name: 'Dimas', tag: 'DIMAS', tagColor: UNGU }) ],
+          steps: [
+            C('r-26', [
+              { at: 0, clock: 'HARI', from: 13, to: 14, dur: 600 },
+              { at: 'kakinya', kw: 'KAKI *GEMETAR*' }, { at: 'kakinya', encok: 'dimas', dur: 1400 }, { at: 'gemetar', ...LAPAR(0.92) },
+              { at: 'pandangannya', camera: { x: 98, y: 80, zoom: 2.2 }, dur: 1400 }, { at: 'pandangannya', tint: 0.5, color: GELAP, dur: 1200 },
+              { at: 'kabur', kw: 'PANDANGAN *KABUR*' }, { at: 'kabur', sticker: 'dizzy', at_: [0.72, 0.3] },
+            ]),
+            { together: [{ mono: true }, C('r-27', [
+              { at: 'uang', kw: 'UANG *CEPAT*' }, { at: 'cepat', ...LAPAR(1, { text: 'KRITIS' }) }, { at: 'cepat', shake: 250 },
+              { at: 'syarat', kw: 'UANG CEPAT · *TANPA SYARAT*', keepKw: true },
+            ], { punch: true })] },
             { mono: false },
           ],
         },
