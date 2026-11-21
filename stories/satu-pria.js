@@ -112,16 +112,19 @@ const senangSc = v => senang(v);
 // ---------- ALUN-ALUN tampak samping (lebar 400): ruko, pohon, menara jam di x 330 ----------
 function alunSamping(o = {}) {
   return [
-    ...[20, 150, 236].map((x, i) => ({ sprite: 'normal_ruko', x, y: 91, scale: 0.3, depth: 2 + i * 0.01 })),
-    { sprite: 'house', x: 80, y: 91, depth: 2 }, { sprite: 'house', x: 196, y: 91, depth: 2 },
-    { sprite: 'normal_pohon', x: 112, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_pohon_b', x: 262, y: 92, scale: 0.36, depth: 3 },
-    { sprite: 'normal_lampu_jalan', x: 58, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_lampu_jalan', x: 176, y: 92, scale: 0.36, depth: 3 },
-    { id: 'menara', sprite: 'menara_jam', x: 300, y: 93, scale: 0.75, depth: 4 },
-    { sprite: 'normal_pohon', x: 350, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_ruko', x: 380, y: 91, scale: 0.3, depth: 2 },
-    { sprite: 'flower', x: 130, y: 96, depth: 5 }, { sprite: 'flower2', x: 214, y: 96, depth: 5 }, { sprite: 'flower', x: 330, y: 96, depth: 5 },
+    { sprite: 'ruko_a', x: 24, y: 92, depth: 2 }, { sprite: 'warung_s', x: 62, y: 92, depth: 2.2 }, { sprite: 'ruko_b', x: 104, y: 92, depth: 2 },
+    { sprite: 'pohon_mangga', x: 142, y: 93, depth: 3 }, { sprite: 'rumah_genteng', x: 182, y: 92, depth: 2 }, { sprite: 'pagar', x: 176, y: 94, depth: 3.1 },
+    { sprite: 'ruko_c', x: 228, y: 92, depth: 2 }, { sprite: 'gerobak_s', x: 262, y: 95, depth: 3.2 },
+    { id: 'menara', sprite: 'menara_jam', x: 300, y: 93, depth: 4 },
+    { sprite: 'pohon_mangga', x: 338, y: 93, depth: 3 }, { sprite: 'ruko_d', x: 378, y: 92, depth: 2 },
+    ...[84, 206, 356].map(x => ({ sprite: 'tiang_listrik', x, y: 93, depth: 3.5 })),
+    { sprite: 'pot_tanaman', x: 44, y: 95, depth: 3.3 }, { sprite: 'pot_tanaman', x: 124, y: 95, depth: 3.3 }, { sprite: 'pot_tanaman', x: 248, y: 95, depth: 3.3 },
     ...(o.extra || []),
   ];
 }
+const KABEL = [[[-10, 34], [84, 33], [206, 33], [262, 40]], [[356, 33], [410, 34]]];   // kabel listrik antar tiang
+// latar ruangan kampung (240×108) di tengah kamera
+const latar = (key, x = 96) => ({ sprite: key, x, y: 108, depth: 1 });
 // kamera tampak samping: 16:9 lebih dekat, 9:16 lebih lebar agar kerumunan & kaki terlihat
 const camS = (x, z = 1.6, y = 74, vx = x) => ({ x: VERT ? vx : x, y: VERT ? Math.min(y, 70) : y, zoom: VERT ? Math.max(1.05, z * 0.5) : z });
 const DTOP = VERT ? undefined : 84;   // kotak dialog di bawah meteran (16:9)
@@ -133,14 +136,14 @@ const T = { menara: [96, 56], balai: [96, 20], lab: [40, 22], stadion: [150, 18]
 function kota() {
   return [
     { id: 'menaraTop', sprite: 'menara_jam_top', x: 96, y: 62, depth: 4.8 },
-    { sprite: 'balai_top', x: 96, y: 30 },
+    { sprite: 'kelurahan_top', x: 96, y: 30 },
     { id: 'lab', sprite: 'lab_top', x: 40, y: 30 },
     { id: 'stadion', sprite: 'stadion_top', x: 150, y: 18, center: true, depth: 3.2 },
     { id: 'biro', sprite: 'biro_top', x: 40, y: 86 },
     { id: 'studio', sprite: 'studio_top', x: 150, y: 86 },
     { id: 'hotel', sprite: 'hotel_top', x: 62, y: 58 },
     { sprite: 'pasar_top', x: 132, y: 58 },
-    ...[[8, 104], [24, 104], [64, 104], [80, 104], [112, 104], [128, 104], [172, 104], [186, 104]].map(([x, y], i) => ({ sprite: `rumah_top_${i % 4}`, x, y })),
+    ...[[8, 104], [24, 104], [64, 104], [80, 104], [112, 104], [128, 104], [172, 104], [186, 104]].map(([x, y], i) => ({ sprite: `rumahk_top_${i % 4}`, x, y })),
     ...[[8, 10], [70, 10], [122, 10], [186, 30], [8, 48], [186, 60], [8, 72], [118, 82], [74, 82], [182, 82]].map(([x, y]) => ({ sprite: 'pohon_top', x, y })),
   ];
 }
@@ -162,7 +165,7 @@ const STORY = {
       id: 'bab-1', title: 'Dikejar satu kota',
       scenes: [
         {
-          sky: 'day', width: 400, clock: 'HARI 7', meter: senangSc(0.05),
+          sky: 'day', width: 400, wires: KABEL, clock: 'HARI 7', meter: senangSc(0.05),
           camera: camS(70),
           props: alunSamping(),
           actors: [
@@ -193,8 +196,9 @@ const STORY = {
           transition: 'clouds', sky: 'day', clock: 'DUNIA KITA', meter: senangSc(0.3),
           camera: camS(96, 2.2, 80, 86),
           props: [
-            { sprite: 'normal_ruko', x: 24, y: 91, scale: 0.3, depth: 2 }, { sprite: 'normal_halte', x: 150, y: 92, scale: 0.36, depth: 3 },
-            { sprite: 'normal_pohon', x: 70, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_lampu_jalan', x: 118, y: 92, scale: 0.36, depth: 3 },
+            { sprite: 'ruko_b', x: 62, y: 92, depth: 2 }, { sprite: 'rumah_genteng_b', x: 156, y: 92, depth: 2 }, { sprite: 'pagar', x: 150, y: 94, depth: 3 },
+            { sprite: 'pohon_mangga', x: 120, y: 93, depth: 3 }, { sprite: 'tiang_listrik', x: 96, y: 93, depth: 3.5 }, { sprite: 'pot_tanaman', x: 88, y: 95, depth: 3.3 },
+            { sprite: 'ruko_c', x: 16, y: 92, depth: 1.9 },
             { sprite: 'flower', x: 100, y: 96, depth: 5 },
             { id: 'hp', sprite: 'hp_notif', x: 92, y: 90, scale: 0.9, depth: 14, hidden: true },
           ],
@@ -228,18 +232,18 @@ const STORY = {
           ],
         },
         {
-          transition: 'fade', sky: 'rumah', clock: 'MALAM', meter: senangSc(0.1),
+          transition: 'fade', sky: 'indoor', clock: 'MALAM', meter: senangSc(0.1),
           camera: camS(96, 1.9, 80, 82),
           props: [
-            { sprite: 'jendela_malam', x: 46, y: 64, depth: 2 }, { sprite: 'jam_dinding', x: 140, y: 44, depth: 2 },
+            latar('latar_kamar'),
             { id: 'kasur', sprite: 'kasur', x: 110, y: 101, scale: 1.2, depth: 6 },
-            { id: 'cahaya', sprite: 'cahaya_lampu', x: 96, y: 98, scale: 1.2, depth: 30 }, { sprite: 'lampu_gantung', x: 96, y: 46, depth: 31 },
           ],
           actors: [{ id: 'dimas', sprite: 'dms_rmh', x: 70, y: 101, depth: 10, tag: 'DITOLAK 10', tagColor: RED }],
           steps: [
+            { tint: 0.22, color: '#1a1c2c', dur: 0 },
             C('s-15', [{ at: 'galau', kw: 'MALAM ITU *GALAU*' }, { at: 'galau', emote: 'dimas', icon: 'sweat', dur: 1000 }, { at: 'berdoa', move: 'dimas', to: 84, dur: 800 }]),
             C('s-16', [{ at: 0, dialog: 'dimas', name: 'DIMAS', text: 'Aku cuma pengin dikelilingi cewek...', top: DTOP, dur: 300 }, { at: 0.45, kw: 'DOA *TERKIRIM*' }]),
-            { together: [{ hide: 'dimas', dur: 300 }, { swap: 'kasur', to: 'kasur_dimas' }, { tint: 0.35, color: '#1a1c2c', dur: 600 }, { alpha: 'cahaya', to: 0.2, dur: 600 }] },
+            { together: [{ hide: 'dimas', dur: 300 }, { swap: 'kasur', to: 'kasur_dimas' }, { tint: 0.45, color: '#1a1c2c', dur: 600 }] },
             C('s-17', [{ at: 0, label: 'zzz', x: 106, y: 76, bg: NAVY, size: 10, dur: 0 }, { at: 'dikabulkan', shake: 300 }, { at: 0, kw: 'DOANYA *DIKABULKAN*' },
               { at: 'terlalu', kw: '...TERLALU *HARFIAH*' }, { at: 'harfiah', sticker: 'smirk', at_: Rt }], { punch: true }),
             { quote: 'Doanya dikabulkan. Terlalu harfiah.', sub: 'DITOLAK 10 · DIKEJAR 0', dur: 1600 },
@@ -262,10 +266,10 @@ const STORY = {
           transition: 'zoom', sky: 'day', clock: 'HARI 1', meter: senangSc(0.3), width: 260,
           camera: camS(102, 1.7, 76, 70),
           props: [
-            { sprite: 'normal_ruko', x: 18, y: 91, scale: 0.3, depth: 2 }, { sprite: 'house', x: 160, y: 91, depth: 2 },
-            { sprite: 'normal_pohon', x: 66, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_lampu_jalan', x: 130, y: 92, scale: 0.36, depth: 3 },
-            { sprite: 'normal_gerobak', x: 196, y: 101, scale: 0.36, depth: 8 }, { sprite: 'normal_ruko', x: 236, y: 91, scale: 0.3, depth: 2 },
-            { id: 'menaraS', sprite: 'menara_jam', x: 110, y: 92, scale: 0.75, depth: 2.5 },
+            { sprite: 'ruko_a', x: 22, y: 92, depth: 2 }, { sprite: 'rumah_genteng', x: 160, y: 92, depth: 2 }, { sprite: 'pagar', x: 152, y: 94, depth: 3 },
+            { sprite: 'pohon_mangga', x: 66, y: 93, depth: 3 }, { sprite: 'tiang_listrik', x: 136, y: 93, depth: 3.5 },
+            { sprite: 'gerobak_s', x: 194, y: 101, depth: 8 }, { sprite: 'ruko_d', x: 236, y: 92, depth: 2 }, { sprite: 'warung_s', x: 198, y: 92, depth: 2.1 },
+            { id: 'menaraS', sprite: 'menara_jam', x: 110, y: 93, depth: 2.5 },
           ],
           actors: [
             { id: 'montir', sprite: 'montir', x: 58, y: 101 }, { id: 'pilot', sprite: 'pilot', x: 78, y: 101 },
@@ -311,7 +315,7 @@ const STORY = {
           { wait: 400 },
         ], { c: camP('menara', 2.4), extra: { clock: 'HARI 1', meter: senangSc(0.6) } }),
         {
-          transition: 'zoom', sky: 'day', width: 400, clock: 'HARI 1', meter: senangSc(0.6),
+          transition: 'zoom', sky: 'day', width: 400, wires: KABEL, clock: 'HARI 1', meter: senangSc(0.6),
           camera: camS(240, 2, 78, 236),
           props: [...alunSamping(), { id: 'kam', sprite: 'kamera_tv', x: 292, y: 101, depth: 11, hidden: true }],
           actors: [
@@ -333,12 +337,12 @@ const STORY = {
           ],
         },
         {
-          transition: 'fade', sky: 'rumah', clock: 'MALAM 1', meter: senangSc(1),
+          transition: 'fade', sky: 'indoor', clock: 'MALAM 1', meter: senangSc(1),
           camera: camS(96, 2, 80, 84),
-          props: [{ sprite: 'jendela_malam', x: 46, y: 64, depth: 2 }, { sprite: 'jam_dinding', x: 140, y: 44, depth: 2 },
-            { sprite: 'kasur', x: 112, y: 101, scale: 1.2, depth: 6 }, { sprite: 'lampu_gantung', x: 96, y: 46, depth: 31 }],
+          props: [latar('latar_kamar'), { sprite: 'kasur', x: 112, y: 101, scale: 1.2, depth: 6 }],
           actors: [{ id: 'dimas', sprite: 'dms', x: 80, y: 101, depth: 10, tag: 'TTD 2.000', tagColor: NAVY }],
           steps: [
+            { tint: 0.22, color: '#1a1c2c', dur: 0 },
             C('s-32', [{ at: 'tangan', encok: 'dimas', dur: 1400 }, { at: 'kram', label: 'KRAM!', x: 92, y: 74, bg: RED, size: 12, dur: 0 }, { at: 0, kw: 'TANGAN *KRAM*' },
               { at: 'kram', emote: 'dimas', icon: 'sweat', dur: 1000 }, { at: 'kram', meter: 'SENANG', value: 0.85, color: GREEN, text: '85%' }]),
             C('s-33', [{ at: 'artis', kw: 'JADI ARTIS = *KERJA KERAS*' }, { at: 'keras', sticker: 'dizzy', at_: Rt }], { punch: true }),
@@ -361,7 +365,7 @@ const STORY = {
         {
           transition: 'zoom', sky: 'indoor', clock: 'HARI 3', meter: senangSc(0.85),
           camera: camS(112, 1.5, 76, 96),
-          props: [{ sprite: 'pintu_kamar', x: 62, y: 101, depth: 3 }, { sprite: 'jam_dinding', x: 140, y: 50, depth: 2 }],
+          props: [latar('latar_losmen', 118), { sprite: 'pintu_kamar', x: 62, y: 101, depth: 3 }],
           actors: [
             { id: 'dimas', sprite: 'dms', x: 62, y: 101, depth: 10.5, tag: 'DIMAS', tagColor: NAVY },
             { id: 'sinta', sprite: 'drsinta', x: 220, y: 101, face: 'left', hidden: true, depth: 10 },
@@ -389,7 +393,7 @@ const STORY = {
           transition: 'zoom', sky: 'indoor', clock: 'HARI 3', meter: senangSc(0.7),
           camera: camS(102, 1.6, 86, 100),
           props: [
-            { sprite: 'meja_lab', x: 144, y: 101, depth: 4 }, { id: 'mik', sprite: 'mikroskop', x: 154, y: 86, depth: 5 },
+            latar('latar_lab', 102), { sprite: 'meja_lab', x: 144, y: 101, depth: 4 }, { id: 'mik', sprite: 'mikroskop', x: 154, y: 86, depth: 5 },
             { id: 'komodo', sprite: 'komodo', x: 76, y: 101, depth: 6, hidden: true }, { id: 'telur', sprite: 'telur', x: 102, y: 101, scale: 1.2, depth: 6, hidden: true },
             { id: 'rot', sprite: 'rotifer', x: 142, y: 80, scale: 1.1, depth: 8, hidden: true },
           ],
@@ -425,10 +429,10 @@ const STORY = {
           { wait: 600 },
         ], { c: camP('menara', 1.6), dimas: false, extra: { clock: 'HARI 4', meter: senangSc(0.7) } }),
         {
-          transition: 'zoom', sky: 'rumah', clock: 'HARI 4', meter: senangSc(0.7),
+          transition: 'zoom', sky: 'indoor', clock: 'HARI 4', meter: senangSc(0.7),
           camera: camS(98, 2, 82, 96),
           props: [
-            { sprite: 'jendela_malam', x: 40, y: 62, depth: 2 }, { sprite: 'jam_dinding', x: 150, y: 44, depth: 2 },
+            latar('latar_warkop', 98),
             { sprite: 'meja_kafe', x: 98, y: 101, depth: 8 },
             ...[0, 1, 2, 3, 4, 5].map(i => ({ id: 'cup' + i, sprite: 'cangkir', x: 90 + (i % 3) * 6, y: 86 - Math.floor(i / 3) * 5, depth: 9 + i * 0.01, hidden: i > 0 })),
           ],
@@ -463,9 +467,9 @@ const STORY = {
       id: 'bab-7', title: 'Tidak sanggup lagi',
       scenes: [
         {
-          transition: 'clouds', sky: 'rumah', clock: 'HARI 7', meter: senangSc(0.3),
+          transition: 'clouds', sky: 'indoor', clock: 'HARI 7', meter: senangSc(0.3),
           camera: camS(96, 2.2, 84, 92),
-          props: [{ id: 'jendela', sprite: 'jendela_malam', x: 46, y: 64, depth: 2 }, { sprite: 'jam_dinding', x: 140, y: 44, depth: 2 },
+          props: [latar('latar_kamar'),
             { sprite: 'meja_kafe', x: 100, y: 101, depth: 8 }, { sprite: 'nasi_bungkus', x: 100, y: 86, depth: 9 }],
           actors: [
             { id: 'dimas', sprite: 'dms', x: 84, y: 101, depth: 10, tag: 'DIMAS', tagColor: NAVY },
@@ -480,11 +484,11 @@ const STORY = {
             C('s-54', [{ at: 0, camera: camS(96, 1.9, 84, 92), dur: 700 }, ...[0, 1, 2, 3].map(i => ({ at: 0.05 + i * 0.06, enter: 'k' + i, from: i % 2 ? 'right' : 'left', to: [62, 120, 70, 130][i], dur: 700 })),
               { at: 'makan', kw: 'MAKAN *DIKERUMUNI*' }, { at: 'tidur', label: 'TOK! TOK!', x: 46, y: 46, bg: ORANGE, size: 14, dur: 0 }, { at: 'diketuk', shake: 200 }, { at: 'diketuk', emote: 'dimas', icon: 'sweat', dur: 900 }]),
             { clearLabels: true },
-            C('s-55', [{ at: 'kabur', move: 'dimas', to: 46, dur: 700 }, { at: 'jendela', hide: 'dimas' }, { at: 'kabur', kw: 'KABUR LEWAT *JENDELA*' }, { at: 'jendela', glow: 'jendela', times: 2 }]),
+            C('s-55', [{ at: 'kabur', move: 'dimas', to: 46, dur: 700 }, { at: 'jendela', hide: 'dimas' }, { at: 'kabur', kw: 'KABUR LEWAT *JENDELA*' }]),
           ],
         },
         {
-          transition: 'zoom', sky: 'day', width: 400, clock: 'HARI 7', meter: senangSc(0.1),
+          transition: 'zoom', sky: 'day', width: 400, wires: KABEL, clock: 'HARI 7', meter: senangSc(0.1),
           camera: camS(80, 1.7, 84, 80),
           props: [...alunSamping(), { id: 'kam', sprite: 'kamera_tv', x: 274, y: 101, depth: 11, hidden: true }, { id: 'bng', sprite: 'bunga', x: 244, y: 92, depth: 12, hidden: true }],
           actors: [
@@ -530,7 +534,7 @@ const STORY = {
         {
           transition: 'zoom', sky: 'indoor', clock: 'MALAM 7', meter: senangSc(0),
           camera: camS(100, 1.9, 82, 92),
-          props: [{ sprite: 'mimbar', x: 128, y: 101, depth: 8 }, { sprite: 'jam_dinding', x: 128, y: 50, depth: 2 }],
+          props: [latar('latar_pendopo', 104), { sprite: 'mimbar', x: 128, y: 101, depth: 8 }],
           actors: [
             { id: 'ratna', sprite: 'ratna', x: 128, y: 80, depth: 7, face: 'left', tag: 'WALI KOTA', tagColor: NAVY },
             { id: 'sinta', sprite: 'drsinta', x: 100, y: 101, depth: 10, face: 'left', tag: 'DR. SINTA', tagColor: '#41a6f6' },
@@ -544,7 +548,7 @@ const STORY = {
           ],
         },
         {
-          transition: 'fade', sky: 'night', width: 400, clock: 'MALAM 7', meter: senangSc(0),
+          transition: 'fade', sky: 'night', width: 400, wires: KABEL, clock: 'MALAM 7', meter: senangSc(0),
           camera: camS(300, 2.2, 88, 300),
           props: [...alunSamping(), { id: 'baring', sprite: 'dimas_baring', x: 300, y: 96, depth: 10 }],
           actors: [{ id: 'dimas', sprite: 'dms', x: 300, y: 101, hidden: true }],
@@ -555,10 +559,10 @@ const STORY = {
           ],
         },
         {
-          transition: 'fade', sky: 'rumah', clock: 'DUNIA KITA', meter: { meter: 'LEGA', value: 0.2, color: '#ffcd75', text: '20%' },
+          transition: 'fade', sky: 'indoor', clock: 'DUNIA KITA', meter: { meter: 'LEGA', value: 0.2, color: '#ffcd75', text: '20%' },
           camera: camS(100, 2, 82, 96),
           props: [
-            { sprite: 'jendela_malam', x: 42, y: 64, depth: 2 }, { sprite: 'jam_dinding', x: 150, y: 44, depth: 2 },
+            latar('latar_kamar'),
             { id: 'pintu', sprite: 'pintu_kamar', x: 146, y: 101, depth: 3 },
             { id: 'kasur', sprite: 'kasur_dimas', x: 96, y: 101, scale: 1.2, depth: 6 },
             { id: 'hp', sprite: 'hp_notif', x: 124, y: 88, scale: 0.9, depth: 14, hidden: true },
