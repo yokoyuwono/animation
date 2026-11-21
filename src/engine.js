@@ -55,6 +55,7 @@ class Movie extends Phaser.Scene {
     if (typeof buildAturanTextures === 'function') buildAturanTextures(this);
     if (typeof buildKitKotaTextures === 'function') buildKitKotaTextures(this);
     if (typeof buildKitNormalTextures === 'function') buildKitNormalTextures(this);
+    (window.KIT_BUILDERS || []).forEach(f => f(this));   // kit grid (tools/kit-grid.py)
     this.run = (this.run || 0) + 1;
     this.V = MOVIE_OPTS.format === 'v';
     this.GW = this.scale.width;

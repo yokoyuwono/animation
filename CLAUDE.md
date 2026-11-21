@@ -96,6 +96,9 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   `{ score, corner: true }` (papan skor mini di pojok), `{ quote, sub }` (kartu kutipan untuk screenshot),
   awan < 10 dtk dari awan sebelumnya otomatis jadi transisi 'zoom' (cek: `node tools/clouds.js stories/<nama>.js`).
   SFX tambahan: gunting, tetes, jangkrik, ombak. Peta pulau: `map: { island: [cx,cy,rx,ry], bumps }`; `{ spin: id }` (kincir), `{ encok: id }`.
+- **Asset pack Nano Banana → kode (grid tetap):** prompt `tools/prompt-asset-kota.md`, acuan grid `assets/kota/acuan-*.png`
+  (`python3 tools/kit-grid.py acuan`), potong `python3 tools/kit-grid.py potong kota <lembar> <gambar>` → `src/sprites-kit-kota-<lembar>.js`
+  (daftarkan di index.html; dimuat otomatis lewat `KIT_BUILDERS`). Grid 480×270, tokoh 64 px, skala 0.4.
 - Halaman HP (artifact) dibatasi 512 file: audio Paylater sudah dilepas dari sana (videonya sudah dirender).
   Untuk cerita baru berikutnya, lepas audio cerita lama yang sudah dirender (`remove` di publish_files).
   Ide fantasi berikutnya: Borobudur dibangun hari ini · kampung Indonesia pindah ke Mars. Semua video sudah memakai gaya peta + alur antar-bab (paylater, wapres-kosong, mbg-berhenti, tanpa-gunung-api).
