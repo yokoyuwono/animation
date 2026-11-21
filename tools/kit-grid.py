@@ -134,18 +134,27 @@ def potong(pack, sheet, src, NC=48):
     ch = {u: chars[i] for i, u in enumerate(used)}
     var = 'KIT_' + (pack + '_' + sheet).upper().replace('-', '_')
     out = [f'// KIT {pack}/{sheet} — dari {src} oleh tools/kit-grid.py (grid {GW}x{GH}, 1 huruf = 1 piksel).',
-           f'// Pakai skala 0.4 (192/480). Tokoh: <nama>_0 diam, _1/_2 jalan (animasi <nama>_walk otomatis).',
-           f'const {var}_PAL = {{'] + [f"  '{ch[u]}': '#%02x%02x%02x'," % tuple(pal[u * 3:u * 3 + 3]) for u in used] + ['};', f'const {var} = {{']
-    for n, (cx0, cy0, cx1, cy1) in crop.items():
+           f'// Pakai skala 0.4 (192/480). Tokoh: <pack>_<nama>_0 diam, _1/_2 jalan (animasi <nama>_walk otomatis).',
+           f'const {var}_PAL = {{'] + ["  '" + ch[u] + "': '#%02x%02x%02x'," % tuple(pal[u * 3:u * 3 + 3]) for u in used] + ['};', f'const {var} = {{']
+    sprites = {n: ["".join(ch[idx[y, x]] if 0 <= y < GH and 0 <= x < GW and keep[y, x] else '.' for x in range(cx0, cx1 + 1))
+                   for y in range(cy0, cy1 + 1)] for n, (cx0, cy0, cx1, cy1) in crop.items()}
+    if cfg['mode'] == 'tokoh':
+        sprites, extra = gerak(sprites, {ch[u]: tuple(pal[u * 3:u * 3 + 3]) for u in used})
+        used_x = {c for rows in sprites.values() for r in rows for c in r}
+        i = out.index(f'const {var} = {{') - 1
+        out[i:i] = ["  '" + c + "': '#%02x%02x%02x'," % v for c, v in extra.items() if c in used_x]
+    sprites = {f'{pack}_{n}': rows for n, rows in sprites.items()}   # awalan pack: hindari bentrok nama lama (mis. dimas di paylater)
+    for n, rows in sprites.items():
         out.append(f'  {n}: [')
-        for y in range(cy0, cy1 + 1):
-            out.append("    '" + ''.join(ch[idx[y, x]] if 0 <= y < GH and 0 <= x < GW and keep[y, x] else '.' for x in range(cx0, cx1 + 1)) + "',")
+        out += [f"    '{r}'," for r in rows]
         out.append('  ],')
     out += ['};', '(window.KIT_BUILDERS = window.KIT_BUILDERS || []).push(scene => {',
             f'  for (const [k, rows] of Object.entries({var})) pxTexture(scene, k, rows, {var}_PAL);',
-            f"  for (const k of Object.keys({var})) if (k.endsWith('_0') && {var}[k.replace(/_0$/, '_1')]) {{",
-            "    const n = k.slice(0, -2);",
-            "    if (!scene.anims.exists(`${n}_walk`)) scene.anims.create({ key: `${n}_walk`, frames: [1, 0, 2, 0].filter(i => scene.textures.exists(`${n}_${i}`)).map(i => ({ key: `${n}_${i}` })), frameRate: 8, repeat: -1 });",
+            '  const anim = (key, ks, fps) => { ks = ks.filter(k => scene.textures.exists(k)); if (ks.length > 1 && !scene.anims.exists(key)) scene.anims.create({ key, frames: ks.map(key => ({ key })), frameRate: fps, repeat: -1 }); };',
+            f"  for (const k of Object.keys({var})) if (k.endsWith('_0') && !k.includes('_lari')) {{",
+            "    const n = k.slice(0, -2), t = i => `${n}_${i}`;",
+            "    anim(`${n}_walk`, scene.textures.exists(t(3)) ? [t(1), t(3), t(2), t(3)] : [t(1), t(0), t(2), t(0)], 8);",
+            "    anim(`${n}_lari`, [t('lari_0'), t('lari_1')], 10);",
             '  }', '});', '']
     js = f'src/sprites-kit-{pack}-{sheet}.js'; open(js, 'w').write('\n'.join(out))
     # pratinjau cek: hasil potong (x3) dengan kotak & nama
@@ -155,9 +164,61 @@ def potong(pack, sheet, src, NC=48):
     rgb[~keep] = (40, 40, 52)
     prev.paste(Image.fromarray(rgb).resize((GW * 3, GH * 3), Image.NEAREST))
     for n, (cx0, cy0, cx1, cy1) in crop.items():
+        n = f'{pack}_{n}'
         dr.rectangle((cx0 * 3, cy0 * 3, cx1 * 3 + 2, cy1 * 3 + 2), outline=(255, 205, 117)); dr.text((cx0 * 3 + 2, cy0 * 3 + 2), n, fill=(255, 255, 255))
     prev.save(f'assets/{pack}/{sheet}-cek.png')
     print(js, f'{len(crop)} sprite, {len(used)} warna')
+
+def gerak(sp, pal):
+    """Animasi dibuat sendiri dari 1 pose: kaki jauh digelapkan bergantian (A/B) + badan naik-turun 1 px.
+    _1/_2 = langkah (dari _1 asli), _3 = melintas (dari _0, badan naik 1 px); lari_0/lari_1 dari lari_0 asli."""
+    free = [c for c in (string.ascii_uppercase + string.ascii_lowercase + string.digits + '#$%&*+-/:;<=>?@^_~!|') if c not in pal and c != 'K']
+    extra, memo = {}, {}
+    def dkc(c):                       # warna "kaki jauh": lebih gelap & sedikit kebiruan (huruf palet baru, hanya yang dipakai)
+        if c not in memo:
+            v = pal[c]; t = (int(v[0] * 0.62), int(v[1] * 0.62), min(255, int(v[2] * 0.7) + 6))
+            same = [k for k, w in extra.items() if sum(abs(a - b) for a, b in zip(w, t)) < 18]
+            if same: memo[c] = same[0]
+            elif free: memo[c] = free.pop(0); extra[memo[c]] = t
+            else: memo[c] = min(pal, key=lambda k: sum((a - b) ** 2 for a, b in zip(pal[k], t)))
+        return memo[c]
+    def runs(r):
+        out, s0 = [], None
+        for i, c in enumerate(r + '.'):
+            if c != '.' and s0 is None: s0 = i
+            if c == '.' and s0 is not None: out.append((s0, i - 1)); s0 = None
+        return out
+    def split(rows):                  # garis pemisah kaki kiri/kanan per baris (bawah -> atas)
+        g, lo = {}, int(len(rows) * 0.62)
+        for y in range(len(rows) - 1, lo, -1):
+            rs = runs(rows[y])
+            if len(rs) >= 2:
+                gaps = [(rs[i + 1][0] - rs[i][1], (rs[i][1] + rs[i + 1][0]) / 2) for i in range(len(rs) - 1)]
+                g[y] = max(gaps)[1]
+        if not g: return {}
+        top = min(g); last = g[max(g)]
+        for y in range(len(rows) - 1, max(0, top - 2) - 1, -1):   # isi baris tanpa celah dari tetangga
+            if y in g: last = g[y]
+            else: g[y] = last
+        return g
+    def shade(rows, side):            # side 0 = kaki belakang (kiri), 1 = kaki depan (kanan)
+        g = split(rows); out = list(rows)
+        for y, gx in g.items():
+            out[y] = ''.join(dkc(c) if c != '.' and ((x < gx) == (side == 0)) else c for x, c in enumerate(rows[y]))
+        return out
+    def bob(rows, up):                # badan naik (up) / turun 1 px, kaki tetap menapak
+        g = split(rows); hip = min(g) if g else len(rows) - 6
+        if up: return rows[1:hip + 1] + [rows[hip]] + rows[hip + 1:]
+        return ['.' * len(rows[0])] + rows[:hip - 1] + rows[hip:]
+    who = {n.rsplit('_', 1)[0] for n in sp if n.endswith('_1') and not n.endswith('lari_1')}
+    for w in who:
+        a = sp[f'{w}_1']
+        sp[f'{w}_1'], sp[f'{w}_2'] = shade(bob(a, False), 0), shade(bob(a, False), 1)
+        if f'{w}_0' in sp: sp[f'{w}_3'] = bob(sp[f'{w}_0'], True)
+        if f'{w}_lari_0' in sp:
+            r = sp[f'{w}_lari_0']
+            sp[f'{w}_lari_0'], sp[f'{w}_lari_1'] = shade(bob(r, False), 0), shade(bob(r, True), 1)
+    return sp, extra
 
 def label(m):
     H, W = m.shape; lab = np.zeros((H, W), int); comps = []

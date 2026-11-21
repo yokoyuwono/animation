@@ -10,7 +10,8 @@
 
 **Ukuran (sudah dikunci di acuan):** kanvas logis 480×270 piksel seni (1 piksel seni = blok 4×4 pada 1920×1080).
 Tokoh 64 px tinggi (NPC 60), sel tokoh 60×90, kaki di garis dasar sel. Di video dipakai skala 0.4 → 480 = selebar layar.
-Nama sprite: `<tokoh>_0` diam, `_1`/`_2` jalan (animasi `<tokoh>_walk` otomatis), pose lain `<tokoh>_<pose>`.
+Nama sprite: `kota_<tokoh>_0` diam, `_1`/`_2` jalan, `_3` melintas → animasi `kota_<tokoh>_walk` & `kota_<tokoh>_lari` dibuat otomatis
+(kaki jauh digelapkan bergantian + badan naik-turun, jadi cukup 1 pose jalan & 1 pose lari yang bagus). Pose lain `kota_<tokoh>_<pose>`.
 
 ---
 
