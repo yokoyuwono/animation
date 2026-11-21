@@ -27,6 +27,17 @@ const SP = {
  "s-15": ["Malam itu Dimas galau. Ia berdoa sebelum tidur.", "Malam itu Dimas galau. Ia berdoa sebelum tidur."],
  "s-16": ["\"Aku cuma pengin dikelilingi cewek...\"", "Aku cuma pengin dikelilingi cewek..."],
  "s-17": ["Doanya dikabulkan. Terlalu harfiah.", "Doanya dikabulkan. Terlalu harfiah."],
+ // Bab 3 — bangun di Negeri Sekar
+ "s-18": ["Dimas membuka mata. Kamarnya hilang.", "Dimas membuka mata. Kamarnya hilang."],
+ "s-18s": ["Bayangkan kamu bangun, dan hanya kamu pria di dunia.", "Bayangkan kamu bangun, dan hanya kamu pria di dunia."],
+ "s-19": ["Ia terbaring di alun-alun kota yang asing.", "Ia terbaring di alun-alun kota yang asing."],
+ "s-20": ["Montir, pilot, polisi, kuli bangunan. Semuanya perempuan.", "Montir, pilot, polisi, kuli bangunan. Semuanya perempuan."],
+ "s-21": ["Nenek penjual sayur pun menatapnya, heran.", "Nenek penjual sayur pun menatapnya, heran."],
+ "s-22": ["Dimas tersenyum lebar. \"Doaku terkabul!\"", "Dimas tersenyum lebar. Doaku terkabul!"],
+ "s-23": ["Lalu, hening. Semua mata menoleh ke arahnya.", "Lalu, hening. Semua mata menoleh ke arahnya."],
+ "s-24": ["Sirene kota berbunyi.", "Sirene kota berbunyi."],
+ "s-25": ["Negeri ini sudah tiga ratus tahun tanpa pria.", "Negeri ini sudah tiga ratus tahun tanpa pria."],
+ "s-26": ["Dan Dimas, baru saja jadi berita utama.", "Dan Dimas, baru saja jadi berita utama."],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -55,6 +66,31 @@ function alunSamping(o = {}) {
 // kamera tampak samping: 16:9 lebih dekat, 9:16 lebih lebar agar kerumunan & kaki terlihat
 const camS = (x, z = 1.6, y = 74, vx = x) => ({ x: VERT ? vx : x, y: VERT ? Math.min(y, 70) : y, zoom: VERT ? Math.max(1.05, z * 0.5) : z });
 const DTOP = VERT ? undefined : 84;   // kotak dialog di bawah meteran (16:9)
+
+// ---------- PETA NEGERI SEKAR (tampak atas): menara jam di tengah alun-alun ----------
+const KOTA = { roads: [[0, 62, 192, 62], [96, 0, 96, 108], [20, 34, 176, 34], [20, 90, 176, 90]], plaza: [80, 44, 32, 26],
+  paths: [[82, 48, 110, 48], [82, 68, 110, 68], [40, 62, 40, 90], [150, 34, 150, 62]] };
+const T = { menara: [96, 56], balai: [96, 20], lab: [40, 22], stadion: [150, 18], biro: [40, 80], studio: [150, 80], hotel: [62, 50], pasar: [132, 52] };
+function kota() {
+  return [
+    { id: 'menaraTop', sprite: 'menara_jam_top', x: 96, y: 62, depth: 4.8 },
+    { sprite: 'balai_top', x: 96, y: 30 },
+    { id: 'lab', sprite: 'lab_top', x: 40, y: 30 },
+    { id: 'stadion', sprite: 'stadion_top', x: 150, y: 18, center: true, depth: 3.2 },
+    { id: 'biro', sprite: 'biro_top', x: 40, y: 86 },
+    { id: 'studio', sprite: 'studio_top', x: 150, y: 86 },
+    { id: 'hotel', sprite: 'hotel_top', x: 62, y: 58 },
+    { sprite: 'pasar_top', x: 132, y: 58 },
+    ...[[8, 104], [24, 104], [64, 104], [80, 104], [112, 104], [128, 104], [172, 104], [186, 104]].map(([x, y], i) => ({ sprite: `rumah_top_${i % 4}`, x, y })),
+    ...[[8, 10], [70, 10], [122, 10], [186, 30], [8, 48], [186, 60], [8, 72], [118, 82], [74, 82], [182, 82]].map(([x, y]) => ({ sprite: 'pohon_top', x, y })),
+  ];
+}
+const camP = (t, z) => ({ x: T[t][0], y: T[t][1], zoom: VERT ? z * 0.8 : z });
+function peta(steps, { c = { x: 96, y: 54, zoom: 1.2 }, n = 30, dimas = true, extra = {} } = {}) {
+  return { transition: 'clouds', sky: 'map', map: KOTA, camera: c, props: kota(),
+    actors: dimas ? [{ id: 'dimasP', sprite: 'dms', x: 96, y: 74, scale: 0.75, tag: 'DIMAS', tagColor: NAVY, depth: 6 }] : [],
+    walkers: { n, sprites: WARGA, scale: 0.45 }, steps, ...extra };
+}
 
 const STORY = {
   title: 'Andaikan Aku Satu-satunya Pria di Dunia',
@@ -150,6 +186,58 @@ const STORY = {
             { quote: 'Doanya dikabulkan. Terlalu harfiah.', sub: 'DITOLAK 10 · DIKEJAR 0', dur: 1600 },
           ],
         },
+      ],
+    },
+    // ================= BAB 3 — BANGUN DI NEGERI SEKAR =================
+    {
+      id: 'bab-3', title: 'Bangun di Negeri Sekar',
+      scenes: [
+        peta([
+          C('s-18', [{ at: 0, camera: camP('menara', 2.6), dur: 0 }, { at: 'membuka', emote: 'dimasP', icon: 'question', dur: 1000 }, { at: 'membuka', kw: 'KAMARNYA *HILANG*' }], { only: 'long' }),
+          C('s-18s', [{ at: 0, camera: camP('menara', 2.6), dur: 0 }, { at: 'bangun', emote: 'dimasP', icon: 'question', dur: 1000 }, { at: 'hanya kamu', kw: 'HANYA KAMU *PRIA*' }], { only: 'short' }),
+          C('s-19', [{ at: 0, camera: { x: 96, y: 54, zoom: VERT ? 1 : 1.15 }, dur: 2600, ease: 'Cubic.easeOut' }, { at: 'alun', kw: 'KOTA *ASING*' },
+            { at: 'terbaring', label: 'NEGERI SEKAR', x: 96, y: 8, bg: UNGU, size: 14, dur: 0 }]),
+          { wait: 500 },
+        ], { extra: { clock: 'HARI 1', meter: senangSc(0.3) } }),
+        {
+          transition: 'zoom', sky: 'day', clock: 'HARI 1', meter: senangSc(0.3), width: 260,
+          camera: camS(102, 1.7, 76, 70),
+          props: [
+            { sprite: 'normal_ruko', x: 18, y: 91, scale: 0.3, depth: 2 }, { sprite: 'house', x: 160, y: 91, depth: 2 },
+            { sprite: 'normal_pohon', x: 66, y: 92, scale: 0.36, depth: 3 }, { sprite: 'normal_lampu_jalan', x: 130, y: 92, scale: 0.36, depth: 3 },
+            { sprite: 'normal_gerobak', x: 196, y: 101, scale: 0.36, depth: 8 }, { sprite: 'normal_ruko', x: 236, y: 91, scale: 0.3, depth: 2 },
+            { id: 'menaraS', sprite: 'menara_jam', x: 110, y: 92, scale: 0.75, depth: 2.5 },
+          ],
+          actors: [
+            { id: 'montir', sprite: 'montir', x: 58, y: 101 }, { id: 'pilot', sprite: 'pilot', x: 78, y: 101 },
+            { id: 'polwan', sprite: 'polwan', x: 126, y: 101, face: 'left' }, { id: 'kuli', sprite: 'kuli', x: 146, y: 101, face: 'left' },
+            { id: 'nenek', sprite: 'sk5', x: 214, y: 101, face: 'left' },
+            { id: 'dimas', sprite: 'dms', x: 100, y: 101, depth: 10.5, hidden: true },
+          ],
+          steps: [
+            C('s-20', [...(VERT ? [{ at: 0, camera: camS(0, 1, 74, 70), dur: 0 }, { at: 'polisi', camera: camS(0, 1, 74, 136), dur: 900 }] : []), { at: 'montir', tag: 'montir', text: 'MONTIR', color: '#3b5dc9' }, { at: 'pilot', tag: 'pilot', text: 'PILOT', color: NAVY },
+              { at: 'polisi', tag: 'polwan', text: 'POLISI', color: '#8b5a2b' }, { at: 'kuli', tag: 'kuli', text: 'KULI', color: ORANGE },
+              { at: 'semuanya', kw: '100% *PEREMPUAN*' }]),
+            C('s-21', [{ at: 0, camera: camS(200, 2.2, 80, 206), dur: 900 }, { at: 'nenek', tag: 'nenek', text: 'NENEK SAYUR', color: GREEN }, { at: 'heran', emote: 'nenek', icon: 'question', dur: 1100 },
+              { at: 'nenek', kw: 'MENATAP *HERAN*' }]),
+            C('s-22', [{ at: 0, camera: camS(110, 2, 80), dur: 900 }, { at: 0.05, show: 'dimas' }, { at: 'tersenyum', jump: 'dimas', times: 2, height: 6 },
+              { at: 'doaku', dialog: 'dimas', name: 'DIMAS', text: 'Doaku terkabul!', top: DTOP, dur: 200 }, { at: 'doaku', meter: 'SENANG', value: 0.6, color: GREEN, text: '60%' }]),
+            C('s-23', [{ at: 0, camera: camS(110, 1.5, 74, 104), dur: 900 }, { at: 'hening', sfx: 'jangkrik', vol: 0.8 }, { at: 'hening', kw: '...*HENING*' },
+              ...['montir', 'pilot', 'polwan', 'kuli', 'nenek'].map((id, i) => ({ at: 0.45 + i * 0.07, emote: id, icon: 'exclaim', dur: 900 })),
+              { at: 'menoleh', face: 'polwan', dir: 'left' }, { at: 'menoleh', face: 'montir', dir: 'right' }, { at: 'arahnya', emote: 'dimas', icon: 'sweat', dur: 900 }]),
+            C('s-24', [{ at: 'sirene', sfx: 'buzz' }, { at: 'sirene', shake: 600 }, { at: 'sirene', tint: 0.3, color: '#e43b44', dur: 200 },
+              { at: 'berbunyi', stamp: VERT ? 'PRIA\nTERDETEKSI!' : 'PRIA TERDETEKSI!', color: '#e43b44' }, { at: 0.9, tint: 0, dur: 300 }]),
+          ],
+        },
+        peta([
+          C('s-25', [{ at: 0, crowd: 'goto', x: 96, y: 74, spread: 18, rush: 2.2 }, { at: 0.05, card: 'NEGERI SEKAR', items: ['Tanpa pria: 300 tahun', '(angka cerita / ilustrasi)'], x: VERT ? 96 : 50, y: 22, stagger: 300, dur: 0 },
+            { at: 'sudah', kw: '*300 TAHUN* TANPA PRIA' }, { at: 'pria', emote: 'dimasP', icon: 'sweat', dur: 1000 }]),
+          { wait: 700 },
+          { clear: true },
+          C('s-26', [{ at: 0, camera: camP('studio', 2.6), dur: 900 }, { at: 'berita', glow: 'studio', times: 2 }, { at: 'berita', label: 'BREAKING NEWS: PRIA DITEMUKAN!', x: 150, y: 66, bg: RED, size: 10, dur: 0 },
+            { at: 'dimas', kw: 'JADI *BERITA UTAMA*' }, { at: 'utama', sticker: 'shock', at_: L }], { punch: true }),
+          { quote: 'Dan Dimas, baru saja jadi berita utama.', sub: 'DITOLAK 10 · DIKEJAR 1', dur: 1600 },
+        ], { c: { x: 96, y: 54, zoom: VERT ? 1 : 1.15 }, extra: { clock: 'HARI 1', meter: senangSc(0.6) } }),
       ],
     },
   ],
