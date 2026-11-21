@@ -116,11 +116,11 @@ def potong(pack, sheet, src, NC=48):
         group = {}
         for n, (bx0, by0, bx1, by1, (x0, y0, x1, y1)) in boxes.items():
             who = n.split('_')[0]; cx = (x0 + x1) // 2
-            gw, top = group.get(who, (0, 999))
-            group[who] = (max(gw, bx1 - cx + 1, cx - bx0), min(top, by0 - y0))
-        for n, (_, _, _, by1, (x0, y0, x1, y1)) in boxes.items():
-            who = n.split('_')[0]; hw, top = group[who]; cx = (x0 + x1) // 2
-            crop[n] = (cx - hw, y0 + top, cx + hw - 1, max(y0 + cfg['base'], by1))
+            gw, top, bot = group.get(who, (0, 999, cfg['base']))
+            group[who] = (max(gw, bx1 - cx + 1, cx - bx0), min(top, by0 - y0), max(bot, by1 - y0))
+        for n, (*_, (x0, y0, x1, y1)) in boxes.items():   # kaki semua frame di garis dasar yang sama
+            who = n.split('_')[0]; hw, top, bot = group[who]; cx = (x0 + x1) // 2
+            crop[n] = (cx - hw, y0 + top, cx + hw - 1, y0 + bot)
     elif cfg['mode'] == 'sel':
         crop = {n: (x0 + INSET, y0 + INSET, x1 - INSET - 1, y1 - INSET - 1) for n, (*_, (x0, y0, x1, y1)) in boxes.items()}
     else:
