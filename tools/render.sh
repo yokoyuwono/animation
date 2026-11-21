@@ -37,7 +37,7 @@ case "$what" in
     rec "$story--v" "renders/${story}_long_9x16.mp4" 600 1100 ;;
   shorts)
     for ch in $(node -e "
-      const fs=require('fs');const files=['sprites.js','sprites-city.js','sprites-war.js','sprites-money.js','sprites-politik.js','sprites-map.js','sprites-aturan.js','sprites-kit-kota.js','sprites-kit-normal.js','sprites-faces.js'];
+      const fs=require('fs');const files=['sprites.js','sprites-city.js','sprites-war.js','sprites-money.js','sprites-politik.js','sprites-map.js','sprites-aturan.js','sprites-ta.js','sprites-faces.js'];
       const src=files.map(f=>fs.readFileSync('src/'+f,'utf8')).join(';\n')+';\n'+fs.readFileSync('stories/$story.js','utf8')+';module.exports=STORY;';
       const m={exports:{}};new Function('module',src)(m);(m.exports.chapters||[]).forEach(c=>console.log(c.id));"); do
       rec "$story--v--$ch" "renders/shorts/${story}_short_${ch}.mp4" 600 1100
