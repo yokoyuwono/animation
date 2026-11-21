@@ -38,6 +38,15 @@ const SP = {
  "s-24": ["Sirene kota berbunyi.", "Sirene kota berbunyi."],
  "s-25": ["Negeri ini sudah tiga ratus tahun tanpa pria.", "Negeri ini sudah tiga ratus tahun tanpa pria."],
  "s-26": ["Dan Dimas, baru saja jadi berita utama.", "Dan Dimas, baru saja jadi berita utama."],
+ // Bab 4 — mendadak selebriti
+ "s-27": ["Dari alun-alun, kabar menyebar dalam lima menit.", "Dari alun-alun, kabar menyebar dalam lima menit."],
+ "s-27s": ["Satu-satunya pria di dunia. Hari pertama, jadi artis.", "Satu-satunya pria di dunia. Hari pertama, jadi artis."],
+ "s-28": ["Mbak Wulan dari TV kota langsung siaran.", "Mbak Wulan dari TV kota langsung siaran."],
+ "s-29": ["Antrean selfie mengular sampai balai kota.", "Antrean selfie mengular sampai balai kota."],
+ "s-30": ["Dimas melambai seperti artis.", "Dimas melambai seperti artis."],
+ "s-31": ["Hari pertama: dua ribu tanda tangan.", "Hari pertama: dua ribu tanda tangan."],
+ "s-32": ["Malamnya, tangan Dimas kram.", "Malamnya, tangan Dimas kram."],
+ "s-33": ["Ternyata jadi artis itu kerja keras.", "Ternyata jadi artis itu kerja keras."],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -238,6 +247,54 @@ const STORY = {
             { at: 'dimas', kw: 'JADI *BERITA UTAMA*' }, { at: 'utama', sticker: 'shock', at_: L }], { punch: true }),
           { quote: 'Dan Dimas, baru saja jadi berita utama.', sub: 'DITOLAK 10 · DIKEJAR 1', dur: 1600 },
         ], { c: { x: 96, y: 54, zoom: VERT ? 1 : 1.15 }, extra: { clock: 'HARI 1', meter: senangSc(0.6) } }),
+      ],
+    },
+    // ================= BAB 4 — MENDADAK SELEBRITI =================
+    {
+      id: 'bab-4', title: 'Mendadak selebriti',
+      scenes: [
+        peta([
+          C('s-27', [{ at: 0, camera: { x: 96, y: 54, zoom: VERT ? 1 : 1.15 }, dur: 1800 }, { at: 'kabar', crowd: 'goto', x: 96, y: 76, spread: 16, rush: 2 },
+            { at: 'menyebar', kw: 'MENYEBAR *5 MENIT*' }, { at: 'lima', clock: 'MENIT', from: 1, to: 5, dur: 1000 }], { only: 'long' }),
+          C('s-27s', [{ at: 0, camera: { x: 96, y: 54, zoom: VERT ? 1 : 1.15 }, dur: 1800 }, { at: 'satu', crowd: 'goto', x: 96, y: 76, spread: 16, rush: 2 },
+            { at: 'hari', kw: 'HARI PERTAMA, *JADI ARTIS*' }], { only: 'short' }),
+          { wait: 400 },
+        ], { c: camP('menara', 2.4), extra: { clock: 'HARI 1', meter: senangSc(0.6) } }),
+        {
+          transition: 'zoom', sky: 'day', width: 400, clock: 'HARI 1', meter: senangSc(0.6),
+          camera: camS(240, 2, 78, 236),
+          props: [...alunSamping(), { id: 'kam', sprite: 'kamera_tv', x: 292, y: 101, depth: 11, hidden: true }],
+          actors: [
+            { id: 'dimas', sprite: 'dms', x: 236, y: 101, depth: 10.5, tag: 'TTD 0', tagColor: NAVY },
+            { id: 'wulan', sprite: 'wulan', x: 420, y: 101, face: 'left', depth: 10 },
+            ...WARGA.concat(['sk1', 'sk3', 'sk6', 'sk2']).map((sp, i) => ({ id: 'q' + i, sprite: sp, x: -20, y: 100 + (i % 2), hidden: true, depth: 9 + (i % 2) * 0.1 })),
+          ],
+          steps: [
+            C('s-28', [{ at: 0, camera: camS(258, 2, 78, 270), dur: 1200 }, { at: 0, enter: 'wulan', from: 'right', to: 280, dur: 1400 }, { at: 'wulan', tag: 'wulan', text: 'MBAK WULAN · TV', color: '#c9a85a' }, { at: 'siaran', pop: 'kam' }, { at: 'siaran', label: '● LIVE', x: 292, y: 72, bg: RED, size: 11, dur: 0 },
+              { at: 'tv', kw: 'SIARAN *LANGSUNG*' }]),
+            C('s-29', [...Array.from({ length: 14 }, (_, i) => ({ at: i * 0.03, enter: 'q' + i, from: 'left', to: 222 - i * 11, dur: 2400 + i * 90 })),
+              { at: 0.1, camera: camS(150, 1.4, 72, 120), dur: 2200 }, { at: 'mengular', kw: 'ANTRE *SELFIE*' }, { at: 'selfie', label: 'ANTREAN SAMPAI BALAI KOTA →', x: VERT ? 120 : 130, y: 56, bg: UNGU, size: 13, dur: 0 }]),
+            { clearLabels: true },
+            C('s-30', [{ at: 0, camera: camS(236, 2.2, 80, 250), dur: 800 }, { at: 'melambai', jump: 'dimas', times: 3, height: 5 }, { at: 'artis', meter: 'SENANG', value: 1, color: GREEN, text: '100%' },
+              { at: 0, kw: 'SENANG *100%*' }, { at: 'artis', sticker: 'cool', at_: Rt }]),
+            C('s-31', [...[10, 120, 480, 900, 1300, 1700, '2.000'].map((n, i) => ({ at: 0.05 + i * 0.12, tag: 'dimas', text: 'TTD ' + n, color: NAVY })),
+              { at: 'dua ribu', kw: '*2.000* TANDA TANGAN' }, { at: 'dua ribu', label: '(ilustrasi)', x: 236, y: 58, bg: '#566c86', size: 9, dur: 0 }]),
+            { clearLabels: true },
+          ],
+        },
+        {
+          transition: 'fade', sky: 'rumah', clock: 'MALAM 1', meter: senangSc(1),
+          camera: camS(96, 2, 80, 84),
+          props: [{ sprite: 'jendela_malam', x: 46, y: 64, depth: 2 }, { sprite: 'jam_dinding', x: 140, y: 44, depth: 2 },
+            { sprite: 'kasur', x: 112, y: 101, scale: 1.2, depth: 6 }, { sprite: 'lampu_gantung', x: 96, y: 46, depth: 31 }],
+          actors: [{ id: 'dimas', sprite: 'dms', x: 80, y: 101, depth: 10, tag: 'TTD 2.000', tagColor: NAVY }],
+          steps: [
+            C('s-32', [{ at: 'tangan', encok: 'dimas', dur: 1400 }, { at: 'kram', label: 'KRAM!', x: 92, y: 74, bg: RED, size: 12, dur: 0 }, { at: 0, kw: 'TANGAN *KRAM*' },
+              { at: 'kram', emote: 'dimas', icon: 'sweat', dur: 1000 }, { at: 'kram', meter: 'SENANG', value: 0.85, color: GREEN, text: '85%' }]),
+            C('s-33', [{ at: 'artis', kw: 'JADI ARTIS = *KERJA KERAS*' }, { at: 'keras', sticker: 'dizzy', at_: Rt }], { punch: true }),
+            { quote: 'Ternyata jadi artis itu kerja keras.', sub: 'DITOLAK 10 · DIKEJAR 200', dur: 1600 },
+          ],
+        },
       ],
     },
   ],
