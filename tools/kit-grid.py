@@ -154,7 +154,7 @@ def potong(pack, sheet, src, NC=48):
             f"  for (const k of Object.keys({var})) if (k.endsWith('_0') && !k.includes('_lari')) {{",
             "    const n = k.slice(0, -2), t = i => `${n}_${i}`;",
             "    anim(`${n}_walk`, scene.textures.exists(t(3)) ? [t(1), t(3), t(2), t(3)] : [t(1), t(0), t(2), t(0)], 8);",
-            "    anim(`${n}_lari`, [t('lari_0'), t('lari_1')], 10);",
+            "    anim(`${n}_lari`, [t('lari_0'), t('lari_2'), t('lari_1'), t('lari_2')], 10);",
             '  }', '});', '']
     js = f'src/sprites-kit-{pack}-{sheet}.js'; open(js, 'w').write('\n'.join(out))
     # pratinjau cek: hasil potong (x3) dengan kotak & nama
@@ -170,11 +170,14 @@ def potong(pack, sheet, src, NC=48):
     print(js, f'{len(crop)} sprite, {len(used)} warna')
 
 def gerak(sp, pal):
-    """Animasi dibuat sendiri dari 1 pose: kaki jauh digelapkan bergantian (A/B) + badan naik-turun 1 px.
-    _1/_2 = langkah (dari _1 asli), _3 = melintas (dari _0, badan naik 1 px); lari_0/lari_1 dari lari_0 asli."""
+    """Siklus jalan/lari dibuat sendiri dari 1 pose (kontak A):
+    kaki dipisah (kaki jauh = belakang, digelapkan & digambar di belakang), lalu
+    B = kedua kaki dicerminkan di titik pinggul (kaki jauh ke depan, sepatu tetap menghadap kanan),
+    melintas = kedua kaki ditegakkan ke bawah pinggul + badan naik 1 px.
+    Hasil: _1 (A) _3 (melintas) _2 (B) ; lari_0 (A) lari_2 (melintas) lari_1 (B)."""
     free = [c for c in (string.ascii_uppercase + string.ascii_lowercase + string.digits + '#$%&*+-/:;<=>?@^_~!|') if c not in pal and c != 'K']
     extra, memo = {}, {}
-    def dkc(c):                       # warna "kaki jauh": lebih gelap & sedikit kebiruan (huruf palet baru, hanya yang dipakai)
+    def dkc(c):                       # warna kaki jauh: lebih gelap & sedikit kebiruan (huruf palet baru bila perlu)
         if c not in memo:
             v = pal[c]; t = (int(v[0] * 0.62), int(v[1] * 0.62), min(255, int(v[2] * 0.7) + 6))
             same = [k for k, w in extra.items() if sum(abs(a - b) for a, b in zip(w, t)) < 18]
@@ -182,42 +185,68 @@ def gerak(sp, pal):
             elif free: memo[c] = free.pop(0); extra[memo[c]] = t
             else: memo[c] = min(pal, key=lambda k: sum((a - b) ** 2 for a, b in zip(pal[k], t)))
         return memo[c]
-    def runs(r):
-        out, s0 = [], None
-        for i, c in enumerate(r + '.'):
-            if c != '.' and s0 is None: s0 = i
-            if c == '.' and s0 is not None: out.append((s0, i - 1)); s0 = None
+    def light(c):
+        v = pal.get(c) or extra.get(c); return v and sum(v) > 430 and max(v) - min(v) < 60
+    def comps(px):
+        px = set(px); out = []
+        while px:
+            st = [px.pop()]; c = set(st)
+            while st:
+                y, x = st.pop()
+                for dy in (-1, 0, 1):
+                    for dx in (-1, 0, 1):
+                        q = (y + dy, x + dx)
+                        if q in px: px.remove(q); c.add(q); st.append(q)
+            out.append(c)
         return out
-    def split(rows):                  # garis pemisah kaki kiri/kanan per baris (bawah -> atas)
-        g, lo = {}, int(len(rows) * 0.62)
-        for y in range(len(rows) - 1, lo, -1):
-            rs = runs(rows[y])
-            if len(rs) >= 2:
-                gaps = [(rs[i + 1][0] - rs[i][1], (rs[i][1] + rs[i + 1][0]) / 2) for i in range(len(rs) - 1)]
-                g[y] = max(gaps)[1]
-        if not g: return {}
-        top = min(g); last = g[max(g)]
-        for y in range(len(rows) - 1, max(0, top - 2) - 1, -1):   # isi baris tanpa celah dari tetangga
-            if y in g: last = g[y]
-            else: g[y] = last
-        return g
-    def shade(rows, side):            # side 0 = kaki belakang (kiri), 1 = kaki depan (kanan)
-        g = split(rows); out = list(rows)
-        for y, gx in g.items():
-            out[y] = ''.join(dkc(c) if c != '.' and ((x < gx) == (side == 0)) else c for x, c in enumerate(rows[y]))
+    def legs(rows):                   # -> (pinggul y, pinggul x, kaki jauh, kaki dekat) sebagai {(y,x): huruf}
+        H = len(rows); lo = int(H * 0.6)
+        reg = {(y, x) for y in range(lo, H) for x, c in enumerate(rows[y]) if c != '.'}
+        seed = [p for p in reg if p[0] >= int(H * 0.8)]
+        mask = set()
+        for c in comps(reg):
+            if any(p in c for p in seed): mask |= c
+        for piv in range(lo, H):
+            cs = [c for c in comps({p for p in mask if p[0] >= piv}) if len(c) >= 15 and max(p[0] for p in c) >= H * 0.8]
+            if len(cs) >= 2: break
+        else: return None
+        cs.sort(key=lambda c: sum(p[1] for p in c) / len(c))
+        top = [p[1] for p in mask if p[0] == piv] or [0]
+        hx = (min(top) + max(top)) / 2
+        return piv, hx, {p: rows[p[0]][p[1]] for p in cs[0]}, {p: rows[p[0]][p[1]] for p in cs[-1]}
+    def flip_shoe(leg):               # cerminkan ulang sepatu agar ujungnya tetap menghadap kanan
+        sh = [p for p, c in leg.items() if light(c)]
+        if not sh: return leg
+        y0, y1 = min(p[0] for p in sh) - 1, max(p[0] for p in sh) + 1
+        x0, x1 = min(p[1] for p in sh) - 1, max(p[1] for p in sh) + 1
+        return {((y, x0 + x1 - x) if y0 <= y <= y1 and x0 <= x <= x1 else (y, x)): c for (y, x), c in leg.items()}
+    def frame(rows, info, mode, up=0):
+        piv, hx, far, near = info; W = len(rows[0])
+        far = {p: dkc(c) for p, c in far.items()}
+        grid = [list(r) for r in rows]
+        for (y, x) in list(far) + list(near): grid[y][x] = '.'
+        def move(leg, side):
+            if mode == 'B':
+                return flip_shoe({(y, int(round(2 * hx - x))): c for (y, x), c in leg.items()})
+            if mode == 'P':           # tegakkan: geser tiap baris sebanding jarak dari pinggul
+                bot = max(p[0] for p in leg); foot = [p[1] for p in leg if p[0] >= bot - 2]
+                fx = sum(foot) / len(foot); tx = hx + side * 2
+                return {(y, int(round(x + (tx - fx) * max(0, y - piv) / max(1, bot - piv)))): c for (y, x), c in leg.items()}
+            return leg
+        for leg, side in ((far, -1), (near, 1)):
+            for (y, x), c in move(leg, side).items():
+                if 0 <= x < W: grid[y][x] = c
+        out = [''.join(r) for r in grid]
+        if up:                        # badan naik 1 px, kaki tetap menapak
+            out = out[1:piv + 1] + [out[piv]] + out[piv + 1:]
         return out
-    def bob(rows, up):                # badan naik (up) / turun 1 px, kaki tetap menapak
-        g = split(rows); hip = min(g) if g else len(rows) - 6
-        if up: return rows[1:hip + 1] + [rows[hip]] + rows[hip + 1:]
-        return ['.' * len(rows[0])] + rows[:hip - 1] + rows[hip:]
     who = {n.rsplit('_', 1)[0] for n in sp if n.endswith('_1') and not n.endswith('lari_1')}
     for w in who:
-        a = sp[f'{w}_1']
-        sp[f'{w}_1'], sp[f'{w}_2'] = shade(bob(a, False), 0), shade(bob(a, False), 1)
-        if f'{w}_0' in sp: sp[f'{w}_3'] = bob(sp[f'{w}_0'], True)
-        if f'{w}_lari_0' in sp:
-            r = sp[f'{w}_lari_0']
-            sp[f'{w}_lari_0'], sp[f'{w}_lari_1'] = shade(bob(r, False), 0), shade(bob(r, True), 1)
+        for src, a, p, b in ((f'{w}_1', f'{w}_1', f'{w}_3', f'{w}_2'), (f'{w}_lari_0', f'{w}_lari_0', f'{w}_lari_2', f'{w}_lari_1')):
+            if src not in sp: continue
+            rows = sp[src]; info = legs(rows)
+            if not info: print('kaki tidak terdeteksi:', src); continue
+            sp[a], sp[b], sp[p] = frame(rows, info, 'A'), frame(rows, info, 'B'), frame(rows, info, 'P', up=1)
     return sp, extra
 
 def label(m):
