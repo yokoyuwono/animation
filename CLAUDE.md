@@ -84,7 +84,9 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   `tanpa-nasi`, `tanpa-koruptor` (Andaikan; VO + animasi jadi, menunggu review → render/thumbnail/caption),
   `rupiah-7000` (Andaikan Rupiah Menjadi Rp7.000 Lagi: 9 bab animasi jadi, tanpa VO, menunggu review; keluarga Pak Harun,
   layar terbelah Rp 7.000 vs Rp 30.000, tanpa skor; sprite ruang makan/SPBU/pabrik/kebun di akhir `src/sprites-map.js`, latar `sky: 'rumah'`),
-  `romawi-kuno` (dikerjakan di sesi kedua, cabang `romawi-kuno`). Prompt thumbnail gaya ilustrasi (Nano Banana): `tools/thumbnail-prompts.md`.
+  `romawi-kuno` (dikerjakan di sesi kedua, cabang `romawi-kuno`).
+  `satu-pria` (Andaikan Aku Satu-satunya Pria di Dunia; cabang `andaikan-satu-pria`: 8 bab animasi jadi, tanpa VO, menunggu review;
+  Dimas di Negeri Sekar, meteran HUD SENANG, sprite di `src/sprites-satu-pria.js`; ramah keluarga, tanpa harem). Prompt thumbnail gaya ilustrasi (Nano Banana): `tools/thumbnail-prompts.md`.
 - **Thumbnail gaya ilustrasi (disukai pemilik, varian A):** `tools/thumbnail-<topik>-ilustrasi.html` — karakter setengah badan bergestur
   (`makeBust` + `BUSTS` di `src/sprites-faces.js`: pola hoodie/plaid/jacket, wajah grin/panic/happy/cry, gestur thumb/phone),
   latar peta dari video (`node tools/thumb-bg.js <hash> tools/thumb-bg/<topik>.png <ms>`), judul besar Press Start 2P bergaris tepi.
