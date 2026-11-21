@@ -60,6 +60,15 @@ const SP = {
  "s-42": ["Lucunya, anak komodo itu jantan semua.", "Lucunya, anak komodo itu jantan semua."],
  "s-43": ["Rotifer, hewan mikro, semuanya betina. Puluhan juta tahun.", "Rotifer, hewan mikro, semuanya betina. Puluhan juta tahun."],
  "s-44": ["Jadi Dimas dicari bukan karena ganteng. Tapi karena langka.", "Jadi Dimas dicari bukan karena ganteng. Tapi karena langka."],
+ // Bab 6 — kencan maraton
+ "s-45": ["Undian keluar. Jadwal Dimas: biro jodoh Bu Darmi.", "Undian keluar. Jadwal Dimas: biro jodoh Bu Darmi."],
+ "s-45s": ["Satu-satunya pria di dunia. Lima puluh kencan sehari.", "Satu-satunya pria di dunia. Lima puluh kencan sehari."],
+ "s-46": ["Lima puluh kali ngopi kenalan. Dalam sehari.", "Lima puluh kali ngopi kenalan. Dalam sehari."],
+ "s-47": ["Pertanyaan pertama selalu sama. \"Kamu beneran pria?\"", "Pertanyaan pertama selalu sama. Kamu beneran pria?"],
+ "s-48": ["Pertanyaan kedua: \"Boleh foto?\"", "Pertanyaan kedua: Boleh foto?"],
+ "s-49": ["Tidak ada yang bertanya hobinya apa.", "Tidak ada yang bertanya hobinya apa."],
+ "s-50": ["Kopi kelima puluh, Dimas mulai gemetar.", "Kopi kelima puluh, Dimas mulai gemetar."],
+ "s-51": ["Dua hari, seratus kencan. Nol yang benar-benar kenal dia.", "Dua hari, seratus kencan. Nol yang benar-benar kenal dia."],
 };
 const C = (id, cues = [], extra = {}) => ({ caption: SP[id][0], vo: id, speak: SP[id][1], cues, ...extra });
 
@@ -372,6 +381,51 @@ const STORY = {
               { at: 'langka', tag: 'dimas', text: 'SPESIES LANGKA', color: UNGU }], { punch: true }),
             { wait: 700 },
             { quote: 'Dimas dicari bukan karena ganteng. Tapi karena langka.', sub: 'DITOLAK 10 · DIKEJAR 500', dur: 1600 },
+          ],
+        },
+      ],
+    },
+    // ================= BAB 6 — KENCAN MARATON =================
+    {
+      id: 'bab-6', title: 'Kencan maraton',
+      scenes: [
+        peta([
+          C('s-45', [{ at: 0, camera: camP('biro', 2.4), dur: 1400 }, { at: 'undian', kw: 'UNDIAN *KELUAR*' }, { at: 'biro', glow: 'biro', times: 2 }, { at: 'biro', label: 'BIRO JODOH BU DARMI', x: 40, y: 64, bg: PINK, size: 11, dur: 0 },
+            { at: 'darmi', crowd: 'goto', x: 40, y: 94, spread: 14, rush: 1.5 }], { only: 'long' }),
+          C('s-45s', [{ at: 0, camera: camP('biro', 2.4), dur: 1400 }, { at: 'lima', glow: 'biro', times: 2 }, { at: 'satu', kw: '*50* KENCAN SEHARI' },
+            { at: 'lima', crowd: 'goto', x: 40, y: 94, spread: 14, rush: 1.5 }], { only: 'short' }),
+          { wait: 600 },
+        ], { c: camP('menara', 1.6), dimas: false, extra: { clock: 'HARI 4', meter: senangSc(0.7) } }),
+        {
+          transition: 'zoom', sky: 'rumah', clock: 'HARI 4', meter: senangSc(0.7),
+          camera: camS(98, 2, 82, 96),
+          props: [
+            { sprite: 'jendela_malam', x: 40, y: 62, depth: 2 }, { sprite: 'jam_dinding', x: 150, y: 44, depth: 2 },
+            { sprite: 'meja_kafe', x: 98, y: 101, depth: 8 },
+            ...[0, 1, 2, 3, 4, 5].map(i => ({ id: 'cup' + i, sprite: 'cangkir', x: 90 + (i % 3) * 6, y: 86 - Math.floor(i / 3) * 5, depth: 9 + i * 0.01, hidden: i > 0 })),
+          ],
+          actors: [
+            { id: 'dimas', sprite: 'dms', x: 82, y: 101, depth: 10, tag: 'KENCAN 0', tagColor: PINK },
+            ...['sk1', 'sk3', 'sk2', 'sk6', 'sk4', 'pilot', 'montir', 'sk5'].map((sp, i) => ({ id: 'd' + i, sprite: sp, x: 220, y: 101, face: 'left', hidden: true, depth: 10 })),
+          ],
+          steps: [
+            C('s-46', [...[0, 1, 2, 3].map(i => ({ at: i * 0.22, enter: 'd' + i, from: 'right', to: 114, dur: 300 })),
+              ...[0, 1, 2, 3].map(i => ({ at: i * 0.22 + 0.15, exit: 'd' + i, to: 'right', speed: 220 })),
+              ...[1, 5, 12, 20, 33, 50].map((n, i) => ({ at: 0.05 + i * 0.15, tag: 'dimas', text: 'KENCAN ' + n, color: PINK })),
+              { at: 'lima', kw: '*50* KENCAN/HARI' }, { at: 'sehari', clock: 'JAM', from: 8, to: 20, dur: 1200 }]),
+            C('s-47', [{ at: 0, enter: 'd4', from: 'right', to: 114, dur: 500 }, { at: 'pertanyaan', kw: 'PERTANYAAN *PERTAMA*' },
+              { at: 'kamu', dialog: 'd4', name: 'KENALAN #51', text: 'Kamu beneran pria?', top: DTOP, dur: 200 }, { at: 'pria', emote: 'dimas', icon: 'sweat', dur: 900 }]),
+            C('s-48', [{ at: 0, exit: 'd4', to: 'right', speed: 200 }, { at: 0.05, enter: 'd5', from: 'right', to: 114, dur: 500 },
+              { at: 'boleh', dialog: 'd5', name: 'KENALAN #52', text: 'Boleh foto?', top: DTOP, dur: 100 }, { at: 'foto', tint: 0.7, color: '#ffffff', dur: 80 }, { at: 'foto', label: 'CEKREK!', x: 112, y: 70, bg: ORANGE, size: 20, dur: 0 },
+              { at: 'kedua', kw: 'BOLEH *FOTO?*' }, { at: 0.9, tint: 0, dur: 200 }]),
+            C('s-49', [{ at: 0, exit: 'd5', to: 'right', speed: 200 }, { at: 0.05, enter: 'd6', from: 'right', to: 114, dur: 500 }, { at: 'bertanya', label: 'HOBI DIMAS? —', x: 96, y: 66, bg: NAVY, size: 18, dur: 0 },
+              { at: 'tidak', kw: 'HOBI? *TAK ADA YANG TANYA*' }, { at: 'hobinya', emote: 'dimas', icon: 'question', dur: 1000 }]),
+            { clearLabels: true },
+            C('s-50', [{ at: 0, exit: 'd6', to: 'right', speed: 200 }, ...[1, 2, 3, 4, 5].map(i => ({ at: 0.05 + i * 0.1, pop: 'cup' + i })), { at: 'kelima', kw: 'KOPI *KE-50*' },
+              { at: 'gemetar', encok: 'dimas', dur: 1200 }, { at: 'gemetar', shake: 300 }, { at: 'gemetar', meter: 'SENANG', value: 0.4, color: '#ffcd75', text: '40%' }]),
+            C('s-51', [{ at: 'dua hari', clock: 'HARI 5' }, { at: 'seratus', tag: 'dimas', text: 'KENCAN 100', color: PINK }, { at: 'seratus', kw: '*100* KENCAN' },
+              { at: 'nol', kw: '*0* YANG KENAL DIA' }, { at: 'nol', sticker: 'sweat', at_: Rt }], { punch: true }),
+            { quote: 'Dua hari, seratus kencan. Nol yang benar-benar kenal dia.', sub: 'DITOLAK 10 · DIKEJAR 800', dur: 1600 },
           ],
         },
       ],
