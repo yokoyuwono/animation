@@ -197,6 +197,29 @@ function buildSatuPriaTextures(scene) {
     px(0, 0, '#8b5a2b', 30, 3); px(0, 0, '#a0703c', 30, 1); px(13, 3, '#5d3a1a', 4, 12); px(8, 15, '#5d3a1a', 14, 1);
   });
   mapCanvas(scene, 'cangkir', 6, 6, (ctx, px) => { px(0, 1, '#f4f4f4', 5, 5); px(1, 1, '#5d3a1a', 3, 1); px(5, 2, '#f4f4f4', 1, 2); px(0, 5, '#c2c3c7', 5, 1); });
+  mapCanvas(scene, 'komodo', 34, 12, (ctx, px) => {               // komodo (tampak samping, menghadap kanan)
+    px(0, 7, '#6f7a5a', 8, 2); px(6, 6, '#6f7a5a', 6, 3);                  // ekor
+    px(10, 4, '#7d8a63', 16, 5); px(12, 3, '#8f9c70', 12, 1); px(11, 8, '#5f6a4c', 14, 1);
+    px(25, 3, '#7d8a63', 7, 4); px(31, 5, '#7d8a63', 3, 2); px(29, 4, '#1a1c2c'); px(33, 6, '#e43b44', 1, 1);   // kepala & lidah
+    [[12, 9], [16, 9], [21, 9], [24, 9]].forEach(([x, y]) => px(x, y, '#5f6a4c', 2, 3));
+    for (let x = 12; x < 25; x += 3) px(x, 5, '#9aa77a', 1, 1);
+  });
+  mapCanvas(scene, 'telur', 18, 8, (ctx, px) => {
+    [[3, 4], [9, 3], [15, 4]].forEach(([x, y]) => { pxEllipse(px, x, y, 2, 3, '#f4e4c1'); px(x - 1, y - 1, '#ffffff', 1, 1); });
+    px(0, 7, '#c9a85a', 18, 1);
+  });
+  mapCanvas(scene, 'rotifer', 14, 18, (ctx, px) => {               // rotifer (hewan mikro) — di bawah mikroskop
+    pxEllipse(px, 7, 9, 5, 7, '#73eff7'); pxEllipse(px, 7, 9, 4, 6, '#a8f4f9');
+    pxEllipse(px, 7, 7, 2, 2, '#38b764'); px(4, 1, '#41a6f6', 2, 2); px(8, 1, '#41a6f6', 2, 2);   // mahkota silia
+    px(6, 15, '#73eff7', 2, 3);
+  });
+  mapCanvas(scene, 'mikroskop', 14, 20, (ctx, px) => {
+    px(2, 18, '#333c57', 10, 2); px(9, 6, '#566c86', 2, 12); px(4, 12, '#566c86', 7, 2);
+    px(3, 2, '#c2c3c7', 4, 8); px(3, 2, '#1a1c2c', 4, 1); px(4, 10, '#1a1c2c', 2, 2);
+  });
+  mapCanvas(scene, 'meja_lab', 40, 16, (ctx, px) => {
+    px(0, 0, '#c2c3c7', 40, 3); px(0, 0, '#f4f4f4', 40, 1); px(2, 3, '#566c86', 3, 13); px(35, 3, '#566c86', 3, 13);
+  });
   mapCanvas(scene, 'mimbar', 30, 24, (ctx, px) => {                 // meja sidang balai kota
     px(0, 0, '#5d3a1a', 30, 4); px(2, 4, '#8b5a2b', 26, 20); px(10, 9, '#ffcd75', 10, 6); px(12, 11, '#b13e53', 6, 2);
   });
