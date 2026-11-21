@@ -1,7 +1,7 @@
 // Jarak antar transisi awan per cerita (perkiraan, pakai durasi VO dari manifest).
 // node tools/clouds.js stories/<nama>.js [batas_detik=10]
 const fs = require('fs');
-const SPRITES = ['sprites.js', 'sprites-city.js', 'sprites-war.js', 'sprites-money.js', 'sprites-politik.js', 'sprites-map.js', 'sprites-faces.js'];
+const SPRITES = ['sprites.js', 'sprites-city.js', 'sprites-war.js', 'sprites-money.js', 'sprites-politik.js', 'sprites-map.js', 'sprites-aturan.js', 'sprites-kit-kota.js', 'sprites-kit-normal.js', 'sprites-satu-pria.js', 'sprites-faces.js'].filter(f => fs.existsSync('src/' + f));
 const src = SPRITES.map(f => fs.readFileSync('src/' + f, 'utf8')).join(';\n') + ';\n' + fs.readFileSync(process.argv[2], 'utf8') + ';module.exports=STORY;';
 const m = { exports: {} }; new Function('location', 'module', src)({ hash: '' }, m); const STORY = m.exports;
 const LIM = +(process.argv[3] || 10) * 1000;

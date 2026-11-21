@@ -252,6 +252,7 @@ class Movie extends Phaser.Scene {
     // only: 'long' (kompilasi) | 'short' (satu bab saja, mis. #cerita--v--bab-3)
     if (st.only && st.only !== (MOVIE_OPTS.chapter ? 'short' : 'long')) return;
     if ('quote' in st) return this.quoteCard(st);
+    if ('meter' in st) return this.meter(st);
     // { spin: id, dur } -> benda berputar terus (kincir); { spin: id, stop: true }
     if ('spin' in st) { const a = this.actor(st.spin); this.tweens.killTweensOf(a.spr); if (!a._spinOrigin) { a._spinOrigin = true; a.spr.y -= a.spr.displayHeight * (a.spr.originY - 0.5); a.spr.setOrigin(0.5, 0.5); } if (!st.stop) this.tweens.add({ targets: a.spr, angle: 360, duration: st.dur || 1400, repeat: -1 }); return this.wait(0); }
     // { rain: true|false, side? } -> hujan (garis biru jatuh di layar)
@@ -523,8 +524,9 @@ class Movie extends Phaser.Scene {
       ? [0, 1].map(i => this.wobj(this.add.rectangle(i * W * S, 0, W * S, H * S, 0x8a7f6a, 1).setOrigin(0).setDepth(40).setAlpha(hz[i] ?? hz[0])))
       : [this.wobj(this.add.rectangle(0, 0, SW * S, H * S, 0x8a7f6a, 1).setOrigin(0).setDepth(40).setAlpha(hz[0]))];
 
-    this.clockText = null; this.kwObj = null;
+    this.clockText = null; this.kwObj = null; this.meterObj = null;
     if (sc.clock) this.clock({ clock: sc.clock, instant: true });
+    if (sc.meter) this.meter({ ...sc.meter, instant: true });
     if (sc.note) this.uobj(this.add.text(12, this.V ? 118 : this.GH - 22, sc.note, { fontFamily: FONT, fontSize: '9px', color: '#c2c3c7' }).setDepth(150).setAlpha(0.85));
 
     // label sisi (BENSIN / LISTRIK)
@@ -1247,6 +1249,29 @@ class Movie extends Phaser.Scene {
     }
     this.clockText.setScale(1.25);
     await this.tween({ targets: this.clockText, scale: 1, duration: 200 });
+  }
+
+  // meteran HUD pojok kanan atas: { meter: 'LAPAR', value: 0.7, color: '#e43b44', text: '70%' } (value 0..1).
+  // Adegan: meter: { meter, value, color, text } -> tampil langsung. { meter: false } -> sembunyikan.
+  async meter(st) {
+    const V = this.V, w = V ? 150 : 170, x0 = this.GW - 24 - w, y = V ? 52 : 14;
+    if (!st.meter) { if (this.meterObj) this.meterObj.all.forEach(o => o.destroy()); this.meterObj = null; return; }
+    if (!this.meterObj || !this.meterObj.box.active) {
+      const box = this.uobj(this.add.rectangle(x0 - 10, y, w + 20, 58, 0x1a1c2c).setOrigin(0).setDepth(165));
+      const txt = this.uobj(this.add.text(x0, y + 8, '', { fontFamily: FONT, fontSize: '13px', color: '#ffffff' }).setDepth(166));
+      const pct = this.uobj(this.add.text(x0 + w, y + 8, '', { fontFamily: FONT, fontSize: '13px', color: '#ffcd75' }).setOrigin(1, 0).setDepth(166));
+      const bg = this.uobj(this.add.rectangle(x0, y + 30, w, 18, 0x333c57).setOrigin(0).setDepth(166));
+      const bar = this.uobj(this.add.rectangle(x0, y + 30, w, 18, 0xe43b44).setOrigin(0).setDepth(167).setScale(0, 1));
+      const segs = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(k => this.uobj(this.add.rectangle(x0 + k * w / 10, y + 30, 2, 18, 0x1a1c2c).setOrigin(0).setDepth(168)));
+      this.meterObj = { box, txt, pct, bar, all: [box, txt, pct, bg, bar, ...segs] };
+    }
+    const m = this.meterObj, v = Math.max(0, Math.min(1, st.value ?? 0));
+    m.txt.setText(st.meter); m.pct.setText(st.text ?? '');
+    m.bar.setFillStyle(Phaser.Display.Color.HexStringToColor(st.color || '#e43b44').color);
+    if (st.instant) { m.bar.setScale(v, 1); return; }
+    this.sfx('tick', 0.6);
+    this.tweens.add({ targets: m.box, alpha: { from: 0.4, to: 1 }, duration: 160, yoyo: true, repeat: 1 });
+    await this.tween({ targets: m.bar, scaleX: v, duration: st.dur ?? 900, ease: 'Sine.easeInOut' });
   }
 
   // stempel besar: { stamp: 'DITOLAK', color: '#e43b44' }
