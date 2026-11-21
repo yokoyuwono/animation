@@ -220,6 +220,11 @@ function buildSatuPriaTextures(scene) {
   mapCanvas(scene, 'meja_lab', 40, 16, (ctx, px) => {
     px(0, 0, '#c2c3c7', 40, 3); px(0, 0, '#f4f4f4', 40, 1); px(2, 3, '#566c86', 3, 13); px(35, 3, '#566c86', 3, 13);
   });
+  mapCanvas(scene, 'dimas_baring', 18, 7, (ctx, px) => {          // Dimas berbaring di tanah (kepala di kiri)
+    px(0, 1, '#1a1c2c', 6, 6); px(1, 1, '#3a2a20', 4, 2); px(1, 3, '#f4c29a', 4, 3);
+    px(1, 3, '#1a1c2c', 2, 1); px(3, 3, '#1a1c2c', 2, 1); px(2, 3, '#41a6f6', 1, 1);
+    px(6, 2, '#5a6988', 7, 5); px(13, 3, '#29366f', 5, 4); px(17, 3, '#1a1c2c', 1, 4);
+  });
   mapCanvas(scene, 'mimbar', 30, 24, (ctx, px) => {                 // meja sidang balai kota
     px(0, 0, '#5d3a1a', 30, 4); px(2, 4, '#8b5a2b', 26, 20); px(10, 9, '#ffcd75', 10, 6); px(12, 11, '#b13e53', 6, 2);
   });
