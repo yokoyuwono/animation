@@ -89,6 +89,10 @@ long form + short dari naskah yang sama. Pemilik berkomunikasi dalam bahasa Indo
   (`makeBust` + `BUSTS` di `src/sprites-faces.js`: pola hoodie/plaid/jacket, wajah grin/panic/happy/cry, gestur thumb/phone),
   latar peta dari video (`node tools/thumb-bg.js <hash> tools/thumb-bg/<topik>.png <ms>`), judul besar Press Start 2P bergaris tepi.
   JANGAN pakai gestur telunjuk ke atas ('point') — terkesan jari tengah. Hasil: `renders/thumbnail_<topik>_ilustrasi-a|b.png`.
+- **Tokoh tetap channel: ANDI** (si penjelajah Andaikan; muncul di semua video baru, masuk ke dunia andaian, tokoh lokal tetap ada).
+  Sprite kecil di peta/adegan = `andi` di `src/sprites-map.js` (kacamata selam cyan di dahi, syal oranye, hoodie ungu) — pakai ini.
+  Wajah besar & gambar thumbnail Andi dibuat pemilik di Nano Banana (prompt A di `tools/thumbnail-prompts.md`); simpan kiriman pemilik sebagai referensi
+  `renders/andi_ref_*.png`. Konsep lain (Pak Kalau, Nara) tidak dipakai. Kalimat khas: "Andaikan… ayo kita lihat!"
 - **Thumbnail utama dibuat lewat Google Nano Banana** (pemilik di aplikasi Gemini, atau otomatis via ElevenLabs `creative_generate_image` model `gemini-nano-banana-2.1`, ±200 kredit/gambar, `generations_count: 1`, hanya bila diminta) dengan prompt di `tools/thumbnail-prompts.md` (hasilnya disukai).
   Untuk video baru: tulis prompt per video di file itu; simpan hasil kiriman pemilik sebagai `renders/thumbnail_<topik>_nanobanana.png` (1280×720).
   `genz-milenial` (Andaikan, draf 6: lengkap + 12 short + thumbnail + paket; wajah `face_rafi_*`/`face_bayu_*`).
