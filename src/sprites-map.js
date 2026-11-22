@@ -60,7 +60,7 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   // ---- konsep maskot tetap channel (lihat BUSTS andi_*/kalau_*/nara_*) ----
   andi:  { body: ['....KKKK....', '...KHHHHK...', '..KcKHHKcK..', '..KSSSSSSK..', '..KSKSSKSK..', '..KSSSSSSK..',
                   '...KOOOOK...', '..KROOORRK..', '.KSRROORRSK.', '.KSRRRRRRSK.', '..KRRRRRRK..', '..KBBBBBBK..'],
-           legs: BOY_LEGS, colors: { H: '#1a1c2c', R: '#7a3b8f', B: '#333c57', c: '#73eff7' } },          // kacamata selam + syal oranye
+           legs: BOY_LEGS, colors: { H: '#1a1c2c', R: '#8a5cc9', B: '#3b5dc9', S: '#e0a87a', c: '#4fc3c8' } },          // kacamata selam + syal oranye (sesuai andi_ref_sheet.png)
   kalau: { body: ['...KKKKKK...', '...KaaaaK...', '..KKaaaaKK..', '..KSSSSSSK..', '..KSKSSKSK..', '..KSKKKKSK..',
                   '...KSSSSK...', '..KRYRRYRK..', '.KSRRYRRYSK.', '.KSYRRYRRSK.', '..KRRYRRYK..', '..KBBBBBBK..'],
            legs: BOY_LEGS, colors: { H: '#4a4a50', R: '#257179', B: '#5d3a1a', a: '#2a2836' } },          // peci + kumis + batik
