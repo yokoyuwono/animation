@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Konsep maskot tetap · Pixel Movie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+  <!-- Lembar konsep 3 calon tokoh tetap channel. Render:
+       node tools/thumbnail.js tools/maskot-konsep.html a renders/maskot_konsep.png -->
+  <div id="stage"></div>
+  <script src="../lib/phaser.min.js"></script>
+  <script src="../src/sprites.js"></script>
+  <script src="../src/sprites-map.js"></script>
+  <script src="../src/sprites-faces.js"></script>
+  <script>
+    const FONT = '"Pixelify Sans", monospace', NUM = '"Press Start 2P", monospace', INK = '#1a1c2c';
+    const KONSEP = [
+      { id: 'andi', nama: 'ANDI', no: 'A', peran: 'Si Penjelajah Andaikan', warna: '#ef7d57', bg: 0x3b1f5c, bust: 'andi_map',
+        ciri: ['kacamata selam di dahi', 'syal oranye', 'peta lipat'], kata: '"Andaikan... ayo kita lihat!"' },
+      { id: 'kalau', nama: 'PAK KALAU', no: 'B', peran: 'Filsuf Warung Kopi', warna: '#ffcd75', bg: 0x0f5c5a, bust: 'kalau_grin',
+        ciri: ['peci & kumis', 'kemeja batik', 'jempol andalan'], kata: '"Lha, kalau begitu..."' },
+      { id: 'nara', nama: 'NARA', no: 'C', peran: 'Si Pencatat Dunia Lain', warna: '#a7f070', bg: 0x29366f, bust: 'nara_note',
+        ciri: ['jilbab kuning', 'kacamata bulat', 'buku catatan'], kata: '"Catat ya: kalau ini terjadi..."' },
+    ];
+    class Sheet extends Phaser.Scene {
+      constructor() { super('s'); }
+      create() {
+        buildTextures(this); buildFaceTextures(this); buildBustTextures(this);
+        KONSEP.forEach((k, i) => {
+          const x0 = i * 427, cx = x0 + 213;
+          this.add.rectangle(x0 + 4, 4, 419, 712, k.bg).setOrigin(0).setStrokeStyle(4, 0xf4f4f4);
+          this.add.text(x0 + 22, 22, k.no, { fontFamily: NUM, fontSize: '22px', color: INK, backgroundColor: k.warna, padding: { x: 8, y: 6 } });
+          this.add.text(cx + 18, 34, k.nama, { fontFamily: NUM, fontSize: k.nama.length > 6 ? '24px' : '30px', color: k.warna }).setOrigin(0.5).setStroke(INK, 8);
+          this.add.text(cx, 72, k.peran, { fontFamily: FONT, fontSize: '22px', color: '#f4f4f4' }).setOrigin(0.5);
+          this.add.image(cx, 400, `bust_${k.bust}`).setOrigin(0.5, 1).setScale(3.4);
+          ['happy', 'grin', 'shock', 'cry'].forEach((f, j) => this.add.image(x0 + 60 + j * 100, 470, `face_${k.id}_${f}`).setScale(1.85));
+          this.add.sprite(x0 + 60, 640, `${k.id}_0`).setScale(5).play(`${k.id}_walk`);
+          this.add.text(x0 + 60, 690, 'di peta', { fontFamily: FONT, fontSize: '14px', color: '#c2c3c7' }).setOrigin(0.5);
+          k.ciri.forEach((c, j) => this.add.text(x0 + 112, 570 + j * 26, '• ' + c, { fontFamily: FONT, fontSize: '19px', color: '#f4f4f4' }));
+          this.add.text(x0 + 112, 660, k.kata, { fontFamily: FONT, fontSize: '17px', color: k.warna, wordWrap: { width: 300 } });
+        });
+        window.READY = true;
+      }
+    }
+    document.fonts.load('22px "Pixelify Sans"').then(() => document.fonts.load('22px "Press Start 2P"')).finally(() => new Phaser.Game({
+      type: Phaser.CANVAS, parent: 'stage', width: 1280, height: 720, pixelArt: true, backgroundColor: '#111', scene: Sheet,
+    }));
+  </script>
+</body>
+</html>

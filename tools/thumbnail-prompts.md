@@ -46,3 +46,14 @@ Varian twist (kanan diganti):
 ```
 Right character: smiling Indonesian grandmother in a grey hijab and purple clothes, hugging two grandchildren, an old radio beside them, warm happy expression. Right title: "KELUARGA NGOBROL" (yellow).
 ```
+
+## Konsep maskot tetap channel (lembar karakter, untuk dipilih)
+Lembar konsep pixel: `renders/maskot_konsep.png` (sumber `tools/maskot-konsep.html`). Prompt lembar karakter Nano Banana (rasio 16:9):
+```
+Character turnaround sheet, bold colorful pixel-art, clean thick dark outlines, 16-bit style, plain light background.
+Show the same original character: front view, side view, and 4 big expressive face close-ups (happy, smug grin, shocked, crying).
+Original character only, no logos, no brand names, no real people.
+```
+- **A · Andi (penjelajah):** `Indonesian young man, early 20s, messy spiky black hair, round cyan aviator goggles pushed up on his forehead, long orange-and-red striped scarf, purple hoodie, holding a folded green paper map with a red X mark, curious adventurous energy.`
+- **B · Pak Kalau (filsuf warung kopi):** `Indonesian man in his 50s, black flat-top peci cap, thick black mustache, teal batik shirt with yellow diamond pattern, big confident grin, thumbs up, warm uncle vibe, small glass of coffee nearby.`
+- **C · Nara (pencatat):** `Indonesian young woman, early 20s, mustard-yellow hijab, big round black glasses, teal zip jacket, holding a small notebook with blue lines and a pencil, smart cheerful expression.`

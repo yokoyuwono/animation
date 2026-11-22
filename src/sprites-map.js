@@ -57,6 +57,16 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
   bimo:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#8a8f99' } },  // seragam SMA (putih-abu)
   yoga:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#5d3a1a', R: '#3b5dc9', B: '#1a1c2c' } },  // penjual HP (kaos biru)
   juragan:{ body: BOY_BODY, legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#ffcd75', B: '#5d3a1a' } },  // juragan kopi
+  // ---- konsep maskot tetap channel (lihat BUSTS andi_*/kalau_*/nara_*) ----
+  andi:  { body: ['....KKKK....', '...KHHHHK...', '..KcKHHKcK..', '..KSSSSSSK..', '..KSKSSKSK..', '..KSSSSSSK..',
+                  '...KOOOOK...', '..KROOORRK..', '.KSRROORRSK.', '.KSRRRRRRSK.', '..KRRRRRRK..', '..KBBBBBBK..'],
+           legs: BOY_LEGS, colors: { H: '#1a1c2c', R: '#7a3b8f', B: '#333c57', c: '#73eff7' } },          // kacamata selam + syal oranye
+  kalau: { body: ['...KKKKKK...', '...KaaaaK...', '..KKaaaaKK..', '..KSSSSSSK..', '..KSKSSKSK..', '..KSKKKKSK..',
+                  '...KSSSSK...', '..KRYRRYRK..', '.KSRRYRRYSK.', '.KSYRRYRRSK.', '..KRRYRRYK..', '..KBBBBBBK..'],
+           legs: BOY_LEGS, colors: { H: '#4a4a50', R: '#257179', B: '#5d3a1a', a: '#2a2836' } },          // peci + kumis + batik
+  nara:  { body: ['....KKKK....', '...KHHHHK...', '..KHHHHHHK..', '..KHSSSSHK..', '.KHKKSSKKHK.', '.KHSSSSSSHK.',
+                  '.KHHKSSKHHK.', '..KRRRRRRK..', '.KSRRWWRRSK.', '.KSRRWWRRSK.', '..KRRRRRRK..', '.KRRRRRRRRK.'],
+           legs: GIRL_LEGS, colors: { H: '#e0a030', R: '#2a8a8f', B: '#1d5f63' } },                       // jilbab kuning + kacamata
 });
 
 function buildMapTextures(scene) {
