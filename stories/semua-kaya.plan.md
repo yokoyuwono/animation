@@ -1,4 +1,6 @@
-# Andaikan Semua Orang Kaya Raya — skema visual (draf 1)
+# Andaikan Semua Orang Kaya Raya — skema visual (draf 2)
+
+> **Draf 2 (arahan pemilik):** cerita fiktif sepenuhnya, tanpa sumber/fakta nyata. Bab 6 diganti "uang jadi kertas"; bab 7 jadi poin dunia kaya (bangkit lagi). Skor akhir **4 : 2**. Animasi: `stories/semua-kaya.js`, naskah: `semua-kaya.naskah.md`.
 
 **Format:** seri "Andaikan", gaya peta, ±4 menit, 8 bab (tiap bab = short, dual-VO). Riset: `semua-kaya.riset.md`.
 **Premis:** suatu pagi, saldo setiap warga jadi **Rp 10 miliar** *(ilustrasi)*. Kaya semua… lalu apa?
