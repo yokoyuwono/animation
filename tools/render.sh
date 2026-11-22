@@ -24,7 +24,7 @@ else
   trap 'rm -rf "$TMP"' EXIT
 fi
 
-mp4() { ffmpeg -v error -y -i "$1" -c:v libx264 -preset medium -crf 21 -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k -movflags +faststart "$2"; echo "-> $2 ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$2") detik)"; }
+mp4() { ffmpeg -v error -y -i "$1" -vf "scale=iw*2:ih*2:flags=neighbor" -c:v libx264 -preset medium -crf 18 -tune animation -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k -movflags +faststart "$2"; echo "-> $2 ($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$2") detik)"; }
 rec() { # hash out.mp4 w h
   node tools/record.js "$1" "$TMP/rec.webm" "$3" "$4" | grep -v '^audio'
   mp4 "$TMP/rec.webm" "$2"
@@ -37,7 +37,7 @@ case "$what" in
     rec "$story--v" "renders/${story}_long_9x16.mp4" 600 1100 ;;
   shorts)
     for ch in $(node -e "
-      const fs=require('fs');const files=['sprites.js','sprites-city.js','sprites-war.js','sprites-money.js','sprites-politik.js','sprites-map.js','sprites-faces.js'];
+      const fs=require('fs');const files=['sprites.js','sprites-city.js','sprites-war.js','sprites-money.js','sprites-politik.js','sprites-map.js','sprites-aturan.js','sprites-ta.js','sprites-faces.js'];
       const src=files.map(f=>fs.readFileSync('src/'+f,'utf8')).join(';\n')+';\n'+fs.readFileSync('stories/$story.js','utf8')+';module.exports=STORY;';
       const m={exports:{}};new Function('module',src)(m);(m.exports.chapters||[]).forEach(c=>console.log(c.id));"); do
       rec "$story--v--$ch" "renders/shorts/${story}_short_${ch}.mp4" 600 1100

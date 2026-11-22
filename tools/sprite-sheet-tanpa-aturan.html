@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Sprite sheet — Dunia Tanpa Aturan</title>
+<style>body{margin:0;background:#241b33}canvas{display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script>
+// Adaptor "scene" palsu: builder sprite proyek berjalan tanpa Phaser, hasilnya kanvas biasa.
+const TEX = {};
+const fakeScene = {
+  textures: {
+    exists: k => k in TEX,
+    createCanvas(k, w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; const t = { canvas: c, getContext: () => c.getContext('2d'), refresh() {}, getSourceImage: () => c }; TEX[k] = t; return t; },
+    get: k => TEX[k], remove: k => delete TEX[k],
+  },
+  anims: { exists: () => true, create() {} },
+};
+</script>
+<script src="../src/sprites.js"></script>
+<script src="../src/sprites-city.js"></script>
+<script src="../src/sprites-war.js"></script>
+<script src="../src/sprites-money.js"></script>
+<script src="../src/sprites-politik.js"></script>
+<script src="../src/sprites-map.js"></script>
+<script src="../src/sprites-faces.js"></script>
+<script>
+// ---------- tokoh baru ----------
+Object.assign(CHARACTERS, {
+  raka:        { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#8fc9f0', B: '#4a4f5c' } },
+  ibu_normal:  { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#d9c39a', R: '#b1663a', B: '#5d3a1a' } },
+  ibu_paralel: { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#8a8f99', R: '#7d7468', B: '#4a4038' } },
+  sinta:       { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#3b2a1a', R: '#e0a63a', B: '#3b5dc9' } },
+  polisi:      { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#f4f4f4', R: '#8a7d63', B: '#4a4038' } },
+  preman_bos:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#b13e53', R: '#1a1c2c', B: '#29366f' } },
+  preman_a:    { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#5d6b7d', B: '#1a1c2c' } },
+  preman_b:    { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#5d3a1a', R: '#3d5a8a', B: '#29366f' } },
+  pedagang:    { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#e8e0c8', B: '#5d3a1a' } },
+  anak_kerja:  { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#9c8a6a', B: '#6a5a44' } },
+  anak_sekolah:{ body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#e43b44' } },
+  kakek:       { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#c2c3c7', R: '#a89a7a', B: '#3a6a5a' } },
+  lelang:      { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#f4f4f4', B: '#29366f' } },
+  warga_a:     { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#1a1c2c', R: '#e43b44', B: '#29366f' } },
+  warga_b:     { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#257179', R: '#ffcd75', B: '#257179' } },
+  warga_c:     { body: GIRL_BODY, legs: GIRL_LEGS, colors: { H: '#c2c3c7', R: '#7a3b8f', B: '#5d3a1a' } },
+  warga_d:     { body: BOY_BODY,  legs: BOY_LEGS,  colors: { H: '#5d3a1a', R: '#38b764', B: '#1a1c2c' } },
+});
+buildTextures(fakeScene); buildCityTextures(fakeScene); buildMoneyTextures(fakeScene); buildMapTextures(fakeScene);
+buildRupiahExtraTextures(fakeScene); buildPolitikTextures(fakeScene);
+
+// wajah besar
+Object.assign(FACES, {
+  raka_heran:  makePortrait({ hair: '#1a1c2c', shirt: '#8fc9f0', style: 'neat', face: 'shock' }),
+  raka_kaget:  makePortrait({ hair: '#1a1c2c', shirt: '#8fc9f0', style: 'neat', face: 'shock' }),
+  raka_takut:  makePortrait({ hair: '#1a1c2c', shirt: '#8fc9f0', style: 'neat', face: 'panic' }),
+  raka_lega:   makePortrait({ hair: '#1a1c2c', shirt: '#8fc9f0', style: 'neat', face: 'happy' }),
+  ibu_waspada: makePortrait({ hair: '#8a8f99', shirt: '#7d7468', style: 'hijab', face: 'shock' }),
+  ibu_haru:    makePortrait({ hair: '#8a8f99', shirt: '#7d7468', style: 'hijab', face: 'cry' }),
+  sinta_kesal: makePortrait({ hair: '#3b2a1a', shirt: '#e0a63a', style: 'neat', face: 'panic' }),
+  preman:      makePortrait({ hair: '#b13e53', shirt: '#1a1c2c', style: 'spiky', face: 'grin' }),
+});
+buildFaceTextures(fakeScene);
+
+// ---------- benda baru (kanvas piksel) ----------
+const mk = (k, w, h, f) => mapCanvas(fakeScene, k, w, h, f);
+mk('mobil', 34, 16, (c, p) => { p(4, 2, '#1a1c2c', 20, 7); p(5, 3, '#e43b44', 18, 6); p(8, 3, '#9ad0f0', 5, 4); p(14, 3, '#9ad0f0', 5, 4); p(1, 8, '#1a1c2c', 32, 6); p(2, 9, '#e43b44', 30, 4); p(31, 9, '#ffcd75', 2, 2); p(4, 12, '#1a1c2c', 6, 4); p(24, 12, '#1a1c2c', 6, 4); p(6, 13, '#8a8f99', 2, 2); p(26, 13, '#8a8f99', 2, 2); });
+mk('ambulans', 40, 20, (c, p) => { p(1, 2, '#1a1c2c', 30, 14); p(2, 3, '#f4f4f4', 28, 12); p(30, 6, '#1a1c2c', 9, 10); p(31, 7, '#f4f4f4', 7, 8); p(32, 8, '#9ad0f0', 5, 3); p(2, 10, '#e43b44', 36, 2); p(12, 4, '#e43b44', 4, 6); p(10, 6, '#e43b44', 8, 2); p(14, 0, '#41a6f6', 4, 2); p(5, 15, '#1a1c2c', 6, 5); p(28, 15, '#1a1c2c', 6, 5); });
+mk('tiang_kosong', 9, 24, (c, p) => { p(3, 3, '#1a1c2c', 2, 20); p(1, 23, '#1a1c2c', 6, 1); p(2, 1, '#5d6b7d', 4, 3); p(5, 3, '#e43b44', 1, 4); p(2, 4, '#ffcd75', 1, 5); p(6, 6, '#41a6f6', 1, 3); });
+mk('cone', 18, 12, (c, p) => { p(3, 1, '#ef7d57', 2, 1); p(2, 2, '#ef7d57', 4, 3); p(2, 5, '#f4f4f4', 4, 1); p(1, 6, '#ef7d57', 6, 3); p(0, 9, '#1a1c2c', 8, 2); p(9, 2, '#1a1c2c', 1, 9); p(16, 2, '#1a1c2c', 1, 9); for (let x = 9; x < 17; x += 2) { p(x, 3, '#ef7d57', 1, 3); p(x + 1, 3, '#f4f4f4', 1, 3); } });
+mk('timbangan', 20, 14, (c, p) => { p(9, 2, '#1a1c2c', 2, 10); p(2, 3, '#1a1c2c', 16, 1); p(1, 6, '#c9a23a', 7, 2); p(12, 6, '#c9a23a', 7, 2); p(2, 4, '#1a1c2c', 1, 2); p(6, 4, '#1a1c2c', 1, 2); p(13, 4, '#1a1c2c', 1, 2); p(17, 4, '#1a1c2c', 1, 2); p(6, 12, '#5d3a1a', 8, 2); p(3, 5, '#8a8f99', 2, 1); });
+mk('palu', 18, 12, (c, p) => { p(1, 1, '#5d3a1a', 7, 5); p(2, 2, '#8b5a2b', 5, 3); p(7, 3, '#8b5a2b', 9, 1); p(9, 8, '#5d3a1a', 9, 3); });
+mk('kursi_roda', 16, 16, (c, p) => { p(3, 1, '#1a1c2c', 2, 8); p(3, 7, '#41a6f6', 9, 2); p(3, 1, '#41a6f6', 2, 7); pxEllipse(p, 6, 11, 4, 4, '#1a1c2c'); pxEllipse(p, 6, 11, 2, 2, '#8a8f99'); p(12, 12, '#1a1c2c', 3, 3); p(11, 9, '#1a1c2c', 2, 4); });
+mk('kentongan', 8, 20, (c, p) => { p(3, 0, '#1a1c2c', 2, 3); p(1, 3, '#c9a23a', 6, 16); p(1, 3, '#8b5a2b', 1, 16); p(3, 7, '#1a1c2c', 2, 8); });
+mk('hp', 8, 13, (c, p) => { p(0, 0, '#1a1c2c', 8, 13); p(1, 1, '#41a6f6', 6, 10); });
+mk('tas_sekolah', 12, 14, (c, p) => { p(1, 2, '#1a1c2c', 10, 12); p(2, 3, '#3b5dc9', 8, 10); p(3, 8, '#ffcd75', 6, 4); p(4, 0, '#1a1c2c', 4, 2); });
+mk('papan_kosong', 28, 22, (c, p) => { p(5, 10, '#5d3a1a', 2, 12); p(21, 10, '#5d3a1a', 2, 12); p(0, 0, '#5d3a1a', 28, 12); p(1, 1, '#c9a46a', 26, 10); });
+mk('spanduk_kosong', 48, 10, (c, p) => { p(0, 0, '#1a1c2c', 48, 10); p(1, 1, '#f4f4f4', 46, 8); p(1, 1, '#e43b44', 46, 1); p(1, 8, '#e43b44', 46, 1); });
+mk('motor_atas', 11, 8, (c, p) => { p(9, 3, '#1a1c2c', 2, 2); p(0, 3, '#1a1c2c', 2, 2); p(2, 2, '#e43b44', 7, 4); p(5, 2, '#8a8f99', 2, 4); });
+mk('mobil_atas', 18, 10, (c, p) => { p(0, 0, '#1a1c2c', 18, 10); p(1, 1, '#e43b44', 16, 8); p(10, 2, '#9ad0f0', 3, 6); p(3, 2, '#9ad0f0', 2, 6); });
+
+// ---------- latar & peta: sketsa piksel 160x90 ----------
+function scene160(key, draw) { mk(key, 160, 90, draw); }
+const sky = (p, a, b) => { p(0, 0, a, 160, 36); p(0, 36, b, 160, 36); };
+const ground = (p, c = '#6a6f7d') => p(0, 72, c, 160, 18);
+const bld = (p, x, y, w, h, c, win = '#ffcd75') => { p(x, y, '#1a1c2c', w, h); p(x + 1, y + 1, c, w - 2, h - 1); for (let yy = y + 3; yy < y + h - 4; yy += 6) for (let xx = x + 3; xx < x + w - 3; xx += 6) p(xx, yy, win, 3, 3); };
+const road = (p) => { p(0, 74, '#3a3d48', 160, 12); for (let x = 4; x < 160; x += 16) p(x, 79, '#f4f4f4', 8, 1); };
+const put = (c, k, x, y, s = 1, flip = false) => { const t = TEX[k]; if (!t) return; c.save(); c.imageSmoothingEnabled = false; if (flip) { c.translate(x + t.canvas.width * s, y); c.scale(-1, 1); c.drawImage(t.canvas, 0, 0, t.canvas.width * s, t.canvas.height * s); } else c.drawImage(t.canvas, x, y, t.canvas.width * s, t.canvas.height * s); c.restore(); };
+const trash = (p, x, y, n = 6) => { const r = mapRand(x * 7 + y); for (let i = 0; i < n; i++) p(x + Math.floor(r() * 24), y + Math.floor(r() * 6), ['#8a7f6a', '#5d6b7d', '#c2c3c7', '#b13e53'][i % 4], 3, 2); };
+
+scene160('bg_jalan_malam', (c, p) => { sky(p, '#141a33', '#1f2848'); bld(p, 8, 30, 30, 42, '#2b3150', '#3b4a7a'); bld(p, 120, 22, 34, 50, '#2b3150', '#ffcd75'); road(p); p(60, 20, '#5d6b7d', 2, 54); p(56, 18, '#ffcd75', 10, 3); pxEllipse(p, 90, 80, 12, 3, '#0d0f18'); pxEllipse(p, 90, 79, 10, 2, '#1a1c2c'); });
+scene160('bg_perempatan_normal', (c, p) => { sky(p, '#7fc8f0', '#a8dcf5'); bld(p, 4, 26, 32, 46, '#c2c3c7'); bld(p, 124, 20, 34, 52, '#d9c39a'); road(p); for (let x = 64; x < 96; x += 4) p(x, 74, '#f4f4f4', 2, 12); put(c, 'trafficlight', 100, 50, 1); put(c, 'mobil', 20, 66); put(c, 'motor_gas_0', 120, 68); });
+scene160('bg_perempatan_kacau', (c, p) => { sky(p, '#c9b88a', '#d9c9a0'); bld(p, 4, 26, 32, 46, '#a8a39a'); bld(p, 124, 20, 34, 52, '#b8a888'); road(p); put(c, 'tiang_kosong', 100, 49); put(c, 'mobil', 50, 64); put(c, 'mobil', 70, 66, 1, true); put(c, 'ambulans', 4, 60); put(c, 'motor_gas_0', 95, 70, 1, true); put(c, 'motor_gas_1', 112, 68); put(c, 'motor_gas_2', 128, 70, 1, true); trash(p, 130, 84); });
+scene160('bg_tugu', (c, p) => { sky(p, '#7fc8f0', '#a8dcf5'); road(p); pxEllipse(p, 80, 74, 34, 6, '#38b764'); p(76, 18, '#1a1c2c', 8, 54); p(77, 19, '#d9d9d9', 6, 53); p(72, 66, '#8a8f99', 16, 6); put(c, 'spanduk_kosong', 32, 38, 2); });
+scene160('bg_kelas_normal', (c, p) => { p(0, 0, '#e8dcb8', 160, 70); p(0, 70, '#b88a5a', 160, 20); p(30, 12, '#1a1c2c', 100, 30); p(32, 14, '#2f6a4a', 96, 26); for (let x = 12; x < 150; x += 36) { p(x, 58, '#8b5a2b', 24, 3); p(x + 2, 61, '#5d3a1a', 2, 10); p(x + 20, 61, '#5d3a1a', 2, 10); } p(140, 10, '#9ad0f0', 14, 18); });
+scene160('bg_kelas_kosong', (c, p) => { p(0, 0, '#a89a7a', 160, 70); p(0, 70, '#7a6040', 160, 20); p(30, 12, '#1a1c2c', 100, 30); p(32, 14, '#3a4a40', 96, 26); for (let x = 12; x < 150; x += 36) { p(x, 60, '#6a4a2a', 24, 3); p(x + 2, 63, '#4a3018', 2, 8); } p(140, 10, '#1a1c2c', 14, 18); p(141, 11, '#5d6b7d', 12, 16); p(144, 12, '#1a1c2c', 1, 14); p(2, 2, '#c2c3c7', 10, 1); p(2, 2, '#c2c3c7', 1, 10); trash(p, 60, 80, 8); });
+scene160('bg_pasar_normal', (c, p) => { sky(p, '#7fc8f0', '#a8dcf5'); ground(p, '#b8a888'); for (let x = 6; x < 150; x += 50) { p(x, 34, '#e43b44', 44, 6); for (let k = 0; k < 44; k += 8) p(x + k, 34, '#f4f4f4', 4, 6); p(x + 2, 40, '#5d3a1a', 2, 32); p(x + 40, 40, '#5d3a1a', 2, 32); p(x, 58, '#8b5a2b', 44, 4); } put(c, 'timbangan', 16, 44); put(c, 'karung_beras', 70, 46); put(c, 'nasi_bungkus', 120, 50, 1); });
+scene160('bg_pasar_kacau', (c, p) => { sky(p, '#c9b88a', '#d9c9a0'); ground(p, '#8a7a5a'); for (let x = 2; x < 150; x += 38) { p(x, 32 + (x % 3) * 3, '#8a3a4a', 40, 6); p(x + 2, 40, '#4a3018', 2, 32); p(x, 58, '#6a4a2a', 36, 4); } put(c, 'papan_kosong', 60, 30); put(c, 'timbangan', 16, 44); trash(p, 10, 80, 10); trash(p, 90, 82, 10); });
+scene160('bg_rusun_miring', (c, p) => { sky(p, '#c9b88a', '#d9c9a0'); ground(p, '#8a7a5a'); c.save(); c.translate(80, 72); c.rotate(-0.07); c.fillStyle = '#1a1c2c'; c.fillRect(-30, -62, 60, 62); c.fillStyle = '#a8a39a'; c.fillRect(-29, -61, 58, 61); for (let y = -56; y < -4; y += 10) for (let x = -24; x < 24; x += 12) { c.fillStyle = '#3a3d48'; c.fillRect(x, y, 6, 5); c.fillStyle = ['#e43b44', '#41a6f6', '#ffcd75'][(x + y + 99) % 3]; c.fillRect(x + 7, y + 3, 3, 4); } c.fillStyle = '#1a1c2c'; c.fillRect(-10, -40, 1, 30); c.fillRect(-9, -22, 8, 1); c.restore(); });
+scene160('bg_rs_normal', (c, p) => { p(0, 0, '#dfeff0', 160, 70); p(0, 70, '#c2d4d6', 160, 20); p(56, 8, '#1a1c2c', 48, 14); p(58, 10, '#2a3a4a', 44, 10); for (let x = 8; x < 150; x += 14) { p(x, 58, '#41a6f6', 10, 3); p(x + 1, 61, '#1a1c2c', 1, 8); p(x + 8, 61, '#1a1c2c', 1, 8); } p(4, 20, '#e43b44', 6, 2); p(6, 18, '#e43b44', 2, 6); });
+scene160('bg_rs_lelang', (c, p) => { p(0, 0, '#c9d4cc', 160, 70); p(0, 70, '#a8b4ac', 160, 20); p(66, 50, '#1a1c2c', 28, 22); p(67, 51, '#8b5a2b', 26, 21); put(c, 'palu', 72, 40); for (let x = 20; x < 140; x += 10) p(x, 64, '#c9a23a', 6, 1); p(20, 60, '#c9a23a', 1, 12); p(140, 60, '#c9a23a', 1, 12); put(c, 'kursi_roda', 130, 58); for (let x = 4; x < 40; x += 12) p(x, 74, '#41a6f6', 10, 3); });
+scene160('bg_jalan_preman', (c, p) => { sky(p, '#c9b88a', '#d9c9a0'); road(p); p(110, 40, '#5d3a1a', 40, 32); p(112, 42, '#8b5a2b', 36, 30); p(118, 54, '#1a1c2c', 10, 18); p(30, 64, '#5d3a1a', 3, 12); p(90, 64, '#5d3a1a', 3, 12); p(30, 66, '#c9a23a', 63, 3); for (let x = 33; x < 90; x += 8) p(x, 66, '#e43b44', 4, 3); put(c, 'papan_kosong', 56, 40); });
+scene160('bg_gang', (c, p) => { p(0, 0, '#3a3d48', 160, 90); p(0, 0, '#d9c39a', 52, 76); p(108, 0, '#b8c9a0', 52, 76); p(52, 0, '#7fc8f0', 56, 20); p(52, 76, '#8a8f99', 56, 14); p(0, 76, '#8a8f99', 160, 14); for (let y = 16; y < 30; y += 8) { p(52, y, '#1a1c2c', 56, 1); p(60, y + 1, '#e43b44', 5, 5); p(78, y + 1, '#41a6f6', 6, 6); p(94, y + 1, '#ffcd75', 5, 5); } p(14, 44, '#5d3a1a', 14, 32); p(126, 44, '#5d3a1a', 14, 32); put(c, 'tree', 40, 60, 1); });
+scene160('bg_rumah_ibu', (c, p) => { p(0, 0, '#9c8466', 160, 70); p(0, 70, '#6a5240', 160, 20); p(20, 14, '#1a1c2c', 26, 22); p(22, 16, '#3a4a6a', 22, 18); p(110, 20, '#5d3a1a', 36, 50); p(112, 22, '#8b5a2b', 32, 46); p(60, 56, '#8b5a2b', 34, 4); p(62, 60, '#5d3a1a', 2, 10); p(90, 60, '#5d3a1a', 2, 10); put(c, 'lampu_gantung', 74, 0); });
+scene160('bg_pos_ronda', (c, p) => { sky(p, '#e07a4a', '#f0a868'); ground(p, '#7a6a4a'); p(50, 30, '#5d3a1a', 60, 6); p(46, 26, '#8b3a2a', 68, 6); p(52, 36, '#5d3a1a', 3, 36); p(105, 36, '#5d3a1a', 3, 36); p(54, 56, '#8b5a2b', 52, 4); put(c, 'kentongan', 76, 36); put(c, 'lampu_gantung', 92, 30); });
+scene160('bg_pagi_rambu', (c, p) => { sky(p, '#ffd9a8', '#ffe8c8'); bld(p, 8, 30, 30, 42, '#c2c3c7'); bld(p, 120, 22, 34, 50, '#d9c39a'); road(p); pxEllipse(p, 90, 80, 12, 3, '#0d0f18'); put(c, 'cone', 70, 72); put(c, 'cone', 98, 72); put(c, 'trafficlight', 30, 50); });
+
+function petaBase(c, p, mode) {
+  const grass = mode === 'kacau' ? '#8a9a5a' : mode === 'pulih' ? '#5aa860' : '#3fae5f';
+  p(0, 0, grass, 160, 90); p(0, 40, '#3a3d48', 160, 10); p(75, 0, '#3a3d48', 10, 90);
+  p(0, 80, mode === 'kacau' ? '#6a6a4a' : '#41a6f6', 160, 7);
+  pxEllipse(p, 30, 18, 10, 8, '#c2c3c7'); p(29, 14, '#f4f4f4', 2, 8);                        // tugu
+  p(108, 6, '#1a1c2c', 30, 22); p(109, 7, '#e43b44', 28, 20);                              // sekolah
+  p(8, 56, '#1a1c2c', 40, 18); p(9, 57, '#ffcd75', 38, 16);                                // pasar
+  p(100, 54, '#1a1c2c', 20, 22); p(101, 55, '#a8a39a', 18, 20);                            // rusun
+  p(126, 54, '#1a1c2c', 26, 20); p(127, 55, '#f4f4f4', 24, 18); p(137, 59, '#e43b44', 4, 10); p(134, 62, '#e43b44', 10, 4); // RS
+  pxEllipse(p, 56, 45, 3, 2, '#0d0f18');                                                    // lubang galian
+  for (let x = 52; x < 72; x += 6) p(x, 62, '#9c6a4a', 4, 4); for (let x = 52; x < 72; x += 6) p(x, 70, '#9c6a4a', 4, 4); // kampung
+}
+scene160('peta_normal', (c, p) => { petaBase(c, p, 'normal'); for (const [x, y] of [[4, 6], [56, 10], [150, 34], [90, 22]]) put(c, 'pohon_top', x, y); put(c, 'mobil_atas', 20, 41); put(c, 'motor_atas', 110, 43); put(c, 'mobil_atas', 76, 60); });
+scene160('peta_kacau', (c, p) => { petaBase(c, p, 'kacau'); for (let i = 0; i < 7; i++) put(c, i % 2 ? 'mobil_atas' : 'motor_atas', 62 + (i % 4) * 7, 38 + Math.floor(i / 4) * 6); trash(p, 10, 82, 14); trash(p, 100, 82, 12); trash(p, 52, 58, 8); p(86, 40, '#c9a23a', 2, 10); for (let y = 40; y < 50; y += 3) p(86, y, '#e43b44', 2, 1); });
+scene160('peta_pulih', (c, p) => { petaBase(c, p, 'pulih'); for (const [x, y] of [[4, 6], [56, 10], [150, 34]]) put(c, 'pohon_top', x, y); put(c, 'mobil_atas', 20, 41); put(c, 'motor_atas', 110, 43); p(64, 56, '#ffcd75', 6, 4); trash(p, 120, 82, 4); });
+
+// ---------- tata letak lembar ----------
+const W = 2400, PAD = 36;
+const sections = [
+  { title: 'A. TOKOH (diam · jalan A · jalan B)', items: [
+    ['C1', 'raka', 'Raka'], ['C4', 'ibu_normal', 'Ibu (normal)'], ['C5', 'ibu_paralel', 'Ibu (paralel)'], ['C6', 'sinta', 'Sinta'],
+    ['C7', 'polisi', 'Polisi'], ['C8', 'preman_bos', 'Bos preman'], ['C9', 'preman_a', 'Anak buah 1'], ['C9', 'preman_b', 'Anak buah 2'],
+    ['C10', 'pedagang', 'Pedagang curang'], ['C11', 'anak_kerja', 'Anak pekerja'], ['C12', 'anak_sekolah', 'Anak sekolah'], ['C13', 'kakek', 'Kakek pasien'],
+    ['C14', 'lelang', 'Petugas lelang'], ['C15', 'warga_a', 'Warga 1'], ['C15', 'warga_b', 'Warga 2'], ['C15', 'warga_c', 'Warga 3'], ['C15', 'warga_d', 'Warga 4'],
+  ].map(([code, k, name]) => ({ code, name, frames: [`${k}_0`, `${k}_1`, `${k}_2`], s: 7 })) },
+  { title: 'A2. POSE RAKA (C2/C3) — acuan gerak', items: [
+    { code: 'C2', name: 'kaget', frames: ['raka_0'], emo: 'emo_exclaim', s: 7 }, { code: 'C2', name: 'lari', frames: ['raka_1'], tilt: 0.15, s: 7 },
+    { code: 'C2', name: 'pincang', frames: ['raka_2'], tilt: -0.12, emo: 'emo_sweat', s: 7 }, { code: 'C2', name: 'sembunyi', frames: ['raka_0'], squash: 0.6, s: 7 },
+    { code: 'C3', name: 'memotret', frames: ['raka_0', 'hp'], s: 7 }, { code: 'C3', name: 'menunggu sabar', frames: ['raka_0', 'trafficlight'], s: 7 },
+  ] },
+  { title: 'B. WAJAH BESAR', items: [
+    ['F1', 'raka_heran', 'Raka heran'], ['F2', 'raka_kaget', 'Raka kaget'], ['F3', 'raka_takut', 'Raka takut'], ['F4', 'raka_lega', 'Raka lega'],
+    ['F5', 'ibu_waspada', 'Ibu waspada'], ['F6', 'ibu_haru', 'Ibu haru'], ['F7', 'sinta_kesal', 'Sinta kesal'], ['F8', 'preman', 'Preman'],
+  ].map(([code, k, name]) => ({ code, name, frames: [`face_${k}`], s: 4, emo: k === 'raka_heran' ? 'emo_question' : null })) },
+  { title: 'C. LATAR ADEGAN (tampak samping) — a = normal, b = tanpa aturan', items: [
+    ['L1', 'bg_jalan_malam', 'Jalan malam + lubang'], ['L2a', 'bg_perempatan_normal', 'Perempatan normal'], ['L2b', 'bg_perempatan_kacau', 'Perempatan kacau'], ['L3', 'bg_tugu', 'Tugu + spanduk'],
+    ['L4a', 'bg_kelas_normal', 'Kelas normal'], ['L4b', 'bg_kelas_kosong', 'Kelas kosong'], ['L5a', 'bg_pasar_normal', 'Pasar normal'], ['L5b', 'bg_pasar_kacau', 'Pasar kacau'],
+    ['L6', 'bg_rusun_miring', 'Rusun miring'], ['L7a', 'bg_rs_normal', 'RS antre'], ['L7b', 'bg_rs_lelang', 'RS lelang'], ['L8', 'bg_jalan_preman', 'Jalan preman'],
+    ['L9', 'bg_gang', 'Gang kampung'], ['L10', 'bg_rumah_ibu', 'Rumah Ibu'], ['L11', 'bg_pos_ronda', 'Pos ronda'], ['L12', 'bg_pagi_rambu', 'Pagi + rambu'],
+  ].map(([code, k, name]) => ({ code, name, frames: [k], s: 3 })) },
+  { title: 'D. PETA PUSAT (tampak atas, tata letak sama)', items: [
+    ['M1', 'peta_normal', 'Peta normal'], ['M2', 'peta_kacau', 'Peta kacau'], ['M3', 'peta_pulih', 'Peta pulih'],
+  ].map(([code, k, name]) => ({ code, name, frames: [k], s: 4 })) },
+  { title: 'E. BENDA', items: [
+    ['P1', 'ticket', 'Surat tilang'], ['P2', 'motor_gas_0', 'Motor'], ['P3', 'mobil', 'Mobil'], ['P4', 'ambulans', 'Ambulans'], ['P5', 'motor_atas', 'Motor (atas)'], ['P5', 'mobil_atas', 'Mobil (atas)'],
+    ['P6', 'trafficlight', 'Lampu merah'], ['P7', 'tiang_kosong', 'Tiang kosong'], ['P8', 'cone', 'Kerucut + palang'], ['P9', 'nasi_bungkus', 'Nasi bungkus'], ['P10', 'timbangan', 'Timbangan'],
+    ['P11', 'duit', 'Uang (fiktif)'], ['P12', 'karung_beras', 'Karung'], ['P13', 'palu', 'Palu lelang'], ['P14', 'kursi_roda', 'Kursi roda'], ['P15', 'ayam', 'Ayam'], ['P16', 'kentongan', 'Kentongan'],
+    ['P17', 'papan_kosong', 'Papan kosong'], ['P18', 'spanduk_kosong', 'Spanduk kosong'], ['P19', 'hp', 'HP'], ['P20', 'tas_sekolah', 'Tas sekolah'],
+  ].map(([code, k, name]) => ({ code, name, frames: [k], s: 6 })) },
+];
+
+// ukur & gambar
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+function itemSize(it) { let w = 0, h = 0; it.frames.forEach(k => { const t = TEX[k]; if (!t) return; w += t.canvas.width * it.s + 10; h = Math.max(h, t.canvas.height * it.s); }); ctx.font = 'bold 22px monospace'; return [Math.max(w - 10, ctx.measureText(`${it.code}  ${it.name}`).width + 4), h + 46]; }
+function layout(draw) {
+  let y = 120;
+  for (const sec of sections) {
+    if (draw) { ctx.fillStyle = '#ffcd75'; ctx.font = 'bold 34px monospace'; ctx.fillText(sec.title, PAD, y + 30); }
+    y += 56; let x = PAD, rowH = 0;
+    for (const it of sec.items) {
+      const [w, h] = itemSize(it);
+      if (x + w > W - PAD) { x = PAD; y += rowH + 24; rowH = 0; }
+      if (draw) drawItem(it, x, y, w, h);
+      x += w + 34; rowH = Math.max(rowH, h);
+    }
+    y += rowH + 40;
+  }
+  return y + 20;
+}
+function drawItem(it, x, y, w, h) {
+  ctx.fillStyle = '#ff00ff'; ctx.fillRect(x - 6, y - 6, w + 12, h - 34);
+  let fx = x;
+  it.frames.forEach(k => {
+    const t = TEX[k]; if (!t) return; const tw = t.canvas.width * it.s, th = t.canvas.height * it.s;
+    ctx.save(); ctx.imageSmoothingEnabled = false; ctx.translate(fx + tw / 2, y + (h - 46));
+    if (it.tilt) ctx.rotate(it.tilt); if (it.squash) ctx.scale(1, it.squash);
+    ctx.drawImage(t.canvas, -tw / 2, -th, tw, th); ctx.restore();
+    if (it.emo && TEX[it.emo]) { const e = TEX[it.emo].canvas; ctx.imageSmoothingEnabled = false; ctx.drawImage(e, fx + tw - 10, y - 4, e.width * 5, e.height * 5); }
+    fx += tw + 10;
+  });
+  ctx.fillStyle = '#f4f4f4'; ctx.font = 'bold 22px monospace'; ctx.fillText(`${it.code}  ${it.name}`, x, y + h - 10);
+}
+cv.width = W; cv.height = layout(false);
+ctx.fillStyle = '#241b33'; ctx.fillRect(0, 0, W, cv.height);
+ctx.fillStyle = '#f4f4f4'; ctx.font = 'bold 48px monospace'; ctx.fillText('SPRITE SET — "Andaikan Kamu Terlempar ke Dunia Tanpa Aturan"', PAD, 70);
+ctx.fillStyle = '#c2c3c7'; ctx.font = '22px monospace'; ctx.fillText('Acuan isi & komposisi (gaya lama). Kode = nama file di tools/sprites-tanpa-aturan.md. Latar magenta = transparan.', PAD, 104);
+layout(true);
+window.SHEET_DONE = true;
+</script></body></html>
