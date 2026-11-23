@@ -7,7 +7,7 @@ Layar terbelah: **kiri KAMPUNG 2026 · kanan KAMPUNG 2126** (peta sama, isinya b
 **Tokoh:** **Andi** (tokoh utama, penjelajah Andaikan); lokal (fiktif): **Mas Tejo** (tukang servis HP 2026, teman ronda Andi),
 **Kirana** (cicit Mas Tejo, remaja 2126, pemandu Andi), **Bu Tini** (penjual kopi 2026), **Robo-kasir** (robot warung 2126).
 **Jam:** TAHUN 2026 → (berputar cepat) → TAHUN 2126 · lalu HARI 1 → HARI 7 → HARI 30.
-**Papan skor:** 2026 vs 2126 — "hidup di mana lebih enak?" di pojok tiap akhir bab.
+**Tanpa papan skor** (arahan pemilik): satu alur bersambung — malam 2026 → satu hari di 2126 (pagi → malam) → pulang. Naskah: `bangun-2126.naskah.md`.
 
 | Bab | Peta (pembuka + jembatan lewat Tejo) | Adegan dekat (tampak samping) | Momen visual / skor |
 |---|---|---|---|
