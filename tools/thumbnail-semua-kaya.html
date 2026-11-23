@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thumbnail · Andaikan Semua Orang Kaya Raya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+  <!--
+    Thumbnail "formula 4 kotak": label sejajar di atas, wajah besar ekspresif,
+    barisan benda, hasil di bawah.
+      #a -> TIM BIASA / TIM KAYA · GORENGAN Rp1.000 / Rp1 JUTA?!
+      #b -> twist: MISKIN? MENANG / MILIARDER KALAH
+  -->
+  <div id="stage"></div>
+  <script src="../lib/phaser.min.js"></script>
+  <script src="../src/sprites.js"></script>
+  <script src="../src/sprites-city.js"></script>
+  <script src="../src/sprites-war.js"></script>
+  <script src="../src/sprites-money.js"></script>
+  <script src="../src/sprites-politik.js"></script>
+  <script src="../src/sprites-map.js"></script>
+  <script src="../src/sprites-faces.js"></script>
+  <script src="../src/sprites-semua-kaya.js"></script>
+  <script>
+    const VAR = location.hash.slice(1) || 'a';
+    const FONT = '"Pixelify Sans", monospace';
+    const NUMFONT = '"Press Start 2P", monospace';   // angka lebih jelas (5 tidak mirip S)
+    const PINK = '#ff77a8', LIME = '#a7f070', GOLD = '#ffcd75';
+
+    class Thumb extends Phaser.Scene {
+      constructor() { super('thumb'); }
+      img(key, x, y, s, o = {}) {
+        return this.add.image(x, y, key).setScale(s).setOrigin(o.ox ?? 0.5, o.oy ?? 1).setAngle(o.angle || 0).setFlipX(!!o.flip);
+      }
+      // latar bermotif diagonal
+      side(x0, w, c1, c2) {
+        const g = this.add.graphics();
+        g.fillStyle(c1).fillRect(x0, 0, w, 720);
+        g.fillStyle(c2);
+        for (let k = -720; k < w; k += 56) g.fillTriangle(x0 + k, 720, x0 + k + 28, 720, x0 + k + 28 + 720, 0), g.fillTriangle(x0 + k + 28, 720, x0 + k + 720 + 28, 0, x0 + k + 720, 0);
+        const m = this.add.graphics(); m.fillStyle(0x000000, 0.25); m.fillRect(x0, 600, w, 120);
+      }
+      // label berkotak: parts = [['TIM', '#fff'], ['PAYLATER', PINK]]
+      label(parts, cx, cy, size, bg = 0x1a1c2c) {
+        const texts = parts.map(([t, c, num]) => this.add.text(0, 0, t, { fontFamily: num ? NUMFONT : FONT, fontSize: `${num ? Math.round(size * 0.82) : size}px`, color: c, stroke: '#1a1c2c', strokeThickness: Math.round(size / 6) }).setOrigin(0, 0.5));
+        const gap = size * 0.28;
+        const w = texts.reduce((s, t) => s + t.width, 0) + gap * (texts.length - 1);
+        const h = texts[0].height;
+        const g = this.add.graphics();
+        g.fillStyle(bg, 0.92).fillRoundedRect(cx - w / 2 - 22, cy - h / 2 - 8, w + 44, h + 16, 14);
+        g.lineStyle(5, 0xf4f4f4, 0.9).strokeRoundedRect(cx - w / 2 - 22, cy - h / 2 - 8, w + 44, h + 16, 14);
+        let x = cx - w / 2;
+        texts.forEach(t => { t.setPosition(x, cy).setDepth(2); x += t.width + gap; });
+        g.setDepth(1);
+      }
+      vsBadge(x, y) {
+        const d = this.add.rectangle(x, y, 118, 118, 0xef7d57).setAngle(45).setStrokeStyle(10, 0x1a1c2c);
+        const d2 = this.add.rectangle(x, y, 92, 92).setAngle(45).setStrokeStyle(4, 0xffffff);
+        this.add.text(x + 2, y + 2, 'VS', { fontFamily: FONT, fontSize: '56px', color: '#ffffff', stroke: '#1a1c2c', strokeThickness: 10 }).setOrigin(0.5);
+      }
+      tag(text, x, y, angle, size = 40) {
+        this.add.text(x, y, text, { fontFamily: FONT, fontSize: `${size}px`, color: '#1a1c2c', backgroundColor: GOLD, padding: { x: 16, y: 8 } })
+          .setOrigin(0.5).setAngle(angle).setStroke('#1a1c2c', 0);
+        const t = this.children.list[this.children.list.length - 1];
+        const b = this.add.rectangle(x, y, t.width + 8, t.height + 8).setAngle(angle).setStrokeStyle(6, 0x1a1c2c);
+      }
+
+      naik(text, x, y, a = -8, bg = '#e43b44') {
+        this.add.text(x, y, text, { fontFamily: NUMFONT, fontSize: '22px', color: '#ffffff', backgroundColor: bg, padding: { x: 10, y: 8 } }).setOrigin(0.5).setAngle(a).setDepth(5);
+      }
+      create() {
+        buildTextures(this); buildCityTextures(this); buildWarTextures(this); buildMoneyTextures(this); buildPolitikTextures(this); buildMapTextures(this); buildFaceTextures(this);
+        this.side(0, 640, 0x0f5c5a, 0x136866);      // teal: dunia biasa
+        this.side(640, 640, 0x3b1f5c, 0x452468);    // ungu: dunia kaya raya
+        this.add.rectangle(640, 360, 12, 720, 0xf4f4f4);
+        this.label([['SEMUA', '#ffffff'], ['KAYA RAYA', GOLD]], 640, 66, 60);
+        this.label([['TIM', '#ffffff'], ['BIASA', LIME]], 300, 172, 44);
+        this.label([['TIM', '#ffffff'], ['KAYA', PINK]], 980, 172, 44);
+        // barisan benda
+        this.img('gerobak_sampah', 520, 500, 6);
+        this.img('gorengan', 120, 330, 7);
+        this.img('gerobak_uang', 1170, 500, 6);
+        this.img('karung_uang', 790, 330, 6, { angle: -8 });
+        this.img('gorengan', 1180, 330, 7);
+        this.naik('Rp1.000', 110, 380, -6, '#38b764');
+        this.naik('Rp1 JUTA', 1175, 380, 8);
+        this.img(VAR === 'a' ? 'face_darto_happy' : 'face_darto_happy', 320, 640, 8.6);
+        this.img('face_darto_cry', 960, 640, 8.6);
+        if (VAR === 'a') {
+          this.label([['GORENGAN', '#ffffff'], ['Rp1.000', LIME, true]], 320, 668, 44);
+          this.label([['GORENGAN', '#ffffff'], ['Rp1 JUTA?!', PINK, true]], 960, 668, 44);
+        } else {
+          this.label([['MISKIN?', '#ffffff'], ['MENANG', LIME]], 320, 668, 50);
+          this.label([['MILIARDER', '#ffffff'], ['KALAH', PINK]], 960, 668, 50);
+        }
+        this.vsBadge(640, 560);
+      }
+    }
+
+    Promise.all([document.fonts.load('700 40px "Pixelify Sans"'), document.fonts.load('40px "Press Start 2P"')]).then(() => {
+      window.game = new Phaser.Game({ type: Phaser.CANVAS, parent: 'stage', width: 1280, height: 720, pixelArt: true, backgroundColor: '#000', scene: [Thumb], render: { preserveDrawingBuffer: true } });
+      setTimeout(() => { window.READY = true; }, 600);
+    });
+  </script>
+</body>
+</html>

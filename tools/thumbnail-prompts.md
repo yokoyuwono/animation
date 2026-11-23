@@ -46,3 +46,17 @@ Varian twist (kanan diganti):
 ```
 Right character: smiling Indonesian grandmother in a grey hijab and purple clothes, hugging two grandchildren, an old radio beside them, warm happy expression. Right title: "KELUARGA NGOBROL" (yellow).
 ```
+
+## 4) Semua orang kaya raya
+Referensi kasar: `renders/thumbnail_semua-kaya_kasar.png` (varian twist: `_kasar-b.png`).
+```
+Left title: "TIM BIASA" (lime green). Right title: "TIM KAYA" (hot pink). Top center banner: "SEMUA KAYA RAYA" (yellow).
+Left character: Indonesian man in his 40s, brown farmer hat (caping), olive-green work shirt, big happy grin, one hand on the handle of a green garbage cart, the other holding a small plate of golden fried snacks (gorengan) with a green price tag "Rp1.000".
+Right character: the same man, crying comically with big blue tear streams, wearing a cheap gold crown, pushing a green cart overflowing with stacks of plain green money bundles (generic paper money, no real currency design), holding one tiny fried snack with a red price tag "Rp1 JUTA".
+Background: top-down pixel-art Indonesian village map; left half clean and tidy, right half with piles of garbage in the alleys and money bills flying in the air.
+Bottom labels: left "GORENGAN Rp1.000", right "GORENGAN Rp1 JUTA?!".
+```
+Varian twist (label bawah diganti):
+```
+Bottom labels: left "MISKIN? MENANG" (lime), right "MILIARDER KALAH" (pink).
+```
