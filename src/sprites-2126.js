@@ -36,6 +36,15 @@ if (typeof CHARACTERS !== 'undefined') Object.assign(CHARACTERS, {
                    '....KWWK....', '..KWWWWWWK..', '.KWWWrrWWWK.', 'KWKWWrrWWKWK', '.K.WWWWWW.K.', '..KWWWWWWK..'],
             legs: [['..KWWKKWWK..', '..KWK..KWK..', '..KKK..KKK..'], ['..KWK..KWK..', '.KWK....KWK.', '.KKK....KKK.'], ['...KWKKWK...', '...KWKKWK...', '...KKKKKK...']],
             colors: { c: '#4fe3f0', W: '#e8eef4', r: '#e43b44' } },
+  // Robo-satpam: helm biru, lampu sirene merah, badan biru tua
+  robosatpam: { body: ['....KrrK....', '..KKKKKKKK..', '..KbbbbbbK..', '..KbKccKbK..', '..KbbbbbbK..', '..KKKKKKKK..',
+                       '....KWWK....', '..KbbbbbbK..', '.KbbbyybbbK.', 'KbKbbbbbbKbK', '.K.bbbbbb.K.', '..KbbbbbbK..'],
+                legs: [['..KbbKKbbK..', '..KbK..KbK..', '..KKK..KKK..'], ['..KbK..KbK..', '.KbK....KbK.', '.KKK....KKK.'], ['...KbKKbK...', '...KbKKbK...', '...KKKKKK...']],
+                colors: { b: '#29366f', c: '#4fe3f0', r: '#e43b44', y: '#ffcd75', W: '#c8d4dc' } },
+  // kolektor barang antik: rambut putih, kacamata tebal, rompi cokelat
+  kolektor: { body: ['....KKKK....', '...KHHHHK...', '..KHHHHHHK..', '..KSSSSSSK..', '..KggSSggK..', '..KSSSSSSK..',
+                     '...KSSSSK...', '..KRVRRVRK..', '.KSRVRRVRSK.', '.KSRVRRVRSK.', '..KRRRRRRK..', '..KBBBBBBK..'],
+              legs: BOY_LEGS, colors: { H: '#e8eef4', R: '#f4e4c1', V: '#8b5a2b', B: '#5d3a1a', g: '#4fe3f0' } },
 });
 
 const T26 = {
@@ -147,6 +156,33 @@ function buildT26Textures(scene) {
     p(5, 9, '#8b6a4a', 12, 1); p(6, 5, '#a8845a', 8, 4); p(8, 6, '#6a4a2a', 2, 3); p(13, 6, '#c96a3a', 2, 3);   // ruko & Mas Tejo kecil
   });
 
+
+
+  // ================= TOKO BARANG ANTIK =================
+  mk('t26_rak_antik', 60, 44, (c, p) => {
+    p(0, 0, K, 60, 44); p(1, 1, '#6a3f22', 58, 43); p(1, 1, '#8b5a2b', 58, 2);
+    [14, 28, 42].forEach(y => p(1, y, K, 58, 2));
+    // isi: radio, TV tabung kecil, kipas, kaset, telepon putar, jam, vas
+    p(4, 6, K, 12, 8); p(5, 7, '#c9a46a', 10, 6); pxEllipse(p, 8, 10, 2, 2, K); p(11, 8, '#5d606b', 3, 4);               // radio
+    p(20, 4, K, 12, 10); p(21, 5, '#8a8f99', 10, 8); p(22, 6, '#29366f', 6, 6); p(29, 7, K, 2, 1);                         // TV tabung
+    pxEllipse(p, 41, 8, 5, 5, K); pxEllipse(p, 41, 8, 4, 4, '#c2c3c7'); p(40, 7, K, 3, 3); p(40, 13, K, 2, 1);             // kipas
+    p(50, 8, K, 7, 6); p(51, 9, '#e43b44', 5, 4);                                                                         // telepon
+    p(4, 20, K, 8, 8); p(5, 21, '#f4e4c1', 6, 6); p(8, 22, K, 1, 3); p(8, 24, K, 2, 1);                                    // jam
+    for (let x = 16; x < 40; x += 6) { p(x, 22, K, 5, 6); p(x + 1, 23, ['#3b5dc9', '#38b764', '#ef7d57', '#7a3b8f'][(x / 6) % 4 | 0], 3, 4); }   // kaset
+    p(44, 18, K, 8, 10); p(45, 19, '#257179', 6, 8); p(46, 17, K, 4, 2);                                                  // vas
+    p(6, 32, K, 18, 9); p(7, 33, '#a8784a', 16, 7); p(30, 33, K, 10, 8); p(31, 34, '#5d606b', 8, 6); p(46, 32, K, 10, 9); p(47, 33, '#ffcd75', 8, 7);
+  });
+  mk('t26_meja_antik', 50, 22, (c, p) => { p(0, 0, K, 50, 22); p(1, 1, '#8b5a2b', 48, 21); p(1, 1, '#a8784a', 48, 2); p(1, 8, '#6a3f22', 48, 1); p(22, 12, K, 6, 3); p(23, 13, '#ffcd75', 4, 1); });
+  mk('t26_lampu_antik', 12, 18, (c, p) => { p(5, 6, K, 2, 12); p(2, 0, K, 8, 7); p(3, 1, '#ffcd75', 6, 5); p(3, 16, K, 6, 2); });
+  // HP 2026: mati (layar retak) & menyala (foto Andi & Mas Tejo)
+  mk('t26_hp_mati', 12, 20, (c, p) => { p(0, 0, K, 12, 20); p(1, 1, '#333c57', 10, 18); p(2, 3, '#0b0f2a', 8, 13); p(3, 5, '#5d606b', 1, 1); p(4, 6, '#5d606b', 1, 1); p(5, 7, '#5d606b', 2, 1); p(7, 8, '#5d606b', 1, 2); p(5, 17, '#5d606b', 2, 1); });
+  mk('t26_hp_nyala', 12, 20, (c, p) => {
+    p(0, 0, K, 12, 20); p(1, 1, '#333c57', 10, 18); p(2, 3, '#9fd4ff', 8, 13);
+    p(2, 11, '#c9b085', 8, 5); p(3, 8, '#8a5cc9', 2, 4); p(3, 6, '#e0a87a', 2, 2); p(7, 8, '#ef7d57', 2, 4); p(7, 6, '#e0a87a', 2, 2);   // Andi & Tejo
+    p(5, 17, '#c2c3c7', 2, 1);
+  });
+  mk('t26_baterai', 10, 6, (c, p) => { p(0, 0, K, 9, 6); p(1, 1, '#38b764', 7, 4); p(1, 1, '#a7f070', 3, 4); p(9, 2, K, 1, 2); });
+  mk('t26_kunci', 10, 6, (c, p) => { pxEllipse(p, 2, 3, 2, 2, K); p(2, 3, '#ffcd75', 1, 1); p(4, 2, K, 6, 2); p(5, 2, '#ffcd75', 4, 1); p(8, 4, K, 1, 2); });
 
   // ================= PETA (tampak atas) =================
   mk('t26_menara_top', 16, 16, (c, p) => {
