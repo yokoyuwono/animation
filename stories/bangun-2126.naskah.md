@@ -9,14 +9,14 @@
 
 | Barang | 2026 | 2126 (±19×) | Mimpi buruk (±970×) |
 |---|---|---|---|
-| Gorengan | Rp1.000 | **Rp19.000** | Rp971.000 |
+| Gorengan *(harga warung umum)* | Rp1.000 | **Rp19.000** | Rp971.000 |
 | Es teh | Rp5.000 | Rp96.000 | — |
 | Mi instan | Rp3.500 | Rp67.000 | — |
 | Nasi bungkus | Rp15.000 | **Rp288.000** | — |
-| Beras 1 kg | Rp15.000 | Rp288.000 | Rp14,6 juta |
-| Minyak goreng 1 L | Rp18.000 | Rp346.000 | — |
-| Telur 1 kg | Rp30.000 | Rp577.000 | — |
-| Cabai 1 kg | Rp50.000 | **Rp961.000** | — |
+| Beras medium 1 kg | Rp13.700 *(Bapanas, 12 Nov 2026)* | Rp263.000 | Rp13,3 juta |
+| Minyak goreng 1 L | Rp16.800 *(Minyakita, Bapanas)* | Rp323.000 | — |
+| Telur ayam 1 kg | Rp28.000 *(Bapanas)* | Rp538.000 | — |
+| Cabai rawit 1 kg | Rp86.000 *(Bapanas)* | **Rp1,65 juta** | — |
 | Gaji UMP ±Rp5,7 juta | — | setara **Rp110 juta** | — |
 | Tabungan Rp10 juta | — | daya belinya tinggal setara **Rp520.000** hari ini | — |
 
@@ -49,9 +49,9 @@
 ## Bab 3 — Sarapan
 *(short)* Bawa delapan puluh lima ribu ke tahun dua ribu seratus dua puluh enam. Dapat apa?
 1. Perut Andi keroncongan. Warung Bu Tini sudah jadi toko robot. **[TOKO *ROBOT*]**
-2. Papan menunya menyala. Gorengan: sembilan belas ribu. **[GORENGAN *Rp19.000*]**
-3. Es teh: sembilan puluh enam ribu. **[ES TEH *Rp96.000*]**
-4. Nasi bungkus: dua ratus delapan puluh delapan ribu. **[NASI BUNGKUS *Rp288.000*]**
+2. Papan menunya menyala. Gorengan: sembilan belas ribu. Dulu seribu. **[GORENGAN *Rp1.000 → Rp19.000*]**
+3. Es teh: sembilan puluh enam ribu. Dulu lima ribu. **[ES TEH *Rp5.000 → Rp96.000*]**
+4. Nasi bungkus: dua ratus delapan puluh delapan ribu. Dulu lima belas ribu. **[NASI BUNGKUS *Rp15.000 → Rp288.000*]**
 5. Andi menyodorkan delapan puluh lima ribu. Cukup untuk empat gorengan. **[Rp85.000 = *4 GORENGAN*]**
 6. Robot kasir berbunyi, "Nolnya kurang banyak, Pak." **[*NOLNYA KURANG BANYAK*]**
 7. Kirana tertawa, lalu membayarkan nasi bungkus untuk Andi.
@@ -59,10 +59,10 @@
 ## Bab 4 — Belanja bahan pokok
 *(short)* Seratus tahun lagi, harga beras sekilo berapa?
 1. Andi ingin memasak sendiri. Kirana mengajaknya ke pasar.
-2. Beras sekilo: dua ratus delapan puluh delapan ribu. **[BERAS *Rp288.000*/kg]**
-3. Minyak goreng seliter: tiga ratus empat puluh enam ribu. **[MINYAK *Rp346.000*]**
-4. Telur sekilo: lima ratus tujuh puluh tujuh ribu. **[TELUR *Rp577.000*/kg]**
-5. Mi instan sebungkus: enam puluh tujuh ribu. **[MI INSTAN *Rp67.000*]**
+2. Beras sekilo: dua ratus enam puluh tiga ribu. Hari ini cuma tiga belas ribu. **[BERAS *Rp13.700 → Rp263.000*]**
+3. Minyak goreng seliter: tiga ratus dua puluh tiga ribu. **[MINYAK *Rp16.800 → Rp323.000*]**
+4. Telur sekilo: lima ratus tiga puluh delapan ribu. **[TELUR *Rp28.000 → Rp538.000*]**
+5. Mi instan sebungkus: enam puluh tujuh ribu. **[MI INSTAN *Rp3.500 → Rp67.000*]**
 6. Andi memegangi dadanya, lalu duduk di lantai. **[*LEMAS*]**
 7. "Tenang," kata Kirana. "Gaji kami juga ikut naik."
 
@@ -77,9 +77,9 @@
 7. Uangnya tidak hilang. Nilainya yang pelan-pelan dimakan waktu.
 
 ## Bab 6 — Sambal orang kaya
-*(short)* Tahun dua ribu seratus dua puluh enam. Cabai sekilo hampir sejuta.
+*(short)* Tahun dua ribu seratus dua puluh enam. Cabai rawit sekilo satu koma enam juta.
 1. Siang itu Kirana mengajak Andi makan. Andi minta sambal.
-2. Cabai sekilo: sembilan ratus enam puluh satu ribu. **[CABAI *Rp961.000*/kg]**
+2. Cabai rawit sekilo: satu koma enam lima juta. Hari ini delapan puluh enam ribu. **[CABAI RAWIT *Rp86.000 → Rp1,65 JUTA*]**
 3. Di tahun ini, sambal jadi lauk orang kaya. **[SAMBAL = *BARANG MEWAH*]**
 4. Andi membeli tiga biji cabai dengan sisa uangnya.
 5. Dia mengulek pelan-pelan, seperti meracik obat mahal.
@@ -106,4 +106,4 @@
 7. Kalau bangun seratus tahun lagi, harga apa yang paling bikin kamu kaget? Tulis di komentar.
 
 ---
-*Semua angka masa depan = ilustrasi perkiraan, bukan ramalan. Harga 2026 = perkiraan umum (perlu dicek sebelum tayang).*
+*Semua angka masa depan = ilustrasi perkiraan, bukan ramalan. Harga bahan pokok 2026: Panel Harga Pangan Bapanas rata-rata nasional 12 Nov 2026 (via journalarta.com); gorengan/es teh/nasi bungkus/mi instan = harga warung umum (ilustrasi). Kurs: 1971 Rp415 & 2000 ±Rp8.400 (FRED); 2016 ±Rp13.300 perlu dicek ke JISDOR BI.*
